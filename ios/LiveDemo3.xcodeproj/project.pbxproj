@@ -1,0 +1,2061 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		162CB30B1F74AE2A0080185B /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF10F181D1A2B3700ECE11E /* VideoToolbox.framework */; };
+		163FEDF01F32D77F00FA86E6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 163FEDEE1F32D65F00FA86E6 /* MessageUI.framework */; };
+		163FEE311F32F9ED00FA86E6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EF32D6FF1D659B7200A764FC /* libz.tbd */; };
+		16756FC51F57FA47003252AB /* ZegoShareLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */; };
+		16756FC91F58FA90003252AB /* ZegoShareLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */; };
+		16756FCE1F58FC83003252AB /* ZegoTestPullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E24E101EB1D0290055F7A4 /* ZegoTestPullViewController.m */; };
+		168C433020A4410D00DA3C77 /* GameLive.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 16F48A9A1FF48F8B001C8992 /* GameLive.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		168C433120A4411300DA3C77 /* GameLiveSetupUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 16F48AA51FF48F8C001C8992 /* GameLiveSetupUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		16CD53C81F3C33A5003D43B3 /* SSZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */; };
+		16CD53C91F3C3487003D43B3 /* SSZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */; };
+		16E24E111EB1D0290055F7A4 /* ZegoTestPullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E24E101EB1D0290055F7A4 /* ZegoTestPullViewController.m */; };
+		16E345B01F77B47A00DDF86E /* video_capture_encoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16E345AD1F77B47A00DDF86E /* video_capture_encoder.mm */; };
+		16E345B41F7807A600DDF86E /* video_capture_encode_callback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16E345B31F7807A600DDF86E /* video_capture_encode_callback.mm */; };
+		16F48A6E1FF3A4A5001C8992 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */; };
+		16F48A9B1FF48F8B001C8992 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F48A1A1FF3936B001C8992 /* ReplayKit.framework */; };
+		16F48A9F1FF48F8B001C8992 /* SampleHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F48A9E1FF48F8B001C8992 /* SampleHandler.m */; };
+		16F48AA61FF48F8C001C8992 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F48A1A1FF3936B001C8992 /* ReplayKit.framework */; };
+		16F48AA71FF48F8C001C8992 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F48A271FF3936C001C8992 /* UIKit.framework */; };
+		16F48AAB1FF48F8C001C8992 /* BroadcastSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F48AAA1FF48F8C001C8992 /* BroadcastSetupViewController.m */; };
+		16F48ABF1FF48FAE001C8992 /* ZegoAVKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F48ABD1FF48FAD001C8992 /* ZegoAVKitManager.m */; };
+		16F48AC21FF48FB7001C8992 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16F48AC01FF48FB7001C8992 /* MainInterface.storyboard */; };
+		16F48AC31FF490AA001C8992 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; };
+		A745D7441E4B322E009A4265 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; };
+		A745D7451E4B32FC009A4265 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A7CD23E01EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
+		A7CD23E11EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
+		EF0387301FB2E424004EF33C /* ZegoImageFilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; };
+		EF0387321FB2E437004EF33C /* ZegoImageFilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; };
+		EF0387331FB2E437004EF33C /* ZegoImageFilter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EF0387341FB2F64B004EF33C /* ZegoImageFilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; };
+		EF32D6F81D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF32D6F51D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle */; };
+		EF32D6F91D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF32D6F51D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle */; };
+		EF32D7031D659C5400A764FC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF32D7021D659C5400A764FC /* Security.framework */; };
+		EF32D7051D659C6000A764FC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF32D7041D659C5F00A764FC /* SystemConfiguration.framework */; };
+		EF32D7071D659C6A00A764FC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF32D7061D659C6A00A764FC /* CoreGraphics.framework */; };
+		EF3AA9671DAF7C3A00AF960C /* ZegoInstrument.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3AA9661DAF7C3A00AF960C /* ZegoInstrument.m */; };
+		EF3AA9681DAF7C3A00AF960C /* ZegoInstrument.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3AA9661DAF7C3A00AF960C /* ZegoInstrument.m */; };
+		EF3AA96B1DB6016E00AF960C /* ZegoRenderAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3AA96A1DB6016E00AF960C /* ZegoRenderAudienceViewController.m */; };
+		EF3AA96C1DB6016E00AF960C /* ZegoRenderAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3AA96A1DB6016E00AF960C /* ZegoRenderAudienceViewController.m */; };
+		EF3AA96F1DB60D1700AF960C /* ZegoRenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3AA96E1DB60D1700AF960C /* ZegoRenderViewController.m */; };
+		EF3AA9701DB60D1700AF960C /* ZegoRenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3AA96E1DB60D1700AF960C /* ZegoRenderViewController.m */; };
+		EF422A911E7B854300FA1C8C /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF10F1A1D1A2B9B00ECE11E /* libiconv.tbd */; };
+		EF422A921E7B85BF00FA1C8C /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF10F181D1A2B3700ECE11E /* VideoToolbox.framework */; };
+		EF422AA41E7F76CA00FA1C8C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF10F141D1A2B2300ECE11E /* CoreMedia.framework */; };
+		EF576B851D82A348002D5AED /* ZegoMoreAnchorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF576B841D82A348002D5AED /* ZegoMoreAnchorViewController.m */; };
+		EF576B861D82A348002D5AED /* ZegoMoreAnchorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF576B841D82A348002D5AED /* ZegoMoreAnchorViewController.m */; };
+		EF576B891D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF576B881D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.m */; };
+		EF576B8A1D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF576B881D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.m */; };
+		EF576B8E1D82C09B002D5AED /* ZegoMoreAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF576B8D1D82C09B002D5AED /* ZegoMoreAudienceViewController.m */; };
+		EF576B8F1D82C09B002D5AED /* ZegoMoreAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF576B8D1D82C09B002D5AED /* ZegoMoreAudienceViewController.m */; };
+		EF576B921D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF576B911D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.m */; };
+		EF576B931D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF576B911D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.m */; };
+		EF71E9B81E67CFAD00723EF7 /* ZegoLiveApi-utils.m in Sources */ = {isa = PBXBuildFile; fileRef = EF71E9B71E67CFAD00723EF7 /* ZegoLiveApi-utils.m */; };
+		EF71E9B91E67CFAD00723EF7 /* ZegoLiveApi-utils.m in Sources */ = {isa = PBXBuildFile; fileRef = EF71E9B71E67CFAD00723EF7 /* ZegoLiveApi-utils.m */; };
+		EF71E9BC1E67CFB700723EF7 /* ZegoVideoFilterDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = EF71E9BB1E67CFB700723EF7 /* ZegoVideoFilterDemo.m */; };
+		EF71E9BD1E67CFB700723EF7 /* ZegoVideoFilterDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = EF71E9BB1E67CFB700723EF7 /* ZegoVideoFilterDemo.m */; };
+		EF71EA341E72410800723EF7 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; };
+		EF792F571E8BA68200A39DBC /* ZegoWerewolfHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF792F561E8BA68200A39DBC /* ZegoWerewolfHostViewController.m */; };
+		EF792F581E8BA68200A39DBC /* ZegoWerewolfHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF792F561E8BA68200A39DBC /* ZegoWerewolfHostViewController.m */; };
+		EF792F5B1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF792F5A1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m */; };
+		EF792F5C1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF792F5A1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m */; };
+		EF7BA6821E1C92FB0094BBA7 /* ZegoLiveToolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6811E1C92FB0094BBA7 /* ZegoLiveToolViewController.m */; };
+		EF7BA6831E1C92FB0094BBA7 /* ZegoLiveToolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6811E1C92FB0094BBA7 /* ZegoLiveToolViewController.m */; };
+		EF7BA68B1E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA68A1E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.m */; };
+		EF7BA68C1E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA68A1E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.m */; };
+		EF7BA72B1E1D00CF0094BBA7 /* YYTextContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6F91E1D00CF0094BBA7 /* YYTextContainerView.m */; };
+		EF7BA72C1E1D00CF0094BBA7 /* YYTextContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6F91E1D00CF0094BBA7 /* YYTextContainerView.m */; };
+		EF7BA72D1E1D00CF0094BBA7 /* YYTextDebugOption.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6FB1E1D00CF0094BBA7 /* YYTextDebugOption.m */; };
+		EF7BA72E1E1D00CF0094BBA7 /* YYTextDebugOption.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6FB1E1D00CF0094BBA7 /* YYTextDebugOption.m */; };
+		EF7BA72F1E1D00CF0094BBA7 /* YYTextEffectWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6FD1E1D00CF0094BBA7 /* YYTextEffectWindow.m */; };
+		EF7BA7301E1D00CF0094BBA7 /* YYTextEffectWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6FD1E1D00CF0094BBA7 /* YYTextEffectWindow.m */; };
+		EF7BA7311E1D00CF0094BBA7 /* YYTextInput.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6FF1E1D00CF0094BBA7 /* YYTextInput.m */; };
+		EF7BA7321E1D00CF0094BBA7 /* YYTextInput.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA6FF1E1D00CF0094BBA7 /* YYTextInput.m */; };
+		EF7BA7331E1D00CF0094BBA7 /* YYTextKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7011E1D00CF0094BBA7 /* YYTextKeyboardManager.m */; };
+		EF7BA7341E1D00CF0094BBA7 /* YYTextKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7011E1D00CF0094BBA7 /* YYTextKeyboardManager.m */; };
+		EF7BA7351E1D00CF0094BBA7 /* YYTextLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7031E1D00CF0094BBA7 /* YYTextLayout.m */; };
+		EF7BA7361E1D00CF0094BBA7 /* YYTextLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7031E1D00CF0094BBA7 /* YYTextLayout.m */; };
+		EF7BA7371E1D00CF0094BBA7 /* YYTextLine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7051E1D00CF0094BBA7 /* YYTextLine.m */; };
+		EF7BA7381E1D00CF0094BBA7 /* YYTextLine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7051E1D00CF0094BBA7 /* YYTextLine.m */; };
+		EF7BA7391E1D00CF0094BBA7 /* YYTextMagnifier.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7071E1D00CF0094BBA7 /* YYTextMagnifier.m */; };
+		EF7BA73A1E1D00CF0094BBA7 /* YYTextMagnifier.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7071E1D00CF0094BBA7 /* YYTextMagnifier.m */; };
+		EF7BA73B1E1D00CF0094BBA7 /* YYTextSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7091E1D00CF0094BBA7 /* YYTextSelectionView.m */; };
+		EF7BA73C1E1D00CF0094BBA7 /* YYTextSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7091E1D00CF0094BBA7 /* YYTextSelectionView.m */; };
+		EF7BA73D1E1D00CF0094BBA7 /* YYTextArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA70C1E1D00CF0094BBA7 /* YYTextArchiver.m */; };
+		EF7BA73E1E1D00CF0094BBA7 /* YYTextArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA70C1E1D00CF0094BBA7 /* YYTextArchiver.m */; };
+		EF7BA73F1E1D00CF0094BBA7 /* YYTextAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA70E1E1D00CF0094BBA7 /* YYTextAttribute.m */; };
+		EF7BA7401E1D00CF0094BBA7 /* YYTextAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA70E1E1D00CF0094BBA7 /* YYTextAttribute.m */; };
+		EF7BA7411E1D00CF0094BBA7 /* YYTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7101E1D00CF0094BBA7 /* YYTextParser.m */; };
+		EF7BA7421E1D00CF0094BBA7 /* YYTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7101E1D00CF0094BBA7 /* YYTextParser.m */; };
+		EF7BA7431E1D00CF0094BBA7 /* YYTextRubyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7121E1D00CF0094BBA7 /* YYTextRubyAnnotation.m */; };
+		EF7BA7441E1D00CF0094BBA7 /* YYTextRubyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7121E1D00CF0094BBA7 /* YYTextRubyAnnotation.m */; };
+		EF7BA7451E1D00CF0094BBA7 /* YYTextRunDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7141E1D00CF0094BBA7 /* YYTextRunDelegate.m */; };
+		EF7BA7461E1D00CF0094BBA7 /* YYTextRunDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7141E1D00CF0094BBA7 /* YYTextRunDelegate.m */; };
+		EF7BA7471E1D00CF0094BBA7 /* NSAttributedString+YYText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7171E1D00CF0094BBA7 /* NSAttributedString+YYText.m */; };
+		EF7BA7481E1D00CF0094BBA7 /* NSAttributedString+YYText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7171E1D00CF0094BBA7 /* NSAttributedString+YYText.m */; };
+		EF7BA7491E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7191E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m */; };
+		EF7BA74A1E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7191E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m */; };
+		EF7BA74B1E1D00CF0094BBA7 /* UIPasteboard+YYText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA71B1E1D00CF0094BBA7 /* UIPasteboard+YYText.m */; };
+		EF7BA74C1E1D00CF0094BBA7 /* UIPasteboard+YYText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA71B1E1D00CF0094BBA7 /* UIPasteboard+YYText.m */; };
+		EF7BA74D1E1D00CF0094BBA7 /* UIView+YYText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA71D1E1D00CF0094BBA7 /* UIView+YYText.m */; };
+		EF7BA74E1E1D00CF0094BBA7 /* UIView+YYText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA71D1E1D00CF0094BBA7 /* UIView+YYText.m */; };
+		EF7BA74F1E1D00CF0094BBA7 /* YYTextAsyncLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA71F1E1D00CF0094BBA7 /* YYTextAsyncLayer.m */; };
+		EF7BA7501E1D00CF0094BBA7 /* YYTextAsyncLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA71F1E1D00CF0094BBA7 /* YYTextAsyncLayer.m */; };
+		EF7BA7511E1D00CF0094BBA7 /* YYTextTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7211E1D00CF0094BBA7 /* YYTextTransaction.m */; };
+		EF7BA7521E1D00CF0094BBA7 /* YYTextTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7211E1D00CF0094BBA7 /* YYTextTransaction.m */; };
+		EF7BA7531E1D00CF0094BBA7 /* YYTextUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7231E1D00CF0094BBA7 /* YYTextUtilities.m */; };
+		EF7BA7541E1D00CF0094BBA7 /* YYTextUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7231E1D00CF0094BBA7 /* YYTextUtilities.m */; };
+		EF7BA7551E1D00CF0094BBA7 /* YYTextWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7251E1D00CF0094BBA7 /* YYTextWeakProxy.m */; };
+		EF7BA7561E1D00CF0094BBA7 /* YYTextWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7251E1D00CF0094BBA7 /* YYTextWeakProxy.m */; };
+		EF7BA7571E1D00CF0094BBA7 /* YYLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7271E1D00CF0094BBA7 /* YYLabel.m */; };
+		EF7BA7581E1D00CF0094BBA7 /* YYLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA7271E1D00CF0094BBA7 /* YYLabel.m */; };
+		EF7BA7591E1D00CF0094BBA7 /* YYTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA72A1E1D00CF0094BBA7 /* YYTextView.m */; };
+		EF7BA75A1E1D00CF0094BBA7 /* YYTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA72A1E1D00CF0094BBA7 /* YYTextView.m */; };
+		EF7BA75D1E1E1CA40094BBA7 /* ZegoLikeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA75C1E1E1CA40094BBA7 /* ZegoLikeView.m */; };
+		EF7BA75E1E1E1CA40094BBA7 /* ZegoLikeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7BA75C1E1E1CA40094BBA7 /* ZegoLikeView.m */; };
+		EF871D0C1D1A329700C2D08A /* ZegoNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D0B1D1A329700C2D08A /* ZegoNavigationViewController.m */; };
+		EF871D0F1D1A32FD00C2D08A /* ZegoTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D0E1D1A32FD00C2D08A /* ZegoTabBarViewController.m */; };
+		EF871D1E1D1A33CB00C2D08A /* ZegoRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D1D1D1A33CB00C2D08A /* ZegoRoomViewController.m */; };
+		EF871D211D1A383F00C2D08A /* ZegoSetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D201D1A383F00C2D08A /* ZegoSetTableViewController.m */; };
+		EF871D241D1A425E00C2D08A /* ZegoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D231D1A425E00C2D08A /* ZegoSettings.m */; };
+		EF871D271D1A42C400C2D08A /* ZegoAVKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D261D1A42C400C2D08A /* ZegoAVKitManager.m */; };
+		EF871D2D1D1A437A00C2D08A /* video_capture_external_demo.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D2A1D1A437A00C2D08A /* video_capture_external_demo.m */; };
+		EF871D2E1D1A437A00C2D08A /* ZegoVideoCaptureFromImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = EF871D2C1D1A437A00C2D08A /* ZegoVideoCaptureFromImage.mm */; };
+		EF871D341D1A68EC00C2D08A /* ZegoAnchorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D331D1A68EC00C2D08A /* ZegoAnchorViewController.m */; };
+		EF94F7911E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF94F7901E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.m */; };
+		EF94F7921E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF94F7901E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.m */; };
+		EF9A37F11D26481000A5E996 /* ZegoLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A37F01D26481000A5E996 /* ZegoLogTableViewController.m */; };
+		EF9D0F521D20D20900002545 /* ZegoAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D0F511D20D20900002545 /* ZegoAudienceViewController.m */; };
+		EF9D0F5B1D2279F500002545 /* ZegoLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D0F5A1D2279F500002545 /* ZegoLiveViewController.m */; };
+		EF9D0F5E1D23D17E00002545 /* ZegoPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D0F5D1D23D17E00002545 /* ZegoPublishViewController.m */; };
+		EF9D0F641D24D0A900002545 /* ZegoAdvancedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D0F631D24D0A900002545 /* ZegoAdvancedTableViewController.m */; };
+		EF9F415D1F3B01C9003F7C0F /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9F415C1F3B01C8003F7C0F /* SafariServices.framework */; };
+		EF9F41611F3B0498003F7C0F /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9F415C1F3B01C8003F7C0F /* SafariServices.framework */; };
+		EF9F41621F3B04A9003F7C0F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 163FEDEE1F32D65F00FA86E6 /* MessageUI.framework */; };
+		EFAC2FCF1D48E0AD000A7885 /* a.pcm in Resources */ = {isa = PBXBuildFile; fileRef = EFAC2FCE1D48E0AD000A7885 /* a.pcm */; };
+		EFAC2FD01D48E0AD000A7885 /* a.pcm in Resources */ = {isa = PBXBuildFile; fileRef = EFAC2FCE1D48E0AD000A7885 /* a.pcm */; };
+		EFAF4B351D2B6C7800560B00 /* video_capture_external_demo.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D2A1D1A437A00C2D08A /* video_capture_external_demo.m */; };
+		EFAF4B361D2B6C7800560B00 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF10EF91D1A297900ECE11E /* AppDelegate.m */; };
+		EFAF4B371D2B6C7800560B00 /* ZegoAnchorOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE0D8F91D1B7F920090F719 /* ZegoAnchorOptionViewController.m */; };
+		EFAF4B381D2B6C7800560B00 /* ZegoTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D0E1D1A32FD00C2D08A /* ZegoTabBarViewController.m */; };
+		EFAF4B391D2B6C7800560B00 /* ZegoPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D0F5D1D23D17E00002545 /* ZegoPublishViewController.m */; };
+		EFAF4B3A1D2B6C7800560B00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF10EF61D1A297900ECE11E /* main.m */; };
+		EFAF4B3B1D2B6C7800560B00 /* ZegoRoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE0D9331D1BC5860090F719 /* ZegoRoomInfo.m */; };
+		EFAF4B3D1D2B6C7800560B00 /* ZegoAudienceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D0F511D20D20900002545 /* ZegoAudienceViewController.m */; };
+		EFAF4B3F1D2B6C7800560B00 /* ZegoSetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D201D1A383F00C2D08A /* ZegoSetTableViewController.m */; };
+		EFAF4B401D2B6C7800560B00 /* ZegoAVKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D261D1A42C400C2D08A /* ZegoAVKitManager.m */; };
+		EFAF4B411D2B6C7800560B00 /* ZegoLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D0F5A1D2279F500002545 /* ZegoLiveViewController.m */; };
+		EFAF4B421D2B6C7800560B00 /* ZegoRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D1D1D1A33CB00C2D08A /* ZegoRoomViewController.m */; };
+		EFAF4B431D2B6C7800560B00 /* ZegoAnchorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D331D1A68EC00C2D08A /* ZegoAnchorViewController.m */; };
+		EFAF4B441D2B6C7800560B00 /* ZegoLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A37F01D26481000A5E996 /* ZegoLogTableViewController.m */; };
+		EFAF4B451D2B6C7800560B00 /* ZegoVideoCaptureFromImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = EF871D2C1D1A437A00C2D08A /* ZegoVideoCaptureFromImage.mm */; };
+		EFAF4B461D2B6C7800560B00 /* ZegoNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D0B1D1A329700C2D08A /* ZegoNavigationViewController.m */; };
+		EFAF4B481D2B6C7800560B00 /* ZegoAdvancedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D0F631D24D0A900002545 /* ZegoAdvancedTableViewController.m */; };
+		EFAF4B491D2B6C7800560B00 /* ZegoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF871D231D1A425E00C2D08A /* ZegoSettings.m */; };
+		EFAF4B511D2B6C7800560B00 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF10F121D1A2B1800ECE11E /* CoreTelephony.framework */; };
+		EFAF4B551D2B6C7800560B00 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFF10F061D1A297900ECE11E /* LaunchScreen.storyboard */; };
+		EFAF4B561D2B6C7800560B00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFF10F041D1A297900ECE11E /* Assets.xcassets */; };
+		EFAF4B571D2B6C7800560B00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFF10F011D1A297900ECE11E /* Main.storyboard */; };
+		EFAF4B621D2B771000560B00 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EFAF4B611D2B771000560B00 /* libresolv.tbd */; };
+		EFE0D8FA1D1B7F920090F719 /* ZegoAnchorOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE0D8F91D1B7F920090F719 /* ZegoAnchorOptionViewController.m */; };
+		EFE0D9341D1BC5860090F719 /* ZegoRoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE0D9331D1BC5860090F719 /* ZegoRoomInfo.m */; };
+		EFF10EF71D1A297900ECE11E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF10EF61D1A297900ECE11E /* main.m */; };
+		EFF10EFA1D1A297900ECE11E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF10EF91D1A297900ECE11E /* AppDelegate.m */; };
+		EFF10F031D1A297900ECE11E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFF10F011D1A297900ECE11E /* Main.storyboard */; };
+		EFF10F051D1A297900ECE11E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFF10F041D1A297900ECE11E /* Assets.xcassets */; };
+		EFF10F081D1A297900ECE11E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFF10F061D1A297900ECE11E /* LaunchScreen.storyboard */; };
+		EFF10F131D1A2B1800ECE11E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF10F121D1A2B1800ECE11E /* CoreTelephony.framework */; };
+		EFFBF7681D38E378002FD7F2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EFFBF76B1D38E378002FD7F2 /* Localizable.strings */; };
+		EFFBF7691D38E378002FD7F2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EFFBF76B1D38E378002FD7F2 /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		168C432C20A440DE00DA3C77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFF10EEA1D1A297900ECE11E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16F48A991FF48F8B001C8992;
+			remoteInfo = GameLive;
+		};
+		168C432E20A440E200DA3C77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFF10EEA1D1A297900ECE11E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16F48AA41FF48F8B001C8992;
+			remoteInfo = GameLiveSetupUI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A775B03C1E458EFF00CEF3DC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A745D7451E4B32FC009A4265 /* ZegoLiveRoom.framework in Embed Frameworks */,
+				EF0387331FB2E437004EF33C /* ZegoImageFilter.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF792F781E8DF49C00A39DBC /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				168C433120A4411300DA3C77 /* GameLiveSetupUI.appex in Embed App Extensions */,
+				168C433020A4410D00DA3C77 /* GameLive.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		163FEDEE1F32D65F00FA86E6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		16756FC31F57FA47003252AB /* ZegoShareLogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoShareLogViewController.h; sourceTree = "<group>"; };
+		16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoShareLogViewController.m; sourceTree = "<group>"; };
+		16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSZipArchive.framework; sourceTree = "<group>"; };
+		16E24E0F1EB1D0290055F7A4 /* ZegoTestPullViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoTestPullViewController.h; path = LiveDemo3/ZegoTestPullViewController.h; sourceTree = "<group>"; };
+		16E24E101EB1D0290055F7A4 /* ZegoTestPullViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZegoTestPullViewController.m; path = LiveDemo3/ZegoTestPullViewController.m; sourceTree = "<group>"; };
+		16E345A71F77B47900DDF86E /* video_capture_encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video_capture_encoder.h; path = advanced/video_capture_encoder.h; sourceTree = "<group>"; };
+		16E345AC1F77B47A00DDF86E /* big_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = big_endian.h; path = advanced/big_endian.h; sourceTree = "<group>"; };
+		16E345AD1F77B47A00DDF86E /* video_capture_encoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = video_capture_encoder.mm; path = advanced/video_capture_encoder.mm; sourceTree = "<group>"; };
+		16E345B11F77E94A00DDF86E /* video_capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video_capture.h; path = advanced/video_capture.h; sourceTree = "<group>"; };
+		16E345B21F7807A600DDF86E /* video_capture_encode_callback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = video_capture_encode_callback.h; path = advanced/video_capture_encode_callback.h; sourceTree = "<group>"; };
+		16E345B31F7807A600DDF86E /* video_capture_encode_callback.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = video_capture_encode_callback.mm; path = advanced/video_capture_encode_callback.mm; sourceTree = "<group>"; };
+		16F48A1A1FF3936B001C8992 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		16F48A271FF3936C001C8992 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		16F48A9A1FF48F8B001C8992 /* GameLive.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GameLive.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		16F48A9D1FF48F8B001C8992 /* SampleHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleHandler.h; sourceTree = "<group>"; };
+		16F48A9E1FF48F8B001C8992 /* SampleHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleHandler.m; sourceTree = "<group>"; };
+		16F48AA01FF48F8B001C8992 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16F48AA51FF48F8C001C8992 /* GameLiveSetupUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GameLiveSetupUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		16F48AA91FF48F8C001C8992 /* BroadcastSetupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BroadcastSetupViewController.h; sourceTree = "<group>"; };
+		16F48AAA1FF48F8C001C8992 /* BroadcastSetupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BroadcastSetupViewController.m; sourceTree = "<group>"; };
+		16F48AAC1FF48F8C001C8992 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16F48ABD1FF48FAD001C8992 /* ZegoAVKitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoAVKitManager.m; sourceTree = "<group>"; };
+		16F48ABE1FF48FAD001C8992 /* ZegoAVKitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoAVKitManager.h; sourceTree = "<group>"; };
+		16F48AC11FF48FB7001C8992 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		16F48AC41FF490DF001C8992 /* GameLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameLive.entitlements; sourceTree = "<group>"; };
+		16F48AC51FF490EA001C8992 /* GameLiveSetupUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameLiveSetupUI.entitlements; sourceTree = "<group>"; };
+		4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
+		A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoLiveRoom.framework; path = libs/ZegoLiveRoom.framework; sourceTree = "<group>"; };
+		A745D7481E4C197F009A4265 /* LiveDemo5.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveDemo5.entitlements; sourceTree = "<group>"; };
+		A7CD23DE1EBB6135002F446A /* ZegoTestPushViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoTestPushViewController.h; path = LiveDemo3/ZegoTestPushViewController.h; sourceTree = "<group>"; };
+		A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZegoTestPushViewController.m; path = LiveDemo3/ZegoTestPushViewController.m; sourceTree = "<group>"; };
+		EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoImageFilter.framework; path = libs/ZegoImageFilter.framework; sourceTree = "<group>"; };
+		EF1314361DAB752000FEBACF /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		EF1314681DAB7B8600FEBACF /* LiveDemo3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveDemo3.entitlements; sourceTree = "<group>"; };
+		EF32D6F41D6599B700A764FC /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		EF32D6F51D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		EF32D6FD1D659B5700A764FC /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		EF32D6FF1D659B7200A764FC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		EF32D7021D659C5400A764FC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		EF32D7041D659C5F00A764FC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EF32D7061D659C6A00A764FC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EF32D7081D659C7300A764FC /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		EF3AA9651DAF7C3A00AF960C /* ZegoInstrument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoInstrument.h; sourceTree = "<group>"; };
+		EF3AA9661DAF7C3A00AF960C /* ZegoInstrument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoInstrument.m; sourceTree = "<group>"; };
+		EF3AA9691DB6016E00AF960C /* ZegoRenderAudienceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoRenderAudienceViewController.h; path = advanced/ZegoRenderAudienceViewController.h; sourceTree = "<group>"; };
+		EF3AA96A1DB6016E00AF960C /* ZegoRenderAudienceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZegoRenderAudienceViewController.m; path = advanced/ZegoRenderAudienceViewController.m; sourceTree = "<group>"; };
+		EF3AA96D1DB60D1700AF960C /* ZegoRenderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoRenderViewController.h; path = advanced/ZegoRenderViewController.h; sourceTree = "<group>"; };
+		EF3AA96E1DB60D1700AF960C /* ZegoRenderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZegoRenderViewController.m; path = advanced/ZegoRenderViewController.m; sourceTree = "<group>"; };
+		EF576B831D82A348002D5AED /* ZegoMoreAnchorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoMoreAnchorViewController.h; sourceTree = "<group>"; };
+		EF576B841D82A348002D5AED /* ZegoMoreAnchorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoMoreAnchorViewController.m; sourceTree = "<group>"; };
+		EF576B871D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoMixStreamAnchorViewController.h; sourceTree = "<group>"; };
+		EF576B881D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoMixStreamAnchorViewController.m; sourceTree = "<group>"; };
+		EF576B8B1D82BC5A002D5AED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		EF576B8C1D82C09B002D5AED /* ZegoMoreAudienceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoMoreAudienceViewController.h; sourceTree = "<group>"; };
+		EF576B8D1D82C09B002D5AED /* ZegoMoreAudienceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoMoreAudienceViewController.m; sourceTree = "<group>"; };
+		EF576B901D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoMixStreamAudienceViewController.h; sourceTree = "<group>"; };
+		EF576B911D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoMixStreamAudienceViewController.m; sourceTree = "<group>"; };
+		EF71E9B61E67CFAD00723EF7 /* ZegoLiveApi-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ZegoLiveApi-utils.h"; path = "advanced/ZegoLiveApi-utils.h"; sourceTree = "<group>"; };
+		EF71E9B71E67CFAD00723EF7 /* ZegoLiveApi-utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ZegoLiveApi-utils.m"; path = "advanced/ZegoLiveApi-utils.m"; sourceTree = "<group>"; };
+		EF71E9BA1E67CFB700723EF7 /* ZegoVideoFilterDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoVideoFilterDemo.h; path = advanced/ZegoVideoFilterDemo.h; sourceTree = "<group>"; };
+		EF71E9BB1E67CFB700723EF7 /* ZegoVideoFilterDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZegoVideoFilterDemo.m; path = advanced/ZegoVideoFilterDemo.m; sourceTree = "<group>"; };
+		EF792F551E8BA68200A39DBC /* ZegoWerewolfHostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoWerewolfHostViewController.h; sourceTree = "<group>"; };
+		EF792F561E8BA68200A39DBC /* ZegoWerewolfHostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoWerewolfHostViewController.m; sourceTree = "<group>"; };
+		EF792F591E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoWerewolfBaseViewController.h; sourceTree = "<group>"; };
+		EF792F5A1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoWerewolfBaseViewController.m; sourceTree = "<group>"; };
+		EF7BA6801E1C92FB0094BBA7 /* ZegoLiveToolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoLiveToolViewController.h; sourceTree = "<group>"; };
+		EF7BA6811E1C92FB0094BBA7 /* ZegoLiveToolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoLiveToolViewController.m; sourceTree = "<group>"; };
+		EF7BA6891E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoMessageTableViewCell.h; sourceTree = "<group>"; };
+		EF7BA68A1E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoMessageTableViewCell.m; sourceTree = "<group>"; };
+		EF7BA6F81E1D00CF0094BBA7 /* YYTextContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextContainerView.h; sourceTree = "<group>"; };
+		EF7BA6F91E1D00CF0094BBA7 /* YYTextContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextContainerView.m; sourceTree = "<group>"; };
+		EF7BA6FA1E1D00CF0094BBA7 /* YYTextDebugOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextDebugOption.h; sourceTree = "<group>"; };
+		EF7BA6FB1E1D00CF0094BBA7 /* YYTextDebugOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextDebugOption.m; sourceTree = "<group>"; };
+		EF7BA6FC1E1D00CF0094BBA7 /* YYTextEffectWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextEffectWindow.h; sourceTree = "<group>"; };
+		EF7BA6FD1E1D00CF0094BBA7 /* YYTextEffectWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextEffectWindow.m; sourceTree = "<group>"; };
+		EF7BA6FE1E1D00CF0094BBA7 /* YYTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextInput.h; sourceTree = "<group>"; };
+		EF7BA6FF1E1D00CF0094BBA7 /* YYTextInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextInput.m; sourceTree = "<group>"; };
+		EF7BA7001E1D00CF0094BBA7 /* YYTextKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextKeyboardManager.h; sourceTree = "<group>"; };
+		EF7BA7011E1D00CF0094BBA7 /* YYTextKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextKeyboardManager.m; sourceTree = "<group>"; };
+		EF7BA7021E1D00CF0094BBA7 /* YYTextLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextLayout.h; sourceTree = "<group>"; };
+		EF7BA7031E1D00CF0094BBA7 /* YYTextLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextLayout.m; sourceTree = "<group>"; };
+		EF7BA7041E1D00CF0094BBA7 /* YYTextLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextLine.h; sourceTree = "<group>"; };
+		EF7BA7051E1D00CF0094BBA7 /* YYTextLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextLine.m; sourceTree = "<group>"; };
+		EF7BA7061E1D00CF0094BBA7 /* YYTextMagnifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextMagnifier.h; sourceTree = "<group>"; };
+		EF7BA7071E1D00CF0094BBA7 /* YYTextMagnifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextMagnifier.m; sourceTree = "<group>"; };
+		EF7BA7081E1D00CF0094BBA7 /* YYTextSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextSelectionView.h; sourceTree = "<group>"; };
+		EF7BA7091E1D00CF0094BBA7 /* YYTextSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextSelectionView.m; sourceTree = "<group>"; };
+		EF7BA70B1E1D00CF0094BBA7 /* YYTextArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextArchiver.h; sourceTree = "<group>"; };
+		EF7BA70C1E1D00CF0094BBA7 /* YYTextArchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextArchiver.m; sourceTree = "<group>"; };
+		EF7BA70D1E1D00CF0094BBA7 /* YYTextAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextAttribute.h; sourceTree = "<group>"; };
+		EF7BA70E1E1D00CF0094BBA7 /* YYTextAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextAttribute.m; sourceTree = "<group>"; };
+		EF7BA70F1E1D00CF0094BBA7 /* YYTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextParser.h; sourceTree = "<group>"; };
+		EF7BA7101E1D00CF0094BBA7 /* YYTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextParser.m; sourceTree = "<group>"; };
+		EF7BA7111E1D00CF0094BBA7 /* YYTextRubyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextRubyAnnotation.h; sourceTree = "<group>"; };
+		EF7BA7121E1D00CF0094BBA7 /* YYTextRubyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextRubyAnnotation.m; sourceTree = "<group>"; };
+		EF7BA7131E1D00CF0094BBA7 /* YYTextRunDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextRunDelegate.h; sourceTree = "<group>"; };
+		EF7BA7141E1D00CF0094BBA7 /* YYTextRunDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextRunDelegate.m; sourceTree = "<group>"; };
+		EF7BA7161E1D00CF0094BBA7 /* NSAttributedString+YYText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+YYText.h"; sourceTree = "<group>"; };
+		EF7BA7171E1D00CF0094BBA7 /* NSAttributedString+YYText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+YYText.m"; sourceTree = "<group>"; };
+		EF7BA7181E1D00CF0094BBA7 /* NSParagraphStyle+YYText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSParagraphStyle+YYText.h"; sourceTree = "<group>"; };
+		EF7BA7191E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSParagraphStyle+YYText.m"; sourceTree = "<group>"; };
+		EF7BA71A1E1D00CF0094BBA7 /* UIPasteboard+YYText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPasteboard+YYText.h"; sourceTree = "<group>"; };
+		EF7BA71B1E1D00CF0094BBA7 /* UIPasteboard+YYText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPasteboard+YYText.m"; sourceTree = "<group>"; };
+		EF7BA71C1E1D00CF0094BBA7 /* UIView+YYText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YYText.h"; sourceTree = "<group>"; };
+		EF7BA71D1E1D00CF0094BBA7 /* UIView+YYText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YYText.m"; sourceTree = "<group>"; };
+		EF7BA71E1E1D00CF0094BBA7 /* YYTextAsyncLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextAsyncLayer.h; sourceTree = "<group>"; };
+		EF7BA71F1E1D00CF0094BBA7 /* YYTextAsyncLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextAsyncLayer.m; sourceTree = "<group>"; };
+		EF7BA7201E1D00CF0094BBA7 /* YYTextTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextTransaction.h; sourceTree = "<group>"; };
+		EF7BA7211E1D00CF0094BBA7 /* YYTextTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextTransaction.m; sourceTree = "<group>"; };
+		EF7BA7221E1D00CF0094BBA7 /* YYTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextUtilities.h; sourceTree = "<group>"; };
+		EF7BA7231E1D00CF0094BBA7 /* YYTextUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextUtilities.m; sourceTree = "<group>"; };
+		EF7BA7241E1D00CF0094BBA7 /* YYTextWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextWeakProxy.h; sourceTree = "<group>"; };
+		EF7BA7251E1D00CF0094BBA7 /* YYTextWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextWeakProxy.m; sourceTree = "<group>"; };
+		EF7BA7261E1D00CF0094BBA7 /* YYLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYLabel.h; sourceTree = "<group>"; };
+		EF7BA7271E1D00CF0094BBA7 /* YYLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYLabel.m; sourceTree = "<group>"; };
+		EF7BA7281E1D00CF0094BBA7 /* YYText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYText.h; sourceTree = "<group>"; };
+		EF7BA7291E1D00CF0094BBA7 /* YYTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextView.h; sourceTree = "<group>"; };
+		EF7BA72A1E1D00CF0094BBA7 /* YYTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextView.m; sourceTree = "<group>"; };
+		EF7BA75B1E1E1CA40094BBA7 /* ZegoLikeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoLikeView.h; sourceTree = "<group>"; };
+		EF7BA75C1E1E1CA40094BBA7 /* ZegoLikeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoLikeView.m; sourceTree = "<group>"; };
+		EF871D0A1D1A329700C2D08A /* ZegoNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoNavigationViewController.h; sourceTree = "<group>"; };
+		EF871D0B1D1A329700C2D08A /* ZegoNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoNavigationViewController.m; sourceTree = "<group>"; };
+		EF871D0D1D1A32FD00C2D08A /* ZegoTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoTabBarViewController.h; sourceTree = "<group>"; };
+		EF871D0E1D1A32FD00C2D08A /* ZegoTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoTabBarViewController.m; sourceTree = "<group>"; };
+		EF871D1C1D1A33CB00C2D08A /* ZegoRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoRoomViewController.h; sourceTree = "<group>"; };
+		EF871D1D1D1A33CB00C2D08A /* ZegoRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoRoomViewController.m; sourceTree = "<group>"; };
+		EF871D1F1D1A383F00C2D08A /* ZegoSetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoSetTableViewController.h; sourceTree = "<group>"; };
+		EF871D201D1A383F00C2D08A /* ZegoSetTableViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZegoSetTableViewController.m; sourceTree = "<group>"; };
+		EF871D221D1A425E00C2D08A /* ZegoSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoSettings.h; sourceTree = "<group>"; };
+		EF871D231D1A425E00C2D08A /* ZegoSettings.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZegoSettings.m; sourceTree = "<group>"; };
+		EF871D251D1A42C400C2D08A /* ZegoAVKitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoAVKitManager.h; sourceTree = "<group>"; };
+		EF871D261D1A42C400C2D08A /* ZegoAVKitManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZegoAVKitManager.m; sourceTree = "<group>"; };
+		EF871D291D1A437A00C2D08A /* video_capture_external_demo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video_capture_external_demo.h; path = advanced/video_capture_external_demo.h; sourceTree = "<group>"; };
+		EF871D2A1D1A437A00C2D08A /* video_capture_external_demo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = video_capture_external_demo.m; path = advanced/video_capture_external_demo.m; sourceTree = "<group>"; };
+		EF871D2B1D1A437A00C2D08A /* ZegoVideoCaptureFromImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoVideoCaptureFromImage.h; path = advanced/ZegoVideoCaptureFromImage.h; sourceTree = "<group>"; };
+		EF871D2C1D1A437A00C2D08A /* ZegoVideoCaptureFromImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ZegoVideoCaptureFromImage.mm; path = advanced/ZegoVideoCaptureFromImage.mm; sourceTree = "<group>"; };
+		EF871D321D1A68EC00C2D08A /* ZegoAnchorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoAnchorViewController.h; sourceTree = "<group>"; };
+		EF871D331D1A68EC00C2D08A /* ZegoAnchorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoAnchorViewController.m; sourceTree = "<group>"; };
+		EF94F78F1E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoWerewolfInTurnViewController.h; sourceTree = "<group>"; };
+		EF94F7901E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoWerewolfInTurnViewController.m; sourceTree = "<group>"; };
+		EF9A37EF1D26481000A5E996 /* ZegoLogTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoLogTableViewController.h; sourceTree = "<group>"; };
+		EF9A37F01D26481000A5E996 /* ZegoLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoLogTableViewController.m; sourceTree = "<group>"; };
+		EF9D0F501D20D20900002545 /* ZegoAudienceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoAudienceViewController.h; sourceTree = "<group>"; };
+		EF9D0F511D20D20900002545 /* ZegoAudienceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoAudienceViewController.m; sourceTree = "<group>"; };
+		EF9D0F591D2279F500002545 /* ZegoLiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoLiveViewController.h; sourceTree = "<group>"; };
+		EF9D0F5A1D2279F500002545 /* ZegoLiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoLiveViewController.m; sourceTree = "<group>"; };
+		EF9D0F5C1D23D17E00002545 /* ZegoPublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoPublishViewController.h; sourceTree = "<group>"; };
+		EF9D0F5D1D23D17E00002545 /* ZegoPublishViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = ZegoPublishViewController.m; sourceTree = "<group>"; };
+		EF9D0F621D24D0A900002545 /* ZegoAdvancedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoAdvancedTableViewController.h; sourceTree = "<group>"; };
+		EF9D0F631D24D0A900002545 /* ZegoAdvancedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoAdvancedTableViewController.m; sourceTree = "<group>"; };
+		EF9F415C1F3B01C8003F7C0F /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		EFAC2FCE1D48E0AD000A7885 /* a.pcm */ = {isa = PBXFileReference; lastKnownFileType = file; path = a.pcm; sourceTree = "<group>"; };
+		EFAC2FE41D4B1A72000A7885 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		EFAC2FE51D4B1A72000A7885 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		EFAC2FE61D4B1A72000A7885 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		EFAF4B5F1D2B6C7800560B00 /* LiveDemo3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveDemo3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFAF4B611D2B771000560B00 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		EFE0D8F81D1B7F920090F719 /* ZegoAnchorOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoAnchorOptionViewController.h; sourceTree = "<group>"; };
+		EFE0D8F91D1B7F920090F719 /* ZegoAnchorOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoAnchorOptionViewController.m; sourceTree = "<group>"; };
+		EFE0D9321D1BC5860090F719 /* ZegoRoomInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoRoomInfo.h; sourceTree = "<group>"; };
+		EFE0D9331D1BC5860090F719 /* ZegoRoomInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoRoomInfo.m; sourceTree = "<group>"; };
+		EFF10EF21D1A297900ECE11E /* LiveDemo5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveDemo5.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFF10EF61D1A297900ECE11E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EFF10EF81D1A297900ECE11E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EFF10EF91D1A297900ECE11E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EFF10F021D1A297900ECE11E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EFF10F041D1A297900ECE11E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EFF10F071D1A297900ECE11E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EFF10F091D1A297900ECE11E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFF10F121D1A2B1800ECE11E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EFF10F141D1A2B2300ECE11E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		EFF10F161D1A2B2A00ECE11E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		EFF10F181D1A2B3700ECE11E /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		EFF10F1A1D1A2B9B00ECE11E /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		EFFBF76A1D38E378002FD7F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EFFBF76C1D38E379002FD7F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		16F48A971FF48F8B001C8992 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16F48A9B1FF48F8B001C8992 /* ReplayKit.framework in Frameworks */,
+				16F48AC31FF490AA001C8992 /* ZegoLiveRoom.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16F48AA21FF48F8B001C8992 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16F48AA61FF48F8C001C8992 /* ReplayKit.framework in Frameworks */,
+				16F48AA71FF48F8C001C8992 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFAF4B4A1D2B6C7800560B00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF0387341FB2F64B004EF33C /* ZegoImageFilter.framework in Frameworks */,
+				16CD53C91F3C3487003D43B3 /* SSZipArchive.framework in Frameworks */,
+				EF9F41621F3B04A9003F7C0F /* MessageUI.framework in Frameworks */,
+				EF9F41611F3B0498003F7C0F /* SafariServices.framework in Frameworks */,
+				EF422AA41E7F76CA00FA1C8C /* CoreMedia.framework in Frameworks */,
+				EF422A921E7B85BF00FA1C8C /* VideoToolbox.framework in Frameworks */,
+				EFAF4B621D2B771000560B00 /* libresolv.tbd in Frameworks */,
+				EF422A911E7B854300FA1C8C /* libiconv.tbd in Frameworks */,
+				EF71EA341E72410800723EF7 /* ZegoLiveRoom.framework in Frameworks */,
+				EFAF4B511D2B6C7800560B00 /* CoreTelephony.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFF10EEF1D1A297900ECE11E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				162CB30B1F74AE2A0080185B /* VideoToolbox.framework in Frameworks */,
+				16F48A6E1FF3A4A5001C8992 /* Bugly.framework in Frameworks */,
+				EF0387301FB2E424004EF33C /* ZegoImageFilter.framework in Frameworks */,
+				EF9F415D1F3B01C9003F7C0F /* SafariServices.framework in Frameworks */,
+				163FEE311F32F9ED00FA86E6 /* libz.tbd in Frameworks */,
+				163FEDF01F32D77F00FA86E6 /* MessageUI.framework in Frameworks */,
+				EF32D7071D659C6A00A764FC /* CoreGraphics.framework in Frameworks */,
+				A745D7441E4B322E009A4265 /* ZegoLiveRoom.framework in Frameworks */,
+				16CD53C81F3C33A5003D43B3 /* SSZipArchive.framework in Frameworks */,
+				EF32D7051D659C6000A764FC /* SystemConfiguration.framework in Frameworks */,
+				EF32D7031D659C5400A764FC /* Security.framework in Frameworks */,
+				EFF10F131D1A2B1800ECE11E /* CoreTelephony.framework in Frameworks */,
+				EF0387321FB2E437004EF33C /* ZegoImageFilter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16CD53CA1F3C34FB003D43B3 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				EFAF4B611D2B771000560B00 /* libresolv.tbd */,
+				EF32D7081D659C7300A764FC /* libsqlite3.tbd */,
+				EF32D6FF1D659B7200A764FC /* libz.tbd */,
+				EF32D6FD1D659B5700A764FC /* libstdc++.tbd */,
+				EFF10F1A1D1A2B9B00ECE11E /* libiconv.tbd */,
+				EF32D7061D659C6A00A764FC /* CoreGraphics.framework */,
+				EF32D7041D659C5F00A764FC /* SystemConfiguration.framework */,
+				EF32D7021D659C5400A764FC /* Security.framework */,
+				EFF10F121D1A2B1800ECE11E /* CoreTelephony.framework */,
+				EFF10F141D1A2B2300ECE11E /* CoreMedia.framework */,
+				EFF10F161D1A2B2A00ECE11E /* AVFoundation.framework */,
+				EFF10F181D1A2B3700ECE11E /* VideoToolbox.framework */,
+				EF1314361DAB752000FEBACF /* ReplayKit.framework */,
+				163FEDEE1F32D65F00FA86E6 /* MessageUI.framework */,
+				EF9F415C1F3B01C8003F7C0F /* SafariServices.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		16E24E0E1EB1CFAD0055F7A4 /* TestPullAndPushStream */ = {
+			isa = PBXGroup;
+			children = (
+				16E24E0F1EB1D0290055F7A4 /* ZegoTestPullViewController.h */,
+				16E24E101EB1D0290055F7A4 /* ZegoTestPullViewController.m */,
+				A7CD23DE1EBB6135002F446A /* ZegoTestPushViewController.h */,
+				A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */,
+			);
+			name = TestPullAndPushStream;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		16F48A9C1FF48F8B001C8992 /* GameLive */ = {
+			isa = PBXGroup;
+			children = (
+				16F48AC41FF490DF001C8992 /* GameLive.entitlements */,
+				16F48ABE1FF48FAD001C8992 /* ZegoAVKitManager.h */,
+				16F48ABD1FF48FAD001C8992 /* ZegoAVKitManager.m */,
+				16F48A9D1FF48F8B001C8992 /* SampleHandler.h */,
+				16F48A9E1FF48F8B001C8992 /* SampleHandler.m */,
+				16F48AA01FF48F8B001C8992 /* Info.plist */,
+			);
+			path = GameLive;
+			sourceTree = "<group>";
+		};
+		16F48AA81FF48F8C001C8992 /* GameLiveSetupUI */ = {
+			isa = PBXGroup;
+			children = (
+				16F48AC51FF490EA001C8992 /* GameLiveSetupUI.entitlements */,
+				16F48AA91FF48F8C001C8992 /* BroadcastSetupViewController.h */,
+				16F48AAA1FF48F8C001C8992 /* BroadcastSetupViewController.m */,
+				16F48AC01FF48FB7001C8992 /* MainInterface.storyboard */,
+				16F48AAC1FF48F8C001C8992 /* Info.plist */,
+			);
+			path = GameLiveSetupUI;
+			sourceTree = "<group>";
+		};
+		EF15BF111E84CF1100E92AD9 /* Werewolf */ = {
+			isa = PBXGroup;
+			children = (
+				EF792F591E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.h */,
+				EF792F5A1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m */,
+				EF94F78F1E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.h */,
+				EF94F7901E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.m */,
+				EF792F551E8BA68200A39DBC /* ZegoWerewolfHostViewController.h */,
+				EF792F561E8BA68200A39DBC /* ZegoWerewolfHostViewController.m */,
+			);
+			name = Werewolf;
+			sourceTree = "<group>";
+		};
+		EF32D6F31D6599B700A764FC /* thirdLib */ = {
+			isa = PBXGroup;
+			children = (
+				16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */,
+				4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */,
+				EF32D6F41D6599B700A764FC /* TencentOpenAPI.framework */,
+				EF32D6F51D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle */,
+			);
+			path = thirdLib;
+			sourceTree = "<group>";
+		};
+		EF6867281E769CB2004E17D2 /* SingleAnchor */ = {
+			isa = PBXGroup;
+			children = (
+				EF871D321D1A68EC00C2D08A /* ZegoAnchorViewController.h */,
+				EF871D331D1A68EC00C2D08A /* ZegoAnchorViewController.m */,
+				EF9D0F501D20D20900002545 /* ZegoAudienceViewController.h */,
+				EF9D0F511D20D20900002545 /* ZegoAudienceViewController.m */,
+			);
+			name = SingleAnchor;
+			sourceTree = "<group>";
+		};
+		EF6867291E769CD0004E17D2 /* MoreAnchor */ = {
+			isa = PBXGroup;
+			children = (
+				EF576B831D82A348002D5AED /* ZegoMoreAnchorViewController.h */,
+				EF576B841D82A348002D5AED /* ZegoMoreAnchorViewController.m */,
+				EF576B8C1D82C09B002D5AED /* ZegoMoreAudienceViewController.h */,
+				EF576B8D1D82C09B002D5AED /* ZegoMoreAudienceViewController.m */,
+			);
+			name = MoreAnchor;
+			sourceTree = "<group>";
+		};
+		EF68672A1E769CE7004E17D2 /* MixStream */ = {
+			isa = PBXGroup;
+			children = (
+				EF576B871D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.h */,
+				EF576B881D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.m */,
+				EF576B901D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.h */,
+				EF576B911D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.m */,
+			);
+			name = MixStream;
+			sourceTree = "<group>";
+		};
+		EF7BA6F61E1D00CF0094BBA7 /* YYText */ = {
+			isa = PBXGroup;
+			children = (
+				EF7BA6F71E1D00CF0094BBA7 /* Component */,
+				EF7BA70A1E1D00CF0094BBA7 /* String */,
+				EF7BA7151E1D00CF0094BBA7 /* Utility */,
+				EF7BA7261E1D00CF0094BBA7 /* YYLabel.h */,
+				EF7BA7271E1D00CF0094BBA7 /* YYLabel.m */,
+				EF7BA7281E1D00CF0094BBA7 /* YYText.h */,
+				EF7BA7291E1D00CF0094BBA7 /* YYTextView.h */,
+				EF7BA72A1E1D00CF0094BBA7 /* YYTextView.m */,
+			);
+			path = YYText;
+			sourceTree = "<group>";
+		};
+		EF7BA6F71E1D00CF0094BBA7 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				EF7BA6F81E1D00CF0094BBA7 /* YYTextContainerView.h */,
+				EF7BA6F91E1D00CF0094BBA7 /* YYTextContainerView.m */,
+				EF7BA6FA1E1D00CF0094BBA7 /* YYTextDebugOption.h */,
+				EF7BA6FB1E1D00CF0094BBA7 /* YYTextDebugOption.m */,
+				EF7BA6FC1E1D00CF0094BBA7 /* YYTextEffectWindow.h */,
+				EF7BA6FD1E1D00CF0094BBA7 /* YYTextEffectWindow.m */,
+				EF7BA6FE1E1D00CF0094BBA7 /* YYTextInput.h */,
+				EF7BA6FF1E1D00CF0094BBA7 /* YYTextInput.m */,
+				EF7BA7001E1D00CF0094BBA7 /* YYTextKeyboardManager.h */,
+				EF7BA7011E1D00CF0094BBA7 /* YYTextKeyboardManager.m */,
+				EF7BA7021E1D00CF0094BBA7 /* YYTextLayout.h */,
+				EF7BA7031E1D00CF0094BBA7 /* YYTextLayout.m */,
+				EF7BA7041E1D00CF0094BBA7 /* YYTextLine.h */,
+				EF7BA7051E1D00CF0094BBA7 /* YYTextLine.m */,
+				EF7BA7061E1D00CF0094BBA7 /* YYTextMagnifier.h */,
+				EF7BA7071E1D00CF0094BBA7 /* YYTextMagnifier.m */,
+				EF7BA7081E1D00CF0094BBA7 /* YYTextSelectionView.h */,
+				EF7BA7091E1D00CF0094BBA7 /* YYTextSelectionView.m */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		EF7BA70A1E1D00CF0094BBA7 /* String */ = {
+			isa = PBXGroup;
+			children = (
+				EF7BA70B1E1D00CF0094BBA7 /* YYTextArchiver.h */,
+				EF7BA70C1E1D00CF0094BBA7 /* YYTextArchiver.m */,
+				EF7BA70D1E1D00CF0094BBA7 /* YYTextAttribute.h */,
+				EF7BA70E1E1D00CF0094BBA7 /* YYTextAttribute.m */,
+				EF7BA70F1E1D00CF0094BBA7 /* YYTextParser.h */,
+				EF7BA7101E1D00CF0094BBA7 /* YYTextParser.m */,
+				EF7BA7111E1D00CF0094BBA7 /* YYTextRubyAnnotation.h */,
+				EF7BA7121E1D00CF0094BBA7 /* YYTextRubyAnnotation.m */,
+				EF7BA7131E1D00CF0094BBA7 /* YYTextRunDelegate.h */,
+				EF7BA7141E1D00CF0094BBA7 /* YYTextRunDelegate.m */,
+			);
+			path = String;
+			sourceTree = "<group>";
+		};
+		EF7BA7151E1D00CF0094BBA7 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				EF7BA7161E1D00CF0094BBA7 /* NSAttributedString+YYText.h */,
+				EF7BA7171E1D00CF0094BBA7 /* NSAttributedString+YYText.m */,
+				EF7BA7181E1D00CF0094BBA7 /* NSParagraphStyle+YYText.h */,
+				EF7BA7191E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m */,
+				EF7BA71A1E1D00CF0094BBA7 /* UIPasteboard+YYText.h */,
+				EF7BA71B1E1D00CF0094BBA7 /* UIPasteboard+YYText.m */,
+				EF7BA71C1E1D00CF0094BBA7 /* UIView+YYText.h */,
+				EF7BA71D1E1D00CF0094BBA7 /* UIView+YYText.m */,
+				EF7BA71E1E1D00CF0094BBA7 /* YYTextAsyncLayer.h */,
+				EF7BA71F1E1D00CF0094BBA7 /* YYTextAsyncLayer.m */,
+				EF7BA7201E1D00CF0094BBA7 /* YYTextTransaction.h */,
+				EF7BA7211E1D00CF0094BBA7 /* YYTextTransaction.m */,
+				EF7BA7221E1D00CF0094BBA7 /* YYTextUtilities.h */,
+				EF7BA7231E1D00CF0094BBA7 /* YYTextUtilities.m */,
+				EF7BA7241E1D00CF0094BBA7 /* YYTextWeakProxy.h */,
+				EF7BA7251E1D00CF0094BBA7 /* YYTextWeakProxy.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		EF871D281D1A436700C2D08A /* advanced */ = {
+			isa = PBXGroup;
+			children = (
+				16E345B11F77E94A00DDF86E /* video_capture.h */,
+				16E345AC1F77B47A00DDF86E /* big_endian.h */,
+				16E345B21F7807A600DDF86E /* video_capture_encode_callback.h */,
+				16E345B31F7807A600DDF86E /* video_capture_encode_callback.mm */,
+				16E345A71F77B47900DDF86E /* video_capture_encoder.h */,
+				16E345AD1F77B47A00DDF86E /* video_capture_encoder.mm */,
+				EF871D291D1A437A00C2D08A /* video_capture_external_demo.h */,
+				EF871D2A1D1A437A00C2D08A /* video_capture_external_demo.m */,
+				EF871D2B1D1A437A00C2D08A /* ZegoVideoCaptureFromImage.h */,
+				EF871D2C1D1A437A00C2D08A /* ZegoVideoCaptureFromImage.mm */,
+				EF3AA9691DB6016E00AF960C /* ZegoRenderAudienceViewController.h */,
+				EF3AA96A1DB6016E00AF960C /* ZegoRenderAudienceViewController.m */,
+				EF3AA96D1DB60D1700AF960C /* ZegoRenderViewController.h */,
+				EF3AA96E1DB60D1700AF960C /* ZegoRenderViewController.m */,
+				EF71E9B61E67CFAD00723EF7 /* ZegoLiveApi-utils.h */,
+				EF71E9B71E67CFAD00723EF7 /* ZegoLiveApi-utils.m */,
+				EF71E9BA1E67CFB700723EF7 /* ZegoVideoFilterDemo.h */,
+				EF71E9BB1E67CFB700723EF7 /* ZegoVideoFilterDemo.m */,
+			);
+			name = advanced;
+			sourceTree = "<group>";
+		};
+		EFF10EE91D1A297900ECE11E = {
+			isa = PBXGroup;
+			children = (
+				A745D7481E4C197F009A4265 /* LiveDemo5.entitlements */,
+				EFF10F0F1D1A2A6A00ECE11E /* Frameworks */,
+				EFF10EF41D1A297900ECE11E /* LiveDemo3 */,
+				16F48A9C1FF48F8B001C8992 /* GameLive */,
+				16F48AA81FF48F8C001C8992 /* GameLiveSetupUI */,
+				EFF10EF31D1A297900ECE11E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EFF10EF31D1A297900ECE11E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EFF10EF21D1A297900ECE11E /* LiveDemo5.app */,
+				EFAF4B5F1D2B6C7800560B00 /* LiveDemo3.app */,
+				16F48A9A1FF48F8B001C8992 /* GameLive.appex */,
+				16F48AA51FF48F8C001C8992 /* GameLiveSetupUI.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EFF10EF41D1A297900ECE11E /* LiveDemo3 */ = {
+			isa = PBXGroup;
+			children = (
+				EF1314681DAB7B8600FEBACF /* LiveDemo3.entitlements */,
+				EF7BA6F61E1D00CF0094BBA7 /* YYText */,
+				EF871D281D1A436700C2D08A /* advanced */,
+				EF6867281E769CB2004E17D2 /* SingleAnchor */,
+				EF6867291E769CD0004E17D2 /* MoreAnchor */,
+				EF68672A1E769CE7004E17D2 /* MixStream */,
+				EF15BF111E84CF1100E92AD9 /* Werewolf */,
+				16E24E0E1EB1CFAD0055F7A4 /* TestPullAndPushStream */,
+				EFF10EF81D1A297900ECE11E /* AppDelegate.h */,
+				EFF10EF91D1A297900ECE11E /* AppDelegate.m */,
+				EF3AA9651DAF7C3A00AF960C /* ZegoInstrument.h */,
+				EF3AA9661DAF7C3A00AF960C /* ZegoInstrument.m */,
+				EF871D0A1D1A329700C2D08A /* ZegoNavigationViewController.h */,
+				EF871D0B1D1A329700C2D08A /* ZegoNavigationViewController.m */,
+				EF871D0D1D1A32FD00C2D08A /* ZegoTabBarViewController.h */,
+				EF871D0E1D1A32FD00C2D08A /* ZegoTabBarViewController.m */,
+				EF871D1C1D1A33CB00C2D08A /* ZegoRoomViewController.h */,
+				EF871D1D1D1A33CB00C2D08A /* ZegoRoomViewController.m */,
+				EF871D1F1D1A383F00C2D08A /* ZegoSetTableViewController.h */,
+				EF871D201D1A383F00C2D08A /* ZegoSetTableViewController.m */,
+				16756FC31F57FA47003252AB /* ZegoShareLogViewController.h */,
+				16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */,
+				EF9D0F621D24D0A900002545 /* ZegoAdvancedTableViewController.h */,
+				EF9D0F631D24D0A900002545 /* ZegoAdvancedTableViewController.m */,
+				EF7BA6801E1C92FB0094BBA7 /* ZegoLiveToolViewController.h */,
+				EF7BA6811E1C92FB0094BBA7 /* ZegoLiveToolViewController.m */,
+				EF7BA75B1E1E1CA40094BBA7 /* ZegoLikeView.h */,
+				EF7BA75C1E1E1CA40094BBA7 /* ZegoLikeView.m */,
+				EF7BA6891E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.h */,
+				EF7BA68A1E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.m */,
+				EFE0D8F81D1B7F920090F719 /* ZegoAnchorOptionViewController.h */,
+				EFE0D8F91D1B7F920090F719 /* ZegoAnchorOptionViewController.m */,
+				EF9D0F591D2279F500002545 /* ZegoLiveViewController.h */,
+				EF9D0F5A1D2279F500002545 /* ZegoLiveViewController.m */,
+				EF9D0F5C1D23D17E00002545 /* ZegoPublishViewController.h */,
+				EF9D0F5D1D23D17E00002545 /* ZegoPublishViewController.m */,
+				EF9A37EF1D26481000A5E996 /* ZegoLogTableViewController.h */,
+				EF9A37F01D26481000A5E996 /* ZegoLogTableViewController.m */,
+				EF871D221D1A425E00C2D08A /* ZegoSettings.h */,
+				EF871D231D1A425E00C2D08A /* ZegoSettings.m */,
+				EFE0D9321D1BC5860090F719 /* ZegoRoomInfo.h */,
+				EFE0D9331D1BC5860090F719 /* ZegoRoomInfo.m */,
+				EF871D251D1A42C400C2D08A /* ZegoAVKitManager.h */,
+				EF871D261D1A42C400C2D08A /* ZegoAVKitManager.m */,
+				EFF10F011D1A297900ECE11E /* Main.storyboard */,
+				EFFBF76B1D38E378002FD7F2 /* Localizable.strings */,
+				EFF10F041D1A297900ECE11E /* Assets.xcassets */,
+				EFAC2FCE1D48E0AD000A7885 /* a.pcm */,
+				EFF10F061D1A297900ECE11E /* LaunchScreen.storyboard */,
+				EFF10F091D1A297900ECE11E /* Info.plist */,
+				EFF10EF51D1A297900ECE11E /* Supporting Files */,
+			);
+			path = LiveDemo3;
+			sourceTree = "<group>";
+		};
+		EFF10EF51D1A297900ECE11E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EFF10EF61D1A297900ECE11E /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EFF10F0F1D1A2A6A00ECE11E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				16CD53CA1F3C34FB003D43B3 /* iOS */,
+				EF32D6F31D6599B700A764FC /* thirdLib */,
+				EFF10F1C1D1A2BAF00ECE11E /* libs */,
+				16F48A1A1FF3936B001C8992 /* ReplayKit.framework */,
+				16F48A271FF3936C001C8992 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EFF10F1C1D1A2BAF00ECE11E /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */,
+				A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */,
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		16F48A991FF48F8B001C8992 /* GameLive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16F48AB81FF48F8C001C8992 /* Build configuration list for PBXNativeTarget "GameLive" */;
+			buildPhases = (
+				16F48A961FF48F8B001C8992 /* Sources */,
+				16F48A971FF48F8B001C8992 /* Frameworks */,
+				16F48A981FF48F8B001C8992 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GameLive;
+			productName = GameLive;
+			productReference = 16F48A9A1FF48F8B001C8992 /* GameLive.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		16F48AA41FF48F8B001C8992 /* GameLiveSetupUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16F48AB31FF48F8C001C8992 /* Build configuration list for PBXNativeTarget "GameLiveSetupUI" */;
+			buildPhases = (
+				16F48AA11FF48F8B001C8992 /* Sources */,
+				16F48AA21FF48F8B001C8992 /* Frameworks */,
+				16F48AA31FF48F8B001C8992 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GameLiveSetupUI;
+			productName = GameLiveSetupUI;
+			productReference = 16F48AA51FF48F8C001C8992 /* GameLiveSetupUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		EFAF4B331D2B6C7800560B00 /* LiveDemo5iOS7 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFAF4B5B1D2B6C7800560B00 /* Build configuration list for PBXNativeTarget "LiveDemo5iOS7" */;
+			buildPhases = (
+				EFAF4B341D2B6C7800560B00 /* Sources */,
+				EFAF4B4A1D2B6C7800560B00 /* Frameworks */,
+				EFAF4B521D2B6C7800560B00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LiveDemo5iOS7;
+			productName = LiveDemo3;
+			productReference = EFAF4B5F1D2B6C7800560B00 /* LiveDemo3.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EFF10EF11D1A297900ECE11E /* LiveDemo5 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFF10F0C1D1A297900ECE11E /* Build configuration list for PBXNativeTarget "LiveDemo5" */;
+			buildPhases = (
+				EF33D0931FBADD1F00900046 /* Check Build Result */,
+				EFF10EEE1D1A297900ECE11E /* Sources */,
+				EFF10EEF1D1A297900ECE11E /* Frameworks */,
+				EFF10EF01D1A297900ECE11E /* Resources */,
+				A775B03C1E458EFF00CEF3DC /* Embed Frameworks */,
+				EF792F781E8DF49C00A39DBC /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				168C432F20A440E200DA3C77 /* PBXTargetDependency */,
+				168C432D20A440DE00DA3C77 /* PBXTargetDependency */,
+			);
+			name = LiveDemo5;
+			productName = LiveDemo3;
+			productReference = EFF10EF21D1A297900ECE11E /* LiveDemo5.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EFF10EEA1D1A297900ECE11E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = ZEGO;
+				TargetAttributes = {
+					16F48A991FF48F8B001C8992 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 3WR2G89LR2;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					16F48AA41FF48F8B001C8992 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 3WR2G89LR2;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					EFAF4B331D2B6C7800560B00 = {
+						DevelopmentTeam = 3WR2G89LR2;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					EFF10EF11D1A297900ECE11E = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 3WR2G89LR2;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = EFF10EED1D1A297900ECE11E /* Build configuration list for PBXProject "LiveDemo3" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = EFF10EE91D1A297900ECE11E;
+			productRefGroup = EFF10EF31D1A297900ECE11E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EFF10EF11D1A297900ECE11E /* LiveDemo5 */,
+				EFAF4B331D2B6C7800560B00 /* LiveDemo5iOS7 */,
+				16F48A991FF48F8B001C8992 /* GameLive */,
+				16F48AA41FF48F8B001C8992 /* GameLiveSetupUI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		16F48A981FF48F8B001C8992 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16F48AA31FF48F8B001C8992 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16F48AC21FF48FB7001C8992 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFAF4B521D2B6C7800560B00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF32D6F91D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				EFAC2FD01D48E0AD000A7885 /* a.pcm in Resources */,
+				EFAF4B551D2B6C7800560B00 /* LaunchScreen.storyboard in Resources */,
+				EFFBF7691D38E378002FD7F2 /* Localizable.strings in Resources */,
+				EFAF4B561D2B6C7800560B00 /* Assets.xcassets in Resources */,
+				EFAF4B571D2B6C7800560B00 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFF10EF01D1A297900ECE11E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF32D6F81D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				EFFBF7681D38E378002FD7F2 /* Localizable.strings in Resources */,
+				EFAC2FCF1D48E0AD000A7885 /* a.pcm in Resources */,
+				EFF10F081D1A297900ECE11E /* LaunchScreen.storyboard in Resources */,
+				EFF10F051D1A297900ECE11E /* Assets.xcassets in Resources */,
+				EFF10F031D1A297900ECE11E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EF33D0931FBADD1F00900046 /* Check Build Result */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Build Result";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/env python";
+			shellScript = "import os\n\naction = os.getenv('ACTION')\nconfiguration = os.getenv('CONFIGURATION')\nif action == \"install\":\n    exit(0)\nif configuration == \"Release\":\n    exit(0)\n\ncurrent_folder = os.getenv('PROJECT_DIR')\naction_file = os.path.join(current_folder, \"..\", \"action.txt\")\nif not os.path.exists(action_file):\n    exit(0)\n\nwith open(action_file, \"r\") as f:\n    if f.read() != \"build success\":\n        print (\"copy_framework_new.py execute failed, check log.txt\")\n        exit(-1)\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		16F48A961FF48F8B001C8992 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16F48ABF1FF48FAE001C8992 /* ZegoAVKitManager.m in Sources */,
+				16F48A9F1FF48F8B001C8992 /* SampleHandler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16F48AA11FF48F8B001C8992 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16F48AAB1FF48F8C001C8992 /* BroadcastSetupViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFAF4B341D2B6C7800560B00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF7BA73E1E1D00CF0094BBA7 /* YYTextArchiver.m in Sources */,
+				EFAF4B351D2B6C7800560B00 /* video_capture_external_demo.m in Sources */,
+				EF7BA75E1E1E1CA40094BBA7 /* ZegoLikeView.m in Sources */,
+				EFAF4B361D2B6C7800560B00 /* AppDelegate.m in Sources */,
+				EF94F7921E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.m in Sources */,
+				EF7BA72C1E1D00CF0094BBA7 /* YYTextContainerView.m in Sources */,
+				EFAF4B371D2B6C7800560B00 /* ZegoAnchorOptionViewController.m in Sources */,
+				EF7BA7421E1D00CF0094BBA7 /* YYTextParser.m in Sources */,
+				EF3AA9681DAF7C3A00AF960C /* ZegoInstrument.m in Sources */,
+				EF7BA7461E1D00CF0094BBA7 /* YYTextRunDelegate.m in Sources */,
+				EF792F581E8BA68200A39DBC /* ZegoWerewolfHostViewController.m in Sources */,
+				EF7BA72E1E1D00CF0094BBA7 /* YYTextDebugOption.m in Sources */,
+				EFAF4B381D2B6C7800560B00 /* ZegoTabBarViewController.m in Sources */,
+				EF7BA7481E1D00CF0094BBA7 /* NSAttributedString+YYText.m in Sources */,
+				EF7BA7381E1D00CF0094BBA7 /* YYTextLine.m in Sources */,
+				EF71E9BD1E67CFB700723EF7 /* ZegoVideoFilterDemo.m in Sources */,
+				EFAF4B391D2B6C7800560B00 /* ZegoPublishViewController.m in Sources */,
+				EF7BA7541E1D00CF0094BBA7 /* YYTextUtilities.m in Sources */,
+				EF7BA7581E1D00CF0094BBA7 /* YYLabel.m in Sources */,
+				EFAF4B3A1D2B6C7800560B00 /* main.m in Sources */,
+				EF3AA96C1DB6016E00AF960C /* ZegoRenderAudienceViewController.m in Sources */,
+				EF7BA6831E1C92FB0094BBA7 /* ZegoLiveToolViewController.m in Sources */,
+				EFAF4B3B1D2B6C7800560B00 /* ZegoRoomInfo.m in Sources */,
+				EF792F5C1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m in Sources */,
+				EF7BA74E1E1D00CF0094BBA7 /* UIView+YYText.m in Sources */,
+				EF7BA7561E1D00CF0094BBA7 /* YYTextWeakProxy.m in Sources */,
+				EF7BA73A1E1D00CF0094BBA7 /* YYTextMagnifier.m in Sources */,
+				EF7BA7301E1D00CF0094BBA7 /* YYTextEffectWindow.m in Sources */,
+				EF3AA9701DB60D1700AF960C /* ZegoRenderViewController.m in Sources */,
+				EF7BA7501E1D00CF0094BBA7 /* YYTextAsyncLayer.m in Sources */,
+				EF7BA7401E1D00CF0094BBA7 /* YYTextAttribute.m in Sources */,
+				EF7BA7321E1D00CF0094BBA7 /* YYTextInput.m in Sources */,
+				16756FCE1F58FC83003252AB /* ZegoTestPullViewController.m in Sources */,
+				EF7BA7361E1D00CF0094BBA7 /* YYTextLayout.m in Sources */,
+				EF7BA7441E1D00CF0094BBA7 /* YYTextRubyAnnotation.m in Sources */,
+				EF7BA7521E1D00CF0094BBA7 /* YYTextTransaction.m in Sources */,
+				EFAF4B3D1D2B6C7800560B00 /* ZegoAudienceViewController.m in Sources */,
+				EF7BA73C1E1D00CF0094BBA7 /* YYTextSelectionView.m in Sources */,
+				EFAF4B3F1D2B6C7800560B00 /* ZegoSetTableViewController.m in Sources */,
+				EFAF4B401D2B6C7800560B00 /* ZegoAVKitManager.m in Sources */,
+				EFAF4B411D2B6C7800560B00 /* ZegoLiveViewController.m in Sources */,
+				EF7BA74A1E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m in Sources */,
+				EFAF4B421D2B6C7800560B00 /* ZegoRoomViewController.m in Sources */,
+				EFAF4B431D2B6C7800560B00 /* ZegoAnchorViewController.m in Sources */,
+				16756FC91F58FA90003252AB /* ZegoShareLogViewController.m in Sources */,
+				EF576B931D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.m in Sources */,
+				EF71E9B91E67CFAD00723EF7 /* ZegoLiveApi-utils.m in Sources */,
+				EF576B861D82A348002D5AED /* ZegoMoreAnchorViewController.m in Sources */,
+				EF7BA75A1E1D00CF0094BBA7 /* YYTextView.m in Sources */,
+				A7CD23E11EBB6135002F446A /* ZegoTestPushViewController.m in Sources */,
+				EF576B8F1D82C09B002D5AED /* ZegoMoreAudienceViewController.m in Sources */,
+				EF7BA7341E1D00CF0094BBA7 /* YYTextKeyboardManager.m in Sources */,
+				EF576B8A1D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.m in Sources */,
+				EFAF4B441D2B6C7800560B00 /* ZegoLogTableViewController.m in Sources */,
+				EFAF4B451D2B6C7800560B00 /* ZegoVideoCaptureFromImage.mm in Sources */,
+				EF7BA74C1E1D00CF0094BBA7 /* UIPasteboard+YYText.m in Sources */,
+				EFAF4B461D2B6C7800560B00 /* ZegoNavigationViewController.m in Sources */,
+				EFAF4B481D2B6C7800560B00 /* ZegoAdvancedTableViewController.m in Sources */,
+				EF7BA68C1E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.m in Sources */,
+				EFAF4B491D2B6C7800560B00 /* ZegoSettings.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFF10EEE1D1A297900ECE11E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF7BA73D1E1D00CF0094BBA7 /* YYTextArchiver.m in Sources */,
+				EF871D2D1D1A437A00C2D08A /* video_capture_external_demo.m in Sources */,
+				EF7BA75D1E1E1CA40094BBA7 /* ZegoLikeView.m in Sources */,
+				EFF10EFA1D1A297900ECE11E /* AppDelegate.m in Sources */,
+				EF94F7911E88E9BD00F2C71C /* ZegoWerewolfInTurnViewController.m in Sources */,
+				EF7BA72B1E1D00CF0094BBA7 /* YYTextContainerView.m in Sources */,
+				EFE0D8FA1D1B7F920090F719 /* ZegoAnchorOptionViewController.m in Sources */,
+				A7CD23E01EBB6135002F446A /* ZegoTestPushViewController.m in Sources */,
+				EF7BA7411E1D00CF0094BBA7 /* YYTextParser.m in Sources */,
+				EF3AA9671DAF7C3A00AF960C /* ZegoInstrument.m in Sources */,
+				EF7BA7451E1D00CF0094BBA7 /* YYTextRunDelegate.m in Sources */,
+				16756FC51F57FA47003252AB /* ZegoShareLogViewController.m in Sources */,
+				EF792F571E8BA68200A39DBC /* ZegoWerewolfHostViewController.m in Sources */,
+				EF7BA72D1E1D00CF0094BBA7 /* YYTextDebugOption.m in Sources */,
+				EF871D0F1D1A32FD00C2D08A /* ZegoTabBarViewController.m in Sources */,
+				EF7BA7471E1D00CF0094BBA7 /* NSAttributedString+YYText.m in Sources */,
+				EF7BA7371E1D00CF0094BBA7 /* YYTextLine.m in Sources */,
+				16E345B41F7807A600DDF86E /* video_capture_encode_callback.mm in Sources */,
+				EF71E9BC1E67CFB700723EF7 /* ZegoVideoFilterDemo.m in Sources */,
+				EF9D0F5E1D23D17E00002545 /* ZegoPublishViewController.m in Sources */,
+				EF7BA7531E1D00CF0094BBA7 /* YYTextUtilities.m in Sources */,
+				EF7BA7571E1D00CF0094BBA7 /* YYLabel.m in Sources */,
+				EFF10EF71D1A297900ECE11E /* main.m in Sources */,
+				EF3AA96B1DB6016E00AF960C /* ZegoRenderAudienceViewController.m in Sources */,
+				EF7BA6821E1C92FB0094BBA7 /* ZegoLiveToolViewController.m in Sources */,
+				EFE0D9341D1BC5860090F719 /* ZegoRoomInfo.m in Sources */,
+				EF792F5B1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m in Sources */,
+				EF7BA74D1E1D00CF0094BBA7 /* UIView+YYText.m in Sources */,
+				EF7BA7551E1D00CF0094BBA7 /* YYTextWeakProxy.m in Sources */,
+				EF7BA7391E1D00CF0094BBA7 /* YYTextMagnifier.m in Sources */,
+				EF7BA72F1E1D00CF0094BBA7 /* YYTextEffectWindow.m in Sources */,
+				EF3AA96F1DB60D1700AF960C /* ZegoRenderViewController.m in Sources */,
+				EF7BA74F1E1D00CF0094BBA7 /* YYTextAsyncLayer.m in Sources */,
+				EF7BA73F1E1D00CF0094BBA7 /* YYTextAttribute.m in Sources */,
+				EF7BA7311E1D00CF0094BBA7 /* YYTextInput.m in Sources */,
+				EF7BA7351E1D00CF0094BBA7 /* YYTextLayout.m in Sources */,
+				EF7BA7431E1D00CF0094BBA7 /* YYTextRubyAnnotation.m in Sources */,
+				EF7BA7511E1D00CF0094BBA7 /* YYTextTransaction.m in Sources */,
+				EF9D0F521D20D20900002545 /* ZegoAudienceViewController.m in Sources */,
+				EF7BA73B1E1D00CF0094BBA7 /* YYTextSelectionView.m in Sources */,
+				EF871D211D1A383F00C2D08A /* ZegoSetTableViewController.m in Sources */,
+				EF871D271D1A42C400C2D08A /* ZegoAVKitManager.m in Sources */,
+				EF9D0F5B1D2279F500002545 /* ZegoLiveViewController.m in Sources */,
+				16E345B01F77B47A00DDF86E /* video_capture_encoder.mm in Sources */,
+				EF7BA7491E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m in Sources */,
+				EF871D1E1D1A33CB00C2D08A /* ZegoRoomViewController.m in Sources */,
+				EF871D341D1A68EC00C2D08A /* ZegoAnchorViewController.m in Sources */,
+				16E24E111EB1D0290055F7A4 /* ZegoTestPullViewController.m in Sources */,
+				EF576B921D82C0B6002D5AED /* ZegoMixStreamAudienceViewController.m in Sources */,
+				EF71E9B81E67CFAD00723EF7 /* ZegoLiveApi-utils.m in Sources */,
+				EF576B851D82A348002D5AED /* ZegoMoreAnchorViewController.m in Sources */,
+				EF7BA7591E1D00CF0094BBA7 /* YYTextView.m in Sources */,
+				EF576B8E1D82C09B002D5AED /* ZegoMoreAudienceViewController.m in Sources */,
+				EF7BA7331E1D00CF0094BBA7 /* YYTextKeyboardManager.m in Sources */,
+				EF576B891D82AAF5002D5AED /* ZegoMixStreamAnchorViewController.m in Sources */,
+				EF9A37F11D26481000A5E996 /* ZegoLogTableViewController.m in Sources */,
+				EF871D2E1D1A437A00C2D08A /* ZegoVideoCaptureFromImage.mm in Sources */,
+				EF7BA74B1E1D00CF0094BBA7 /* UIPasteboard+YYText.m in Sources */,
+				EF871D0C1D1A329700C2D08A /* ZegoNavigationViewController.m in Sources */,
+				EF9D0F641D24D0A900002545 /* ZegoAdvancedTableViewController.m in Sources */,
+				EF7BA68B1E1CDE8A0094BBA7 /* ZegoMessageTableViewCell.m in Sources */,
+				EF871D241D1A425E00C2D08A /* ZegoSettings.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		168C432D20A440DE00DA3C77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16F48A991FF48F8B001C8992 /* GameLive */;
+			targetProxy = 168C432C20A440DE00DA3C77 /* PBXContainerItemProxy */;
+		};
+		168C432F20A440E200DA3C77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16F48AA41FF48F8B001C8992 /* GameLiveSetupUI */;
+			targetProxy = 168C432E20A440E200DA3C77 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		16F48AC01FF48FB7001C8992 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16F48AC11FF48FB7001C8992 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		EFF10F011D1A297900ECE11E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EFF10F021D1A297900ECE11E /* Base */,
+				EFAC2FE41D4B1A72000A7885 /* zh-Hans */,
+				EF576B8B1D82BC5A002D5AED /* en */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EFF10F061D1A297900ECE11E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EFF10F071D1A297900ECE11E /* Base */,
+				EFAC2FE51D4B1A72000A7885 /* zh-Hans */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		EFFBF76B1D38E378002FD7F2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EFFBF76A1D38E378002FD7F2 /* Base */,
+				EFFBF76C1D38E379002FD7F2 /* en */,
+				EFAC2FE61D4B1A72000A7885 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		16F48AB41FF48F8C001C8992 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3.GameLiveSetupUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		16F48AB51FF48F8C001C8992 /* iOS7StaticDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-liconv",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					AVFoundation,
+					"-framework",
+					CoreMedia,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3.GameLiveSetupUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = iOS7StaticDebug;
+		};
+		16F48AB61FF48F8C001C8992 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3.GameLiveSetupUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		16F48AB71FF48F8C001C8992 /* iOS7Static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-liconv",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					AVFoundation,
+					"-framework",
+					CoreMedia,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3.GameLiveSetupUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = iOS7Static;
+		};
+		16F48AB91FF48F8C001C8992 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GameLive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3.GameLive;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		16F48ABA1FF48F8C001C8992 /* iOS7StaticDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GameLive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-liconv",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					AVFoundation,
+					"-framework",
+					CoreMedia,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3.GameLive;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = iOS7StaticDebug;
+		};
+		16F48ABB1FF48F8C001C8992 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GameLive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3.GameLive;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		16F48ABC1FF48F8C001C8992 /* iOS7Static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GameLive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-liconv",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					AVFoundation,
+					"-framework",
+					CoreMedia,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3.GameLive;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = iOS7Static;
+		};
+		A7E8E0581D41C07A00B3E60C /* iOS7Static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Bugly,
+					"-lz",
+					"-liconv",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					AVFoundation,
+					"-framework",
+					CoreMedia,
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"-framework",
+					TencentOpenAPI,
+				);
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = x86_64;
+			};
+			name = iOS7Static;
+		};
+		A7E8E0591D41C07A00B3E60C /* iOS7Static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo5.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdLib",
+					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/libs/libsZegoImageFilter/Release/Release-iphoneosAndRelease-iphonesimulator",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = LiveDemo3/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = iOS7Static;
+		};
+		A7E8E05A1D41C07A00B3E60C /* iOS7Static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo3/LiveDemo3.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdLib",
+					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/libs/libsZegoImageFilter/ReleaseStatic/ReleaseStatic-iphoneosAndRelease-iphonesimulator",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = "$(SRCROOT)/LiveDemo3/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Bugly,
+					"-lz",
+					"-framework",
+					TencentOpenAPI,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_NAME = LiveDemo3;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = iOS7Static;
+		};
+		EFAF4B311D2B6C4C00560B00 /* iOS7StaticDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Bugly,
+					"-lz",
+					"-liconv",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					AVFoundation,
+					"-framework",
+					CoreMedia,
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"-framework",
+					TencentOpenAPI,
+				);
+				SDKROOT = iphoneos;
+			};
+			name = iOS7StaticDebug;
+		};
+		EFAF4B321D2B6C4C00560B00 /* iOS7StaticDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo5.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdLib",
+					"$(PROJECT_DIR)/libs/ZegoLiveRoom/debug/iphoneos_simulator",
+					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/libs/libsZegoImageFilter/ReleaseStatic/ReleaseStatic-iphoneosAndRelease-iphonesimulator",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = LiveDemo3/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = iOS7StaticDebug;
+		};
+		EFAF4B5C1D2B6C7800560B00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo3/LiveDemo3.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/thirdLib",
+					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/libs/libsZegoImageFilter/ReleaseStatic/ReleaseStatic-iphoneosAndRelease-iphonesimulator",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = "$(SRCROOT)/LiveDemo3/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_NAME = LiveDemo3;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		EFAF4B5D1D2B6C7800560B00 /* iOS7StaticDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo3/LiveDemo3.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/thirdLib",
+					"$(PROJECT_DIR)/libs/libsZegoImageFilter/ReleaseStatic/ReleaseStatic-iphoneosAndRelease-iphonesimulator",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = "$(SRCROOT)/LiveDemo3/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Bugly,
+					"-lz",
+					"-framework",
+					TencentOpenAPI,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_NAME = LiveDemo3;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = iOS7StaticDebug;
+		};
+		EFAF4B5E1D2B6C7800560B00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo3/LiveDemo3.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/thirdLib",
+					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/libs/libsZegoImageFilter/Release/Release-iphoneosAndRelease-iphonesimulator",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = "$(SRCROOT)/LiveDemo3/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_NAME = LiveDemo3;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
+		EFF10F0A1D1A297900ECE11E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Bugly,
+					"-lz",
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"-framework",
+					TencentOpenAPI,
+				);
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EFF10F0B1D1A297900ECE11E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Bugly,
+					"-lz",
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"-framework",
+					TencentOpenAPI,
+				);
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = x86_64;
+			};
+			name = Release;
+		};
+		EFF10F0D1D1A297900ECE11E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo5.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdLib",
+					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/libs/libsZegoImageFilter/Release/Release-iphoneosAndRelease-iphonesimulator",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = LiveDemo3/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		EFF10F0E1D1A297900ECE11E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo5.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdLib",
+					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/libs/libsZegoImageFilter/ReleaseStatic/ReleaseStatic-iphoneosAndRelease-iphonesimulator",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = LiveDemo3/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		16F48AB31FF48F8C001C8992 /* Build configuration list for PBXNativeTarget "GameLiveSetupUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16F48AB41FF48F8C001C8992 /* Debug */,
+				16F48AB51FF48F8C001C8992 /* iOS7StaticDebug */,
+				16F48AB61FF48F8C001C8992 /* Release */,
+				16F48AB71FF48F8C001C8992 /* iOS7Static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16F48AB81FF48F8C001C8992 /* Build configuration list for PBXNativeTarget "GameLive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16F48AB91FF48F8C001C8992 /* Debug */,
+				16F48ABA1FF48F8C001C8992 /* iOS7StaticDebug */,
+				16F48ABB1FF48F8C001C8992 /* Release */,
+				16F48ABC1FF48F8C001C8992 /* iOS7Static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFAF4B5B1D2B6C7800560B00 /* Build configuration list for PBXNativeTarget "LiveDemo5iOS7" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFAF4B5C1D2B6C7800560B00 /* Debug */,
+				EFAF4B5D1D2B6C7800560B00 /* iOS7StaticDebug */,
+				EFAF4B5E1D2B6C7800560B00 /* Release */,
+				A7E8E05A1D41C07A00B3E60C /* iOS7Static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFF10EED1D1A297900ECE11E /* Build configuration list for PBXProject "LiveDemo3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFF10F0A1D1A297900ECE11E /* Debug */,
+				EFAF4B311D2B6C4C00560B00 /* iOS7StaticDebug */,
+				EFF10F0B1D1A297900ECE11E /* Release */,
+				A7E8E0581D41C07A00B3E60C /* iOS7Static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFF10F0C1D1A297900ECE11E /* Build configuration list for PBXNativeTarget "LiveDemo5" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFF10F0D1D1A297900ECE11E /* Debug */,
+				EFAF4B321D2B6C4C00560B00 /* iOS7StaticDebug */,
+				EFF10F0E1D1A297900ECE11E /* Release */,
+				A7E8E0591D41C07A00B3E60C /* iOS7Static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EFF10EEA1D1A297900ECE11E /* Project object */;
+}

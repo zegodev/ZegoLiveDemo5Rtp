@@ -1,0 +1,44 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "07D044F73722F0ED9629078E0EF8486258083DAC",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "573F1C1C8A7CCF3A6B2E60ED326CA8F0F200304C" : 9223372036854775807,
+    "574B0B2BC1AAC2A4917EB65A48DC4F6299EAF9B4" : 9223372036854775807,
+    "07D044F73722F0ED9629078E0EF8486258083DAC" : 9223372036854775807,
+    "60721AAB7B133BBFC3960E0BA20DFF24155B70C2" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "271843A6-FBA6-415A-AA88-8A51FE1101EB",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "573F1C1C8A7CCF3A6B2E60ED326CA8F0F200304C" : "zegoliveroom\/",
+    "574B0B2BC1AAC2A4917EB65A48DC4F6299EAF9B4" : "chatroom\/",
+    "07D044F73722F0ED9629078E0EF8486258083DAC" : "zegolivedemo\/",
+    "60721AAB7B133BBFC3960E0BA20DFF24155B70C2" : "ZegoRoom\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "LiveDemo3",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "projects\/apple\/LiveDemo3\/LiveDemo3.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "gl.zego.im:xu\/zegolivedemo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "07D044F73722F0ED9629078E0EF8486258083DAC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "gl.zego.im:randyqiu\/zegoliveroom.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "573F1C1C8A7CCF3A6B2E60ED326CA8F0F200304C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "192.168.1.8:randyqiu\/chatroom.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "574B0B2BC1AAC2A4917EB65A48DC4F6299EAF9B4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "gl.zego.im:xu\/ZegoRoom.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "60721AAB7B133BBFC3960E0BA20DFF24155B70C2"
+    }
+  ]
+}

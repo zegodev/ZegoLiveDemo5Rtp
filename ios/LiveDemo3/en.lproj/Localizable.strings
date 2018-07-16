@@ -1,0 +1,195 @@
+/*
+ Localizable.strings
+ LiveDemo3
+ 
+ Created by Strong on 16/7/13.
+ Copyright © 2016年 ZEGO. All rights reserved.
+ */
+
+"Refresh" = "Refresh";
+"Empty Title" = "[Empty Title]";
+"%lu人正在连麦" = "%lu Broadcasters";
+"Log Uploaded" = "Log Uploaded";
+"Login Channel" = "Login Channel";
+"登录channel失败, error:%d" = "Login Channel Failed, error:%d";
+"登录channel成功" = "Login Channel Succeed";
+"开始直播，流ID:%@" = "Start Broadcasting, Stream ID:%@";
+"停止直播" = "Stop";
+"发布直播成功,流ID:%@" = "Publish Succeed, Stream ID:%@";
+"开始直播" = "Live";
+"直播结束,流ID:%@" = "Live Stoped, Stream ID:%@";
+"直播结束,流ID：%@, error:%d" = "Live Stoped, Stream ID:%@, error:%d";
+"开始登录房间" = "Login Room";
+"创建流" = "Create a Stream";
+"登录房间成功. roomID: %@" = "Login Room Succeed. roomID: %@";
+"登录房间失败. error: %d" = "Login Room Failed. error: %d";
+"连接失败, error: %d" = "Disconnect, error: %d";
+"退出房间, error: %d" = "Leave the Room, error: %d";
+"创建流成功, streamID:%@" = "Create Stream Succeed, streamID:%@";
+"创建流失败" = "Create Stream Failed";
+"有用户请求连麦" = "Someone is Requesting Broadcast";
+"新增一条流, 流ID:%@" = "Stream Added, Stream ID:%@";
+"删除一条流, 流ID:%@" = "Stream Removed, Stream ID:%@";
+"流列表有变化，但是流列表为空！" = "Stream Updated List is Empty!";
+"播放流成功, 流ID:%@" = "Play Succeed, Stream ID:%@";
+"播放流失败, 流ID:%@,  error:%d" = "Play Failed, Stream ID:%@,  error:%d";
+"推流" = "Publish";
+"拉流" = "Play";
+"[%@] 帧率: %.3f, 视频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%"= "[%@] fps: %.3f, bitrate: %.3f kb/s, rtt: %d ms, package loss: %.3f%%";
+"[%@] 流ID: %@, 帧率: %.3f, 视频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%" = "[%@] Stream ID: %@, fps: %.3f, bitrate: %.3f kb/s, rtt: %d ms, package loss: %.3f%%";
+"第一帧画面, 流ID:%@" = "Obtained the first frame, Stream ID: %@";
+
+"无美颜" = "DEFAULT";
+"磨皮" = "POLISH";
+"全屏美白" = "WHITEN";
+"磨皮＋全屏美白" = "POLISH & WHITEN";
+"磨皮+皮肤美白" = "POLISH & SKINWHITEN";
+"无滤镜" = "DEFAULT";
+"简洁" = "LOMO";
+"黑白" = "BLACKWHITE";
+"老化" = "OLDSTYLE";
+"哥特" = "GOTHIC";
+"锐色" = "SHARPCOLOR";
+"淡雅" = "FADE";
+"酒红" = "WINE";
+"青柠" = "LIME";
+"浪漫" = "ROMANTIC";
+"光晕" = "HALO";
+"蓝调" = "BLUE";
+"梦幻" = "ILLUSION";
+"夜色" = "DARK";
+"设置" = "ADVANCED";
+"美颜" = "BEAUTY";
+"滤镜" = "FILTER";
+"前置摄像头" = "Front Camera";
+"麦克风" = "Microphone";
+"手电筒" = "Flashlight";
+"启用摄像头" = "Camera";
+"静音" = "Mute";
+"混音" = "Background Music";
+"预览切换镜像" = "Preview Mirror Switch";
+"采集镜像" = "Capture Mirror";
+"采集监听" = "采集监听";
+"虚拟立体声" = "Virtual Stereo";
+"混响" = "Reverb";
+
+"开始登录channel, channel:%@" = "Login Channel, Channel:%@";
+"开始获取直播流列表" = "Get Live Stream List";
+"发布直播失败, 流ID:%@" = "Publish Failed, Stream ID:%@";
+"发布直播结束, 流ID:%@" = "Live Stopped, Stream ID:%@";
+"请求连麦" = "Join";
+"流列表有更新, 此时还未登录channel" = "Stream List Updated, but not Login Channel";
+"开始发布直播" = "Start Broadcasting";
+"有主播拒绝请求连麦" = "One of the Anchor Refused";
+"有主播同意了你的请求" = "One of the Anchor Agreed";
+
+"%@ 请求直播，是否允许" = "%@ is Requesting Broadcast";
+"拒绝" = "NO";
+"允许" = "YES";
+"%@ 不允许连麦" = "%@ Disagreed";
+
+"超低质量" = "Lowest";
+"低质量" = "Low";
+"标准质量" = "Standard";
+"高质量" = "High";
+"超高质量" = "VeryHigh";
+"极高质量" = "SuperHigh";
+"自定义" = "Customize";
+
+"加载中" = "Loading...";
+"主播已退出" = "No Live Stream";
+"继续播放之前的流, 流ID:%@" = "Play Live Stream, Stream ID:%@";
+"当前质量:" = " ";
+"优" = "Excellent";
+"良" = "Good";
+"中" = "Medium";
+"差" = "Bad";
+"重新播放, 流ID:%@" = "Replay, Stream ID:%@";
+
+"Zego Only" = "Zego Only, Others Cannot Use this framework";
+"取消" = "Cancel";
+"需要访问相机" = "Camera Authorization";
+"需要访问麦克风" = "Microphone Authorization";
+"直播视频,访问相机" = "To broadcast, LiveDemo needs permission to access camera. Click the Settings Button,then toggle on the permissions swith for camera";
+"直播视频,访问麦克风" = "To broadcast, LiveDemo needs permission to access microphone. Click the settings Button, the toggle on the permissions swith for microphone";
+"设置权限" = "Setting";
+
+"没有安装QQ" = "You don't Install QQ";
+"联系我们" = "QQ:84328558\nWeChat:84328558";
+
+"进入全屏" = "FullScreen";
+"退出全屏" = "Exit";
+
+"混流结果: %d" = "Mix Result:%d";
+"混流rtmp: %@" = "Mix rtmp: %@";
+"混流hls: %@" = "Mix hls: %@";
+
+"请选择直播模式" = "Chose Live Type";
+"无连麦模式" = "Single Anchor";
+"连麦模式" = "More Anchor";
+"混流模式" = "Mix Stream";
+"狼人杀模式" = "Wolves Game";
+"低延迟" = "Low Delay";
+"低成本" = "Low Cost";
+"请选择狼人杀模式" = "Chose Wolves Game";
+
+"播放混流" = "Mix Stream";
+"播放单流" = "Normal Stream";
+
+"开始说话" = "Start Talking";
+"说话结束" = "Stop Talking";
+"角色:%lu" = "Role:%lu";
+"正在系统同步..." = "Updating System...";
+"推流中止" = "Stop Talking";
+"当前模式:自由说话" = "Mode:Free Speaking";
+"当前模式:轮流说话" = "Mode:In-Turn Speaking";
+"所有玩家都退出了" = "All Players are logout";
+"开始登录房间" = "Start Login";
+"登录房间成功" = "Login Succeed";
+"登录房间失败" = "Login Failed";
+"下一个说话: %@" = "Next Speaker: %@";
+"系统同步成功" = "Update System Succeed";
+"系统同步失败" = "Update System Failed";
+"等待主持人响应" = "Waiting Host Respond";
+"当前模式:轮流说话(正在游戏,等待下一局)" = "Mode:In-Turn Speaking(Waiting Next Game)";
+
+"指定ID拉/推流" = "Pull/Push stream with specified IDs";
+"指定ID拉流" = "Pull stream with specified IDs";
+"输入Room ID，不可为空" = "Room ID required";
+"输入Stream ID，不可为空" = "Stream ID required";
+"确定" = "Confirm";
+"取消" = "Cancel";
+"请选择推流模式" = "Choose push mode";
+"指定ID推流" = "Push stream with specified IDs";
+"输入直播标题" = "Live title required";
+"指定ID推流测试" = "Test with specified IDs";
+
+"正在说话" = "Talking";
+
+"自定义" = "Custom";
+"国内版" = "Chinese";
+"国际版" = "International";
+"请重新输入！" = "Please Input Again!";
+"该字段不可为空" = "Input Should Not Be Empty";
+"请输入 AppID" = "Input AppID";
+"请输入 AppSign" = "Input AppSign";
+"AppSign 已设置" = "AppSign's Been Configured";
+"Demo已添加，无需设置" = "AppSign's Been Configured";
+
+"无法发送邮件" = "Can Not Send Mail";
+"请先在手机的 [设置>邮件] 中添加可使用账户并开启邮件服务!" = "Please configure device for sending mail first";
+"日志文件压缩失败" = "Log File Zip Failed";
+"日志邮件发送成功" = "Mail Sent Succeeded";
+"日志邮件发送失败" = "Mail Sent Failed";
+"请稍后重试" = "Please retry it later";
+
+"登录房间失败. error: %d" = "Login room failed. error: %d";
+"登录成功后没有新增的流" = "Login room succeeded, No stream added";
+"登录成功后没有删除的流" = "Login room succeeded, No Stream deleted";
+"登录成功后新增流. 流ID: %@" = "Login room succeeded, Add Stream. Stream ID: %@";
+"登录成功后删除流. 流ID: %@" = "Login room succeeded, Delete Stream. Stream ID: %@";
+"直播观看秒开. 流ID: %@" = "Play stream upon entering room. Stream ID: %@";
+
+"分享日志文件失败" = "Share log file failed!";
+"压缩日志文件失败，请稍后重试" = "Zip log file failed, please retry it later";
+
