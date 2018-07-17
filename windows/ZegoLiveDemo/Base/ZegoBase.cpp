@@ -6,14 +6,13 @@
 #include "zego-api-external-audio-device.h"
 
 /**
- * Please contact ZEGO support to get the AppID and signKey
- * 请开发者联系 ZEGO support 获取 APPID 与 signKey
+ * 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
+ * Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
+ * AppID 填写样式示例：1234567890
+ * signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 **/
-static unsigned long g_dwAppID_Udp = 10;
-static unsigned char g_bufSignKey_Udp[] =
-{
-	0x00
-};
+static unsigned long g_dwAppID_Udp = ;
+static unsigned char g_bufSignKey_Udp[] = ;
 
 static unsigned long g_dwAppID_International = 100;
 static unsigned char g_bufSignKey_International[] =
@@ -24,7 +23,7 @@ static unsigned char g_bufSignKey_International[] =
 static unsigned long  g_dwAppID_Custom = 0;
 static unsigned char g_bufSignKey_Custom[] =
 {
-	0x0
+	0x00
 };
 
 QZegoBase::QZegoBase(void) : m_dwInitedMask(INIT_NONE)

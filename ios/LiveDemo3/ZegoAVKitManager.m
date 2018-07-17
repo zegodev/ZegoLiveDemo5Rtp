@@ -465,8 +465,10 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     [ZegoLiveRoomApi setVideoFilterFactory:g_filterFactory];
 }
 
-#warning Please contact ZEGO support to get the AppID and signKey
-#warning 请开发者联系 ZEGO support 获取 APPID 与 signKey
+#warning 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
+#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
+#warning AppID 填写样式示例：1234567890
+#warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 + (uint32_t)appID
 {
     switch ([self appType]) {
@@ -483,7 +485,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
         }
             break;
         case ZegoAppTypeUDP:
-            return 10;  // UDP版
+            return ;  // UDP版
             break;
         case ZegoAppTypeI18N:
             return 100;  // 国际版
@@ -491,8 +493,10 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     }
 }
 
-#warning Please contact ZEGO support to get the AppID and signKey
-#warning 请开发者联系 ZEGO support 获取 APPID 与 signKey
+#warning 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
+#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
+#warning AppID 填写样式示例：1234567890
+#warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 + (NSData *)zegoAppSignFromServer
 {
     //!! 规范用法：signKey 需要从 server 下发到 App，避免在 App 中存储，防止盗用
@@ -501,7 +505,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     
     if (type == ZegoAppTypeUDP)
     {
-        Byte signkey[] = {0x00};
+        Byte signkey[] = ;
         return [NSData dataWithBytes:signkey length:32];
     }
     else if (type == ZegoAppTypeI18N)

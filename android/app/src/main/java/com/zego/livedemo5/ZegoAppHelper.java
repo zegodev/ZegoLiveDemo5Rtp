@@ -11,18 +11,23 @@ import android.os.HandlerThread;
 
 public class ZegoAppHelper {
     /**
-     * Please contact ZEGO support to get the AppID and signKey
-     * 请开发者联系 ZEGO support 获取 APPID 与 signKey
+     * 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
+     * Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
+     * AppID 填写样式示例：1234567890L
+     * signKey 填写样式示例：new byte[] { (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x05, (byte) 0x06, (byte) 0x07,
+            (byte) 0x08, (byte) 0x09,  (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x05, (byte) 0x06, (byte) 0x07,
+            (byte) 0x08, (byte) 0x09, (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x05, (byte) 0x06, (byte) 0x07,
+            (byte) 0x08, (byte) 0x09,  (byte) 0x00, (byte) 0x01};
     **/
     static final public long RTMP_APP_ID = 0L;
 
-    static final public long UDP_APP_ID =  10L;
+    static final public long UDP_APP_ID =  ;
 
     static final public long INTERNATIONAL_APP_ID = 100L;
 
     static final private byte[] RTMP_SIGN_KEY = new byte[] { (byte)0x00 };
 
-    static final private byte[] UDP_SIGN_KEY = new byte[] { (byte)0x00 };
+    static final private byte[] UDP_SIGN_KEY = ;
 
     static final private byte[] INTERNATIONAL_SIGN_KEY = new byte[] { (byte)0x00 };
 
@@ -96,7 +101,7 @@ public class ZegoAppHelper {
         Resources resources = context.getResources();
         if (appId == 0L) {  // RTMP
             appTitle = resources.getString(R.string.app_title, "RTMP");
-        } else if (appId == 10L) {   // UDP
+        } else if (appId == ) {   // UDP 模式下的 AppID
             appTitle = resources.getString(R.string.app_title, "UDP");
         } else if (appId == 100L) {   // International
             appTitle = resources.getString(R.string.app_title, "Int'l");
