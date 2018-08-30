@@ -229,6 +229,7 @@
     
     bool ret = [[ZegoDemoHelper api] startPlayingStream:streamID inView:bigView];
     [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFill ofStream:streamID];
+    [[ZegoDemoHelper api] setViewRotation:0 ofStream:streamID];
     
     assert(ret);
 }
@@ -1083,6 +1084,7 @@
         [self addLogString:logString];
         
         [self setAnchorConfig:publishView];
+//        [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
         [[ZegoDemoHelper api] startPublishing:streamID title:self.publishTitle flag:ZEGO_JOIN_PUBLISH];
     }
     else

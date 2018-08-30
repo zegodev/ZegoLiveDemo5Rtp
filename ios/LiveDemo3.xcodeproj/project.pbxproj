@@ -10,6 +10,8 @@
 		162CB30B1F74AE2A0080185B /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF10F181D1A2B3700ECE11E /* VideoToolbox.framework */; };
 		163FEDF01F32D77F00FA86E6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 163FEDEE1F32D65F00FA86E6 /* MessageUI.framework */; };
 		163FEE311F32F9ED00FA86E6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EF32D6FF1D659B7200A764FC /* libz.tbd */; };
+		164C75A3211853A60012FB01 /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164C75A1211853A60012FB01 /* PgySDK.framework */; };
+		164C75A4211853A60012FB01 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164C75A2211853A60012FB01 /* PgyUpdate.framework */; };
 		16756FC51F57FA47003252AB /* ZegoShareLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */; };
 		16756FC91F58FA90003252AB /* ZegoShareLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */; };
 		16756FCE1F58FC83003252AB /* ZegoTestPullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E24E101EB1D0290055F7A4 /* ZegoTestPullViewController.m */; };
@@ -224,6 +226,8 @@
 
 /* Begin PBXFileReference section */
 		163FEDEE1F32D65F00FA86E6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		164C75A1211853A60012FB01 /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgySDK.framework; sourceTree = "<group>"; };
+		164C75A2211853A60012FB01 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgyUpdate.framework; sourceTree = "<group>"; };
 		16756FC31F57FA47003252AB /* ZegoShareLogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoShareLogViewController.h; sourceTree = "<group>"; };
 		16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoShareLogViewController.m; sourceTree = "<group>"; };
 		16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSZipArchive.framework; sourceTree = "<group>"; };
@@ -448,8 +452,10 @@
 				EF9F415D1F3B01C9003F7C0F /* SafariServices.framework in Frameworks */,
 				163FEE311F32F9ED00FA86E6 /* libz.tbd in Frameworks */,
 				163FEDF01F32D77F00FA86E6 /* MessageUI.framework in Frameworks */,
+				164C75A3211853A60012FB01 /* PgySDK.framework in Frameworks */,
 				EF32D7071D659C6A00A764FC /* CoreGraphics.framework in Frameworks */,
 				A745D7441E4B322E009A4265 /* ZegoLiveRoom.framework in Frameworks */,
+				164C75A4211853A60012FB01 /* PgyUpdate.framework in Frameworks */,
 				16CD53C81F3C33A5003D43B3 /* SSZipArchive.framework in Frameworks */,
 				EF32D7051D659C6000A764FC /* SystemConfiguration.framework in Frameworks */,
 				EF32D7031D659C5400A764FC /* Security.framework in Frameworks */,
@@ -536,6 +542,8 @@
 		EF32D6F31D6599B700A764FC /* thirdLib */ = {
 			isa = PBXGroup;
 			children = (
+				164C75A1211853A60012FB01 /* PgySDK.framework */,
+				164C75A2211853A60012FB01 /* PgyUpdate.framework */,
 				16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */,
 				4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */,
 				EF32D6F41D6599B700A764FC /* TencentOpenAPI.framework */,

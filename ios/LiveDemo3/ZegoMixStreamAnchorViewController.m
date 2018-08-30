@@ -150,7 +150,7 @@
     }
     
     self.viewContainersDict[self.streamID] = self.publishView;
-    
+//    [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
     // 发起推流
     bool b = [[ZegoDemoHelper api] startPublishing:self.streamID
                                              title:self.liveTitle
@@ -747,6 +747,15 @@
 - (void)onTapViewPoint:(CGPoint)point
 {
     CGPoint containerPoint = [self.view.window convertPoint:point toView:self.playViewContainer];
+    
+    // 横屏时切换坐标，区分方向
+    if (self.orientation == UIInterfaceOrientationLandscapeLeft) {
+        containerPoint = CGPointMake(self.playViewContainer.frame.size.width - containerPoint.y, containerPoint.x);
+    }
+    
+    if (self.orientation == UIInterfaceOrientationLandscapeRight) {
+        containerPoint = CGPointMake(containerPoint.y, self.playViewContainer.frame.size.height - containerPoint.x);
+    }
     
     for (UIView *view in self.playViewContainer.subviews)
     {

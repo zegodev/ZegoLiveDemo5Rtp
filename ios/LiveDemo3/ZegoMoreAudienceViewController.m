@@ -83,7 +83,7 @@ static id selfObject;
     UIImage *backgroundImage = [[ZegoSettings sharedInstance] getBackgroundImage:self.view.bounds.size withText:NSLocalizedString(@"加载中", nil)];
     [self setBackgroundImage:backgroundImage playerView:self.playViewContainer];
     
-    [self setButtonHidden:YES];
+//    [self setButtonHidden:YES];
     
     self.publishButton.enabled = NO;
     self.optionButton.enabled = NO;
@@ -438,7 +438,7 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
         
         //开启双声道直播
         [[ZegoDemoHelper api] setAudioChannelCount:2];
-        
+//        [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
         [[ZegoDemoHelper api] startPublishing:streamID title:self.publishTitle flag:ZEGO_JOIN_PUBLISH];
     }
     else
@@ -522,12 +522,12 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
     NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"第一帧画面, 流ID:%@", nil), streamID];
     [self addLogString:logString];
     
-    if (self.optionButton.alpha == 0)
-    {
-        [self setButtonHidden:NO];
-        [self setBackgroundImage:nil playerView:self.playViewContainer];
-    }
-    
+//    if (self.optionButton.alpha == 0)
+//    {
+//        [self setButtonHidden:NO];
+//        [self setBackgroundImage:nil playerView:self.playViewContainer];
+//    }
+
     UIView *view = self.viewContainersDict[streamID];
     if (view)
         [self setBackgroundImage:nil playerView:view];
@@ -667,7 +667,6 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
         {
             NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"主播已退出：%@", nil), state.userName];
             [self addLogString:logString];
-            
             [self showNoAnchorAlert];
             break;
         }
@@ -812,6 +811,7 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
     self.viewContainersDict[streamID] = bigView;
     bool ret = [[ZegoDemoHelper api] startPlayingStream:streamID inView:bigView];
     [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
+    [[ZegoDemoHelper api] setViewRotation:0 ofStream:streamID];
     assert(ret);
 }
 

@@ -15,6 +15,8 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <Bugly/Bugly.h>
+#import <PgySDK/PgyManager.h>
+#import <PgyUpdate/PgyUpdateManager.h>
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -35,7 +37,12 @@
     return YES;
 }
 
--(void) setupBugly{
+- (void)setupPGY {
+    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:@"ece7d4b4aa4f646e909972e823dfa82d"];   // 请将 PGY_APP_ID 换成应用的 App Key
+    [[PgyUpdateManager sharedPgyManager] checkUpdate];
+}
+
+-(void)setupBugly {
     // Get the default config
     BuglyConfig * config = [[BuglyConfig alloc] init];
     

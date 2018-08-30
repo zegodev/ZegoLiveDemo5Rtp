@@ -101,6 +101,7 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
         if (g_appType == ZegoAppTypeUDP || g_appType == ZegoAppTypeI18N) {
             [g_ZegoApi enableTrafficControl:YES properties:ZEGOAPI_TRAFFIC_FPS | ZEGOAPI_TRAFFIC_RESOLUTION];
         }
+
     }
     
     return g_ZegoApi;
@@ -499,6 +500,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 #warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 + (NSData *)zegoAppSignFromServer
 {
+    //!! Demo 暂时把 signKey 硬编码到代码中，该用法不规范
     //!! 规范用法：signKey 需要从 server 下发到 App，避免在 App 中存储，防止盗用
 
     ZegoAppType type = [self appType];

@@ -133,6 +133,7 @@
     //开启双声道直播
     [[ZegoDemoHelper api] setAudioChannelCount:2];
     
+    [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_NORMAL];
     bool b = [[ZegoDemoHelper api] startPublishing:self.streamID title:self.liveTitle flag:ZEGOAPI_SINGLE_ANCHOR];
     if (b)
     {

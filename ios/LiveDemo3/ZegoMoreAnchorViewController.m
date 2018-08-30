@@ -141,6 +141,7 @@
     //开启双声道直播
     [[ZegoDemoHelper api] setAudioChannelCount:2];
     
+//    [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
     bool b = [[ZegoDemoHelper api] startPublishing:self.streamID title:self.liveTitle flag:ZEGO_JOIN_PUBLISH];
     if (b)
     {
@@ -445,7 +446,7 @@
     UIView *playView = [self createPlayView:streamID];
     
     [[ZegoDemoHelper api] startPlayingStream:streamID inView:playView];
-    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFill ofStream:streamID];
+    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
 }
 
 - (UIView *)createPlayView:(NSString *)streamID
@@ -612,8 +613,21 @@
 {
     CGPoint containerPoint = [self.view.window convertPoint:point toView:self.playViewContainer];
     
+    // 横屏时切换坐标，区分方向
+    if (self.orientation == UIInterfaceOrientationLandscapeLeft) {
+        containerPoint = CGPointMake(self.playViewContainer.frame.size.width - containerPoint.y, containerPoint.x);
+    }
+    
+    if (self.orientation == UIInterfaceOrientationLandscapeRight) {
+        containerPoint = CGPointMake(containerPoint.y, self.playViewContainer.frame.size.height - containerPoint.x);
+    }
+    
     for (UIView *view in self.playViewContainer.subviews)
     {
+//        NSLog(@"playViewContainer: %@, view frame: (%f, %f, %f, %f)", self.playViewContainer, self.playViewContainer.frame.origin.x, self.playViewContainer.frame.origin.y, self.playViewContainer.frame.size.width, view.frame.size.height);
+//        NSLog(@"subview: %@, view frame: (%f, %f, %f, %f)", view, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
+//        NSLog(@"containerPoint: (%f, %f)", containerPoint.x, containerPoint.y);
+        
         if (CGRectContainsPoint(view.frame, containerPoint) &&
             !CGSizeEqualToSize(self.playViewContainer.bounds.size, view.frame.size))
         {

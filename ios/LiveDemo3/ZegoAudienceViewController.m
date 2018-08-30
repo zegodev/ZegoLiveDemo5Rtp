@@ -372,6 +372,7 @@
     self.viewContainersDict[streamID] = bigView;
     bool ret = [[ZegoDemoHelper api] startPlayingStream:streamID inView:bigView];
     [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
+    [[ZegoDemoHelper api] setViewRotation:0 ofStream:streamID];
     
     assert(ret);
 }
