@@ -21,8 +21,8 @@ ZegoBaseDialog::ZegoBaseDialog(RoomPtr room, ZegoDeviceManager *device, QStringL
 	:
 	m_pChatRoom(room),
 	m_device(device),
-	m_cbMircoPhoneModel(micModel),
-	m_cbCameraModel(cameraModel),
+	//m_cbMircoPhoneModel(micModel),
+	//m_cbCameraModel(cameraModel),
 	m_bCKEnableMic(true),
 	m_bCKEnableSpeaker(true),
 	m_isPublish2StreamMode(isPublish2Stream),
@@ -39,8 +39,7 @@ ZegoBaseDialog::ZegoBaseDialog(RoomPtr room, ZegoDeviceManager *device, QStringL
 	//通过sdk的信号连接到本类的槽函数中
 	connect(GetAVSignal(), &QZegoAVSignal::sigDisconnect, this, &ZegoBaseDialog::OnDisconnect);
 	connect(GetAVSignal(), &QZegoAVSignal::sigKickOut, this, &ZegoBaseDialog::OnKickOut);
-	connect(GetAVSignal(), &QZegoAVSignal::sigPublishQualityUpdate, this, &ZegoBaseDialog::OnPublishQualityUpdate);
-	connect(GetAVSignal(), &QZegoAVSignal::sigPlayQualityUpdate, this, &ZegoBaseDialog::OnPlayQualityUpdate);
+	
 	connect(GetAVSignal(), &QZegoAVSignal::sigSendRoomMessage, this, &ZegoBaseDialog::OnSendRoomMessage);
 	connect(GetAVSignal(), &QZegoAVSignal::sigRecvRoomMessage, this, &ZegoBaseDialog::OnRecvRoomMessage);
 	connect(GetAVSignal(), &QZegoAVSignal::sigUserUpdate, this, &ZegoBaseDialog::OnUserUpdate);
@@ -48,7 +47,7 @@ ZegoBaseDialog::ZegoBaseDialog(RoomPtr room, ZegoDeviceManager *device, QStringL
 	connect(m_device, &ZegoDeviceManager::sigDeviceDeleted, this, &ZegoBaseDialog::OnDeviceDeleted);
 	//信号与槽同步执行
 	connect(GetAVSignal(), &QZegoAVSignal::sigAuxInput, this, &ZegoBaseDialog::OnAVAuxInput, Qt::DirectConnection);
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 	connect(GetAVSignal(), &QZegoAVSignal::sigSurfaceMergeResult, this, &ZegoBaseDialog::OnSurfaceMergeResult, Qt::DirectConnection);
 #endif
 	connect(GetAVSignal(), &QZegoAVSignal::sigPreviewSnapshot, this, &ZegoBaseDialog::OnPreviewSnapshot, Qt::DirectConnection);
@@ -67,17 +66,17 @@ ZegoBaseDialog::ZegoBaseDialog(RoomPtr room, ZegoDeviceManager *device, QStringL
 	connect(ui.m_bShare, &QPushButton::clicked, this, &ZegoBaseDialog::OnShareLink);
 	connect(ui.m_bAux, &QPushButton::clicked, this, &ZegoBaseDialog::OnButtonAux);
 	connect(ui.m_bFullScreen, &QPushButton::clicked, this, &ZegoBaseDialog::OnButtonShowFullScreen);
-	//connect(ui.m_cbMircoPhone, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchAudioDevice(int)));
-	//connect(ui.m_cbCamera, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice(int)));
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) 
+#ifdef USE_EXTERNAL_SDK
 	connect(&hookDialog, &ZegoMusicHookDialog::sigUseDefaultAux, this, &ZegoBaseDialog::OnUseDefaultAux);
 	connect(&hookDialog, &ZegoMusicHookDialog::sigSendMusicAppPath, this, &ZegoBaseDialog::OnGetMusicAppPath);
 #endif
 	connect(this, &ZegoBaseDialog::sigShowSnapShotImage, this, &ZegoBaseDialog::OnShowSnapShotImage);
 
-	timer = new QTimer(this);
-	connect(timer, &QTimer::timeout, this, &ZegoBaseDialog::OnProgChange);
+	connect(m_device, &ZegoDeviceManager::sigMicCaptureSoundLevelUpdate, this, &ZegoBaseDialog::OnProgChange);
+
+	m_cbMircoPhoneModel = micModel;
+	m_cbCameraModel = cameraModel;
 
 	//混音数据参数
 	m_pAuxData = NULL;
@@ -93,21 +92,31 @@ ZegoBaseDialog::ZegoBaseDialog(RoomPtr room, ZegoDeviceManager *device, QStringL
 
 	//初始化网格布局
 	gridLayout = new QGridLayout();
+
+	m_pHelper = new FramelessHelper;
+	m_pHelper->activateOn(this);
+	m_pHelper->setTitleHeight(40);
+	m_pHelper->setTitleDoubleClick(this, true);
+	m_pHelper->setWidgetMovable(true);
 }
 
 ZegoBaseDialog::~ZegoBaseDialog()
 {
+	m_device->StopMicCaptureMonitor();
+	disconnect(m_device, &ZegoDeviceManager::sigMicCaptureSoundLevelUpdate, this, &ZegoBaseDialog::OnProgChange);
 
+	delete m_pHelper;
+	m_pHelper = nullptr;
 }
 
 //功能函数
 void ZegoBaseDialog::initDialog()
 {
-	//在mac系统下不支持声卡采集
-#ifdef Q_OS_MAC
+#ifdef Q_OS_WIN
+#ifdef _WIN32_WINNT 0x0501
 	ui.m_bCapture->setVisible(false);
 #endif
-
+#endif
 	initButtonIcon();
 	initComboBox();
 
@@ -136,6 +145,8 @@ void ZegoBaseDialog::initDialog()
 	SetOperation(false);
 
 	GetDeviceList();
+
+	m_device->StartMicCaptureMonitor();
 
 	int role;
 	if (m_isPublisher)
@@ -170,6 +181,7 @@ void ZegoBaseDialog::initComboBox()
 	m_cbMircoPhoneListView = new QListView(this);
 	ui.m_cbMircoPhone->setView(m_cbMircoPhoneListView);
 	ui.m_cbMircoPhone->setModel(m_cbMircoPhoneModel);
+	ui.m_cbMircoPhone->update();
 	ui.m_cbMircoPhone->setItemDelegate(new NoFocusFrameDelegate(this));
 
 	m_cbCameraModel->setStringList(m_CameraList);
@@ -177,6 +189,7 @@ void ZegoBaseDialog::initComboBox()
 	m_cbCameraListView = new QListView(this);
 	ui.m_cbCamera->setView(m_cbCameraListView);
 	ui.m_cbCamera->setModel(m_cbCameraModel);
+	ui.m_cbCamera->update();
 	ui.m_cbCamera->setItemDelegate(new NoFocusFrameDelegate(this));
 
 	initCameraListView2();
@@ -228,7 +241,13 @@ void ZegoBaseDialog::GetDeviceList()
 	QString cameraId_aux = m_device->GetVideoDeviceId2();
 
 	LIVEROOM::SetAudioDevice(AV::AudioDeviceType::AudioDevice_Input, qtoc(microphoneId));
-	
+	LIVEROOM::SetVideoDevice(qtoc(cameraId));
+	LIVEROOM::SetVideoDevice(qtoc(cameraId_aux), AV::PUBLISH_CHN_AUX);
+
+	ui.m_bProgMircoPhone->setMyEnabled(m_device->GetMicEnabled());
+	ui.m_bProgMircoPhone->setChecked(m_device->GetMicEnabled());
+	ui.m_bSound->setChecked(m_device->GetSpeakerEnabled());
+	ui.m_bCamera->setChecked(m_device->GetCameraEnabled());
 }
 
 void ZegoBaseDialog::insertStringListModelItem(QStringListModel * model, QString name, int size)
@@ -276,18 +295,14 @@ void ZegoBaseDialog::removeStringListModelItemByIndex(QStringListModel * model, 
 
 void ZegoBaseDialog::SetOperation(bool state)
 {
-	ui.m_cbMircoPhone->setEnabled(state);
-	ui.m_cbCamera->setEnabled(state);
-	ui.m_lbMircoPhone->setEnabled(state);
-	ui.m_lbCamera->setEnabled(state);
+	//ui.m_cbMircoPhone->setEnabled(state);
+	//ui.m_cbCamera->setEnabled(state);
+	//ui.m_lbMircoPhone->setEnabled(state);
+	//ui.m_lbCamera->setEnabled(state);
 
-	ui.m_bAux->setEnabled(state);
-	ui.m_bCapture->setEnabled(state);
+	//ui.m_bAux->setEnabled(state);
+	//ui.m_bCapture->setEnabled(state);
 	ui.m_bShare->setEnabled(state);
-	//ui.m_bProgMircoPhone->setEnabled(state);
-	//ui.m_bProgMircoPhone->setMyEnabled(state);
-	//ui.m_bCamera->setEnabled(state);
-	//ui.m_bProgMircoPhone->update();
 
 }
 
@@ -527,16 +542,14 @@ void ZegoBaseDialog::BeginAux()
 			m_pAuxData = new unsigned char[m_nAuxDataLen];
 			memset(m_pAuxData, 0, m_nAuxDataLen);
 		}
-
-		fseek(fAux, 0, 0);
+		rewind(fAux);
 
 		int nReadDataLen = fread(m_pAuxData, sizeof(unsigned char), m_nAuxDataLen, fAux);
 
+		fseek(fAux, 0, 0);
 		fclose(fAux);
 
 		LIVEROOM::EnableAux(true);
-
-		ui.m_bAux->setText(tr("关闭混音"));
 	}
 }
 
@@ -569,7 +582,7 @@ void ZegoBaseDialog::setWaterPrint()
 	}
 #else
 	waterPrintPath += "/ZegoLiveDemo.app/Contents/Resources/";
-	if (m_dpi < 2.0)
+	if (this->devicePixelRatio() < 2.0)
 	{
 		waterPrintPath += "waterprint.png";
 	}
@@ -607,7 +620,7 @@ int ZegoBaseDialog::getCameraIndexFromID(const QString& cameraID)
 void ZegoBaseDialog::GetOut()
 {
 	//离开房间时先把混音功能和声卡采集关闭
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+#ifdef USE_EXTERNAL_SDK
 	if (isUseDefaultAux)
 		EndAux();
 	else
@@ -622,17 +635,11 @@ void ZegoBaseDialog::GetOut()
 #endif
 
 	if (ui.m_bCapture->text() == tr("停止采集"))
-#ifdef Q_OS_WIN
 		LIVEROOM::EnableMixSystemPlayout(false);
-#endif
-	
+
 	roomMemberDelete(m_strCurUserName);
 	LIVEROOM::LogoutRoom();
-	if (timer->isActive())
-	{
-		timer->stop();
-		timer->deleteLater();
-	}
+
 	//释放堆内存
 	delete m_cbMircoPhoneListView;
 	delete m_cbCameraListView;
@@ -700,7 +707,7 @@ void ZegoBaseDialog::OnKickOut(int reason, const QString& roomId)
 	}
 }
 
-void ZegoBaseDialog::OnPlayQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS)
+/*void ZegoBaseDialog::OnPlayQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS)
 {
 	StreamPtr pStream = m_pChatRoom->getStreamById(streamId);
 
@@ -716,7 +723,7 @@ void ZegoBaseDialog::OnPlayQualityUpdate(const QString& streamId, int quality, d
 
 }
 
-void ZegoBaseDialog::OnPublishQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS)
+void ZegoBaseDialog::OnPublishQualityUpdate(const QString& streamId, int quality, double capFPS, double videoFPS, double videoKBS, double audioKBS, int rtt, int pktLostRate)
 {
 	StreamPtr pStream = m_pChatRoom->getStreamById(streamId);
 
@@ -729,25 +736,23 @@ void ZegoBaseDialog::OnPublishQualityUpdate(const QString& streamId, int quality
 		return;
 
 	AVViews[nIndex]->setCurrentQuality(quality);
-
-}
+}*/
 
 void ZegoBaseDialog::OnAVAuxInput(unsigned char *pData, int *pDataLen, int pDataLenValue, int *pSampleRate, int *pNumChannels)
 {
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+#ifdef USE_EXTERNAL_SDK
 	if (isUseDefaultAux)
 	{
 		if (m_pAuxData != nullptr && (*pDataLen < m_nAuxDataLen))
 		{
 			*pSampleRate = 44100;
 			*pNumChannels = 2;
-            //长度 = 采样率 * 20 / 1000 * 位深字节数 * 通道数 位深字节数固定为2
-            //计算公式 length = 44100 * 20 / 1000 * 2 * 2 = 3528
-            *pDataLen = (*pSampleRate)* 20 / 1000 * 2 * (*pNumChannels);
+            
 			if (m_nAuxDataPos + *pDataLen > m_nAuxDataLen)
 			{
 				m_nAuxDataPos = 0;
 			}
+			//按照SDK指定的帧长度进行拷贝
             int nCopyLen = *pDataLen;
 			memcpy(pData, m_pAuxData + m_nAuxDataPos, nCopyLen);
 
@@ -769,14 +774,12 @@ void ZegoBaseDialog::OnAVAuxInput(unsigned char *pData, int *pDataLen, int pData
 	{
 		*pSampleRate = 44100;
 		*pNumChannels = 2;
-        //长度 = 采样率 * 20 / 1000 * 位深字节数 * 通道数 位深字节数固定为2
-        //计算公式 length = 44100 * 20 / 1000 * 2 * 2 = 3528
-        *pDataLen = (*pSampleRate)* 20 / 1000 * 2 * (*pNumChannels);
+
 		if (m_nAuxDataPos + *pDataLen > m_nAuxDataLen)
 		{
 			m_nAuxDataPos = 0;
 		}
-
+		//按照SDK指定的帧长度进行拷贝
 		int nCopyLen = *pDataLen;
 		memcpy(pData, m_pAuxData + m_nAuxDataPos, nCopyLen);
 
@@ -1006,7 +1009,7 @@ void ZegoBaseDialog::OnDeviceDeleted(int device_type, int index)
 
 }
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 void ZegoBaseDialog::OnSurfaceMergeResult(unsigned char *surfaceMergeData, int datalength)
 {
 	if (m_takeSnapShot)
@@ -1147,19 +1150,18 @@ void ZegoBaseDialog::OnButtonMircoPhone()
 	{
 		m_bCKEnableMic = true;
 		ui.m_bProgMircoPhone->setMyEnabled(true);
-		timer->start(200);
+		
 	}
 	else
 	{
 		m_bCKEnableMic = false;
-		if (timer->isActive())
-			timer->stop();
+		
 		ui.m_bProgMircoPhone->setMyEnabled(false);
 		ui.m_bProgMircoPhone->update();
 	}
 
 	//使用麦克风
-	LIVEROOM::EnableMic(m_bCKEnableMic);
+	m_device->SetMicEnabled(m_bCKEnableMic);
 }
 
 void ZegoBaseDialog::OnButtonSound()
@@ -1178,13 +1180,13 @@ void ZegoBaseDialog::OnButtonSound()
 	}
 
 	//使用扬声器
-	LIVEROOM::EnableSpeaker(m_bCKEnableSpeaker);
+	m_device->SetSpeakerEnabled(m_bCKEnableSpeaker);
 
 }
 
 void ZegoBaseDialog::OnButtonCamera()
 {
-	if (ui.m_bCamera->isChecked())
+	/*if (ui.m_bCamera->isChecked())
 	{
 		LIVEROOM::EnableCamera(true);
 		LIVEROOM::StartPreview();
@@ -1204,12 +1206,23 @@ void ZegoBaseDialog::OnButtonCamera()
 			LIVEROOM::EnableCamera(false, AV::PUBLISH_CHN_AUX);
 		}
 		update();
+	}*/
+	bool isUseCameras;
+	if (ui.m_bCamera->isChecked())
+	{
+		isUseCameras = true;
 	}
+	else
+	{
+		isUseCameras = false;
+	}
+
+	m_device->SetCameraEnabled(isUseCameras);
 }
 
-void ZegoBaseDialog::OnProgChange()
+void ZegoBaseDialog::OnProgChange(float soundlevel)
 {
-	ui.m_bProgMircoPhone->setProgValue(LIVEROOM::GetCaptureSoundLevel());
+	ui.m_bProgMircoPhone->setProgValue(soundlevel);
 	ui.m_bProgMircoPhone->update();
 }
 
@@ -1274,7 +1287,7 @@ void ZegoBaseDialog::OnUseDefaultAux(bool state)
 	ui.m_bAux->setText(tr("关闭混音"));
 }
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+#ifdef USE_EXTERNAL_SDK
 void ZegoBaseDialog::OnGetMusicAppPath(QString exePath)
 {
 
@@ -1309,10 +1322,12 @@ void ZegoBaseDialog::OnButtonAux()
 {
 	if (ui.m_bAux->text() == tr("开启混音"))
 	{
+
 		ui.m_bAux->setText(tr("开启中..."));
 		ui.m_bAux->setEnabled(false);
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+#ifdef Q_OS_WIN
+	#ifdef USE_EXTERNAL_SDK
 
 		hookDialog.searchMusicAppFromReg();
 		if (hookDialog.exec() == QDialog::Rejected)
@@ -1320,23 +1335,26 @@ void ZegoBaseDialog::OnButtonAux()
 			ui.m_bAux->setEnabled(true);
 			ui.m_bAux->setText(tr("开启混音"));
 		}
+	#else
+		BeginAux();
+		isUseDefaultAux = true;
+		ui.m_bAux->setEnabled(true);
+		ui.m_bAux->setText(tr("关闭混音"));
+	#endif //USE_EXTERNAL_SDK
 
-#endif
-
-#ifdef Q_OS_MAC
+#elif Q_OS_MAC
 
 		BeginAux();
 		ui.m_bAux->setEnabled(true);
 		ui.m_bAux->setText(tr("关闭混音"));
 #endif
-
 	}
 	else
 	{
 		ui.m_bAux->setText(tr("关闭中..."));
 		ui.m_bAux->setEnabled(false);
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+#ifdef USE_EXTERNAL_SDK
 		if (isUseDefaultAux)
 		{
 			EndAux();
@@ -1386,6 +1404,7 @@ void ZegoBaseDialog::OnSwitchVideoDevice(int id)
 
 	if (id < m_vecVideoDevice.size())
 	{
+		int og_camera_index = m_device->GetVideoDeviceIndex();
 		QDeviceState state = m_device->SetCameraIdByIndex(id);
 		//若摄像头1需要选取的摄像头已被摄像头2选取，则交换摄像头
 		if (state == STATE_SWAP)
@@ -1398,11 +1417,10 @@ void ZegoBaseDialog::OnSwitchVideoDevice(int id)
 
 			m_pAVSettings->SetCameraId2(m_device->GetVideoDeviceId2());
 
-			int camera_index = m_device->GetVideoDeviceIndex();
-			if (camera_index < 0)
+			if (og_camera_index < 0)
 				return;
 
-			ui.m_cbCamera2->setCurrentIndexWithoutSignal(camera_index);
+			ui.m_cbCamera2->setCurrentIndexWithoutSignal(og_camera_index);
 
 			LIVEROOM::SetVideoDevice(qtoc(m_device->GetVideoDeviceId2()), ZEGO::AV::PUBLISH_CHN_AUX);
 		}
@@ -1410,7 +1428,6 @@ void ZegoBaseDialog::OnSwitchVideoDevice(int id)
 	    LIVEROOM::SetVideoDevice(qtoc(m_device->GetVideoDeviceId()));
 		m_pAVSettings->SetCameraId(qtoc(m_device->GetVideoDeviceId()));
 
-		ui.m_cbCamera->setCurrentIndexWithoutSignal(id);
 		update();
 
 		LIVEROOM::EnableCamera(true);
@@ -1434,6 +1451,7 @@ void ZegoBaseDialog::OnSwitchVideoDevice2(int id)
 
 	if (id < m_vecVideoDevice.size())
 	{
+		int og_camera_2_index = m_device->GetVideoDevice2Index();
 		QDeviceState state = m_device->SetCameraId2ByIndex(id);
 		//若摄像头1需要选取的摄像头已被摄像头2选取，则交换摄像头
 		if (state == STATE_SWAP)
@@ -1445,9 +1463,9 @@ void ZegoBaseDialog::OnSwitchVideoDevice2(int id)
 			LIVEROOM::EnableCamera(false, ZEGO::AV::PUBLISH_CHN_AUX);
 
 			m_pAVSettings->SetCameraId(m_device->GetVideoDeviceId());
-			int camera_2_index = m_device->GetVideoDevice2Index();
 
-			ui.m_cbCamera->setCurrentIndexWithoutSignal(camera_2_index);
+			//将摄像头1设置为原来摄像头2的位置去
+			ui.m_cbCamera->setCurrentIndexWithoutSignal(og_camera_2_index);
 
 			LIVEROOM::SetVideoDevice(qtoc(m_device->GetVideoDeviceId()));
 		}
@@ -1455,7 +1473,6 @@ void ZegoBaseDialog::OnSwitchVideoDevice2(int id)
 		LIVEROOM::SetVideoDevice(qtoc(m_device->GetVideoDeviceId2()), ZEGO::AV::PUBLISH_CHN_AUX);
 		m_pAVSettings->SetCameraId2(qtoc(m_device->GetVideoDeviceId2()));
 
-		ui.m_cbCamera2->setCurrentIndexWithoutSignal(id);
 		update();
 
 		LIVEROOM::EnableCamera(true);
@@ -1470,53 +1487,15 @@ void ZegoBaseDialog::OnSwitchVideoDevice2(int id)
 	}
 }
 
-void ZegoBaseDialog::mousePressEvent(QMouseEvent *event)
-{
-	mousePosition = event->pos();
-	//只对标题栏范围内的鼠标事件进行处理
-
-	if (mousePosition.y() <= pos_min_y)
-		return;
-	if (mousePosition.y() >= pos_max_y)
-		return;
-	isMousePressed = true;
-}
-
-void ZegoBaseDialog::mouseMoveEvent(QMouseEvent *event)
-{
-	if (isMousePressed == true)
-	{
-		QPoint movePot = event->globalPos() - mousePosition;
-		move(movePot);
-	}
-}
-
-void ZegoBaseDialog::mouseReleaseEvent(QMouseEvent *event)
-{
-	isMousePressed = false;
-}
-
 void ZegoBaseDialog::mouseDoubleClickEvent(QMouseEvent *event)
 {
-	//双击标题栏同样可以放大缩小
-
-	mousePosition = event->pos();
-	//只对标题栏范围内的鼠标事件进行处理
-
-	if (mousePosition.y() <= pos_min_y)
-		return;
-	if (mousePosition.y() >= pos_max_y)
-		return;
-
 	if (isMax)
 	{
-		this->showNormal();
 		isMax = false;
 		ui.m_bMax->setButtonIcon("max");
 	}
 	else
 	{
-		this->showMaximized();
 		isMax = true;
 		ui.m_bMax->setButtonIcon("max_re");
 	}
@@ -1533,7 +1512,7 @@ void ZegoBaseDialog::closeEvent(QCloseEvent *e)
 {
 	QDialog::closeEvent(e);
 	GetOut();
-	//this->close();
+	
 	emit sigSaveVideoSettings(m_pAVSettings);
 	m_lastDialog->show();
 }

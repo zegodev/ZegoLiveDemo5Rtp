@@ -4,26 +4,35 @@
 
 #include "./IncludeZegoLiveRoomApi.h"
 #include "zego-api-external-audio-device.h"
+#include "zego-api-sound-level.h"
 
-/**
- * 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
- * Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
- * AppID 填写样式示例：1234567890
- * signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
-**/
-static unsigned long g_dwAppID_Udp = ;
-static unsigned char g_bufSignKey_Udp[] = ;
+#ifdef USE_EXTERNAL_SDK
+#include "Module/ZegoSurfaceMergeApi.h"
+#endif
 
-static unsigned long g_dwAppID_International = 100;
+/*#warning 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
+#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey,其他模式不需要可不用填
+#warning AppID 填写样式示例：1234567890
+#warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+								0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,
+								0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,
+								0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}*/
+static unsigned long g_dwAppID_Udp = 0;
+static unsigned char g_bufSignKey_Udp[] =
+{
+	0x0
+};
+
+static unsigned long g_dwAppID_International = 0;
 static unsigned char g_bufSignKey_International[] =
 { 
-	0x00
+	0x0
 };
 
 static unsigned long  g_dwAppID_Custom = 0;
 static unsigned char g_bufSignKey_Custom[] =
 {
-	0x00
+	0x0
 };
 
 QZegoBase::QZegoBase(void) : m_dwInitedMask(INIT_NONE)
@@ -32,12 +41,10 @@ QZegoBase::QZegoBase(void) : m_dwInitedMask(INIT_NONE)
 	//m_strLogPathUTF8 = QDir::currentPath() + "/ZegoLog/";
 	appIDs.push_back(g_dwAppID_Udp);
 	appIDs.push_back(g_dwAppID_International);
-	//appIDs.push_back(g_dwAppID_Wawaji);
 	appIDs.push_back(g_dwAppID_Custom);
 
 	appSigns.push_back(g_bufSignKey_Udp);
 	appSigns.push_back(g_bufSignKey_International);
-	//appSigns.push_back(g_bufSignKey_Wawaji);
 	appSigns.push_back(g_bufSignKey_Custom);
 
 	m_pAVSignal = new QZegoAVSignal;
@@ -89,7 +96,7 @@ bool QZegoBase::InitAVSDK(QString userID, QString userName)
 		}
 		LIVEROOM::SetVideoFilterFactory(g_filterFactory);
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 		//是否使用截屏推流
 		if (isSurfaceMerge)
 			SurfaceMergeController::getInstance().init();
@@ -100,7 +107,8 @@ bool QZegoBase::InitAVSDK(QString userID, QString userName)
 		LIVEROOM::SetRoomCallback(m_pAVSignal);
 		LIVEROOM::SetIMCallback(m_pAVSignal);
 		LIVEROOM::SetDeviceStateCallback(m_pAVSignal);
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+		SOUNDLEVEL::SetSoundLevelCallback(m_pAVSignal);
+#ifdef USE_EXTERNAL_SDK
 		SurfaceMergeController::getInstance().setMergeCallback(m_pAVSignal);
 #endif
 		LIVEROOM::InitSDK(appIDs[key], appSigns[key], 32);
@@ -113,7 +121,7 @@ bool QZegoBase::InitAVSDK(QString userID, QString userName)
 	return true;
 }
 
-bool QZegoBase::InitAVSDKwithCustomAppId(QString userID, QString userName, unsigned int app_id, unsigned char *app_sign)
+bool QZegoBase::InitAVSDKwithCustomAppId(QString userID, QString userName, unsigned int app_id, unsigned char *app_sign, int len)
 {
 	if (!IsAVSdkInited())
 	{
@@ -152,7 +160,7 @@ bool QZegoBase::InitAVSDKwithCustomAppId(QString userID, QString userName, unsig
 		}
 		LIVEROOM::SetVideoFilterFactory(g_filterFactory);
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 		//是否使用截屏推流
 		if (isSurfaceMerge)
 			SurfaceMergeController::getInstance().init();
@@ -163,10 +171,11 @@ bool QZegoBase::InitAVSDKwithCustomAppId(QString userID, QString userName, unsig
 		LIVEROOM::SetRoomCallback(m_pAVSignal);
 		LIVEROOM::SetIMCallback(m_pAVSignal);
 		LIVEROOM::SetDeviceStateCallback(m_pAVSignal);
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+		SOUNDLEVEL::SetSoundLevelCallback(m_pAVSignal);
+#ifdef USE_EXTERNAL_SDK
 		SurfaceMergeController::getInstance().setMergeCallback(m_pAVSignal);
 #endif
-		LIVEROOM::InitSDK(app_id, app_sign, 32);
+		LIVEROOM::InitSDK(app_id, app_sign, len);
 	}
 
 	//为了调用OnUserUpdate
@@ -186,11 +195,12 @@ void QZegoBase::UninitAVSDK(void)
 		LIVEROOM::SetRoomCallback(nullptr);
 		LIVEROOM::SetIMCallback(nullptr);
 		LIVEROOM::SetDeviceStateCallback(nullptr);
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+		SOUNDLEVEL::SetSoundLevelCallback(nullptr);
+#ifdef USE_EXTERNAL_SDK
 		SurfaceMergeController::getInstance().setMergeCallback(nullptr);
 #endif
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE) 
+#ifdef USE_EXTERNAL_SDK
 		if (isSurfaceMerge)
 			SurfaceMergeController::getInstance().uninit();
 #endif

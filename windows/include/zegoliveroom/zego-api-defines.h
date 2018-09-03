@@ -365,6 +365,7 @@ namespace ZEGO
             ZEGO_LATENCY_MODE_LOW,                      /**< 低延迟模式，无法用于 RTMP 流 */
             ZEGO_LATENCY_MODE_NORMAL2,                  /**< 普通延迟模式，最高码率可达 192K */
             ZEGO_LATENCY_MODE_LOW2,                     /**< 低延迟模式，无法用于 RTMP 流。相对于 ZEGO_LATENCY_MODE_LOW 而言，CPU 开销稍低 */
+            ZEGO_LATENCY_MODE_LOW3,                     /**< 低延迟模式，无法用于 RTMP 流。支持WebRTC必须使用此模式 */
         };
         
         /** 流量控制属性 */
@@ -386,7 +387,8 @@ namespace ZEGO
         
         struct PublishQuality
         {
-            double fps;             ///< 视频帧率
+            double fps;             ///< 视频帧率(编码/网络发送)
+            double cfps;            ///< 视频采集帧率
             double kbps;            ///< 视频码率(kb/s)
             double akbps;           ///< 音频码率(kb/s)
             int rtt;                ///< 延时(ms)
@@ -429,6 +431,18 @@ namespace ZEGO
         };
     }
 }
+
+/** 接口调用返回错误码 */
+enum ZegoErrorCode
+{
+    kZegoErrorCodeOK = 0,    /**< 没有错误 */
+    kZegoErrorCodeInvalidParameter = 1,  /** 调用输入参数错误 */
+    
+    // * 5101 外部音频设备
+    kZegoErrorCodeExternalAudioDeviceWasNotEnabled = 5101, /** 没有启用外部音频设备 */
+    kZegoErrorCodeExternalAudioDeviceEngineError = 5102, /** 处理音频数据异常 */
+};
+
 
 #ifdef __cplusplus
 extern "C" {

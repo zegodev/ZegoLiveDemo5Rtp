@@ -4,6 +4,7 @@
 #include <QVector>
 #include "AVDefines.h"
 #include "LiveRoom.h"
+#include "zego-api-sound-level.h"
 
 using namespace ZEGO;
 
@@ -57,6 +58,15 @@ public:
 	void SetPlayVolume(int volume);
 	int GetPlayVolume();
 
+	void SetMicEnabled(bool isUse);
+	bool GetMicEnabled();
+
+	void SetSpeakerEnabled(bool isUse);
+	bool GetSpeakerEnabled();
+
+	void SetCameraEnabled(bool isUse);
+	bool GetCameraEnabled();
+
 	QVector<QDeviceInfo> GetAudioDeviceList();
 	QVector<QDeviceInfo> GetVideoDeviceList();
 
@@ -64,15 +74,21 @@ public:
 	const QString& GetVideoDeviceId();
 	const QString& GetVideoDeviceId2();
 
+	void StartMicCaptureMonitor(int cycle = 200);
+	void StopMicCaptureMonitor();
+
 signals:
 	void sigCameraIdChanged(QString deviceId);
 	void sigCameraId2Changed(QString deviceId);
 	void sigMicIdChanged(QString deviceId);
 
+	void sigMicCaptureSoundLevelUpdate(float soundlevel);
+
 protected slots:
 	void OnAudioDeviceStateChanged(AV::AudioDeviceType deviceType, const QString& strDeviceId, const QString& strDeviceName, AV::DeviceState state);
 	void OnVideoDeviceStateChanged(const QString& strDeviceId, const QString& strDeviceName, AV::DeviceState state);
 
+	void OnMicCaptureSoundLevelUpdate(float soundlevel);
 private:
 	void RefreshCameraIndex();
 	void RefreshMicIndex();

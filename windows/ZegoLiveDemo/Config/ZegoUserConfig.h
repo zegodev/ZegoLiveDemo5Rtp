@@ -35,7 +35,7 @@ public:
 	void SetUseTestEnv(bool isUseTestEnv);
 
 	AppConfig GetAppConfig();
-	void SetAppId(QString appid);
+	void SetAppId(unsigned long appid);
 	void SetAppSign(QString appsign);
 
 	int GetAppVersion();

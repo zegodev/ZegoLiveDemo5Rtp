@@ -12,7 +12,7 @@
 
 struct AppConfig
 {
-	QString m_customAppId;
+	unsigned long m_customAppId;
 	QString m_customAppSign;
 
 	const AppConfig& operator=(const AppConfig& other)

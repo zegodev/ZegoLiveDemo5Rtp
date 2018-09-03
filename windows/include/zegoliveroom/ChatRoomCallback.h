@@ -34,9 +34,9 @@ namespace ZEGO
             virtual void OnLogoutChatRoom(int errorCode) {}
             
             /**
-             因为使用同一个 UserId 登录，用户被挤出聊天室
+             被踢出聊天室
 
-             @param reason 被踢出原因
+             @param reason 被踢出原因，1 表示该账户多点登录被踢出 2 表示该账户是被手动踢出 3 表示房间会话错误被踢出
              */
             virtual void OnKickOutChatRoom(int reason) = 0;
             

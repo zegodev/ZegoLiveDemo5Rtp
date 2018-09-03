@@ -15,9 +15,9 @@
 #include <QScrollBar>
 
 #include "Model/ZegoVideoFrame.h"
+#include "Base/IncludeZegoLiveRoomApi.h"
 
-#define USE_SURFACE_MERGE
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 #include "ZegoSurfaceMerge.h"
 #include "ZegoSurfaceMergeDefine.h"
 using namespace ZEGO;
@@ -49,7 +49,7 @@ public:
 	void setSurfaceMergeView(bool state);
 	bool getSurfaceMergeView();
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 	void setSurfaceMergeItemRect(SurfaceMerge::ZegoCaptureItem _screen,
 	                         SurfaceMerge::ZegoCaptureItem _camera);
 #endif
@@ -63,8 +63,8 @@ public:
 
 	void SetUseExternalRender(bool bIsUse);
 	void SetOnGetFrameDelegate(OnGetFrameDelegate func);
-	//WId getLiveViewWinID();
-	//void addActionForKickOut();
+	
+
 signals:
 	void sigSnapShotPreviewOnSingleAnchor();
 	void sigSnapShotOnSingleAudienceWithStreamID(const QString& streamID);
@@ -111,7 +111,7 @@ public:
 	QZegoAVScene(QWidget * parent = 0);
 	~QZegoAVScene();
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 	void setSurfaceMergeItemRect(SurfaceMerge::ZegoCaptureItem _screen,
 		SurfaceMerge::ZegoCaptureItem _camera);
 
@@ -124,7 +124,7 @@ protected:
 	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 #endif
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 private:
 	bool isMousePressed = false;
 	SurfaceMerge::ZegoCaptureItem screen;

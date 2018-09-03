@@ -11,15 +11,13 @@
 #include <QTimer>
 #include <QMouseEvent>
 #include <QKeyEvent>
-#include <QPaintEvent>
 #include <QJsonDocument>
-#include <QVariantMap>
 #include <QJsonObject>
 #include <QFileDialog>
-#include <QGridLayout>
 #include <QStandardItemModel>
 #include <QImage>
 #include <QPixmap>
+#include <QDateTime>
 #include <QMessageBox>
 #include <QDebug>
 #ifdef Q_OS_WIN
@@ -39,13 +37,15 @@ Q_GUI_EXPORT QPixmap qt_pixmapFromWinHBITMAP(HBITMAP bitmap, int hbitmapFormat);
 #include "Device/ZegoDeviceManager.h"
 #include "Base/IncludeZegoLiveRoomApi.h"
 #include "Base/ZegoLiveDemoDefines.h"
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+
+#ifdef USE_EXTERNAL_SDK
 #include "ZegoMusicHookDialog.h"
 #include "ZegoAudioHook.h"
-#endif
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+
 #include "Module/ZegoSurfaceMergeApi.h"
 #endif
+
+#include "FramelessHelper.h"
 
 class ZegoBaseDialog : public QDialog
 {
@@ -61,22 +61,16 @@ protected slots:
 	void OnUserUpdate(QVector<QString> userIDs, QVector<QString> userNames, QVector<int> userFlags, QVector<int> userRoles, unsigned int userCount, LIVEROOM::ZegoUserUpdateType type);
 	void OnDisconnect(int errorCode, const QString& roomId);
 	void OnKickOut(int reason, const QString& roomId);
-	void OnPlayQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS);
-	void OnPublishQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS);
 	void OnAVAuxInput(unsigned char *pData, int* pDataLen, int pDataLenValue, int *pSampleRate, int *pNumChannels);
 	void OnSendRoomMessage(int errorCode, const QString& roomID, int sendSeq, unsigned long long messageId);
 	void OnRecvRoomMessage(const QString& roomId, QVector<RoomMsgPtr> vRoomMsgList);
-	
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 	void OnSurfaceMergeResult(unsigned char *surfaceMergeData, int datalength);
 #endif
 	void OnPreviewSnapshot(void *pImage);
 	void OnSnapshot(void *pImage, const QString &streamID);
 
 protected:
-	virtual void mousePressEvent(QMouseEvent *event);  
-	virtual void mouseMoveEvent(QMouseEvent *event);  
-	virtual void mouseReleaseEvent(QMouseEvent *event);  
 	virtual void mouseDoubleClickEvent(QMouseEvent *event);  
 	virtual void showEvent(QShowEvent *event);
 	virtual void closeEvent(QCloseEvent *e);  
@@ -95,14 +89,14 @@ public slots:
 	void OnButtonMircoPhone(); 
 	void OnButtonSound();  
 	void OnButtonCamera();
-	void OnProgChange();  
+	void OnProgChange(float soundlevel);  
 	void OnShareLink();  
 	void OnButtonAux();  
 	void OnSnapshotPreview();
 	void OnSnapshotWithStreamID(const QString &streamID);
 	//混音app地址回调
 	void OnUseDefaultAux(bool state);
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+#ifdef USE_EXTERNAL_SDK
 	void OnGetMusicAppPath(QString exePath);
 #endif
 	//切换音视频设备
@@ -122,7 +116,7 @@ protected:
 	void insertStringListModelItem(QStringListModel * model, QString name, int size); 
 	void removeStringListModelItem(QStringListModel * model, QString name);
 	void removeStringListModelItemByIndex(QStringListModel * model, int index);
-	//void EnumVideoAndAudioDevice();  
+	
 	void GetDeviceList();
 	void initComboBox(); 
 	void initButtonIcon();
@@ -191,11 +185,10 @@ protected:
 	QStringListModel *m_memberModel;
 
 	//实现自定义标题栏的拖动
-	bool isMousePressed;
-	QPoint mousePosition;
+	FramelessHelper *m_pHelper = nullptr;
 
 	//实时监控麦克风音量大小
-	QTimer *timer;
+	//QTimer *timer;
 
 	//保存上一个界面的指针，用于退出该页面时显示它
 	QDialog *m_lastDialog;
@@ -212,7 +205,7 @@ protected:
 
 	//设备管理
 	ZegoDeviceManager *m_device = nullptr;
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+#ifdef USE_EXTERNAL_SDK
 	ZegoMusicHookDialog hookDialog;
 #endif
 

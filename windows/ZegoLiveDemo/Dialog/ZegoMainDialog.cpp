@@ -44,13 +44,7 @@ ZegoMainDialog::ZegoMainDialog(QWidget *parent) : QDialog(parent)
 
 	//InitSDK成功回调
 	connect(GetAVSignal(), &QZegoAVSignal::sigInitSDK, this, &ZegoMainDialog::OnInitSDK);
-	//设备变更（增删）
-	//connect(GetAVSignal(), &QZegoAVSignal::sigAudioDeviceChanged, this, &ZegoMainDialog::OnAudioDeviceChanged);
-	//connect(GetAVSignal(), &QZegoAVSignal::sigVideoDeviceChanged, this, &ZegoMainDialog::OnVideoDeviceChanged);
-	//设备变更（改变）
-	//connect(ui.m_cbMircoPhone, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchAudioDevice(int)));
-	//connect(ui.m_cbCamera, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice(int)));
-	//connect(ui.m_cbCamera2, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice2(int)));
+	
 	//app版本变更
 	connect(ui.m_cbAppVersion, SIGNAL(currentIndexChanged(int)), this, SLOT(OnComboBoxAppVersionChanged(int)));
 	//摄像头旋转
@@ -65,7 +59,7 @@ ZegoMainDialog::ZegoMainDialog(QWidget *parent) : QDialog(parent)
 	m_device = new ZegoDeviceManager;
 	connect(m_device, &ZegoDeviceManager::sigDeviceAdded, this, &ZegoMainDialog::OnDeviceAdded);
 	connect(m_device, &ZegoDeviceManager::sigDeviceDeleted, this, &ZegoMainDialog::OnDeviceDeleted);
-
+	
 	ui.m_edRoomName->installEventFilter(this);
 	ui.m_strEdUserId->installEventFilter(this);
 	ui.m_strEdUserName->installEventFilter(this);
@@ -99,7 +93,7 @@ ZegoMainDialog::~ZegoMainDialog()
 //part1:功能函数
 void ZegoMainDialog::initDialog()
 {
-#if (defined Q_OS_MAC) || (!defined USE_SURFACE_MERGE) || (!defined Q_PROCESSOR_X86_32)
+#if (defined Q_OS_MAC) || (!defined USE_EXTERNAL_SDK)
 	ui.m_switchSurfaceMerge->setEnabled(false);
 #endif
 
@@ -174,7 +168,7 @@ void ZegoMainDialog::initDialog()
 	m_versionMode = mConfig.GetAppVersion();
 	//当Index = 0 时不会触发信号
 	ui.m_cbAppVersion->setCurrentIndex(m_versionMode);
-	if (m_versionMode == ZEGO_PROTOCOL_UDP)
+	if (m_versionMode == ZEGO_PROTOCOL_UDP || m_versionMode == ZEGO_PROTOCOL_UDP_INTERNATIONAL)
 	{
 		ui.m_strEdAPPID->setText(QString("%1").arg(mBase.GetAppID()));
 		ui.m_strEdAPPSign->setText(tr("AppSign 已设置"));
@@ -184,22 +178,48 @@ void ZegoMainDialog::initDialog()
 
 	mBase.setKey(m_versionMode);
 
+	m_isUseTestEnv = mConfig.GetUseTestEnv();
+	mBase.setTestEnv(m_isUseTestEnv);
+
 	SettingsPtr pCurSettings = mConfig.GetVideoSettings();
 
-	if (pCurSettings != nullptr)
+	if (!pCurSettings)
+		return;
+
+	setDefalutVideoQuality(pCurSettings);
+		
+	QString userID = mConfig.GetUserId();
+	QString userName = mConfig.getUserName();
+
+	//是否使用截屏推流,默认不使用
+	pCurSettings->SetSurfaceMerge(m_isUseSurfaceMerge);
+	mConfig.SetVideoSettings(pCurSettings);
+
+
+	if (m_versionMode == ZEGO_PROTOCOL_CUSTOM)
 	{
-		setDefalutVideoQuality(pCurSettings);
-		//EnumVideoAndAudioDevice(pCurSettings);
-		GetDeviceList(pCurSettings);
-		QString userID = mConfig.GetUserId();
-		QString userName = mConfig.getUserName();
-		mBase.InitAVSDK(userID, userName);
+		QVector<QString> vecAppSign = handleAppSign(mConfig.GetAppConfig().m_customAppSign);
+		unsigned long appId = mConfig.GetAppConfig().m_customAppId;
+		unsigned char *appSign = NULL;
+		int signLen = 0;
 
-		//是否使用截屏推流,默认不使用
-		pCurSettings->SetSurfaceMerge(m_isUseSurfaceMerge);
+		int len = vecAppSign.size() > 32 ? 32 : vecAppSign.size();
+		signLen = vecAppSign.size();
 
-		mConfig.SetVideoSettings(pCurSettings);
+		appSign = new unsigned char[32];
+		for (int i = 0; i < len; i++)
+		{
+			bool ok;
+			appSign[i] = (unsigned char)vecAppSign[i].toInt(&ok, 16);
+		}
+
+		mBase.InitAVSDKwithCustomAppId(m_strEdUserId, m_strEdUserName, appId, appSign, signLen);
 	}
+	else
+	{
+		mBase.InitAVSDK(m_strEdUserId, m_strEdUserName);
+	}
+        
 	//app版本
 	ui.m_lbTitle->setText(tr("ZegoLiveDemo(%1)").arg(ui.m_cbAppVersion->currentText()));
 	//sdk版本号
@@ -675,6 +695,8 @@ void ZegoMainDialog::OnInitSDK(int nError)
 	{
 		qDebug() << QString("InitSDK Error: %1").arg(nError);
 	}
+    SettingsPtr pCurSettings = mConfig.GetVideoSettings();
+    GetDeviceList(pCurSettings);
 }
 
 //part3:UI回调函数
@@ -898,9 +920,19 @@ void ZegoMainDialog::on_m_bCreateRoom_clicked()
 		return;
 	}
 
+	if (ui.m_edRoomName->text().simplified().isEmpty())
+	{
+		ui.m_edRoomName->clear();
+		QMessageBox::information(NULL, tr("提示"), tr("请输入房间名"));
+		ui.m_edRoomName->setFocus();
+		return;
+	}
+
+	//取消直播中不需要的信号槽
 	disconnect(ui.m_cbMircoPhone, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchAudioDevice(int)));
 	disconnect(ui.m_cbCamera, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice(int)));
 	disconnect(ui.m_cbCamera2, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice2(int)));
+	disconnect(GetAVSignal(), &QZegoAVSignal::sigInitSDK, this, &ZegoMainDialog::OnInitSDK);
 
 	mConfig.SetUserRole(true);
 	mConfig.SetUserId(m_strEdUserId);
@@ -928,7 +960,7 @@ void ZegoMainDialog::on_m_bCreateRoom_clicked()
 		}
 
 		mBase.UninitAVSDK();
-		if (!mBase.InitAVSDKwithCustomAppId(strUserId, strUserName, appId, appSign))
+		if (!mBase.InitAVSDKwithCustomAppId(strUserId, strUserName, appId, appSign, 32))
 		{
 			QMessageBox::information(NULL, tr("提示"), tr("初始化SDK失败"));
 			return;
@@ -1039,9 +1071,11 @@ void ZegoMainDialog::on_m_bCreateRoom_clicked()
 		liveroom.exec();
 	}
 
+	//重新连接需要的信号槽
 	connect(ui.m_cbMircoPhone, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchAudioDevice(int)));
 	connect(ui.m_cbCamera, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice(int)));
 	connect(ui.m_cbCamera2, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice2(int)));
+	connect(GetAVSignal(), &QZegoAVSignal::sigInitSDK, this, &ZegoMainDialog::OnInitSDK);
 }
 
 void ZegoMainDialog::OnButtonEnterRoom()
@@ -1077,10 +1111,12 @@ void ZegoMainDialog::OnButtonEnterRoom()
 		return;
 	}
 
+	//取消观看直播中不需要的信号槽
 	disconnect(ui.m_cbMircoPhone, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchAudioDevice(int)));
 	disconnect(ui.m_cbCamera, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice(int)));
 	disconnect(ui.m_cbCamera2, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice2(int)));
-	//disconnect()
+	disconnect(GetAVSignal(), &QZegoAVSignal::sigInitSDK, this, &ZegoMainDialog::OnInitSDK);
+
 	int modeID;
 	QString playLiveMode = pRoom->getRoomId().mid(0, 3);
 	if (playLiveMode == "#d-")
@@ -1169,9 +1205,11 @@ void ZegoMainDialog::OnButtonEnterRoom()
 		liveroom.exec();
 	}
 
+	//重新连接需要的信号槽
 	connect(ui.m_cbMircoPhone, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchAudioDevice(int)));
 	connect(ui.m_cbCamera, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice(int)));
 	connect(ui.m_cbCamera2, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSwitchVideoDevice2(int)));
+	connect(GetAVSignal(), &QZegoAVSignal::sigInitSDK, this, &ZegoMainDialog::OnInitSDK);
 }
 
 void ZegoMainDialog::on_m_switchTestEnv_clicked()
@@ -1422,7 +1460,7 @@ void ZegoMainDialog::OnSaveAppIdChanged()
 
 	if (m_versionMode == ZEGO_PROTOCOL_CUSTOM)
 	{
-		mConfig.SetAppId(ui.m_strEdAPPID->text());
+		mConfig.SetAppId(ui.m_strEdAPPID->text().toUInt());
 		mConfig.SaveConfig();
 	}
 }
@@ -1692,42 +1730,11 @@ void ZegoMainDialog::OnSaveVideoSettings(SettingsPtr settings)
 
 	mConfig.SetVideoSettings(settings);
 	//是否更改了麦克风
-	
-	/*int index = 0;
-	for (int i = 0; i < m_vecAudioDeviceIDs.size(); i++)
-		if (m_vecAudioDeviceIDs[i] == settings->GetMircophoneId())
-		{
-			index = i;
-		    break;
-		}
-		*/
 	ui.m_cbMircoPhone->setCurrentIndexWithoutSignal(m_device->GetAudioDeviceIndex());
 		
 	//是否更改了摄像头1和2
-	/*index = 0;
-	for (int i = 0; i < m_vecVideoDeviceIDs.size(); i++)
-	{
-		if (m_vecVideoDeviceIDs[i] == settings->GetCameraId())
-		{
-			index = i;
-			break;
-		}
-	}
-	*/
 	ui.m_cbCamera->setCurrentIndexWithoutSignal(m_device->GetVideoDeviceIndex());
-
-	/*index = 0;
-	for (int i = 0; i < m_vecVideoDeviceIDs.size(); i++)
-	{
-		if (m_vecVideoDeviceIDs[i] == settings->GetCameraId2())
-		{
-			index = i;
-			break;
-		}
-	}*/
-	
 	ui.m_cbCamera2->setCurrentIndexWithoutSignal(m_device->GetVideoDevice2Index());
-	
 }
 
 void ZegoMainDialog::OnComboBoxAppVersionChanged(int id)
@@ -1750,8 +1757,8 @@ void ZegoMainDialog::OnComboBoxAppVersionChanged(int id)
 	}
 	else
 	{
-		if (!mConfig.GetAppConfig().m_customAppId.isEmpty())
-			ui.m_strEdAPPID->setText(mConfig.GetAppConfig().m_customAppId);
+		if (mConfig.GetAppConfig().m_customAppId != 0)
+			ui.m_strEdAPPID->setText(QString("%1").arg(mConfig.GetAppConfig().m_customAppId));
 		else
 		    ui.m_strEdAPPID->setText("");
 

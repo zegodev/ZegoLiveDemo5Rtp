@@ -19,6 +19,7 @@ protected slots:
 	void OnLoginRoom(int errorCode, const QString& roomId, QVector<StreamPtr> vStreamList);
 	void OnStreamUpdated(const QString& roomId, QVector<StreamPtr> vStreamList, LIVEROOM::ZegoStreamUpdateType type);
 	void OnPlayStateUpdate(int stateCode, const QString& streamId);
+	void OnPlayQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS);
 	void OnStreamExtraInfoUpdated(const QString& roomId, QVector<StreamPtr> vStreamList);
 
 private:

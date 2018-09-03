@@ -8,6 +8,7 @@ ZegoDeviceManager::ZegoDeviceManager()
 	connect(GetAVSignal(), &QZegoAVSignal::sigAudioDeviceChanged, this, &ZegoDeviceManager::OnAudioDeviceStateChanged);
 	connect(GetAVSignal(), &QZegoAVSignal::sigVideoDeviceChanged, this, &ZegoDeviceManager::OnVideoDeviceStateChanged);
     
+	connect(GetAVSignal(), &QZegoAVSignal::sigCaptureSoundLevelUpdate, this, &ZegoDeviceManager::OnMicCaptureSoundLevelUpdate);
 	//初始化允许使用麦克风、扬声器和摄像头
 	LIVEROOM::EnableMic(m_micEnabled);
 	LIVEROOM::EnableSpeaker(m_speakerEnabled);
@@ -221,16 +222,16 @@ void ZegoDeviceManager::SetMicVolume(int volume)
 	m_micVolume = volume;
 
     log_string_notice(tr("SetMicVolume: %1").arg(volume).toStdString().c_str());
-    ZEGO::LIVEROOM::SetMicDeviceVolume(qtoc(m_audioDeviceId), volume);
-    if (volume < 5 && m_micEnabled)
+    LIVEROOM::SetMicDeviceVolume(qtoc(m_audioDeviceId), volume);
+    if (volume ==0 && m_micEnabled)
     {
         m_micEnabled = false;
-        ZEGO::LIVEROOM::EnableMic(false);
+        LIVEROOM::EnableMic(false);
     }
-    else if (!m_micEnabled && volume >= 5)
+    else if (!m_micEnabled && volume > 0)
     {
         m_micEnabled = true;
-        ZEGO::LIVEROOM::EnableMic(true);
+        LIVEROOM::EnableMic(true);
     }
     
 }
@@ -276,6 +277,58 @@ const QString& ZegoDeviceManager::GetVideoDeviceId()
 const QString& ZegoDeviceManager::GetVideoDeviceId2()
 {
 	return m_videoDeviceId2;
+}
+
+void ZegoDeviceManager::SetMicEnabled(bool isUse)
+{
+	m_micEnabled = isUse;
+	LIVEROOM::EnableMic(m_micEnabled);
+}
+
+bool ZegoDeviceManager::GetMicEnabled()
+{
+	return m_micEnabled;
+}
+
+void ZegoDeviceManager::SetSpeakerEnabled(bool isUse)
+{
+	m_speakerEnabled = isUse;
+	LIVEROOM::EnableSpeaker(m_speakerEnabled);
+}
+
+bool ZegoDeviceManager::GetSpeakerEnabled()
+{
+	return m_speakerEnabled;
+}
+
+void ZegoDeviceManager::SetCameraEnabled(bool isUse)
+{
+	m_cameraEnabled = isUse;
+	m_camera2Enabled = isUse;
+
+	LIVEROOM::EnableCamera(m_cameraEnabled);
+	LIVEROOM::EnableCamera(m_camera2Enabled, AV::PUBLISH_CHN_AUX);
+}
+
+bool ZegoDeviceManager::GetCameraEnabled()
+{
+	return m_cameraEnabled && m_camera2Enabled;
+}
+
+void ZegoDeviceManager::StartMicCaptureMonitor(int cycle)
+{
+	SOUNDLEVEL::SetSoundLevelMonitorCycle(cycle);
+	SOUNDLEVEL::StartSoundLevelMonitor();
+}
+
+void ZegoDeviceManager::StopMicCaptureMonitor()
+{
+	SOUNDLEVEL::StopSoundLevelMonitor();
+}
+
+void ZegoDeviceManager::OnMicCaptureSoundLevelUpdate(float soundlevel)
+{
+	emit sigMicCaptureSoundLevelUpdate(soundlevel);
 }
 
 void ZegoDeviceManager::OnAudioDeviceStateChanged(AV::AudioDeviceType deviceType, const QString& strDeviceId, const QString& strDeviceName, AV::DeviceState state)

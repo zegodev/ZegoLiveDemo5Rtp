@@ -22,6 +22,8 @@ namespace AVE
             virtual void OnAudioBegin() = 0;
             virtual void OnPlayEnd() = 0;
             virtual void OnSeekComplete(int code, long timestamp_ms) = 0;    //Units in millisecond
+            virtual void OnPlayPause() = 0;
+            virtual void OnPlayResume() = 0;
         };
         
         class VideoPlayCallback
@@ -31,7 +33,7 @@ namespace AVE
         };
 
         virtual void SetEventCallback(EventCallback* callback) = 0;
-		virtual void SetVolume(int volume) = 0;
+        virtual void SetVolume(int volume) = 0;  // volume: 0 ~ 100, default volume is 60
         virtual void Start(const char* path, bool repeat_play = false) = 0;// repeat_play: play repeat or not
         virtual void Stop() = 0;
         virtual void Pause() = 0;

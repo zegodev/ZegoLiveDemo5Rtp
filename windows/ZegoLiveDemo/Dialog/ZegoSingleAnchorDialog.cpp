@@ -1,9 +1,12 @@
 ﻿#include "ZegoSingleAnchorDialog.h"
 #include "Signal/ZegoSDKSignal.h"
+
+#ifdef Q_OS_WIN
 #include "zego-api-audio-device.h"
+#endif
 //Objective-C Header
 #ifdef Q_OS_MAC
-#include "OSX_Objective-C/ZegoAVDevice.h"
+//#include "OSX_Objective-C/ZegoAVDevice.h"
 #include "OSX_Objective-C/ZegoCGImageToQImage.h"
 #endif
 ZegoSingleAnchorDialog::ZegoSingleAnchorDialog(QWidget *parent)
@@ -19,7 +22,7 @@ ZegoSingleAnchorDialog::ZegoSingleAnchorDialog(RoomPtr room, ZegoDeviceManager *
 	//通过sdk的信号连接到本类的槽函数中
 	connect(GetAVSignal(), &QZegoAVSignal::sigLoginRoom, this, &ZegoSingleAnchorDialog::OnLoginRoom);
 	connect(GetAVSignal(), &QZegoAVSignal::sigPublishStateUpdate, this, &ZegoSingleAnchorDialog::OnPublishStateUpdate);
-
+	connect(GetAVSignal(), &QZegoAVSignal::sigPublishQualityUpdate2, this, &ZegoSingleAnchorDialog::OnPublishQualityUpdate);
 	connect(ui.m_bRequestJoinLive, &QPushButton::clicked, this, &ZegoSingleAnchorDialog::OnButtonSwitchPublish);
 
 }
@@ -63,8 +66,12 @@ void ZegoSingleAnchorDialog::StartPublishStream()
     
 	m_pChatRoom->addStream(pPublishStream);
 
-	
-	//推流前调用双声道
+	//使用了双声道采集后，混响和虚拟立体声均无效。
+#ifdef Q_OS_WIN
+	//双声道采集
+	//AUDIODEVICE::EnableCaptureStereo(1);
+#endif
+	//推流前调用双声道编码
 	LIVEROOM::SetAudioChannelCount(2);
 
 
@@ -79,7 +86,7 @@ void ZegoSingleAnchorDialog::StartPublishStream()
 		qDebug() << "publish nIndex = " << nIndex;
 		if (m_pAVSettings->GetSurfaceMerge())
 		{
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE) 
+#ifdef USE_EXTERNAL_SDK
 			SurfaceMergeController::getInstance().setSurfaceSize(m_pAVSettings->GetResolution().cx, m_pAVSettings->GetResolution().cy);
 			SurfaceMergeController::getInstance().setSurfaceFps(m_pAVSettings->GetFps());
 			SurfaceMergeController::getInstance().setSurfaceCameraId(m_pAVSettings->GetCameraId());
@@ -132,7 +139,7 @@ void ZegoSingleAnchorDialog::StopPublishStream(const QString& streamID)
 
 	if (m_pAVSettings->GetSurfaceMerge())
 	{
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE) 
+#ifdef USE_EXTERNAL_SDK
 		SurfaceMerge::SetRenderView(nullptr);
 		SurfaceMerge::UpdateSurface(nullptr, 0);
 #endif
@@ -207,36 +214,10 @@ void ZegoSingleAnchorDialog::OnPublishStateUpdate(int stateCode, const QString& 
 
 		QString jsonString = QJsonDocument(extraInfo).toJson().simplified();
 		LIVEROOM::SetPublishStreamExtraInfo(qtoc(jsonString));
-		/*if (sharedHlsUrl.size() > 0 && sharedRtmpUrl.size() > 0)
-		{
-			//封装存放分享地址的json对象
-			QMap<QString, QString> mapUrls = QMap<QString, QString>();
-
-			mapUrls.insert(m_FirstAnchor, QString::number(true));
-			mapUrls.insert(m_HlsKey, sharedHlsUrl);
-			mapUrls.insert(m_RtmpKey, sharedRtmpUrl);
-
-			QVariantMap vMap;
-			QMapIterator<QString, QString> it(mapUrls);
-			while (it.hasNext())
-			{
-				it.next();
-				vMap.insert(it.key(), it.value());
-			}
-
-			QJsonDocument doc = QJsonDocument::fromVariant(vMap);
-			QByteArray jba = doc.toJson();
-			QString jsonString = QString(jba);
-			jsonString = jsonString.simplified();
-			//设置流附加消息，将混流信息传入
-			LIVEROOM::SetPublishStreamExtraInfo(jsonString.toStdString().c_str());
-		}*/
 
 		SetOperation(true);
 		ui.m_bRequestJoinLive->setText(tr("停止直播"));
 		ui.m_bRequestJoinLive->setEnabled(true);
-		//推流成功后启动计时器监听麦克风音量
-		timer->start(200);
 		
 	}
 	else
@@ -245,13 +226,38 @@ void ZegoSingleAnchorDialog::OnPublishStateUpdate(int stateCode, const QString& 
 		ui.m_bRequestJoinLive->setText(tr("开始直播"));
 		ui.m_bRequestJoinLive->setEnabled(true);
 
-		EndAux();
 		// 停止预览, 回收view
 		LIVEROOM::StopPreview();
 		LIVEROOM::SetPreviewView(nullptr);
 		StreamPtr pStream = m_pChatRoom->removeStream(streamId);
 		FreeAVView(pStream);
 	}
+}
+
+void ZegoSingleAnchorDialog::OnPublishQualityUpdate(const QString& streamId, int quality, double capFPS, double videoFPS, double videoKBS, double audioKBS, int rtt, int pktLostRate)
+{
+	StreamPtr pStream = m_pChatRoom->getStreamById(streamId);
+
+	if (pStream == nullptr)
+		return;
+
+	int nIndex = pStream->getPlayView();
+
+	if (nIndex < 0 || nIndex > 11)
+		return;
+
+	AVViews[nIndex]->setCurrentQuality(quality);
+
+	/*if (capFPS == 0)
+	{
+		QMessageBox::warning(NULL, tr("警告"), tr("摄像头采集异常，停止推流"));
+		ui.m_bRequestJoinLive->setText(tr("停止中..."));
+		ui.m_bRequestJoinLive->setEnabled(false);
+		StopPublishStream(streamId);
+		ui.m_bRequestJoinLive->setEnabled(true);
+		ui.m_bRequestJoinLive->setText(tr("开始直播"));
+		
+	}*/
 }
 
 //UI回调
@@ -273,42 +279,11 @@ void ZegoSingleAnchorDialog::OnButtonSwitchPublish()
 		ui.m_bRequestJoinLive->setEnabled(false);
 
 		StopPublishStream(m_strPublishStreamID);
-		
-		if (timer->isActive())
-			timer->stop();
-		ui.m_bProgMircoPhone->setMyEnabled(false);
-		ui.m_bProgMircoPhone->update();
-
-		if (ui.m_bAux->text() == tr("关闭混音"))
-		{
-			ui.m_bAux->setText(tr("关闭中..."));
-			ui.m_bAux->setEnabled(false);
-
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
-			if (isUseDefaultAux)
-			{
-				EndAux();
-
-			}
-			else
-			{
-				AUDIOHOOK::StopAudioRecord();
-				LIVEROOM::EnableAux(false);
-				AUDIOHOOK::UnInitAudioHook();
-
-			}
-#else
-			EndAux();
-#endif
-			ui.m_bAux->setText(tr("开启混音"));
-		}
-		//停止直播后不能混音、声音采集、分享
-		ui.m_bAux->setEnabled(false);
-		ui.m_bCapture->setEnabled(false);
-		ui.m_bShare->setEnabled(false);
-		ui.m_bProgMircoPhone->setEnabled(false);
 
 		ui.m_bRequestJoinLive->setEnabled(true);
 		ui.m_bRequestJoinLive->setText(tr("开始直播"));
+
+		//停止直播后不能分享
+		ui.m_bShare->setEnabled(false);
 	}
 }

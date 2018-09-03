@@ -1,8 +1,13 @@
 ﻿#include "ZegoMixStreamAudienceDialog.h"
 #include "Signal/ZegoSDKSignal.h"
+
+#ifdef Q_OS_WIN
+#include "zego-api-audio-device.h"
+#endif
+
 //Objective-C Header
 #ifdef Q_OS_MAC
-#include "OSX_Objective-C/ZegoAVDevice.h"
+//#include "OSX_Objective-C/ZegoAVDevice.h"
 #include "OSX_Objective-C/ZegoCGImageToQImage.h"
 #endif
 ZegoMixStreamAudienceDialog::ZegoMixStreamAudienceDialog(QWidget *parent)
@@ -18,7 +23,9 @@ ZegoMixStreamAudienceDialog::ZegoMixStreamAudienceDialog(RoomPtr room, ZegoDevic
 	connect(GetAVSignal(), &QZegoAVSignal::sigLoginRoom, this, &ZegoMixStreamAudienceDialog::OnLoginRoom);
 	connect(GetAVSignal(), &QZegoAVSignal::sigStreamUpdated, this, &ZegoMixStreamAudienceDialog::OnStreamUpdated);
 	connect(GetAVSignal(), &QZegoAVSignal::sigPublishStateUpdate, this, &ZegoMixStreamAudienceDialog::OnPublishStateUpdate);
+	connect(GetAVSignal(), &QZegoAVSignal::sigPublishQualityUpdate2, this, &ZegoMixStreamAudienceDialog::OnPublishQualityUpdate);
 	connect(GetAVSignal(), &QZegoAVSignal::sigPlayStateUpdate, this, &ZegoMixStreamAudienceDialog::OnPlayStateUpdate);
+	connect(GetAVSignal(), &QZegoAVSignal::sigPlayQualityUpdate, this, &ZegoMixStreamAudienceDialog::OnPlayQualityUpdate);
 	connect(GetAVSignal(), &QZegoAVSignal::sigJoinLiveResponse, this, &ZegoMixStreamAudienceDialog::OnJoinLiveResponse);
 	connect(GetAVSignal(), &QZegoAVSignal::sigMixStream, this, &ZegoMixStreamAudienceDialog::OnMixStream);
 	connect(GetAVSignal(), &QZegoAVSignal::sigStreamExtraInfoUpdated, this, &ZegoMixStreamAudienceDialog::OnStreamExtraInfoUpdated);
@@ -62,7 +69,12 @@ void ZegoMixStreamAudienceDialog::StartPublishStream()
 
 	m_pChatRoom->addStream(pPublishStream);
 
-	//推流前调用双声道
+	//使用了双声道采集后，混响和虚拟立体声均无效。
+	//双声道采集
+#ifdef Q_OS_WIN
+	//AUDIODEVICE::EnableCaptureStereo(1);
+#endif
+	//推流前调用双声道编码
 	LIVEROOM::SetAudioChannelCount(2);
 
 	if (m_avaliableView.size() > 0)
@@ -332,7 +344,8 @@ bool ZegoMixStreamAudienceDialog::praseMixJsonData(QJsonDocument doc)
 	QJsonValue mixStreamId = obj.take(m_MixStreamID);
 	QJsonValue hlsUrl = obj.take(m_HlsKey);
 	QJsonValue rtmpUrl = obj.take(m_RtmpKey);
-	
+	QString roomName = obj.take(m_RoomName).toString();
+
 	QVariant tmpValue = isFirstAnchor.toString();
 	bool isFirst = tmpValue.toBool();
 
@@ -341,6 +354,12 @@ bool ZegoMixStreamAudienceDialog::praseMixJsonData(QJsonDocument doc)
 		m_anchorMixStreamID = mixStreamId.toString();
 		sharedHlsUrl = hlsUrl.toString();
 		sharedRtmpUrl = rtmpUrl.toString();
+
+		if (!roomName.isEmpty())
+			m_pChatRoom->setRoomName(roomName);
+		//更新标题内容
+		QString strTitle = QString(tr("【%1】%2")).arg(tr("混流模式")).arg(m_pChatRoom->getRoomName());
+		ui.m_lbRoomName->setText(strTitle);
 		return true;
 	}
 
@@ -470,7 +489,7 @@ void ZegoMixStreamAudienceDialog::OnStreamExtraInfoUpdated(const QString& roomId
 
 			//假如当前主播推流后退出房间重新进入，有可能会改房间名
 			QString newRoomName = jsonObject[m_RoomName].toString();
-			if (newRoomName != m_pChatRoom->getRoomName())
+			if (newRoomName != m_pChatRoom->getRoomName() && !newRoomName.isEmpty())
 			{
 				m_pChatRoom->setRoomName(newRoomName);
 				QString strTitle = QString(tr("【%1】%2")).arg(tr("混流模式")).arg(m_pChatRoom->getRoomName());
@@ -520,9 +539,6 @@ void ZegoMixStreamAudienceDialog::OnPublishStateUpdate(int stateCode, const QStr
 			SetOperation(true);
 		}
 
-		//推流成功后启动计时器监听麦克风音量
-		timer->start(200);
-
 	}
 	else
 	{
@@ -530,7 +546,6 @@ void ZegoMixStreamAudienceDialog::OnPublishStateUpdate(int stateCode, const QStr
 		ui.m_bRequestJoinLive->setText(tr("请求连麦"));
 		ui.m_bRequestJoinLive->setEnabled(true);
 
-		EndAux();
 		// 停止预览, 回收view
 		removeAVView(streamInfo->getPlayView());
 		LIVEROOM::StopPreview();
@@ -554,6 +569,48 @@ void ZegoMixStreamAudienceDialog::OnPlayStateUpdate(int stateCode, const QString
 		removeAVView(pStream->getPlayView());
 		FreeAVView(pStream);
 	}
+}
+
+void ZegoMixStreamAudienceDialog::OnPublishQualityUpdate(const QString& streamId, int quality, double capFPS, double videoFPS, double videoKBS, double audioKBS, int rtt, int pktLostRate)
+{
+	StreamPtr pStream = m_pChatRoom->getStreamById(streamId);
+
+	if (pStream == nullptr)
+		return;
+
+	int nIndex = pStream->getPlayView();
+
+	if (nIndex < 0 || nIndex > 11)
+		return;
+
+	AVViews[nIndex]->setCurrentQuality(quality);
+
+	/*if (capFPS == 0)
+	{
+		QMessageBox::warning(NULL, tr("警告"), tr("摄像头采集异常，停止推流"));
+		ui.m_bRequestJoinLive->setText(tr("停止中..."));
+		ui.m_bRequestJoinLive->setEnabled(false);
+		StopPublishStream(streamId);
+		ui.m_bRequestJoinLive->setEnabled(true);
+		ui.m_bRequestJoinLive->setText(tr("请求连麦"));
+
+	}*/
+}
+
+void ZegoMixStreamAudienceDialog::OnPlayQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS)
+{
+	StreamPtr pStream = m_pChatRoom->getStreamById(streamId);
+
+	if (pStream == nullptr)
+		return;
+
+	int nIndex = pStream->getPlayView();
+
+	if (nIndex < 0 || nIndex > 11)
+		return;
+
+	AVViews[nIndex]->setCurrentQuality(quality);
+
 }
 
 void ZegoMixStreamAudienceDialog::OnMixStream(unsigned int errorCode, const QString& hlsUrl, const QString& rtmpUrl, const QString& mixStreamID, int seq)
@@ -617,8 +674,8 @@ void ZegoMixStreamAudienceDialog::OnButtonJoinLive()
 		StopPublishStream(m_strPublishStreamID);
 		StartPlayMixStream(m_anchorStreamInfo);
 		
-		if (timer->isActive())
-			timer->stop();
+		//if (timer->isActive())
+			//timer->stop();
 		ui.m_bProgMircoPhone->setMyEnabled(false);
 		ui.m_bProgMircoPhone->update();
 
@@ -627,7 +684,7 @@ void ZegoMixStreamAudienceDialog::OnButtonJoinLive()
 			ui.m_bAux->setText(tr("关闭中..."));
 			ui.m_bAux->setEnabled(false);
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
+#ifdef USE_EXTERNAL_SDK
 			if (isUseDefaultAux)
 			{
 				EndAux();

@@ -1,5 +1,10 @@
 ﻿#include "ZegoMixStreamAnchorDialog.h"
 #include "Signal/ZegoSDKSignal.h"
+
+#ifdef Q_OS_WIN
+#include "zego-api-audio-device.h"
+#endif
+
 //Objective-C Header
 #ifdef Q_OS_MAC
 #include "OSX_Objective-C/ZegoAVDevice.h"
@@ -19,8 +24,9 @@ ZegoMixStreamAnchorDialog::ZegoMixStreamAnchorDialog(RoomPtr room, ZegoDeviceMan
 	connect(GetAVSignal(), &QZegoAVSignal::sigLoginRoom, this, &ZegoMixStreamAnchorDialog::OnLoginRoom);
 	connect(GetAVSignal(), &QZegoAVSignal::sigStreamUpdated, this, &ZegoMixStreamAnchorDialog::OnStreamUpdated);
 	connect(GetAVSignal(), &QZegoAVSignal::sigPublishStateUpdate, this, &ZegoMixStreamAnchorDialog::OnPublishStateUpdate);
+	connect(GetAVSignal(), &QZegoAVSignal::sigPublishQualityUpdate2, this, &ZegoMixStreamAnchorDialog::OnPublishQualityUpdate);
 	connect(GetAVSignal(), &QZegoAVSignal::sigPlayStateUpdate, this, &ZegoMixStreamAnchorDialog::OnPlayStateUpdate);
-	
+	connect(GetAVSignal(), &QZegoAVSignal::sigPlayQualityUpdate, this, &ZegoMixStreamAnchorDialog::OnPlayQualityUpdate);
 	connect(GetAVSignal(), &QZegoAVSignal::sigJoinLiveRequest, this, &ZegoMixStreamAnchorDialog::OnJoinLiveRequest);
 	connect(GetAVSignal(), &QZegoAVSignal::sigMixStream, this, &ZegoMixStreamAnchorDialog::OnMixStream);
 	connect(ui.m_bRequestJoinLive, &QPushButton::clicked, this, &ZegoMixStreamAnchorDialog::OnButtonSwitchPublish);
@@ -67,7 +73,12 @@ void ZegoMixStreamAnchorDialog::StartPublishStream()
 
 	m_pChatRoom->addStream(pPublishStream);
 
-	//推流前调用双声道
+	//使用了双声道采集后，混响和虚拟立体声均无效。
+#ifdef Q_OS_WIN
+    //双声道采集
+    //AUDIODEVICE::EnableCaptureStereo(1);
+#endif
+	//推流前调用双声道编码
 	LIVEROOM::SetAudioChannelCount(2);
 
 	if (m_avaliableView.size() > 0)
@@ -390,9 +401,6 @@ void ZegoMixStreamAnchorDialog::OnPublishStateUpdate(int stateCode, const QStrin
 
 		StartMixStream();
 
-		//推流成功后启动计时器监听麦克风音量
-		timer->start(200);
-
 	}
 	else
 	{
@@ -400,7 +408,6 @@ void ZegoMixStreamAnchorDialog::OnPublishStateUpdate(int stateCode, const QStrin
 		ui.m_bRequestJoinLive->setText(tr("开始直播"));
 		ui.m_bRequestJoinLive->setEnabled(true);
 
-		EndAux();
 		// 停止预览, 回收view.
 		removeAVView(streamInfo->getPlayView());
 		LIVEROOM::StopPreview();
@@ -423,6 +430,48 @@ void ZegoMixStreamAnchorDialog::OnPlayStateUpdate(int stateCode, const QString& 
 		removeAVView(pStream->getPlayView());
 		FreeAVView(pStream);
 	}
+}
+
+void ZegoMixStreamAnchorDialog::OnPublishQualityUpdate(const QString& streamId, int quality, double capFPS, double videoFPS, double videoKBS, double audioKBS, int rtt, int pktLostRate)
+{
+	StreamPtr pStream = m_pChatRoom->getStreamById(streamId);
+
+	if (pStream == nullptr)
+		return;
+
+	int nIndex = pStream->getPlayView();
+
+	if (nIndex < 0 || nIndex > 11)
+		return;
+
+	AVViews[nIndex]->setCurrentQuality(quality);
+
+	/*if (capFPS == 0)
+	{
+		QMessageBox::warning(NULL, tr("警告"), tr("摄像头采集异常，停止推流"));
+		ui.m_bRequestJoinLive->setText(tr("停止中..."));
+		ui.m_bRequestJoinLive->setEnabled(false);
+		StopPublishStream(streamId);
+		ui.m_bRequestJoinLive->setEnabled(true);
+		ui.m_bRequestJoinLive->setText(tr("开始直播"));
+
+	}*/
+}
+
+void ZegoMixStreamAnchorDialog::OnPlayQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS)
+{
+	StreamPtr pStream = m_pChatRoom->getStreamById(streamId);
+
+	if (pStream == nullptr)
+		return;
+
+	int nIndex = pStream->getPlayView();
+
+	if (nIndex < 0 || nIndex > 11)
+		return;
+
+	AVViews[nIndex]->setCurrentQuality(quality);
+
 }
 
 void ZegoMixStreamAnchorDialog::OnMixStream(unsigned int errorCode, const QString& hlsUrl, const QString& rtmpUrl, const QString& mixStreamID, int seq)
@@ -493,41 +542,11 @@ void ZegoMixStreamAnchorDialog::OnButtonSwitchPublish()
 		StopMixStream();
 		StopPublishStream(m_strPublishStreamID);
 
-		if (timer->isActive())
-			timer->stop();
-		ui.m_bProgMircoPhone->setMyEnabled(false);
-		ui.m_bProgMircoPhone->update();
-
-		if (ui.m_bAux->text() == tr("关闭混音"))
-		{
-			ui.m_bAux->setText(tr("关闭中..."));
-			ui.m_bAux->setEnabled(false);
-
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32)
-			if (isUseDefaultAux)
-			{
-				EndAux();
-
-			}
-			else
-			{
-				AUDIOHOOK::StopAudioRecord();
-				LIVEROOM::EnableAux(false);
-				AUDIOHOOK::UnInitAudioHook();
-
-			}
-#else
-			EndAux();
-#endif
-			ui.m_bAux->setText(tr("开启混音"));
-		}
-		//停止直播后不能混音、声音采集、分享
-		ui.m_bAux->setEnabled(false);
-		ui.m_bCapture->setEnabled(false);
-		ui.m_bShare->setEnabled(false);
-		ui.m_bProgMircoPhone->setEnabled(false);
 		ui.m_bRequestJoinLive->setEnabled(true);
 		ui.m_bRequestJoinLive->setText(tr("开始直播"));
+
+		//停止直播后不能混音、声音采集、分享
+		ui.m_bShare->setEnabled(false);
 	}
 }
 

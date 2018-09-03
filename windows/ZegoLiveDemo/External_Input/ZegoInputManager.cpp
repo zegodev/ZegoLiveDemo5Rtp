@@ -2,7 +2,8 @@
 #include "Base/IncludeZegoLiveRoomApi.h"
 #include "ZegoLiveDemo.h"
 #include <QPainter>
-#include <windows.h>
+#include <QDateTime>
+
 
 using namespace ZEGO;
 using AutoLock = std::lock_guard<std::mutex>;
@@ -14,7 +15,7 @@ ZegoInputManager::ZegoInputManager()
 {
 	m_pCamera = new ZegoVideoCapExternal;
 
-	QImage defaultImg(QSize(640, 360), QImage::Format_ARGB32);
+	QImage defaultImg(QSize(640, 360), QImage::Format_RGB32);
 	defaultImg.fill(qRgb(22, 22, 22));
 	AVE::VideoCaptureFormat qFormat;
 	qFormat.width = 640;
@@ -118,7 +119,8 @@ VideoFrame ZegoInputManager::GetCamFrame()
 
 void ZegoInputManager::OnCamVideoFrame(VideoFrame f)
 {
-	theApp.GetBase().GetVideoFactory()->SendCapturedDataToSDK((const char*)f->getData(), f->frameLength(), f->getCurrentFormat(), GetTickCount(), 1000);
+	qint64 timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	theApp.GetBase().GetVideoFactory()->SendCapturedDataToSDK((const char*)f->getData(), f->frameLength(), f->getCurrentFormat(), timestamp, 1000);
 
     AutoLock al(cam_frame_lock_);
     cam_frame_ = f;

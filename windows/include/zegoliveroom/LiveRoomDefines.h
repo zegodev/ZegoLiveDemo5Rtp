@@ -71,7 +71,8 @@ namespace ZEGO
         
         struct ZegoPublishQuality
         {
-            double fps;             ///< 视频帧率
+            double fps;             ///< 视频帧率(编码/网络发送)
+            double cfps;            ///< 视频采集帧率
             double kbps;            ///< 视频码率(kb/s)
             double akbps;           ///< 音频码率(kb/s)
             int rtt;                ///< 延时(ms)

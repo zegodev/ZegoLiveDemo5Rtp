@@ -184,6 +184,20 @@ void QZegoAVSignal::OnPublishQulityUpdate(const char* pszStreamID, int quality, 
 	
 }
 
+void QZegoAVSignal::OnPublishQualityUpdate(const char* pszStreamID, LIVEROOM::ZegoPublishQuality publishQuality)
+{
+	QString strStreamID = pszStreamID ? pszStreamID : "";
+	int quality = publishQuality.quality;
+	double capFPS = publishQuality.cfps;
+	double videoFPS = publishQuality.fps;
+	double videoKBS = publishQuality.kbps;
+	double audioKBS = publishQuality.akbps;
+	int rtt = publishQuality.rtt;
+	int pktLostRate = publishQuality.pktLostRate;
+
+	emit sigPublishQualityUpdate2(strStreamID, quality, capFPS, videoFPS, videoKBS, audioKBS, rtt, pktLostRate);
+}
+
 void QZegoAVSignal::OnPlayQualityUpdate(const char* pszStreamID, int quality, double videoFPS, double videoKBS)
 {
 	QString strStreamID = pszStreamID ? pszStreamID : "";
@@ -240,11 +254,11 @@ void QZegoAVSignal::OnVideoDeviceStateChanged(AV::DeviceInfo *deviceInfo, AV::De
 	if (deviceInfo == nullptr)
 		return;
 
-	qDebug() << "videoDevice " << state;
-
 	QString strDeviceId = deviceInfo->szDeviceId;
 	QString strDeviceName = deviceInfo->szDeviceName;
-
+    
+    qDebug() << "videoDevice " << state<<" video device id: "<<strDeviceId<<" name:"<<strDeviceName;
+    
 	emit sigVideoDeviceChanged(strDeviceId, strDeviceName, state);
 	
 }
@@ -299,7 +313,7 @@ void QZegoAVSignal::OnSnapshot(void *pImage, const char* pszStreamID)
 	emit sigSnapshot(pImage, streamID);
 }
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 void QZegoAVSignal::OnSurfaceMergeResult(
 	unsigned char *surfaceMergeData,
 	int datalength,
@@ -315,4 +329,17 @@ void QZegoAVSignal::OnSurfaceMergeResult(
 void QZegoAVSignal::OnDeviceError(const char* deviceName, int errorCode)
 {
 	qDebug() << "deviceName = " << deviceName << " error = " << errorCode;
+}
+
+void QZegoAVSignal::OnSoundLevelUpdate(SOUNDLEVEL::ZegoSoundLevelInfo *pSoundLevelList, unsigned int soundLevelCount)
+{
+
+}
+
+void QZegoAVSignal::OnCaptureSoundLevelUpdate(SOUNDLEVEL::ZegoSoundLevelInfo *pCaptureSoundLevel)
+{
+	if (!pCaptureSoundLevel)
+		return;
+
+	emit sigCaptureSoundLevelUpdate(pCaptureSoundLevel->soundLevel);
 }

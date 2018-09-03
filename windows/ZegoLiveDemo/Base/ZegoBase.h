@@ -23,7 +23,7 @@ public :
 	~QZegoBase();
 
 	bool InitAVSDK(QString userID, QString userName);
-	bool InitAVSDKwithCustomAppId(QString userID, QString userName, unsigned int app_id, unsigned char *app_sign);
+	bool InitAVSDKwithCustomAppId(QString userID, QString userName, unsigned int app_id, unsigned char *app_sign, int len);
 	void UninitAVSDK(void);
 	bool IsAVSdkInited(void);
 

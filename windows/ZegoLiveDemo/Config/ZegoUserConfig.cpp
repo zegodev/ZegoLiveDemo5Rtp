@@ -37,7 +37,7 @@ void QZegoUserConfig::LoadConfig(void)
 	m_isVerticalCapture = false;
 
 	m_appVersion = ZEGO_PROTOCOL_UDP;
-	m_customAppConfig.m_customAppId = "";
+	m_customAppConfig.m_customAppId = 0;
 	m_customAppConfig.m_customAppSign = "";
 
 	if (m_pVideoSettings == nullptr)
@@ -77,7 +77,7 @@ bool QZegoUserConfig::LoadConfigInternal(void)
 	bool nIsVerticalCapture = configIni->value("/sUserRecords/kIsVerticalCapture").toBool();
 
 	int nAppVer = configIni->value("/sUserRecords/kAppVersion").toInt();
-	QString nAppId = configIni->value("/sUserRecords/kAppId").toString();
+	unsigned nAppId = configIni->value("/sUserRecords/kAppId").toUInt();
 	QString nAppSign = configIni->value("/sUserRecords/kAppSign").toString();
 	//读ini文件完毕后释放指针
 	delete configIni;
@@ -126,7 +126,7 @@ void QZegoUserConfig::SaveConfig()
 	configIni->setValue("/sUserRecords/kIsTestEnv", m_isUseTestEnv);
 
 	configIni->setValue("/sUserRecords/kAppVersion", m_appVersion);
-	configIni->setValue("/sUserRecords/kAppId", m_customAppConfig.m_customAppId);
+	configIni->setValue("/sUserRecords/kAppId", (qlonglong)m_customAppConfig.m_customAppId);
 	configIni->setValue("/sUserRecords/kAppSign", m_customAppConfig.m_customAppSign);
 
 	configIni->setValue("/sUserRecords/kIsVerticalCapture", m_isVerticalCapture);
@@ -243,7 +243,7 @@ AppConfig QZegoUserConfig::GetAppConfig()
 	return m_customAppConfig;
 }
 
-void QZegoUserConfig::SetAppId(QString appid)
+void QZegoUserConfig::SetAppId(unsigned long appid)
 {
 	m_customAppConfig.m_customAppId = appid;
 }

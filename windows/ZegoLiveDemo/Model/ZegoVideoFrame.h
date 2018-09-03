@@ -25,7 +25,7 @@ public:
 		data_ = new unsigned char[len];
         memcpy(data_, data, len);
           
-        frame_ = QImage(data_, format_.width, format_.height, format_.strides[0], QImage::Format_ARGB32);
+        frame_ = QImage(data_, format_.width, format_.height, format_.strides[0], QImage::Format_RGB32);
     }
 
 	~QZegoVideoFrame() 

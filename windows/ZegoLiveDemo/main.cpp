@@ -27,13 +27,13 @@ QString LoadTranslateFile()
 int main(int argc, char *argv[])
 {
 	//禁止本进程QT网络模块轮询网卡
-	_putenv("QT_BEARER_POLL_TIMEOUT=-1");
+	putenv("QT_BEARER_POLL_TIMEOUT=-1");
 
 	QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-
+    
 	QApplication app(argc, argv);
-	//qreal dpi = app.devicePixelRatio();
+	qreal dpi = app.devicePixelRatio();
 	QTranslator *trans = new QTranslator;
 	trans->load(LoadTranslateFile());
 	app.installTranslator(trans);

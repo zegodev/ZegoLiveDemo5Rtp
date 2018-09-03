@@ -73,7 +73,12 @@ int ZegoVideoCapExternal::SetCamera(std::string deviceId)
 		return -1;
 	}
 
+#ifdef Q_OS_WIN
 	AVE::Camera *pCameraDevice = ZEGO::CAMERA::CreateCamera();
+#else
+    AVE::Camera *pCameraDevice = nullptr;
+#endif
+
 	if (pCameraDevice == nullptr)
 	{
 		return -2;
@@ -93,8 +98,12 @@ int ZegoVideoCapExternal::SetCamera(std::string deviceId)
 	}
 	else
 	{
-				
+		
+#ifdef Q_OS_WIN
 		ZEGO::CAMERA::DestroyCamera(pCameraDevice);
+#else
+        pCameraDevice = nullptr;
+#endif
 	}
 
 	return 0;
@@ -107,8 +116,12 @@ int ZegoVideoCapExternal::RemoveCamera()
 	{
 		pCameraDevice->StopAndDeAllocate();
 
-				
+		
+#ifdef Q_OS_WIN
 		ZEGO::CAMERA::DestroyCamera(pCameraDevice);
+#else
+        pCameraDevice = nullptr;
+#endif
 	}
 
 	m_deviceInfo.Reset();

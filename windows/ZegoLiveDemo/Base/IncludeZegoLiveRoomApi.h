@@ -1,4 +1,4 @@
-﻿//
+//
 //  IncludeZegoLiveRoomApi.h
 //  ZegoLiveDemo
 //
@@ -10,9 +10,6 @@
 
 
 #include <QDebug>
-
-#if defined(Q_OS_WIN)
-
 #include "LiveRoom.h"
 #include "LiveRoom-IM.h"
 #include "LiveRoom-Player.h"
@@ -21,29 +18,32 @@
 extern ZEGOAVKIT_API void ZegoExternalLogWithNotice(const char* content);
 inline void log_string_notice(const char* content) { ZegoExternalLogWithNotice(content); qDebug() << content; }
 
-namespace ZEGO
-{
-	namespace CAMERA
-	{
-		ZEGO_API AVE::Camera* CreateCamera();
-
-		ZEGO_API void DestroyCamera(AVE::Camera *pCamera);
-	}
-}
-
 #define qtoc(content) content.toStdString().c_str()
 
-#define USE_SURFACE_MERGE
-#if defined(USE_SURFACE_MERGE) && defined(Q_PROCESSOR_X86_32)
+#if defined(Q_OS_WIN)
+
+namespace ZEGO
+{
+    namespace CAMERA
+    {
+        ZEGO_API AVE::Camera* CreateCamera();
+        
+        ZEGO_API void DestroyCamera(AVE::Camera *pCamera);
+    }
+}
+
+
+/*#if defined(USE_SURFACE_MERGE) && defined(Q_PROCESSOR_X86_32)
 #include "Module/ZegoSurfaceMergeApi.h"
+#endif
+*/
+
+#if defined(Q_PROCESSOR_X86_32)
+#define USE_EXTERNAL_SDK
 #endif
 
 #elif defined(Q_OS_MAC)
 
-#include "LiveRoom.h"
-#include "LiveRoom-IM.h"
-#include "LiveRoom-Player.h"
-#include "LiveRoom-Publisher.h"
 
 #else
 static_assert(false, "Unkown Platform");

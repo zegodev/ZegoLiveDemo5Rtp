@@ -18,6 +18,7 @@ ZegoSingleAudienceDialog::ZegoSingleAudienceDialog(RoomPtr room, ZegoDeviceManag
 	connect(GetAVSignal(), &QZegoAVSignal::sigLoginRoom, this, &ZegoSingleAudienceDialog::OnLoginRoom);
 	connect(GetAVSignal(), &QZegoAVSignal::sigStreamUpdated, this, &ZegoSingleAudienceDialog::OnStreamUpdated);
 	connect(GetAVSignal(), &QZegoAVSignal::sigPlayStateUpdate, this, &ZegoSingleAudienceDialog::OnPlayStateUpdate);
+	connect(GetAVSignal(), &QZegoAVSignal::sigPlayQualityUpdate, this, &ZegoSingleAudienceDialog::OnPlayQualityUpdate);
 	connect(GetAVSignal(), &QZegoAVSignal::sigStreamExtraInfoUpdated, this, &ZegoSingleAudienceDialog::OnStreamExtraInfoUpdated);
 }
 
@@ -83,15 +84,22 @@ bool ZegoSingleAudienceDialog::praseJsonData(QJsonDocument doc)
 	QJsonValue hlsUrl = obj.take(m_HlsKey);
 	QJsonValue rtmpUrl = obj.take(m_RtmpKey);
 
+	QString roomName = obj.take(m_RoomName).toString();
+
 	sharedHlsUrl = hlsUrl.toString();
 	sharedRtmpUrl = rtmpUrl.toString();
+
+	if(!roomName.isEmpty())
+	    m_pChatRoom->setRoomName(roomName);
+	//更新标题内容
+	QString strTitle = QString(tr("【%1】%2")).arg(tr("单主播模式")).arg(m_pChatRoom->getRoomName());
+	ui.m_lbRoomName->setText(strTitle);
 
 	return true;
 }
 
 void ZegoSingleAudienceDialog::GetOut()
 {
-	//EndAux();
 	for (auto& stream : m_pChatRoom->getStreamList())
 	{
 		if (stream != nullptr)
@@ -181,7 +189,7 @@ void ZegoSingleAudienceDialog::OnStreamExtraInfoUpdated(const QString& roomId, Q
 
 			//假如当前主播推流后退出房间重新进入，有可能会改房间名
 			QString newRoomName = jsonObject[m_RoomName].toString();
-			if (newRoomName != m_pChatRoom->getRoomName())
+			if (newRoomName != m_pChatRoom->getRoomName() && !newRoomName.isEmpty())
 			{
 				m_pChatRoom->setRoomName(newRoomName);
 				QString strTitle = QString(tr("【%1】%2")).arg(tr("单主播模式")).arg(m_pChatRoom->getRoomName());
@@ -214,3 +222,18 @@ void ZegoSingleAudienceDialog::OnPlayStateUpdate(int stateCode, const QString& s
 	}
 }
 
+void ZegoSingleAudienceDialog::OnPlayQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS)
+{
+	StreamPtr pStream = m_pChatRoom->getStreamById(streamId);
+
+	if (pStream == nullptr)
+		return;
+
+	int nIndex = pStream->getPlayView();
+
+	if (nIndex < 0 || nIndex > 11)
+		return;
+
+	AVViews[nIndex]->setCurrentQuality(quality);
+
+}

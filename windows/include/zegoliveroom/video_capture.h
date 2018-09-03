@@ -1,4 +1,4 @@
-﻿#ifndef ZEGOVideoCapture_h
+#ifndef ZEGOVideoCapture_h
 #define ZEGOVideoCapture_h
 #include "video_format.h"
 namespace AVE {
@@ -32,7 +32,7 @@ namespace AVE {
         /// \note 可以不实现
         virtual int SetView(void *view) = 0;
         
-        /// \brief 设置采集预览的模式
+        /// \brief 设置采集预览模式
         /// \param nMode 取值参考ZegoVideoViewMode
         /// \note SDK SetPreviewViewMode异步调用，透传该方法入参
         /// \note 可以不实现
@@ -77,15 +77,27 @@ namespace AVE {
         virtual int SetPowerlineFreq(unsigned int nFreq) { return 0; }
     };
     
+    enum VideoFillMode {
+        FILL_MODE_BLACKBAR,         // * maintain aspect ratio, adds black bars if needed
+        FILL_MODE_CROP,             // * crop video to fit view
+        FILL_MODE_STRETCH           // * stretch video to fit view
+    };
+    
+    enum VideoFlipMode {
+        FLIP_MODE_NONE = 0,
+        FLIP_MODE_X = 1 << 0,       // * 水平翻转，镜像
+        FLIP_MODE_Y = 1 << 1,       // * 垂直翻转
+    };
+    
     class VideoCaptureCallback {
     public:
         /// \brief 通知SDK采集到视频数据，SDK会同步拷贝数据，切换到内部线程进行编码，如果缓冲队列不够，SDK会自动丢帧
         /// \param data 采集buffer指针
         /// \param length 采集buffer的长度
-        /// \param frame_format 描述buffer的属性，包括了宽高，色彩空间
+        /// \param frame_format 描述buffer的属性，包括宽高，色彩空间
         /// \param reference_time 采集到该帧的时间戳，用于音画同步，如果采集实现是摄像头，最好使用系统采集回调的原始时间戳，如果不是，最好是生成该帧的UTC时间戳
         /// \param reference_time_scale 采集时间戳单位，毫秒10^3，微妙10^6，纳秒10^9，精度不能低于毫秒
-        /// \note SDK不会做额外的裁剪缩放，编码器分辨率以frame_format内的宽高为准
+        /// \note 当时图像宽高和编码宽高的宽高比不一致时，默认裁剪
         virtual void OnIncomingCapturedData(const char* data,
                                             int length,
                                             const VideoCaptureFormat& frame_format,
@@ -95,22 +107,47 @@ namespace AVE {
         /// \brief 通知SDK截图成功
         /// \param image 图像数据
         virtual void OnTakeSnapshot(void* image) = 0;
+        
+        /// \brief 当时图像宽高和编码宽高的宽高比不一致时使用的填充模式，默认裁剪
+        /// \param mode 填充模式，参考VideoFillMode
+        virtual void SetFillMode(int mode) = 0;
     };
     
     class VideoCaptureCVPixelBufferCallback {
     public:
+        /// \brief 通知SDK采集到视频数据，SDK会同步拷贝数据，切换到内部线程进行编码，如果缓冲队列不够，SDK会自动丢帧
+        /// \param data CVPixelBufferRef转换后的void*
+        /// \param reference_time_ms 采集到该帧的时间戳，单位毫秒，不能超过2^52, 用于音画同步，如果采集实现是摄像头，最好使用系统采集回调的原始时间戳，如果不是，最好是生成该帧的UTC时间戳
         virtual void OnIncomingCapturedData(void* buffer,
                                             double reference_time_ms) = 0;
+        
+        /// \brief 当时图像宽高和编码宽高的宽高比不一致时使用的填充模式，默认裁剪
+        /// \param mode 填充模式，参考VideoFillMode
+        virtual void SetFillMode(int mode) = 0;
     };
     
     class VideoCaptureSurfaceTextureCallback {
     public:
+        /// \brief 获取SurfaceTexture对应的jobject
         virtual void* GetSurfaceTexture() = 0;
     };
     
     class VideoCaptureTextureCallback {
     public:
+        /// \brief 通知SDK采集到视频数据，SDK会同步绘制到FBO，切换到内部线程进行编码，如果缓冲队列不够，SDK会自动丢帧
+        /// \param texture_id GL_TEXTURE_2D的贴图
+        /// \param width 贴图宽
+        /// \param height 贴图高
+        /// \param reference_time_ms 采集到该帧的时间戳，单位毫秒，不能超过2^52, 用于音画同步，如果采集实现是摄像头，最好使用系统采集回调的原始时间戳，如果不是，最好是生成该帧的UTC时间戳
         virtual void OnIncomingCapturedData(int texture_id, int width, int height, double reference_time_ms) = 0;
+        
+        /// \brief 当时图像宽高和编码宽高的宽高比不一致时使用的填充模式，默认裁剪
+        /// \param mode 填充模式，参考VideoFillMode
+        virtual void SetFillMode(int mode) = 0;
+        
+        /// \brief SDK默认垂直翻转，如果不需要，设置0
+        /// \param mode 翻转模型，参考VideoFlipMode
+        virtual void SetFlipMode(int mode) = 0;
     };
     
     enum VideoCodecType {
@@ -129,6 +166,12 @@ namespace AVE {
     
     class VideoCaptureEncodedFrameCallback {
     public:
+        /// \brief 通知SDK采集到编码数据，SDK会切换到内部线程进行发送
+        /// \param data 码流指针
+        /// \param length 码流长度
+        /// \param codec_config 码流的信息，参考VideoCodecConfig
+        /// \param b_keyframe 是否为关键帧
+        /// \param reference_time_ms 采集到该帧的时间戳，单位毫秒，不能超过2^52, 用于音画同步，如果采集实现是摄像头，最好使用系统采集回调的原始时间戳，如果不是，最好是生成该帧的UTC时间戳
         virtual void OnEncodedFrame(const char* data, int length,
                                     const VideoCodecConfig& codec_config,
                                     bool b_keyframe, double reference_time_ms) = 0;
@@ -144,12 +187,6 @@ namespace AVE {
         PIXEL_BUFFER_TYPE_I422_MEM_FOR_HIGH422 = 1 << 5,
     };
     
-    enum VideoFillMode {
-        FILL_MODE_BLACKBAR,         // * maintain aspect ratio, adds black bars if needed
-        FILL_MODE_CROP,             // * crop video to fit view
-        FILL_MODE_STRETCH           // * stretch video to fit view
-    };
-    
     class VideoCaptureDeviceBase {
     public:
         class Client {
@@ -162,9 +199,14 @@ namespace AVE {
             
             virtual void OnError(const char* reason) = 0;
             
+            /// \brief 获取不同采集方式对应的回调接口
+            /// \note VideoCaptureDeviceBase::SupportBufferType返回PIXEL_BUFFER_TYPE_MEM时，GetInterface返回VideoCaptureCallback*
+            /// \note VideoCaptureDeviceBase::SupportBufferType返回PIXEL_BUFFER_TYPE_CV_PIXEL_BUFFER时，GetInterface返回VideoCaptureCVPixelBufferCallback*
+            /// \note VideoCaptureDeviceBase::SupportBufferType返回PIXEL_BUFFER_TYPE_SURFACE_TEXTURE时，GetInterface返回VideoCaptureSurfaceTextureCallback*
+            /// \note VideoCaptureDeviceBase::SupportBufferType返回PIXEL_BUFFER_TYPE_GL_TEXTURE_2D时，GetInterface返回VideoCaptureTextureCallback*
+            /// \note VideoCaptureDeviceBase::SupportBufferType返回PIXEL_BUFFER_TYPE_ENCODED_FRAME时，GetInterface返回VideoCaptureEncodedFrameCallback*
+            /// \note VideoCaptureDeviceBase::SupportBufferType返回PIXEL_BUFFER_TYPE_I422_MEM_FOR_HIGH422时，GetInterface返回VideoCaptureCallback*
             virtual void* GetInterface() = 0;
-            
-            virtual void SetFillMode(int mode) = 0;
         };
         
     public:       
@@ -193,7 +235,15 @@ namespace AVE {
 		/// \note 一定要实现
         virtual int StopCapture() = 0;
         
+        /// \brief 获取采集callback的类型
+        /// \note SDK会在AllocateAndStart前先调用此接口实例化对应的client，再调用AllocateAndStart
+        /// \note 一定要实现
         virtual VideoPixelBufferType SupportBufferType() = 0;
+        
+        /// \brief 检查是否支持SupportsVideoCapture接口
+        /// \note SDK会在VideoCaptureFactory::Create后调用此方法，如果返回不会空，SDK会按照SupportsVideoCapture
+        /// \note 透传SDK的调用
+        /// \note 一定要实现
         virtual void* GetInterface() = 0;
     };
     
@@ -269,13 +319,63 @@ namespace AVE {
         public:
             virtual ~Client() {}
             virtual void Destroy() = 0;
+            
+            /// \brief 获取不同滤镜处理模型对应的接口
+            /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_MEM时，GetInterface返回VideoBufferPool*，
+            /// \note VideoBufferPool::GetInputBuffer需要返回uint8_t*, 色彩空间windows、ios、mac为BGRA，android为RGBA，线程模型为异步
+            /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_ASYNC_PIXEL_BUFFER时，GetInterface返回VideoBufferPool*,
+            /// \note VideoBufferPool::GetInputBuffer需要返回CVPixelBufferRef, 色彩空间为BGRA，线程模型为异步
+            /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_SYNC_PIXEL_BUFFER时，GetInterface返回VideoFilterCallback*,
+            /// \note 色彩空间为BGRA，线程模型为同步
+            /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_SURFACE_TEXTURE时，GetInterface返回VideoBufferPool*
+            /// \note VideoBufferPool::GetInputBuffer需要返回SurfaceTexture对应的jobject, 线程模型为异步
+            /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_HYBRID_MEM_GL_TEXTURE_2D时，GetInterface返回VideoFilterCallback*
+            /// \note VideoFilterCallback::OnProcess的入参buffer为贴图id转成的int*, 线程模型为异步
+            /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_SYNC_GL_TEXTURE_2D时，GetInterface返回VideoFilterCallback*
+            /// \note VideoFilterCallback::OnProcess的入参buffer为贴图id转成的int*, 线程模型为同步
+            /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_ASYNC_I420_MEM时，GetInterface返回VideoBufferPool*,
+            /// \note VideoBufferPool::GetInputBuffer需要返回uint8_t*, 色彩空间为I420，线程模型为异步
+            /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_ASYNC_I420_PIXEL_BUFFER时，GetInterface返回VideoBufferPool*
+            /// \note VideoBufferPool::GetInputBuffer需要返回CVPixelBufferRef, 色彩空间为I420，线程模型为异步
             virtual void* GetInterface() = 0;
         };
         
     public:
+        /// \brief 初始化采集使用的资源，例如启动线程，保存SDK传递的回调
+        /// \param client SDK实现回调的对象，一定要保存
+        /// \note SDK启动摄像头时调用，触发的时机包括StartPreview、SetFrontCam、StartPublish
+        /// \note 接口调用顺序:1、VideoFilterFactory::Create 2、VideoFilter::AllocateAndStart
+        /// \note 一定要实现
         virtual void AllocateAndStart(Client* client) = 0;
+        
+        /// \brief 停止并且释放采集占用的资源，同时调用client的Destroy方法，这里的client指的是AllocateAndStart传递的client
+        /// \note SDK停止使用摄像头时调用，如果是异步实现，实现者必须保证AllocateAndStart()和StopAndDeAllocate()在同一个线程执行
+        /// \note 接口调用顺序:1、VideoFilter::StopAndDeAllocate 2、VideoFilterFactory::Destroy
+        /// \note 一定要实现
         virtual void StopAndDeAllocate() = 0;
+        
+        /// \brief 获取滤镜处理类型，SDK会根据此类型，使用对应的接口传输数据
+        /// \note SDK会在AllocateAndStart前先调用此接口实例化对应的client，再调用AllocateAndStart
+        /// \note 一定要实现
         virtual VideoBufferType SupportBufferType() = 0;
+        
+        /// \brief 获取不同滤镜处理模型对应的接口
+        /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_MEM时，GetInterface返回VideoBufferPool*，
+        /// \note VideoBufferPool::GetInputBuffer需要返回uint8_t*, 色彩空间windows、ios、mac为BGRA，android为RGBA，线程模型为异步
+        /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_ASYNC_PIXEL_BUFFER时，GetInterface返回VideoBufferPool*,
+        /// \note VideoBufferPool::GetInputBuffer需要返回CVPixelBufferRef, 色彩空间为BGRA，线程模型为异步
+        /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_SYNC_PIXEL_BUFFER时，GetInterface返回VideoFilterCallback*,
+        /// \note 色彩空间为BGRA，线程模型为同步
+        /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_SURFACE_TEXTURE时，GetInterface返回VideoBufferPool*
+        /// \note VideoBufferPool::GetInputBuffer需要返回SurfaceTexture对应的jobject, 线程模型为异步
+        /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_HYBRID_MEM_GL_TEXTURE_2D时，GetInterface返回VideoBufferPool*
+        /// \note VideoBufferPool::GetInputBuffer需要返回uint8_t*, 色彩空间android为RGBA，线程模型为异步
+        /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_SYNC_GL_TEXTURE_2D时，GetInterface返回VideoFilterCallback*
+        /// \note VideoFilterCallback::OnProcess的入参buffer为贴图id转成的int*, 线程模型为同步
+        /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_ASYNC_I420_MEM时，GetInterface返回VideoBufferPool*,
+        /// \note VideoBufferPool::GetInputBuffer需要返回uint8_t*, 色彩空间为I420，线程模型为异步
+        /// \note VideoFilter::SupportBufferType返回BUFFER_TYPE_ASYNC_I420_PIXEL_BUFFER时，GetInterface返回VideoBufferPool*
+        /// \note VideoBufferPool::GetInputBuffer需要返回CVPixelBufferRef, 色彩空间为I420，线程模型为异步
         virtual void* GetInterface() = 0;
     };
     
@@ -283,7 +383,14 @@ namespace AVE {
     public:
         virtual ~VideoFilterFactory() {}
         
+        /// \brief 创建滤镜
+        /// \note SDK第一次StartPublish或者StartPreview时异步调用
+        /// \note 一定要实现
         virtual VideoFilter* Create() = 0;
+        
+        /// \brief 销毁滤镜
+        /// \param vf Create方法返回的滤镜对象
+        /// \note 一定要实现
         virtual void Destroy(VideoFilter *vf) = 0;
     };
     

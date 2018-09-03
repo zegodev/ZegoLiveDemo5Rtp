@@ -382,6 +382,14 @@ namespace ZEGO
         ZEGO_API void SetLoopbackVolume(int volume);
         
         /**
+         设置采集音量
+         
+         @param volume 音量大小，取值（0, 100）。默认 100
+         @attention SDK初始化成功后调用
+         */
+        ZEGO_API void SetCaptureVolume(int volume);
+        
+        /**
          混音开关
 
          @param bEnable true 启用混音输入，false 关闭混音输入。默认 false
@@ -570,6 +578,15 @@ namespace ZEGO
         @return true 调用成功，false 调用失败
          */
         ZEGO_API bool EnableNoiseSuppress(bool bEnable);
+        
+        /**
+         设置推流质量监控周期
+         
+         @param timeInMS 时间周期，单位为毫秒，取值范围为(500, 60000)。默认为 3000
+         @return true 成功，false 失败
+         @attention 必须在推流前调用才能生效。该设置会影响 ILivePublisherCallback::OnPublishQualityUpdate 的回调频率
+         */
+        ZEGO_API bool SetPublishQualityMonitorCycle(unsigned int timeInMS);
     }
 }
 #endif /* LiveRoom_Publisher_h */

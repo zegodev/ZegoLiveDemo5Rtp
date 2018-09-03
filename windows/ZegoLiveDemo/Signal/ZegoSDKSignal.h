@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Base/IncludeZegoLiveRoomApi.h"
+
 #include "Model/ZegoRoomModel.h"
 #include "Model/ZegoStreamModel.h"
 #include "Model/ZegoRoomMsgModel.h"
@@ -8,13 +10,15 @@
 #include "LiveRoomCallback-IM.h"
 #include "LiveRoomCallback-Player.h"
 #include "LiveRoomCallback-Publisher.h"
-#define USE_SURFACE_MERGE
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+
+#ifdef USE_EXTERNAL_SDK
 #include "ZegoSurfaceMergeCallback.h"
 #include "ZegoSurfaceMergeDefine.h"
 #endif
+
+#include "zego-api-sound-level.h"
+#include <QDebug>
 #include <QObject>
-#include <QVector>
 using namespace ZEGO;
 
 class QZegoAVSignal : public QObject,
@@ -22,11 +26,11 @@ class QZegoAVSignal : public QObject,
 	public LIVEROOM::ILivePublisherCallback,
 	public LIVEROOM::ILivePlayerCallback,
 	public LIVEROOM::IIMCallback,
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 	public SurfaceMerge::IZegoSurfaceMergeCallback,
 #endif
-	public AV::IZegoDeviceStateCallback
-
+	public AV::IZegoDeviceStateCallback,
+	public SOUNDLEVEL::IZegoSoundLevelCallback
 {
 	Q_OBJECT
 
@@ -47,6 +51,7 @@ signals:
 	void sigPublishStateUpdate(int stateCode, const QString& streamId, StreamPtr streamInfo);
 	void sigPlayStateUpdate(int stateCode, const QString& streamId);
 	void sigPublishQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS);
+	void sigPublishQualityUpdate2(const QString& streamId, int quality, double capFPS, double videoFPS, double videoKBS, double audioKBS, int rtt, int pktLostRate);
 	void sigPlayQualityUpdate(const QString& streamId, int quality, double videoFPS, double videoKBS);
 	void sigAuxInput(unsigned char* pData, int* pDataLen, int pDataLenValue, int* pSampleRate, int* pNumChannels);
 	void sigJoinLiveRequest(int seq, const QString& fromUserId, const QString& fromUserName, const QString& roomId);
@@ -56,11 +61,11 @@ signals:
 	void sigUserUpdate(QVector<QString> userIDs, QVector<QString> userNames, QVector<int> userFlags, QVector<int> userRoles, unsigned int userCount, LIVEROOM::ZegoUserUpdateType type);
 	void sigMixStream(unsigned int errorCode, const QString& hlsUrl, const QString& rtmpUrl, const QString& mixStreamID, int seq);
 	void sigRecvEndJoinLiveCommand(const QString& userId, const QString& userName, const QString& roomId);
-#if (defined Q_OS_WIN32) && (defined USE_SURFACE_MERGE)
 	void sigSurfaceMergeResult(unsigned char *surfaceMergeData, int datalength);
-#endif
 	void sigPreviewSnapshot(void *pImage);
 	void sigSnapshot(void *pImage, const QString &streamID);
+	
+	void sigCaptureSoundLevelUpdate(float soundlevel);
 	
 protected:
 	void OnInitSDK(int nError);
@@ -77,6 +82,7 @@ protected:
 	void OnJoinLiveRequest(int seq, const char *pszFromUserId, const char *pszFromUserName, const char *pszRoomID);
 	void OnInviteJoinLiveResponse(int result, const char *pszFromUserId, const char *pszFromUserName, int seq) {}
 	void OnPublishQulityUpdate(const char* pszStreamID, int quality, double videoFPS, double videoKBS);
+	void OnPublishQualityUpdate(const char* pszStreamID, LIVEROOM::ZegoPublishQuality publishQuality);
 	void OnCaptureVideoSizeChanged(int nWidth, int nHeight) {}
 	void OnAuxCallback(unsigned char *pData, int *pDataLen, int *pSampleRate, int *pNumChannels);
 	void OnMixStream(const AV::ZegoMixStreamResult& result, const char* pszMixStreamID, int seq);
@@ -102,7 +108,11 @@ protected:
 	void OnPreviewSnapshot(void *pImage);
 	void OnSnapshot(void *pImage, const char* pszStreamID);
 	
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+	//IZegoSoundLevelCallback
+	void OnSoundLevelUpdate(SOUNDLEVEL::ZegoSoundLevelInfo *pSoundLevelList, unsigned int soundLevelCount);
+	void OnCaptureSoundLevelUpdate(SOUNDLEVEL::ZegoSoundLevelInfo *pCaptureSoundLevel);
+
+#ifdef USE_EXTERNAL_SDK
 	void OnSurfaceMergeResult(
 		unsigned char *surfaceMergeData,
 		int datalength,
@@ -111,5 +121,4 @@ protected:
 		unsigned int reference_time_scale);
 
 #endif
-
 };

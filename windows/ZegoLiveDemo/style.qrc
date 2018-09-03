@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-      <file alias="refresh">Resources/images/@1x/refresh.png</file>
+      <file alias="refresh_default">Resources/images/@1x/refresh.png</file>
       <file alias="down_arrow">Resources/images/@1x/down_arrow.png</file>
       <file alias="switch_off">Resources/images/@1x/switch_off.png</file>
       <file alias="switch_disabled">Resources/images/@1x/switch_disabled.png</file>

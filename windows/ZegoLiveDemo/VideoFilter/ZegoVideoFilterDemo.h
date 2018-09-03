@@ -1,12 +1,11 @@
 ﻿#pragma once
 
 #include "video_capture.h"
-#include "stdlib.h"
-#include <windows.h>
+//#include "stdlib.h"
+//#include <windows.h>
 #include <QTimer>
 #include <QThread>
 #include <QMutex>
-#include <QDateTime>
 
 //#include "ZegoVideoFilterWorkThread.h"
 
@@ -34,7 +33,7 @@ protected:
 	void TimerStop();
 	void OnVideoTimer();
 	void Sleep(int msec);
-	static DWORD WINAPI thread_proc(PVOID pParam);
+	//static DWORD WINAPI thread_proc(PVOID pParam);
 
 private:
 	Client *client_;
@@ -42,11 +41,11 @@ private:
 	int height_;
 	int stride_;
 
-	HANDLE m_hVideoTimer = NULL;
+	//HANDLE m_hVideoTimer = NULL;
 	QTimer *m_pTimer;
 	QThread *m_pThread;
 	QMutex m_pMutex;
-	//ZegoVideoFilterWorkThread *m_pThread;
+
 	bool m_bExit = false;
 	int m_nVideoTickPeriod = 10; // ms
 

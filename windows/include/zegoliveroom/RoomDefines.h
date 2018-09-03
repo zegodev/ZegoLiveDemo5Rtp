@@ -79,9 +79,11 @@ namespace ZEGO
             LogicServerNetWrokError = 10,   /**< 逻辑服务器网络错误 */
             
             PublishBadNameError = 105,      /**< 推流名称错误 */
-            AddStreamError  = 0x1 | kLiveRoomErrorBase,
-            ParameterError  = 0x2 | kLiveRoomErrorBase,
-            MultiLoginError = 0x3 | kLiveRoomErrorBase,
+            AddStreamError      = 0x1 | kLiveRoomErrorBase, // 16777217
+            ParameterError      = 0x2 | kLiveRoomErrorBase, // 16777218
+            MultiLoginError     = 0x3 | kLiveRoomErrorBase, // 16777219
+            ManualKickoutError  = 0x4 | kLiveRoomErrorBase, // 16777220
+            RoomSessionError    = 0x5 | kLiveRoomErrorBase, // 16777221
         };
 
         /** 发布直播的模式 */
@@ -272,10 +274,17 @@ namespace ZEGO
             ZegoMessageCategory category;
             unsigned long long sendTime;
         };
+        
+        enum ZegoKickoutReason
+        {
+            MultipleLogin = 1,
+            ManualKickout = 2,
+            RoomSessionError = 3,
+        };
     }
 }
 
-#endif
+#endif  /* ZegoRoomDefines_h */
 #endif /* RoomDefines_h */
 
 

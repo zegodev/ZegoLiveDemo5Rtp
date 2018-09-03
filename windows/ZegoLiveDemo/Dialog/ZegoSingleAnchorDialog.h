@@ -18,7 +18,8 @@ public:
 protected slots:
 	void OnLoginRoom(int errorCode, const QString& roomId, QVector<StreamPtr> vStreamList);
 	void OnPublishStateUpdate(int stateCode, const QString& streamId, StreamPtr streamInfo);
-	
+	void OnPublishQualityUpdate(const QString& streamId, int quality, double capFPS, double videoFPS, double videoKBS, double audioKBS, int rtt, int pktLostRate);
+
 private slots:
 	//对于主播来说，没有请求连麦按钮，换成开始/停止直播按钮
 	void OnButtonSwitchPublish();

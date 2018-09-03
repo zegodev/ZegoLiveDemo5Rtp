@@ -18,18 +18,21 @@ void VideoFilterGlue::AllocateAndStart(Client* client) {
 	m_nReadPtr = 0;
 	m_bExit = false;
 
-    //m_pThread = new ZegoVideoFilterWorkThread(this);
-	LPDWORD tid = 0;
-	m_hVideoTimer = CreateThread(0, 0, &VideoFilterGlue::thread_proc, this, 0, tid);
+	//LPDWORD tid = 0;
+	//m_hVideoTimer = CreateThread(0, 0, &VideoFilterGlue::thread_proc, this, 0, tid);
 
-	/*m_pThread = new QThread;
+	m_pThread = new QThread;
 	m_pTimer = new QTimer;
-	m_pTimer->setSingleShot(true);
+	
 	m_pTimer->moveToThread(m_pThread);
 	
+	m_pTimer->setInterval(10);
+	connect(m_pThread, SIGNAL(started()), m_pTimer, SLOT(start()));
+	connect(m_pThread, SIGNAL(finished()), m_pTimer, SLOT(stop()));
+
 	connect(m_pTimer, &QTimer::timeout, this, &VideoFilterGlue::OnVideoTimer, Qt::DirectConnection);
-	connect(m_pThread, &QThread::started, this, &VideoFilterGlue::TimerStart, Qt::DirectConnection);
-	m_pThread->start();*/
+
+	m_pThread->start();
 }
 
 void VideoFilterGlue::StopAndDeAllocate() {
@@ -45,9 +48,21 @@ void VideoFilterGlue::StopAndDeAllocate() {
 		//m_hVideoTimer = NULL;
     }*/
 	
-	WaitForSingleObject(m_hVideoTimer, INFINITE);
-	CloseHandle(m_hVideoTimer);
-	m_hVideoTimer = NULL;
+	//WaitForSingleObject(m_hVideoTimer, INFINITE);
+	//CloseHandle(m_hVideoTimer);
+	//m_hVideoTimer = NULL;
+
+	if (m_pThread->isRunning())
+	{
+		m_pThread->quit();
+		m_pThread->wait();
+	}
+
+	delete m_pThread;
+	m_pThread = nullptr;
+
+	delete m_pTimer;
+	m_pTimer = nullptr;
 
 	client_->Destroy();
 	client_ = NULL;
@@ -78,20 +93,20 @@ void VideoFilterGlue::QueueInputBuffer(int index, int width, int height, int str
 
 	m_nWritePtr = (m_nWritePtr + 1) % MAX_FRAME;
 
-	/*m_pMutex.lock();
+	m_pMutex.lock();
 	if (m_oPendingCount >= 0)
 		m_oPendingCount++;
-	m_pMutex.unlock();*/
-	InterlockedIncrement(&m_oPendingCount);
+	m_pMutex.unlock();
+	//InterlockedIncrement(&m_oPendingCount);
 	
 }
 
-DWORD WINAPI VideoFilterGlue::thread_proc(PVOID pParam)
+/*DWORD WINAPI VideoFilterGlue::thread_proc(PVOID pParam)
 {
 	VideoFilterGlue *pThis = (VideoFilterGlue *)pParam;
 	pThis->OnVideoTimer();
 	return 0;
-}
+}*/
 
 void VideoFilterGlue::TimerStart()
 {
@@ -106,16 +121,7 @@ void VideoFilterGlue::TimerStop()
 
 void VideoFilterGlue::Sleep(int msec)
 {
-	QDateTime last = QDateTime::currentDateTime();
-	QDateTime now;
-	while (1)
-	{
-		now = QDateTime::currentDateTime();
-		if (last.msecsTo(now) >= msec)
-		{
-			break;
-		}
-	}
+	
 }
 
 void VideoFilterGlue::OnVideoTimer() {
@@ -141,19 +147,18 @@ void VideoFilterGlue::OnVideoTimer() {
 				pool->QueueInputBuffer(index, m_aBuffers[m_nReadPtr].width, m_aBuffers[m_nReadPtr].height, m_aBuffers[m_nReadPtr].width * 4, m_aBuffers[m_nReadPtr].timestamp_100n);
 
 				m_nReadPtr = (m_nReadPtr + 1) % MAX_FRAME;
-				/*m_pMutex.lock();
+				m_pMutex.lock();
 				if (m_oPendingCount > 0)
 					m_oPendingCount--;
-				m_pMutex.unlock();*/
-				InterlockedDecrement(&m_oPendingCount);
+				m_pMutex.unlock();
+				//InterlockedDecrement(&m_oPendingCount);
 			}
 			else {
 				break;
 			}
 		}
-		Sleep(m_nVideoTickPeriod);
-		//this->sleep(m_nVideoTickPeriod);
-		//m_pTimer->
+		//Sleep(m_nVideoTickPeriod);
+		
 	}
 	
 	return;

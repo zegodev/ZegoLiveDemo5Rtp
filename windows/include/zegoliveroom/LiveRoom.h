@@ -105,6 +105,14 @@ namespace ZEGO
         ZEGO_API void SetRoomConfig(bool audienceCreateRoom, bool userStateUpdate);
         
         /**
+         设置自定义token信息
+         
+         @param thirdPartyToken 第三方传入的token
+         @discussion 使用此函数验证登录时用户的合法性，登录房间前调用，token的生成规则请联系即构。若不需要验证用户合法性，不需要调用此函数
+         */
+        ZEGO_API void SetCustomToken(const char *thirdPartyToken);
+        
+        /**
          登录房间
 
          @param pszRoomID 房间 ID
@@ -354,6 +362,19 @@ namespace ZEGO
         ZEGO_API void SetConfig(const char *config);
         
         ZEGO_API bool EnablePreviewMirror(bool bEnable, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
+        
+#if defined(ANDROID) || TARGET_OS_IPHONE
+        /**
+         设置是否允许SDK使用麦克风设备
+         
+         @param enable true 表示允许使用麦克风，false 表示禁止使用麦克风，此时如果SDK在占用麦克风则会立即释放。
+         @return bool true 调用成功，false 调用失败。
+         @discussion 调用时机为引擎创建后的任意时刻。
+         @note 接口由于涉及对设备的操作，极为耗时，不建议随便调用，只在真正需要让出麦克风给其他应用的时候才调用。
+         */
+        ZEGO_API bool EnableMicDevice(bool enable);
+#endif
+        
 	}
 }
 

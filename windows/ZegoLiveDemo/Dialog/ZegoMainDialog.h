@@ -12,7 +12,7 @@
 #include "Base/ZegoLiveDemoDefines.h"
 #include "ZegoEnterRoomButton.h"
 #include "Device/ZegoDeviceManager.h"
-#include "frameless_helper.h"
+#include "FramelessHelper.h"
 #include <QtNetwork/qnetworkaccessmanager.h> 
 #include <QtNetwork/qnetworkrequest.h>
 #include <QtNetwork/qnetworkreply.h>
@@ -28,12 +28,6 @@
 #include <QStandardItemModel>
 //虚拟立体声和混响接口
 #include "zego-api-audio-processing.h"
-
-//标题栏坐标范围
-#define pos_min_x  0
-#define pos_max_x  ui.m_zoneTitle->size().width()
-#define pos_min_y  0
-#define pos_max_y  ui.m_zoneTitle->size().height()
 
 typedef enum _LiveMode
 {
@@ -98,7 +92,6 @@ protected:
 	virtual bool eventFilter(QObject *target, QEvent *event);
 
 private:
-	//void EnumVideoAndAudioDevice(SettingsPtr curSettings);
 	void GetDeviceList(SettingsPtr curSettings);
 	void setDefalutVideoQuality(SettingsPtr curSettings);
 	void PullRoomList();
@@ -114,6 +107,7 @@ private:
 	void banSwitch();    //禁用未实现功能的按钮
 	QVector<QString> handleAppSign(QString appSign);
 	int getCameraIndexFromID(const QString& cameraID);
+
 private:
 	Ui::ZegoMainDialog ui;
 	QVector<RoomPtr> m_roomList;

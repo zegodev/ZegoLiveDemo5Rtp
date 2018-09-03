@@ -15,7 +15,7 @@ QZegoAVView::QZegoAVView(ZegoDialogType dialogType, QWidget * parent) :
 
 	//设置AVView不接受焦点，可去除因鼠标点击view时闪烁问题
 	this->setFocusPolicy(Qt::NoFocus);
-
+	this->setUpdatesEnabled(false);
 }
 
 QZegoAVView::~QZegoAVView()
@@ -52,7 +52,7 @@ bool QZegoAVView::getSurfaceMergeView()
 	return isSurfaceMergeView;
 }
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 void QZegoAVView::setSurfaceMergeItemRect(SurfaceMerge::ZegoCaptureItem _screen,
 	SurfaceMerge::ZegoCaptureItem _camera)
 {
@@ -88,6 +88,7 @@ bool QZegoAVView::IsCurUser()
 void QZegoAVView::SetUseExternalRender(bool bIsUse)
 {
 	m_isExternalRender = bIsUse;
+	this->setUpdatesEnabled(true);
 }
 
 void QZegoAVView::SetOnGetFrameDelegate(OnGetFrameDelegate func)
@@ -107,6 +108,8 @@ void QZegoAVView::drawBackground(QPainter *painter, const QRectF &rect)
 		return;
 	}
 
+	painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
+
 	if (!m_isExternalRender)
 	{
 		QGraphicsView::drawBackground(painter, rect);
@@ -122,8 +125,10 @@ void QZegoAVView::drawBackground(QPainter *painter, const QRectF &rect)
 			}
 
 			if (m_frame) {
+				//QPixmap pix;
+				//pix.convertFromImage(m_frame->getCurrentFrame());
+				//painter->drawPixmap(QRect(0, 0, m_frame->getCurrentFormat().width, m_frame->getCurrentFormat().height), pix);
 				painter->drawImage(rect, m_frame->getCurrentFrame(), QRect(0, 0, m_frame->getCurrentFormat().width, m_frame->getCurrentFormat().height), Qt::NoFormatConversion);
-				//painter->drawImage(rect, m_frame->getCurrentFrame());
 			}
 		}
 	}
@@ -247,7 +252,7 @@ QZegoAVScene::~QZegoAVScene()
 	return liveView->winId();
 }*/
 
-#if (defined Q_OS_WIN32) && (defined Q_PROCESSOR_X86_32) && (defined USE_SURFACE_MERGE)
+#ifdef USE_EXTERNAL_SDK
 void QZegoAVScene::setSurfaceMergeItemRect(ZEGO::SurfaceMerge::ZegoCaptureItem _screen,
 	ZEGO::SurfaceMerge::ZegoCaptureItem _camera)
 {
