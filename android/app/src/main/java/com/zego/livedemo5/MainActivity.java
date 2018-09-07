@@ -2,9 +2,15 @@ package com.zego.livedemo5;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +23,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import com.pgyersdk.update.PgyUpdateManager;
 import com.tencent.tauth.Tencent;
 import com.zego.livedemo5.ui.activities.AboutZegoActivity;
 import com.zego.livedemo5.ui.activities.base.AbsBaseActivity;
@@ -197,9 +204,62 @@ public class MainActivity extends AbsBaseActivity implements NavigationBar.Navig
         updateTitle();
     }
 
+    private final int CHECK_PERMISSIONS = 102;
+
     @Override
     protected void loadData(Bundle savedInstanceState) {
 
+        if (checkOrRequestPermission(CHECK_PERMISSIONS)) {
+            checkApkUpdate();
+        }
+    }
+
+    private void checkApkUpdate() {
+        /** 可选配置集成方式 **/
+        new PgyUpdateManager.Builder()
+                .setForced(false)                //设置是否强制更新
+                .setUserCanRetry(false)         //失败后是否提示重新下载
+                .setDeleteHistroyApk(false)     // 检查更新前是否删除本地历史 Apk， 默认为true
+                .register();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CHECK_PERMISSIONS: {
+                boolean allPermissionGranted = true;
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        allPermissionGranted = false;
+                        Toast.makeText(this, String.format("获取%s权限失败 ", permissions[i]), Toast.LENGTH_LONG).show();
+                    }
+                }
+                if (allPermissionGranted) {
+                    checkApkUpdate();
+                } else {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intent.setData(Uri.parse("package:" + this.getPackageName()));
+                    startActivity(intent);
+                }
+                break;
+            }
+        }
+    }
+
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE"};
+
+
+    private boolean checkOrRequestPermission(int code) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, "android.permission.READ_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, "android.permission.WRITE_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED) {
+                this.requestPermissions(PERMISSIONS_STORAGE, code);
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

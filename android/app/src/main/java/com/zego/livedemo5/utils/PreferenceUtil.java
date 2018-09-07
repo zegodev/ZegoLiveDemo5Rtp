@@ -37,6 +37,7 @@ public class PreferenceUtil {
 
     private static final String Pref_key_App_Id = "zego_app_id";
     private static final String Pref_key_App_Key = "zego_app_key";
+    private static final String ZEGO_APP_WEBRTC = "zego_app_webrtc";
 
     public static final String ZEGO_APP_CUSTOM = "zego_app_custom";
     public static final String ZEGO_APP_KEY_CUSTOM = "zego_app_key_custom";
@@ -137,6 +138,14 @@ public class PreferenceUtil {
         return getLongValue(Pref_key_App_Id, -1);
     }
 
+    public boolean getAPPWebRtc() {
+        return getBooleanValue(ZEGO_APP_WEBRTC, false);
+    }
+
+    public void setAppWebRtc(boolean v){
+        setBooleanValue(ZEGO_APP_WEBRTC, v);
+    }
+
     public void setAppKey(byte[] signKey) {
         String strSignKey = ZegoAppHelper.convertSignKey2String(signKey);
         setStringValue(Pref_key_App_Key, strSignKey);
@@ -159,6 +168,7 @@ public class PreferenceUtil {
 
         return strSignKey;
     }
+
     public String getAppKeyCustomToStr() {
         String strSignKey = getStringValue(ZEGO_APP_KEY_CUSTOM, null);
 
@@ -239,13 +249,12 @@ public class PreferenceUtil {
     }
 
 
-
     public void setUseTestEvn(boolean useTestEvn) {
         setBooleanValue(USE_TEST_EVN, useTestEvn);
     }
 
     public void setEnableRateControl(boolean enableRateControl) {
-        Log.e("zego","REQUIRE_HARDWARE_ENCODER"+"="+enableRateControl);
+        Log.e("zego", "REQUIRE_HARDWARE_ENCODER" + "=" + enableRateControl);
         setBooleanValue(ENABLE_RATE_CONTROL, enableRateControl);
     }
 
@@ -277,11 +286,11 @@ public class PreferenceUtil {
 
     public boolean getHardwareEncode(boolean defaultValue) {
 
-        return getBooleanValue(REQUIRE_HARDWARE_ENCODER,defaultValue);
+        return getBooleanValue(REQUIRE_HARDWARE_ENCODER, defaultValue);
     }
 
     public boolean getHardwareDecode(boolean defaultValue) {
-        return getBooleanValue(REQUIRE_HARDWARE_DECODER,defaultValue);
+        return getBooleanValue(REQUIRE_HARDWARE_DECODER, defaultValue);
     }
 
     public boolean getEnableRateControl(boolean defaultValue) {
@@ -289,21 +298,21 @@ public class PreferenceUtil {
     }
 
     public boolean getPreviewMirror(boolean defaultValue) {
-        return getBooleanValue(PREVIEW_MIRROR,defaultValue);
+        return getBooleanValue(PREVIEW_MIRROR, defaultValue);
     }
 
     public boolean getCaptureMirror(boolean defaultValue) {
-        return getBooleanValue(CAPTURE_MIRROR,defaultValue);
+        return getBooleanValue(CAPTURE_MIRROR, defaultValue);
     }
 
     public int getLiveQuality(int defaultValue) {
 
-        return getIntValue("ZEGO_LIVE_LIVE_QUALITY",defaultValue);
+        return getIntValue("ZEGO_LIVE_LIVE_QUALITY", defaultValue);
     }
 
     public int getVideoResolutions(int defaultValue) {
 
-        return getIntValue(VIDEO_RESOLUTIONS,defaultValue);
+        return getIntValue(VIDEO_RESOLUTIONS, defaultValue);
     }
 
     public int getVideoFps(int defaultValue) {
@@ -319,7 +328,7 @@ public class PreferenceUtil {
         setLongValue(ZEGO_APP_CUSTOM, customAppId);
     }
 
-    public void setCustomAppKey( byte[] signKey) {
+    public void setCustomAppKey(byte[] signKey) {
         String strSignKey = ZegoAppHelper.convertSignKey2String(signKey);
         setStringValue(ZEGO_APP_KEY_CUSTOM, strSignKey);
     }

@@ -263,17 +263,17 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
     DialogSelectPublishMode.OnSelectPublishModeListener mDialogSelectPublishMode = new DialogSelectPublishMode.OnSelectPublishModeListener() {
         @Override
         public void onSingleAnchorSelect() {
-            SingleAnchorPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getWindowManager().getDefaultDisplay().getRotation());
+            SingleAnchorPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getRequestedOrientation());
         }
 
         @Override
         public void onMoreAnchorsSelect() {
-            MoreAnchorsPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getWindowManager().getDefaultDisplay().getRotation());
+            MoreAnchorsPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getRequestedOrientation());
         }
 
         @Override
         public void onMixStreamSelect() {
-            MixStreamPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getWindowManager().getDefaultDisplay().getRotation());
+            MixStreamPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getRequestedOrientation());
         }
 
         @Override
@@ -289,7 +289,7 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
 
         @Override
         public void onWolvesGameSelect() {
-            WolvesGameHostActivity.actionStart(mParentActivity, publishTitleTemp, mParentActivity.getWindowManager().getDefaultDisplay().getRotation());
+            WolvesGameHostActivity.actionStart(mParentActivity, publishTitleTemp, mParentActivity.getRequestedOrientation());
         }
     };
 

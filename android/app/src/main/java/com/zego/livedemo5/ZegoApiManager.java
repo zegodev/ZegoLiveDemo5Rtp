@@ -149,6 +149,10 @@ public class ZegoApiManager {
         // 初始化sdk
         boolean ret = mZegoLiveRoom.initSDK(appID, signKey);
 
+        if(PreferenceUtil.getInstance().getAPPWebRtc()){
+            mZegoLiveRoom.setLatencyMode(ZegoConstants.LatencyMode.Low3);
+        }
+
         if (!ret) {
             // sdk初始化失败
             Toast.makeText(ZegoApplication.sApplicationContext, "Zego SDK初始化失败!", Toast.LENGTH_LONG).show();
@@ -179,7 +183,7 @@ public class ZegoApiManager {
                     break;
             }
 
-            if(isConfig) {
+            if (isConfig) {
                 mZegoLiveRoom.setAVConfig(zegoAvConfig);
             }
 
@@ -215,13 +219,13 @@ public class ZegoApiManager {
         }
         zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.High);
         int progress = PreferenceUtil.getInstance().getVideoResolutions(0);
-        if(liveQualityLevel != 6){
+        if (liveQualityLevel != 6) {
             progress = liveQualityLevel;
         }
         int width = VIDEO_RESOLUTIONS[progress][number];
         int height = VIDEO_RESOLUTIONS[progress][number == 0 ? 1 : 0];
-        Log.e("initZegoAvConfig",String.format("width: %d", width));
-        Log.e("initZegoAvConfig",String.format("height: %d", height));
+        Log.e("initZegoAvConfig", String.format("width: %d", width));
+        Log.e("initZegoAvConfig", String.format("height: %d", height));
         zegoAvConfig.setVideoEncodeResolution(width, height);
         zegoAvConfig.setVideoCaptureResolution(width, height);
         int videoFps = PreferenceUtil.getInstance().getVideoFps(15);

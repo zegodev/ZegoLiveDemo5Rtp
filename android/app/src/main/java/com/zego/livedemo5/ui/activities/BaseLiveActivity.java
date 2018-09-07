@@ -789,34 +789,36 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
 
     protected void logout() {
 
-        //  mEnableFrontCam = true;
-        mZegoLiveRoom.setFrontCam(mEnableFrontCam);
-
-        mEnableLoopback = false;
-        mZegoLiveRoom.enableLoopback(false);
-
-        mEnableVirtualStereo = false;
-        ZegoAudioProcessing.enableVirtualStereo(false, 0);
-
-        mEnableReverb = false;
-        ZegoAudioProcessing.enableReverb(false, ZegoAudioReverbMode.LARGE_AUDITORIUM);
-
-        mEnableCustomFocus = false;
-        ZegoCamera.setCamFocusMode(ZegoCameraFocusMode.CONTINUOUS_VIDEO, ZegoConstants.PublishChannelIndex.MAIN);
-
-        mEnableCustomExposure = false;
-        ZegoCamera.setCamExposureMode(ZegoCameraExposureMode.AUTO, ZegoConstants.PublishChannelIndex.MAIN);
-
-
-        if (!mEnableSpeaker)
-            mZegoLiveRoom.enableSpeaker(true);
-
         if (mIsPublishing) {
             AlertDialog dialog = new AlertDialog.Builder(this).setMessage(getString(R.string.do_you_really_want_to_leave)).setTitle(getString(R.string.hint)).setPositiveButton(getString(R.string.Yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     stopAllStream();
                     dialog.dismiss();
+
+                    //  mEnableFrontCam = true;
+                    mZegoLiveRoom.setFrontCam(mEnableFrontCam);
+
+                    mEnableLoopback = false;
+                    mZegoLiveRoom.enableLoopback(false);
+
+                    mEnableVirtualStereo = false;
+                    ZegoAudioProcessing.enableVirtualStereo(false, 0);
+
+                    mEnableReverb = false;
+                    ZegoAudioProcessing.enableReverb(false, ZegoAudioReverbMode.LARGE_AUDITORIUM);
+
+                    mEnableCustomFocus = false;
+                    ZegoCamera.setCamFocusMode(ZegoCameraFocusMode.CONTINUOUS_VIDEO, ZegoConstants.PublishChannelIndex.MAIN);
+
+                    mEnableCustomExposure = false;
+                    ZegoCamera.setCamExposureMode(ZegoCameraExposureMode.AUTO, ZegoConstants.PublishChannelIndex.MAIN);
+
+
+                    mZegoLiveRoom.enableSpeaker(true);
+
+                    ZegoSoundLevelMonitor.getInstance().stop();
+
                     finish();
                 }
             }).setNegativeButton(getString(R.string.No), new DialogInterface.OnClickListener() {
@@ -828,12 +830,10 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
 
             dialog.show();
         } else {
-
+            mZegoLiveRoom.enableSpeaker(true);
             stopAllStream();
             finish();
         }
-
-        ZegoSoundLevelMonitor.getInstance().stop();
     }
 
 
@@ -974,7 +974,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
 
     final static int AUX_DATA_CHANNEL_COUNT = 2;
     final static int AUX_DATA_SAMPLE_RATE = 44100;
-    final static int AUX_DATA_LENGHT = AUX_DATA_SAMPLE_RATE * AUX_DATA_CHANNEL_COUNT * 2 / 50;
+
 
     protected AuxData handleAuxCallback(int exceptDataLength) {
         // 开启伴奏后, sdk每20毫秒一次取数据
@@ -983,7 +983,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         }
 
         AuxData auxData = new AuxData();
-        auxData.dataBuf = new byte[AUX_DATA_LENGHT];
+        auxData.dataBuf = new byte[exceptDataLength];
 
         try {
             AssetManager am = getAssets();
@@ -1004,7 +1004,6 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
 
         auxData.channelCount = AUX_DATA_CHANNEL_COUNT;
         auxData.sampleRate = AUX_DATA_SAMPLE_RATE;
-
 
         return auxData;
     }
@@ -1086,15 +1085,13 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
                 mListRoomUser.clear();
             }
 
-            if (updateType == ZegoIM.UserUpdateType.Increase) {
-                for (ZegoUserState zegoUserState : listUser) {
-                    if (zegoUserState.updateFlag == ZegoIM.UserUpdateFlag.Added) {
-                        mListRoomUser.add(zegoUserState);
-                    } else if (zegoUserState.updateFlag == ZegoIM.UserUpdateFlag.Deleted) {
-                        mListRoomUser.remove(zegoUserState);
-                        if (zegoUserState.roomRole == ZegoConstants.RoomRole.Anchor) {
-                            anchorExitDialog(getString(R.string.dialog_stop_live_title), getString(R.string.dialog_anchor_stop_live));
-                        }
+            for (ZegoUserState zegoUserState : listUser) {
+                if (zegoUserState.updateFlag == ZegoIM.UserUpdateFlag.Added) {
+                    mListRoomUser.add(zegoUserState);
+                } else if (zegoUserState.updateFlag == ZegoIM.UserUpdateFlag.Deleted) {
+                    mListRoomUser.remove(zegoUserState);
+                    if (zegoUserState.roomRole == ZegoConstants.RoomRole.Anchor) {
+                        anchorExitDialog(getString(R.string.dialog_stop_live_title), getString(R.string.dialog_anchor_stop_live));
                     }
                 }
             }
@@ -1207,7 +1204,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         // 退出房间
         mZegoLiveRoom.logoutRoom();
         LiveQualityLogger.close();
-        for (ViewLive viewLive:mListViewLive){
+        for (ViewLive viewLive : mListViewLive) {
             viewLive.destroy();
         }
 

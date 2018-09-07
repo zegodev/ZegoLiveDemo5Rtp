@@ -5,8 +5,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.android.volley.VolleyError;
 import com.zego.livedemo5.MainActivity;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.ZegoApiManager;
@@ -87,6 +89,17 @@ public class RoomListFragment extends AbsBaseFragment implements MainActivity.On
                         }
                         mListRoomAdapter.notifyDataSetChanged();
                         swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                swipeRefreshLayout.setRefreshing(false);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(RoomListFragment.this.getActivity(), getString(R.string.request_room_list_timeout), Toast.LENGTH_LONG);
                     }
                 });
             }

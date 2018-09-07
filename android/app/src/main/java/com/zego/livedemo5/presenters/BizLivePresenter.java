@@ -1,6 +1,9 @@
 package com.zego.livedemo5.presenters;
 
 
+import android.util.Log;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -71,13 +74,12 @@ public class BizLivePresenter {
                 String url = String.format("https://liveroom%d-api.%s/demo/roomlist?appid=%s", appID, domain, appID);
 
                 //  测试环境, 使用不同的url获取房间列表
-                if(ZegoApiManager.getInstance().isUseTestEvn()){
+                if (ZegoApiManager.getInstance().isUseTestEvn()) {
                     String testBase = "https://test2-liveroom-api.zego.im";
-                    if(ZegoAppHelper.isInternationalProduct(appID)){
-                        testBase = "https://test2-liveroom-api.zegocloud.com";
-                    }
                     url = String.format("%s/demo/roomlist?appid=%s", testBase, appID);
                 }
+
+                Log.e("urlLiveDemo5", url);
                 StringRequest request = new StringRequest(url,
                         new Response.Listener<String>() {
                             @Override
@@ -85,8 +87,8 @@ public class BizLivePresenter {
                                 Gson gson = new Gson();
                                 RoomInfoEx roomInfoEx = gson.fromJson(response, RoomInfoEx.class);
 
-                                if(roomInfoEx != null && roomInfoEx.data != null){
-                                    if(mUpdateRoomListListener != null){
+                                if (roomInfoEx != null && roomInfoEx.data != null) {
+                                    if (mUpdateRoomListListener != null) {
                                         mUpdateRoomListListener.onUpdateRoomList(roomInfoEx.data.room_list);
                                     }
                                 }
@@ -94,9 +96,15 @@ public class BizLivePresenter {
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        if (mUpdateRoomListListener != null) {
+                            mUpdateRoomListListener.onError(error);
+                        }
                     }
                 });
+                request.setRetryPolicy(new DefaultRetryPolicy(
+                        3000,
+                        0,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 mQueue.add(request);
             }
         });
