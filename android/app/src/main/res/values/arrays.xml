@@ -57,9 +57,9 @@
     </string-array>
 
     <string-array name="app_flavors">
-        <item>UDP</item>
-        <item>RTMP</item>
-        <item>Int\'l</item>
-        <item>Customize</item>
+        <item>China</item>
+        <item>International</item>
+        <item>WebRtc</item>
+        <item>Custom</item>
     </string-array>
 </resources>

@@ -75,6 +75,7 @@
     <string name="do_you_really_want_to_leave">Do you really want to leave?</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
+    <string name="request_room_list_timeout">Request Room List Timeout</string>
 
     <!--log-->
     <string name="someone_is_requesting_to_broadcast"><xliff:g id="value">%1$s</xliff:g>:&#160;is requesting to broadcast</string>

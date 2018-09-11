@@ -279,6 +279,10 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                PreferenceUtil.getInstance().setAppWebRtc(false);
+
+                mNeedToReInitSDK = true;
+
                 if (position == 3) {
                     long appid = PreferenceUtil.getInstance().getAppIdCustom();
 
@@ -295,27 +299,25 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
                         llAppKey.setVisibility(View.VISIBLE);
                     }
 
-
                 } else {
                     long appId = 0;
                     switch (position) {
                         case 0:
                             appId = ZegoAppHelper.UDP_APP_ID;
-
                             break;
                         case 1:
-                            appId = ZegoAppHelper.RTMP_APP_ID;
-                            break;
-                        case 2:
                             appId = ZegoAppHelper.INTERNATIONAL_APP_ID;
                             break;
+                        case 2:
+                            appId = ZegoAppHelper.UDP_APP_ID;
+
+                            PreferenceUtil.getInstance().setAppWebRtc(true);
                     }
 
                     etAppID.setEnabled(false);
                     etAppID.setText(String.valueOf(appId));
 
                     byte[] signKey = ZegoAppHelper.requestSignKey(appId);
-
 
                     PreferenceUtil.getInstance().setAppId(appId);
                     PreferenceUtil.getInstance().setAppKey(signKey);
@@ -334,11 +336,13 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
 
         long appId = ZegoApiManager.getInstance().getAppID();
         if (ZegoAppHelper.isUdpProduct(appId)) {
-            spAppFlavors.setSelection(0);
-        } else if (ZegoAppHelper.isRtmpProduct(appId)) {
-            spAppFlavors.setSelection(1);
+            if (PreferenceUtil.getInstance().getAPPWebRtc()) {
+                spAppFlavors.setSelection(2);
+            } else {
+                spAppFlavors.setSelection(0);
+            }
         } else if (ZegoAppHelper.isInternationalProduct(appId)) {
-            spAppFlavors.setSelection(2);
+            spAppFlavors.setSelection(1);
         } else {
             spAppFlavors.setSelection(3);
         }
@@ -357,7 +361,7 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
         tbVideoFilter.setChecked(PreferenceUtil.getInstance().getVideoFilter(false));
         tbHardwareEncode.setChecked(PreferenceUtil.getInstance().getHardwareEncode(true));
         tbHardwareDecode.setChecked(PreferenceUtil.getInstance().getHardwareDecode(true));
-        tbPreviewMirror.setChecked(PreferenceUtil.getInstance().getPreviewMirror(false));
+        tbPreviewMirror.setChecked(PreferenceUtil.getInstance().getPreviewMirror(true));
         tbCaptureMirror.setChecked(PreferenceUtil.getInstance().getCaptureMirror(false));
         tbRateControl.setChecked(PreferenceUtil.getInstance().getEnableRateControl(false));
         sdkVeVersion.setText(ZegoLiveRoom.version2());

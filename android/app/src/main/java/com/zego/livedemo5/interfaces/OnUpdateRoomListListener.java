@@ -1,6 +1,7 @@
 package com.zego.livedemo5.interfaces;
 
 
+import com.android.volley.VolleyError;
 import com.zego.livedemo5.presenters.RoomInfo;
 
 import java.util.List;
@@ -12,4 +13,6 @@ import java.util.List;
 
 public interface OnUpdateRoomListListener {
     void onUpdateRoomList(List<RoomInfo> listRoom);
+
+    void onError(VolleyError error);
 }

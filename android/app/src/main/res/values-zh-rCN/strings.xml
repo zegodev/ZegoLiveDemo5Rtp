@@ -74,7 +74,7 @@
     <string name="do_you_really_want_to_leave">确定要退出直播页面吗</string>
     <string name="Yes">确定</string>
     <string name="No">取消</string>
-
+    <string name="request_room_list_timeout">请求房间列表超时!</string>
     <string name="dialog_anchor_stop_live">当前主播停止直播</string>
     <string name="dialog_stop_live_title">提示</string>
 
