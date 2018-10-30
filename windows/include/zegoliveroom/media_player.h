@@ -24,6 +24,9 @@ namespace AVE
             virtual void OnSeekComplete(int code, long timestamp_ms) = 0;    //Units in millisecond
             virtual void OnPlayPause() = 0;
             virtual void OnPlayResume() = 0;
+            virtual void OnPlayStop() = 0;
+			virtual void OnBufferBegin() = 0;
+			virtual void OnBufferEnd() = 0;
         };
         
         class VideoPlayCallback
@@ -33,7 +36,10 @@ namespace AVE
         };
 
         virtual void SetEventCallback(EventCallback* callback) = 0;
-        virtual void SetVolume(int volume) = 0;  // volume: 0 ~ 100, default volume is 60
+		virtual void SetPlayerType(PlayerType type) = 0;
+		virtual void SetVolume(int volume) = 0;  // volume: 0 ~ 100, default volume is 60
+		virtual void MuteLocal(bool bMute) = 0;  
+
         virtual void Start(const char* path, bool repeat_play = false) = 0;// repeat_play: play repeat or not
         virtual void Stop() = 0;
         virtual void Pause() = 0;
@@ -45,6 +51,8 @@ namespace AVE
         virtual void SetView(void *view) = 0;
         //format support:ARGB32/ABGR32/RGBA32/BGRA32
         virtual void SetVideoPlayCallback(VideoPlayCallback *callback, VideoPixelFormat format) = 0;
+        virtual long SetAudioStream(int streamidx) = 0; 
+		virtual long GetAudioStreamCount() = 0;
     };
 }
 

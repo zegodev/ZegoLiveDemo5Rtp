@@ -192,6 +192,14 @@
     return NO;
 }
 
+- (BOOL)enableMixEnginePlayout
+{
+    if([self.delegate respondsToSelector:@selector(onGetMixEnginePlayout)])
+        return [self.delegate onGetMixEnginePlayout];
+    
+    return NO;
+}
+
 - (BOOL)enableVirtualStereo
 {
     if([self.delegate respondsToSelector:@selector(onGetEnableVirtualStereo)])

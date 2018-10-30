@@ -21,7 +21,7 @@ public:
 	//传入分辨率、帧率和摄像头ID
 	void setSurfaceSize(int surfaceWidth, int surfaceHeight);
 	void setSurfaceFps(int nFps);
-	void setSurfaceCameraId(QString cameraID);
+	void setSurfaceCameraId(const QString& cameraID);
 
 	//设置需要渲染的view
 	void setRenderView(void *pView);

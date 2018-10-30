@@ -29,7 +29,7 @@
  
  @param codecId 是否选用分层编码
  @return true 成功，false 失败
- @discussion 设置选用分层编码
+ @discussion 设置选用分层编码,在InitSDK后，推流前调用有效
  */
 - (bool)setVideoCodecId:(ZegoVideoCodecAvc)codecId ofChannel:(ZegoAPIPublishChannelIndex)channel;
 
@@ -282,6 +282,16 @@
 - (bool)enableCaptureMirror:(bool)enable;
 
 /**
+ 是否启用预览和推流镜像
+ 
+ @param mode 镜像模式
+ @return true 成功，false 失败
+ @discussion 推流时可调用本 API 进行参数配置
+ @note 默认启用预览镜像，不启用推流镜像
+ */
+- (bool)setVideoMirrorMode:(ZegoVideoMirrorMode)mode;
+
+/**
  是否开启码率控制
  
  @param enable true 启用，false 不启用。默认不启用
@@ -350,6 +360,14 @@
  @discussion 推流时可调用本 API 进行参数配置
  */
 - (void)setLoopbackVolume:(int)volume;
+
+/**
+ 设置采集音量
+ 
+ @param volume 音量大小，取值（0, 100）。默认 100
+ @discussion SDK初始化成功后调用
+ */
+- (void)setCaptureVolume:(int)volume;
 
 /**
  混音开关
@@ -512,8 +530,9 @@
 /**
  是否开启流量控制
  
- @param enable true 开启；false 关闭。默认开启流量控制，property 为 ZEGOAPI_TRAFFIC_FPS
+ @param enable true 开启；false 关闭。默认开启流量控制，property 为 ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS
  @param properties 流量控制属性 (帧率，分辨率）可以多选, 参考ZegoAPITrafficControlProperty定义
+ @discussion enable设置为false时，properties参数会被忽略
  @discussion 在推流前调用，在纯 UDP 方案才可以调用此接口
  */
 - (void)enableTrafficControl:(bool)enable properties:(NSUInteger)properties;
@@ -525,6 +544,14 @@
  @return true 调用成功，false 调用失败
  */
 - (bool)enableNoiseSuppress:(bool)enable;
+
+/**
+ 设置推流质量监控周期
+ 
+ @param timeInMS 时间周期，单位为毫秒，取值范围为(500, 60000)。默认为 3000
+ @discussion 必须在推流前调用才能生效。该设置会影响 [ZegoLivePublisherDelegate -onPublishQualityUpdate:quality:] 的回调频率
+ */
++ (void)setPublishQualityMonitorCycle:(unsigned int)timeInMS;
 
 @end
 

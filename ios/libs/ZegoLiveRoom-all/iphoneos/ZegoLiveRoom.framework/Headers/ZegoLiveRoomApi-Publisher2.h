@@ -231,6 +231,17 @@
 - (bool)enableCaptureMirror:(bool)enable channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
+ 是否启用预览和推流镜像
+ 
+ @param mode 镜像模式
+ @param index 推流 channel Index
+ @return true 成功，false 失败
+ @discussion 推流时可调用本 API 进行参数配置
+ @note 默认启用预览镜像，不启用推流镜像
+ */
+- (bool)setVideoMirrorMode:(ZegoVideoMirrorMode)mode channelIndex:(ZegoAPIPublishChannelIndex)index;
+
+/**
  是否开启码率控制
  
  @param enable true 启用，false 不启用。默认不启用

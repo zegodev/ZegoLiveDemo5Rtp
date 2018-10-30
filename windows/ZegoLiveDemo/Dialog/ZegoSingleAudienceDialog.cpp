@@ -234,6 +234,6 @@ void ZegoSingleAudienceDialog::OnPlayQualityUpdate(const QString& streamId, int 
 	if (nIndex < 0 || nIndex > 11)
 		return;
 
-	AVViews[nIndex]->setCurrentQuality(quality);
+	//AVViews[nIndex]->setCurrentQuality(quality);
 
 }

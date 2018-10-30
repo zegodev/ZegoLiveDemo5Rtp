@@ -168,7 +168,7 @@ namespace ZEGO
          @param pszStreamID 播放流 ID
          @param bActive true 接收，false 不接收
          @return 0 成功，否则失败
-         @attention 仅拉 UDP 流有效
+         @attention 仅拉 UDP 流有效，必须在拉流后调用才有效
          */
         ZEGO_API int ActivateAudioPlayStream(const char* pszStreamID, bool bActive);
         
@@ -179,7 +179,7 @@ namespace ZEGO
          @param bActive true 接收，false 不接收
          @param videoLayer 视频分层类型
          @return 0 成功，否则失败
-         @attention 仅拉 UDP 流有效
+         @attention 仅拉 UDP 流有效，必须在拉流后调用才有效
          */
         ZEGO_API int ActivateVideoPlayStream(const char* pszStreamID, bool bActive, AV::VideoStreamLayer videoLayer = AV::VideoStreamLayer_Auto);
         

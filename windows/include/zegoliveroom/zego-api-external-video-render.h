@@ -5,6 +5,7 @@
 #ifndef zego_api_extrnal_video_render_h
 #define zego_api_extrnal_video_render_h
 #include "video_format.h"
+#include "zego-api-defines.h"
 
 namespace ZEGO
 {
@@ -47,8 +48,41 @@ namespace ZEGO
         
         ZEGOAVKIT_API bool SetExternalRenderCallback(IZegoExternalRenderCallback2* callback);
        
+		/**
+		设置是否使用外部视频渲染
+
+		@param externalRender true 开启，false 不开启，默认为不开启
+		@param type 外部渲染类型，详见类型 VideoExternalRenderType
+		@note 在InitSDK之前调用。
+		*/
         ZEGOAVKIT_API bool EnableExternalRender(bool externalRender, AV::VideoExternalRenderType type);
         
+        /**
+         设置当VideoExternalRenderType为DECODE_RENDER时，是否开启外部视频渲染（拉流）
+         
+         @param pszStreamID 播放流ID
+         @param bEnable true 开启， false 不开启，默认为不开启
+         @note 只要当VideoExternalRenderType设置为DECODE_RENDER，该接口才有效
+         */
+        ZEGOAVKIT_API bool EnableVideoRender(bool bEnable, const char *pszStreamID);
+        
+		/**
+		设置当VideoExternalRenderType为DECODE_RENDER时，是否开启外部视频渲染（拉流）
+
+		@param nPlayChannel 播放通道
+		@param bEnable true 开启， false 不开启，默认为不开启
+		@note 只要当VideoExternalRenderType设置为DECODE_RENDER，该接口才有效
+		*/
+		ZEGOAVKIT_API bool EnableVideoRender(bool bEnable, int nPlayChannel);
+
+		/**
+		设置当VideoExternalRenderType为DECODE_RENDER时，是否开启外部视频渲染（推流预览）
+
+		@param bEnable true 开启， false 不开启，默认为不开启
+		@param nPublishChannel 推流通道，默认为主通道
+		@note 只要当VideoExternalRenderType设置为DECODE_RENDER，该接口才有效
+		*/
+		ZEGOAVKIT_API bool EnableVideoPreview(bool bEnable, AV::PublishChannelIndex nPublishChannel = AV::PUBLISH_CHN_MAIN);
     }
 }
 

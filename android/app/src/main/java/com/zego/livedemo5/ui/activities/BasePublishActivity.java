@@ -58,7 +58,12 @@ public abstract class BasePublishActivity extends BaseLiveActivity {
         ViewLive freeViewLive = getFreeViewLive();
         if (freeViewLive != null) {
             // 根据推流方向, 设置publish界面的横、竖朝向
-            setRequestedOrientation(mAppOrientation);
+            if (mAppOrientation == Surface.ROTATION_0 || mAppOrientation == Surface.ROTATION_180) {
+                setRequestedOrientation(mAppOrientation == Surface.ROTATION_0 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            } else {
+                setRequestedOrientation(mAppOrientation == Surface.ROTATION_90 ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            }
+
             mZegoLiveRoom.setPreviewView(freeViewLive);
             mZegoLiveRoom.startPreview();
         }

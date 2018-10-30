@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,11 +25,13 @@ import android.widget.Toast;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.tencent.tauth.Tencent;
 import com.zego.livedemo5.ui.activities.AboutZegoActivity;
+import com.zego.livedemo5.ui.activities.SettingActivity;
 import com.zego.livedemo5.ui.activities.base.AbsBaseActivity;
 import com.zego.livedemo5.ui.activities.base.AbsBaseFragment;
 import com.zego.livedemo5.ui.fragments.PublishFragment;
 import com.zego.livedemo5.ui.fragments.RoomListFragment;
 import com.zego.livedemo5.ui.widgets.NavigationBar;
+import com.zego.livedemo5.utils.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +53,6 @@ public class MainActivity extends AbsBaseActivity implements NavigationBar.Navig
     @Bind(R.id.toolbar)
     public Toolbar toolBar;
 
-    @Bind(R.id.drawerlayout)
-    public DrawerLayout drawerLayout;
 
     private OnSetConfigsCallback mSetConfigsCallback;
 
@@ -72,6 +71,12 @@ public class MainActivity extends AbsBaseActivity implements NavigationBar.Navig
     @Override
     protected void initExtraData(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateTitle();
     }
 
     private RoomListFragment roomListFragment;
@@ -100,73 +105,16 @@ public class MainActivity extends AbsBaseActivity implements NavigationBar.Navig
 
         mSetConfigsCallback = (OnSetConfigsCallback) getSupportFragmentManager().findFragmentById(R.id.setting_fragment);
 
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-
-            private CharSequence oldTitle;
-
-            private Runnable updateTitleTask = new Runnable() {
-                @Override
-                public void run() {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateTitle();
-
-                            for (int position = 0; position < mPagerAdapter.getCount(); position++) {
-                                Fragment fragment = mPagerAdapter.getItem(position);
-                                ((OnReInitSDKCallback) fragment).onReInitSDK();
-                            }
-                        }
-                    });
-                }
-            };
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                oldTitle = toolBar.getTitle();
-                toolBar.setTitle(getString(R.string.action_settings));
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // 当侧边栏关闭时, set配置
-                if (mSetConfigsCallback == null) return;
-                int errorCode = mSetConfigsCallback.onSetConfig();
-
-                if (errorCode < 0) {
-                    drawerLayout.openDrawer(Gravity.LEFT);
-                } else if (errorCode > 0) {
-                    if (updateTitleTask != null) {
-                        ZegoAppHelper.removeTask(updateTitleTask);
-                    }
-                    ZegoAppHelper.postTask(updateTitleTask);
-                } else {
-                    toolBar.setTitle(oldTitle);
-                }
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        });
 
         setSupportActionBar(toolBar);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                    drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
-                    drawerLayout.openDrawer(Gravity.LEFT);
-                }
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -201,7 +149,7 @@ public class MainActivity extends AbsBaseActivity implements NavigationBar.Navig
             }
         });
 
-        updateTitle();
+
     }
 
     private final int CHECK_PERMISSIONS = 102;
@@ -278,8 +226,8 @@ public class MainActivity extends AbsBaseActivity implements NavigationBar.Navig
     }
 
     private void updateTitle() {
-        long currentAppId = ZegoApiManager.getInstance().getAppID();
-        String title = ZegoAppHelper.getAppTitle(currentAppId, MainActivity.this);
+        long currentAppFlavor = PreferenceUtil.getInstance().getCurrentAppFlavor();
+        String title = ZegoAppHelper.getAppTitle(currentAppFlavor, MainActivity.this);
         toolBar.setTitle(title);
     }
 
@@ -347,7 +295,6 @@ public class MainActivity extends AbsBaseActivity implements NavigationBar.Navig
          * @return < 0: 数据格式非法; 0: 无修改或者不需要重新初始化SDK; > 0: 需要重新初始化 SDK
          */
         int onSetConfig();
-
 
 
     }

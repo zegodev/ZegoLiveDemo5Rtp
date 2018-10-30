@@ -111,7 +111,6 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
     protected String roomId;
     protected String roomName = "Wolves Game";
 
-    protected boolean isSpeaking;
     protected boolean hasLoginRoom = false;
 
     protected PublishMode currentPublishMode = PublishMode.Low_Delay;
@@ -289,9 +288,8 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
                 public void onSendCustomCommand(int errorCode, String roomId) {
                     recordLog("通知别人，自己开始说话返回：%d", errorCode);
                     if (errorCode == 0) {
-                        isSpeaking = true;
-                        mTextTips.setText(R.string.is_speaking);
 
+                        mTextTips.setText(R.string.is_speaking);
                         WolfInfo wolf = getMyInfo();
                         wolf.setState(WolfInfo.SpeakingState.isSpeaking);
                         mRecyclerAdapter.updateItem(wolf);
@@ -320,6 +318,10 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
         Rect zeroRect = new Rect(0, 0, 0, 0);
         zegoLiveRoom.setPreviewWaterMarkRect(zeroRect);
         zegoLiveRoom.setPublishWaterMarkRect(zeroRect);
+
+        WolfInfo wolf = getMyInfo();
+        wolf.setState(WolfInfo.SpeakingState.isSpeaking);
+        mRecyclerAdapter.updateItem(wolf);
 
         // 开启流量自动控制
         int properties = ZegoConstants.ZegoTrafficControlProperty.ZEGOAPI_TRAFFIC_FPS
@@ -491,7 +493,7 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
             if (TextUtils.isEmpty(holder.streamId)) {
                 holder.headImg.setVisibility(View.INVISIBLE);
                 holder.itemView.setBackgroundResource(R.color.bg_gray);
-                return;
+
             }
 
             WolfInfo.SpeakingState speakState = wolf.getState();

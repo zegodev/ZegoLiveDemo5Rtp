@@ -35,7 +35,7 @@
  @param enable：开启，false 关闭
  @discussion 必须再init sdk之前调用
  */
-+ (void)enableAudioEncryptDecrypt:(bool)enable;
++ (void)enableAudioEncryptDecrypt:(BOOL)enable;
 
 @end
 

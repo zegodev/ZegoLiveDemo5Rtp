@@ -77,6 +77,7 @@ namespace ZEGO
             
             NotLoginError = 9,              /**< 未登陆 */
             LogicServerNetWrokError = 10,   /**< 逻辑服务器网络错误 */
+            InitConfigError = 11,           /**< 初始化配置失败 */
             
             PublishBadNameError = 105,      /**< 推流名称错误 */
             AddStreamError      = 0x1 | kLiveRoomErrorBase, // 16777217

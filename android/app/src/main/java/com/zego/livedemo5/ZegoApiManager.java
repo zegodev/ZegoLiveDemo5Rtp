@@ -35,7 +35,7 @@ public class ZegoApiManager {
     private final int[][] VIDEO_RESOLUTIONS = new int[][]{{320, 240}, {352, 288}, {640, 360},
             {960, 540}, {1280, 720}, {1920, 1080}};
 
-    private long mAppID = 0;
+
     private byte[] mSignKey = null;
 
     private ZegoApiManager() {
@@ -141,17 +141,11 @@ public class ZegoApiManager {
         // 开发者根据需求定制
         openAdvancedFunctions();
 
-        mAppID = appID;
-        mSignKey = signKey;
-        PreferenceUtil.getInstance().setAppId(mAppID);
-        PreferenceUtil.getInstance().setAppKey(mSignKey);
-
+        // 设置视频通话类型
+        ZegoLiveRoom.setBusinessType(PreferenceUtil.getInstance().getBusinessType());
         // 初始化sdk
         boolean ret = mZegoLiveRoom.initSDK(appID, signKey);
 
-        if(PreferenceUtil.getInstance().getAPPWebRtc()){
-            mZegoLiveRoom.setLatencyMode(ZegoConstants.LatencyMode.Low3);
-        }
 
         if (!ret) {
             // sdk初始化失败
@@ -217,7 +211,11 @@ public class ZegoApiManager {
             //切换横屏
             number = 0;
         }
-        zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.High);
+
+        zegoAvConfig = ZegoApiManager.getInstance().getZegoAvConfig();
+        if (zegoAvConfig == null) {
+            zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.High);
+        }
         int progress = PreferenceUtil.getInstance().getVideoResolutions(0);
         if (liveQualityLevel != 6) {
             progress = liveQualityLevel;
@@ -228,10 +226,7 @@ public class ZegoApiManager {
         Log.e("initZegoAvConfig", String.format("height: %d", height));
         zegoAvConfig.setVideoEncodeResolution(width, height);
         zegoAvConfig.setVideoCaptureResolution(width, height);
-        int videoFps = PreferenceUtil.getInstance().getVideoFps(15);
-        zegoAvConfig.setVideoFPS(videoFps);
-        int videoBitrate = PreferenceUtil.getInstance().getVideoBitrate(0);
-        zegoAvConfig.setVideoBitrate(videoBitrate);
+
         return zegoAvConfig;
     }
 
@@ -258,19 +253,25 @@ public class ZegoApiManager {
      * @param isConfig 是否加载分辨率配置
      */
     public void initSDK(boolean isConfig) {
-        // 即构分配的key与id, 默认使用 UDP 协议的 AppId
-        if (mAppID <= 0) {
-            long storedAppId = PreferenceUtil.getInstance().getAppId();
-            if (storedAppId > 0) {
-                mAppID = storedAppId;
-                mSignKey = PreferenceUtil.getInstance().getAppKey();
+
+        long appId;
+        byte[] signKey;
+        int currentAppFlavor = PreferenceUtil.getInstance().getCurrentAppFlavor();
+        if (currentAppFlavor <= 1) {
+            if (currentAppFlavor == -1 || currentAppFlavor == 0) {
+                appId = ZegoAppHelper.UDP_APP_ID;
+                signKey = ZegoAppHelper.requestSignKey(ZegoAppHelper.UDP_APP_ID);
             } else {
-                mAppID = ZegoAppHelper.UDP_APP_ID;
-                mSignKey = requestSignKey(mAppID);
+                appId = ZegoAppHelper.INTERNATIONAL_APP_ID;
+                signKey = ZegoAppHelper.requestSignKey(ZegoAppHelper.INTERNATIONAL_APP_ID);
             }
+
+        } else {
+            appId = PreferenceUtil.getInstance().getAppId();
+            signKey = PreferenceUtil.getInstance().getAppKey();
         }
 
-        init(mAppID, mSignKey, isConfig);
+        init(appId, signKey, isConfig);
     }
 
     public void reInitSDK(long appID, byte[] signKey) {
@@ -366,7 +367,7 @@ public class ZegoApiManager {
     }
 
     public long getAppID() {
-        return mAppID;
+        return PreferenceUtil.getInstance().getAppId();
     }
 
     public byte[] getSignKey() {

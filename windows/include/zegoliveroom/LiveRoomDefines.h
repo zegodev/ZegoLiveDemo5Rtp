@@ -91,6 +91,7 @@ namespace ZEGO
             int pktLostRate;        ///< 丢包率(0~255)
             
             int quality;            ///< 质量(0~3)
+            int delay;              ///< 语音延时(ms)
         };
     }
 }

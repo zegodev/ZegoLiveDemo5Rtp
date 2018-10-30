@@ -11,9 +11,11 @@
 
 #import <ZegoLiveRoom/ZegoLiveRoomApi-AudioIO.h>
 
-NSString *kZegoDemoAppTypeKey          = @"apptype";
-NSString *kZegoDemoAppIDKey            = @"appid";
-NSString *kZegoDemoAppSignKey          = @"appsign";
+NSString *kZegoDemoAppTypeKey           = @"apptype";
+NSString *kZegoDemoAppIDKey             = @"appid";
+NSString *kZegoDemoAppSignKey           = @"appsign";
+NSString *kZegoDemoAppBizType           = @"biztype";
+NSString *kZegoDemoAppUseI18nDomain     = @"i18n-domain";
 
 
 static ZegoLiveRoomApi *g_ZegoApi = nil;
@@ -67,14 +69,16 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
     if (g_ZegoApi == nil) {
         
         // 国际版，要切换国际域名
-        if (g_appType == ZegoAppTypeI18N) {
+        if (g_appType == ZegoAppTypeCustom) {
+            [ZegoLiveRoomApi setBusinessType:(int)[[NSUserDefaults standardUserDefaults] integerForKey:kZegoDemoAppBizType]];
+            g_useInternationDomain = [[NSUserDefaults standardUserDefaults] boolForKey:kZegoDemoAppUseI18nDomain];
+        } else if (g_appType == ZegoAppTypeI18N) {
             g_useInternationDomain = YES;
         } else {
             g_useInternationDomain = NO;
         }
         
         [ZegoLiveRoomApi setUseTestEnv:g_useTestEnv];
-//        [ZegoLiveRoomApi performSelector:@selector(setUseAlphaEnv:) withObject:@(g_useAlphaEnv)];
         [ZegoLiveRoomApi enableExternalRender:[self usingExternalRender]];
         
 #ifdef DEBUG
@@ -390,6 +394,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 
 + (void)setUsingInternationDomain:(bool)bUse
 {
+    [[NSUserDefaults standardUserDefaults] setBool:bUse forKey:kZegoDemoAppUseI18nDomain];
     if (g_useInternationDomain == bUse)
         return;
     
@@ -398,6 +403,9 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 
 + (bool)usingInternationDomain
 {
+    if (g_appType == ZegoAppTypeCustom) {
+        return [[NSUserDefaults standardUserDefaults] boolForKey:kZegoDemoAppUseI18nDomain];
+    }
     return g_useInternationDomain;
 }
 
@@ -540,6 +548,9 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     }
 }
 
++ (void)setBizTypeForCustomAppID:(int)bizType {
+    [[NSUserDefaults standardUserDefaults] setInteger:bizType forKey:kZegoDemoAppBizType];
+}
 
 + (NSString *)getMyRoomID:(ZegoDemoRoomType)roomType
 {

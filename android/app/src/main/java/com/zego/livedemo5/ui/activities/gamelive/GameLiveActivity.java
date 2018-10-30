@@ -82,7 +82,6 @@ public  class GameLiveActivity extends AppCompatActivity {
             Toast.makeText(this, "录屏功能只能在Android5.0及以上版本的系统中运行", Toast.LENGTH_LONG).show();
             finish();
         }else {
-
             if (savedInstanceState == null) {
                 Intent intent = getIntent();
                 mPublishTitle = intent.getStringExtra(IntentExtra.PUBLISH_TITLE);

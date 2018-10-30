@@ -73,9 +73,13 @@ public class AboutZegoActivity extends AbsBaseActivity {
     @Override
     protected void loadData(Bundle savedInstanceState) {
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.getSettings().setSupportMultipleWindows(true);
+        WebSettings webSetting = webView.getSettings();
+        webSetting.setAllowFileAccess(true);
+        webSetting.setJavaScriptEnabled(true);
+        webSetting.setDomStorageEnabled(true);
+        webSetting.setDatabaseEnabled(true);
+        webSetting.setAppCacheEnabled(true);
+        webSetting.setBuiltInZoomControls(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://www.zego.im");
 

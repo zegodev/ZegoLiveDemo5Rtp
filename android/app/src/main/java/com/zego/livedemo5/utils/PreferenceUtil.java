@@ -39,6 +39,8 @@ public class PreferenceUtil {
     private static final String Pref_key_App_Key = "zego_app_key";
     private static final String ZEGO_APP_WEBRTC = "zego_app_webrtc";
 
+    public static final String KEY_APP_FLAVOR = "zego_app_flavor_index";
+
     public static final String ZEGO_APP_CUSTOM = "zego_app_custom";
     public static final String ZEGO_APP_KEY_CUSTOM = "zego_app_key_custom";
     public static final String ZEGO_LIVE_LIVE_QUALITY = "ZEGO_LIVE_LIVE_QUALITY";
@@ -55,6 +57,9 @@ public class PreferenceUtil {
     public static final String REQUIRE_HARDWARE_ENCODER = "REQUIRE_HARDWARE_ENCODER";
     public static final String REQUIRE_HARDWARE_DECODER = "REQUIRE_HARDWARE_DECODER";
 
+    static private String ZEGO_SDK_APP_BUSINESS_TYPE = "_zego_app_business_type";
+
+    static private String ZEGO_APP_INTERNATIONAL = "zego_app_international";
 
     private SharedPreferences mSharedPreferences;
 
@@ -138,12 +143,12 @@ public class PreferenceUtil {
         return getLongValue(Pref_key_App_Id, -1);
     }
 
-    public boolean getAPPWebRtc() {
-        return getBooleanValue(ZEGO_APP_WEBRTC, false);
+    public int getCurrentAppFlavor() {
+        return getIntValue(KEY_APP_FLAVOR, -1);
     }
 
-    public void setAppWebRtc(boolean v){
-        setBooleanValue(ZEGO_APP_WEBRTC, v);
+    public void setAppFlavor(int appFlavorIndex) {
+        setIntValue(KEY_APP_FLAVOR, appFlavorIndex);
     }
 
     public void setAppKey(byte[] signKey) {
@@ -324,31 +329,17 @@ public class PreferenceUtil {
         return getIntValue(VIDEO_BITRATE, defaultValue);
     }
 
-    public void setCustomAppId(long customAppId) {
-        setLongValue(ZEGO_APP_CUSTOM, customAppId);
+
+    public void setBusinessType(int businessType) {
+        setIntValue(ZEGO_SDK_APP_BUSINESS_TYPE, businessType);
     }
 
-    public void setCustomAppKey(byte[] signKey) {
-        String strSignKey = ZegoAppHelper.convertSignKey2String(signKey);
-        setStringValue(ZEGO_APP_KEY_CUSTOM, strSignKey);
+    public void setInternational(boolean international) {
+        setBooleanValue(ZEGO_APP_INTERNATIONAL, international);
     }
 
-    public long getAppIdCustom() {
-
-        return getLongValue(ZEGO_APP_CUSTOM, -1);
-
-    }
-
-    public byte[] getAppKeyCustom() {
-        String strSignKey = getStringValue(ZEGO_APP_KEY_CUSTOM, null);
-        if (TextUtils.isEmpty(strSignKey)) {
-            return null;
-        }
-        try {
-            return ZegoAppHelper.parseSignKeyFromString(strSignKey);
-        } catch (NumberFormatException e) {
-        }
-        return null;
+    public int getBusinessType() {
+        return getIntValue(ZEGO_SDK_APP_BUSINESS_TYPE, 0);
     }
 
 

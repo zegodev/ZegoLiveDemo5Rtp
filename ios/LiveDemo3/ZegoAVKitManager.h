@@ -77,6 +77,7 @@ typedef enum : NSUInteger {
 
 + (NSString *)customAppSign;
 
++ (void)setBizTypeForCustomAppID:(int)bizType;
 
 #if TARGET_OS_SIMULATOR
 + (ZegoVideoCaptureFactory *)getVideoCaptureFactory;

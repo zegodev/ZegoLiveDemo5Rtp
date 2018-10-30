@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 获取logcat日志 -->
 
@@ -37,12 +37,11 @@
         <provider
             android:name="com.pgyersdk.PgyerProvider"
             android:authorities="${applicationId}.com.pgyer.provider"
-            android:exported="false"/>
+            android:exported="false" />
 
         <meta-data
             android:name="PGYER_APPID"
-            android:value="08bac45f6b13d4afc5b18e33d2ec6557" >
-        </meta-data>
+            android:value="08bac45f6b13d4afc5b18e33d2ec6557"></meta-data>
 
         <activity
             android:name=".MainActivity"
@@ -55,12 +54,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.ZegoLogShareActivity"
+        <activity
+            android:name=".ui.activities.ZegoLogShareActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateHidden"
-            >
+            android:windowSoftInputMode="stateHidden">
 
         </activity>
+
+        <activity android:name=".ui.activities.SettingActivity" />
 
         <activity
             android:name=".ui.activities.singleanchor.SingleAnchorPlayActivity"
@@ -69,12 +70,10 @@
         <activity
             android:name=".ui.activities.singleanchor.SingleAnchorPublishActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activities.moreanchors.MoreAnchorsPublishActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activities.moreanchors.MoreAnchorsPlayActivity"
@@ -83,7 +82,6 @@
         <activity
             android:name=".ui.activities.mixstream.MixStreamPublishActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activities.mixstream.MixStreamPlayActivity"
@@ -99,6 +97,7 @@
         <activity
             android:name=".ui.activities.LogListActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -112,6 +111,7 @@
                 <data android:scheme="tencent1105633775" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

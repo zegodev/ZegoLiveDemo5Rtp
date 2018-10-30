@@ -64,6 +64,13 @@
     <string name="stop_publishing">停止直播</string>
     <string name="sdk_ve_version">VE版本:</string>
 
+    <string name="zg_scan_qr_code">扫描二维码</string>
+    <string name="zg_scan_qr_code_setting">扫码设置</string>
+    <string name="zg_scan_qr_code_setting_text">通过扫描二维码快速完成是设置</string>
+
+    <string name="zg_toast_config_successful">配置成功</string>
+    <string name="zg_toast_config_failure">配置失败</string>
+
     <!--broadcast-->
     <string name="hint">提示</string>
     <string name="someone_is_requesting_to_broadcast_allow"><xliff:g id="value">%1$s</xliff:g>&#160;正在请求连麦, 是否同意?"</string>

@@ -263,17 +263,17 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
     DialogSelectPublishMode.OnSelectPublishModeListener mDialogSelectPublishMode = new DialogSelectPublishMode.OnSelectPublishModeListener() {
         @Override
         public void onSingleAnchorSelect() {
-            SingleAnchorPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getRequestedOrientation());
+            SingleAnchorPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getWindowManager().getDefaultDisplay().getRotation());
         }
 
         @Override
         public void onMoreAnchorsSelect() {
-            MoreAnchorsPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getRequestedOrientation());
+            MoreAnchorsPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getWindowManager().getDefaultDisplay().getRotation());
         }
 
         @Override
         public void onMixStreamSelect() {
-            MixStreamPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getRequestedOrientation());
+            MixStreamPublishActivity.actionStart(mParentActivity, publishTitleTemp, tbEnableFrontCam.isChecked(), tbEnableTorch.isChecked(), mSelectedBeauty, mSelectedFilter, mParentActivity.getWindowManager().getDefaultDisplay().getRotation());
         }
 
         @Override
@@ -289,7 +289,7 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
 
         @Override
         public void onWolvesGameSelect() {
-            WolvesGameHostActivity.actionStart(mParentActivity, publishTitleTemp, mParentActivity.getRequestedOrientation());
+            WolvesGameHostActivity.actionStart(mParentActivity, publishTitleTemp, mParentActivity.getWindowManager().getDefaultDisplay().getRotation());
         }
     };
 
@@ -360,16 +360,18 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
         int currentOrientation = mParentActivity.getWindowManager().getDefaultDisplay().getRotation();
         mZegoLiveRoom.setAppOrientation(currentOrientation);
 
-        // 设置推流配置
-        ZegoAvConfig currentConfig = ZegoApiManager.getInstance().getZegoAvConfig();
-        int videoWidth = currentConfig.getVideoEncodeResolutionWidth();
-        int videoHeight = currentConfig.getVideoEncodeResolutionHeight();
-        if (((currentOrientation == ROTATION_0 || currentOrientation == Surface.ROTATION_180) && videoWidth > videoHeight) ||
-                ((currentOrientation == ROTATION_90 || currentOrientation == ROTATION_270) && videoHeight > videoWidth)) {
-            currentConfig.setVideoEncodeResolution(videoHeight, videoWidth);
-            currentConfig.setVideoCaptureResolution(videoHeight, videoWidth);
+        ZegoAvConfig config = ZegoApiManager.getInstance().getZegoAvConfig();
+        // 获取屏幕比例
+        boolean proportion = SystemUtil.getResolutionProportion(mParentActivity);
+        if ((proportion && config.getVideoCaptureResolutionWidth() < config.getVideoCaptureResolutionHeight()) ||
+                (!proportion && config.getVideoCaptureResolutionWidth() > config.getVideoCaptureResolutionHeight())) {
+            // 如果不为横屏比例, 则切换分辨率
+            int height = config.getVideoCaptureResolutionWidth();
+            int width = config.getVideoCaptureResolutionHeight();
+            config.setVideoEncodeResolution(width, height);
+            config.setVideoCaptureResolution(width, height);
+           mZegoLiveRoom.setAVConfig(config);
         }
-        ZegoApiManager.getInstance().setZegoConfig(currentConfig);
 
         // 设置水印
         ZegoLiveRoom.setWaterMarkImagePath("asset:watermark.png");
@@ -409,7 +411,6 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
         mZegoLiveRoom.enableBeautifying(ZegoRoomUtil.getZegoBeauty(mSelectedBeauty));
         // 设置滤镜
         mZegoLiveRoom.setFilter(mSelectedFilter);
-
 
     }
 

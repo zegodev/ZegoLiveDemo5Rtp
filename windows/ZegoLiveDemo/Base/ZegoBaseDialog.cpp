@@ -2,6 +2,9 @@
 #include "ZegoLiveDemoDefines.h"
 #include "Signal/ZegoSDKSignal.h"
 #include "Base/IncludeZegoLiveRoomApi.h"
+
+#include <QSysInfo>
+
 #ifdef Q_OS_MAC
 #include "OSX_Objective-C/ZegoAVDevice.h"
 #include "OSX_Objective-C/ZegoCGImageToQImage.h"
@@ -112,11 +115,9 @@ ZegoBaseDialog::~ZegoBaseDialog()
 //功能函数
 void ZegoBaseDialog::initDialog()
 {
-#ifdef Q_OS_WIN
-#ifdef _WIN32_WINNT 0x0501
-	ui.m_bCapture->setVisible(false);
-#endif
-#endif
+	if (QSysInfo::windowsVersion() == QSysInfo::WV_XP)
+		ui.m_bCapture->setVisible(false);
+
 	initButtonIcon();
 	initComboBox();
 
@@ -1427,6 +1428,12 @@ void ZegoBaseDialog::OnSwitchVideoDevice(int id)
 
 	    LIVEROOM::SetVideoDevice(qtoc(m_device->GetVideoDeviceId()));
 		m_pAVSettings->SetCameraId(qtoc(m_device->GetVideoDeviceId()));
+
+		if (mBase.GetUseSurfaceMerge())
+		{
+			SurfaceMergeController::getInstance().setSurfaceCameraId(m_device->GetVideoDeviceId());
+			SurfaceMergeController::getInstance().startSurfaceMerge();
+		}
 
 		update();
 

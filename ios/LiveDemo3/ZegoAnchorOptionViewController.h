@@ -38,7 +38,7 @@
 - (BOOL)onGetEnablePreviewMirror;
 - (BOOL)onGetEnableCaptureMirror;
 - (BOOL)onGetEnableLoopback;
-
+- (BOOL)onGetMixEnginePlayout;
 - (BOOL)onGetEnableVirtualStereo;
 - (BOOL)onGetEnableReverb;
 @end

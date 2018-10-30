@@ -14,9 +14,11 @@
 #import <MessageUI/MessageUI.h>
 #import <SafariServices/SFSafariViewController.h>
 #import <SSZipArchive/SSZipArchive.h>
+#import <QRCodeReaderViewController/QRCodeReaderViewController.h>
+#import <QRCodeReaderViewController/QRCodeReader.h>
 #import "ZegoShareLogViewController.h"
 
-@interface ZegoSetTableViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate>
+@interface ZegoSetTableViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate, QRCodeReaderDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *appVersion;
 @property (weak, nonatomic) IBOutlet UILabel *sdkVersion;
@@ -575,7 +577,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 1)
+    if (indexPath.section == 0)
+    {
+        [self beginQRCodeScan];
+    }
+    else if (indexPath.section == 2)
     {
         if (indexPath.row == 0)
         {
@@ -598,11 +604,21 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger sectionCount = [self.tableView numberOfSections];
-    if (sectionCount >= 2 && (indexPath.section == sectionCount - 2 || indexPath.section == sectionCount - 1))
-        return YES;
     
-    if (indexPath.section == 1 && (indexPath.row == 0 || indexPath.row == 1))
+    if (indexPath.section == 0)
+    {
         return YES;
+    }
+    
+    if (sectionCount >= 2 && (indexPath.section == sectionCount - 2 || indexPath.section == sectionCount - 1))
+    {
+        return YES;
+    }
+    
+    if (indexPath.section == 2 && (indexPath.row == 0 || indexPath.row == 1))
+    {
+        return YES;
+    }
     
     return NO;
 }
@@ -703,4 +719,82 @@
     }
 }
 
+#pragma mark - QRCode
+
+- (void)beginQRCodeScan {
+    if ([QRCodeReader supportsMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]]) {
+        static QRCodeReaderViewController *vc = nil;
+        static dispatch_once_t onceToken;
+        
+        dispatch_once(&onceToken, ^{
+            QRCodeReader *reader = [QRCodeReader readerWithMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
+            vc                   = [QRCodeReaderViewController readerWithCancelButtonTitle:@"Cancel" codeReader:reader startScanningAtLoad:YES showSwitchCameraButton:YES showTorchButton:YES];
+            vc.modalPresentationStyle = UIModalPresentationFormSheet;
+        });
+        vc.delegate = self;
+        
+        //        [vc setCompletionWithBlock:^(NSString *resultAsString) {
+        //            NSLog(@"Completion with result: %@", resultAsString);
+        //        }];
+        
+        [self presentViewController:vc animated:YES completion:NULL];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Reader not supported by the current device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alert show];
+    }
+}
+
+#pragma mark - QRCodeReader Delegate Methods
+
+- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result
+{
+    [reader stopScanning];
+    
+    NSError* jsonParseError = nil;
+    NSDictionary* jsonRsp = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
+                                                            options:NSJSONReadingAllowFragments
+                                                              error:&jsonParseError];
+    
+    NSString* message = nil;
+    
+    if (!jsonParseError) {
+        NSString* type = jsonRsp[@"type"];
+        if ([type isEqualToString:@"ac"]) {
+            message = jsonRsp[@"data"][@"title"];
+            unsigned int appID = [jsonRsp[@"data"][@"appid"] unsignedIntValue];
+            NSString* appSign = jsonRsp[@"data"][@"appkey"];
+            BOOL testEnv = [jsonRsp[@"data"][@"testenv"] boolValue];
+            int bizType = [jsonRsp[@"data"][@"businesstype"] intValue];
+            NSNumber *i18n = [[jsonRsp objectForKey:@"data"] objectForKey:@"i18n"];
+            if (i18n) {
+                [ZegoDemoHelper setUsingInternationDomain:[i18n boolValue]];
+            }
+           
+            [ZegoDemoHelper releaseApi];
+            
+            [ZegoDemoHelper setAppType:ZegoAppTypeCustom];
+            [ZegoDemoHelper setBizTypeForCustomAppID:bizType];
+            [ZegoDemoHelper setUsingTestEnv:testEnv];
+            [ZegoDemoHelper setCustomAppID:appID sign:appSign];
+            
+            [self loadEnvironmentSettings];
+        } else {
+            message = @"INVALID CONFIG!";
+        }
+    } else {
+        message = jsonParseError.description;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Quick Setup" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }];
+}
+
+- (void)readerDidCancel:(QRCodeReaderViewController *)reader
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
 @end

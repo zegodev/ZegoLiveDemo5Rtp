@@ -125,6 +125,14 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
 - (void)setRoomConfig:(bool)audienceCreateRoom userStateUpdate:(bool)userStateUpdate;
 
 /**
+ 设置自定义token信息
+ 
+ @param thirdPartyToken 第三方传入的token
+ @discussion 使用此方法验证登录时用户的合法性，登录房间前调用，token的生成规则请联系即构。若不需要验证用户合法性，不需要调用此函数。
+ */
+- (void)setCustomToken:(NSString *)thirdPartyToken;
+
+/**
  登录房间
  
  @param roomID 房间 ID，长度不可超过 255 byte
@@ -201,6 +209,16 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @discussion 用于需要恢复指定模块的场合，例如来电结束后恢复音频模块。暂停指定模块后，注意在合适时机下恢复模块
  */
 - (void)resumeModule:(int)moduleType;
+
+/**
+ 设置是否允许SDK使用麦克风设备
+ 
+ @param enable YES 表示允许使用麦克风，NO 表示禁止使用麦克风，此时如果SDK在占用麦克风则会立即释放。
+ @return YES 调用成功 NO 调用失败
+ @discussion 调用时机为引擎创建后的任意时刻。
+ @note 接口由于涉及对设备的操作，极为耗时，不建议随便调用，只在真正需要让出麦克风给其他应用的时候才调用
+ */
+- (BOOL)enableMicDevice:(BOOL)enable;
 #endif
 
 #if TARGET_OS_OSX
@@ -344,6 +362,13 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
 - (void)setSpeaker:(NSString *)deviceId simpleMute:(bool)mute;
 
 /**
+ 获取默认的视频设备
+ 
+ @return deviceId
+ */
+- (NSString *)getDefaultVideoDeviceId;
+
+/**
  获取默认的音频设备
  
  @param deviceType 音频类型
@@ -399,9 +424,9 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
 @optional
 
 /**
- 因为使用同一个 UserId 登录，用户被挤出聊天室
+ 用户被踢出房间
  
- @param reason 被踢出原因
+ @param reason 被踢出原因，16777219 表示该账户多点登录被踢出，16777220 表示该账户是被手动踢出，16777221 表示房间会话错误被踢出。
  @param roomID 房间 ID
  @discussion 可在该回调中处理用户被踢出房间后的下一步处理（例如报错、重新登录提示等）
  */
@@ -492,7 +517,7 @@ typedef enum : NSUInteger {
  直播事件回调
  
  @param event 直播事件状态，参考 ZegoLiveEvent 定义
- @param info 信息，目前为空
+ @param info 信息
  @discussion 调用 [ZegoLiveRoomApi -setLiveEventDelegate] 设置直播事件代理对象后，在此回调中获取直播事件状态
  */
 - (void)zego_onLiveEvent:(ZegoLiveEvent)event info:(NSDictionary<NSString*, NSString*>*)info;

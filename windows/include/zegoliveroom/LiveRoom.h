@@ -308,6 +308,15 @@ namespace ZEGO
         ZEGO_API void SetSpeakerSimpleMute(const char *deviceId, bool mute);
         
         /**
+         获取默认的视频设备
+         
+         @param deviceId 设备 Id
+         @param deviceIdLength deviceId 字符串分配的长度
+         @note 如果传入的字符串 buffer 长度小于默认 deviceId 的长度，则 deviceIdLength 返回实际需要的字符串长度
+         */
+        ZEGO_API void GetDefaultVideoDeviceId(char *deviceId, unsigned int *deviceIdLength);
+        
+        /**
          获取默认的音频设备
 
          @param deviceType 音频类型
@@ -358,10 +367,10 @@ namespace ZEGO
          @attention "camera_orientation_mode", string value: auto/hardcode/0/90/180/270. for Android, Windows
          @attention "camera_check_position", bool value, default: false. for Android
          @attention "lower_audio_cap_sample_rate", bool value, default: false. enforce to use lower audio capture sample. for Android
+         @attention "alsa_capture_device_name" string value: plughw:[card_id],[device_id], eg: plughw:1,0, default is plug:default. view the device list with arecord. for Linux
+         @attention "alsa_playback_device_name" string value: plughw:[card_id],[device_id], eg: plughw:1,0, default is plug:default. view the device list with aplay. for Linux
          */
         ZEGO_API void SetConfig(const char *config);
-        
-        ZEGO_API bool EnablePreviewMirror(bool bEnable, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
         
 #if defined(ANDROID) || TARGET_OS_IPHONE
         /**

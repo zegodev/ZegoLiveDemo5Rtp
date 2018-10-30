@@ -438,7 +438,7 @@ void ZegoMainDialog::ParseRoomList(QByteArray json)
 
 	if (code.toInt() != 0)
 	{
-		QMessageBox::information(this, tr("提示"), tr("获取房间列表失败"));
+		QMessageBox::information(this, tr("提示"), tr("获取房间列表失败，错误码：%1").arg(code.toInt()));
 		return; 
 	}
 

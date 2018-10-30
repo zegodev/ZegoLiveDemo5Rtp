@@ -1,4 +1,5 @@
 #include "ZegoSurfaceMergeApi.h"
+#include "Base/IncludeZegoLiveRoomApi.h"
 
 SurfaceMergeController::SurfaceMergeController()
 {
@@ -19,7 +20,7 @@ void SurfaceMergeController::setSurfaceFps(int nFps)
 	m_surfaceFps = nFps;
 }
 //´«ÈëÉãÏñÍ·ID
-void SurfaceMergeController::setSurfaceCameraId(QString cameraID)
+void SurfaceMergeController::setSurfaceCameraId(const QString& cameraID)
 {
 	m_surfaceCameraID = cameraID;
 }
@@ -83,7 +84,9 @@ void SurfaceMergeController::startSurfaceMerge()
 
 	SurfaceMerge::UpdateSurface(itemList, 2);
 	m_surfaceView->setSurfaceMergeView(true);
+#ifdef USE_EXTERNAL_SDK
 	m_surfaceView->setSurfaceMergeItemRect(itemWin, itemCam);
+#endif
 	SurfaceMerge::SetRenderView((void *)m_surfaceView->winId());
 
 	delete[]itemList;

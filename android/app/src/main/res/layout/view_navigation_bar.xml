@@ -1,56 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/dimen_50"
-              android:orientation="horizontal"
-    android:id="@+id/llyt_root">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llyt_root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_50"
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sl_item"
-        android:layout_weight="1">
-        <View style="@style/HorizontalDivider"
-              android:layout_height="1px"/>
+        android:layout_weight="1"
+        android:background="@drawable/sl_item">
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_height="1px" />
 
         <ImageView
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/ic_home"
-            android:layout_marginTop="3dp"
             android:layout_width="@dimen/dimen_42"
-            android:layout_height="@dimen/dimen_30"/>
+            android:layout_height="@dimen/dimen_30"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:src="@mipmap/ic_home" />
 
         <TextView
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            tools:text="房间"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="1dp"
             android:textSize="@dimen/text_size_3"
-            android:layout_marginBottom="1dp"/>
+            tools:text="房间" />
     </RelativeLayout>
-    <View style="@style/VerticalDivider"/>
+
+    <View style="@style/VerticalDivider" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sl_item"
-        android:layout_weight="1">
-        <View style="@style/HorizontalDivider"
-            android:layout_height="1px"/>
+        android:layout_weight="1"
+        android:background="@drawable/sl_item">
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_height="1px" />
+
         <ImageView
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/ic_live"
-            android:layout_marginTop="3dp"
             android:layout_width="@dimen/dimen_40"
-            android:layout_height="@dimen/dimen_30"/>
+            android:layout_height="@dimen/dimen_30"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:src="@mipmap/ic_live" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
-            tools:text="直播"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="1dp"
             android:textSize="@dimen/text_size_3"
-            android:layout_marginBottom="1dp"/>
+            tools:text="直播" />
     </RelativeLayout>
 </LinearLayout>

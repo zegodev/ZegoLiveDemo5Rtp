@@ -51,7 +51,10 @@ void ZegoMoreAnchorDialog::initDialog()
 	ui.m_cbCamera2->setVisible(false);
 
 	if (mBase.GetUseSurfaceMerge())
+	{
 		ui.m_bFullScreen->setEnabled(false);
+		ui.m_bCamera->setVisible(false);
+	}
 
 	//在主播端，请求连麦的按钮变为直播开关
 	ui.m_bRequestJoinLive->setText(tr("停止直播"));
@@ -363,7 +366,7 @@ void ZegoMoreAnchorDialog::OnPublishQualityUpdate(const QString& streamId, int q
 	if (nIndex < 0 || nIndex > 11)
 		return;
 
-	AVViews[nIndex]->setCurrentQuality(quality);
+	//AVViews[nIndex]->setCurrentQuality(quality);
 
 	/*if (capFPS == 0)
 	{
@@ -389,7 +392,7 @@ void ZegoMoreAnchorDialog::OnPlayQualityUpdate(const QString& streamId, int qual
 	if (nIndex < 0 || nIndex > 11)
 		return;
 
-	AVViews[nIndex]->setCurrentQuality(quality);
+	//AVViews[nIndex]->setCurrentQuality(quality);
 
 }
 

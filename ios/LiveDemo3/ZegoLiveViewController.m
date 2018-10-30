@@ -568,6 +568,22 @@
     return qualityString;
 }
 
+- (NSString *)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs akbs:(double)akbs rtt:(int)rtt pktLostRate:(int)pktLostRate delay:(int)delay
+{
+    if (streamID.length == 0)
+        return nil;
+    
+    // 丢包率的取值为 0~255，需要除以 256.0 得到丢包率百分比
+    NSString *qualityString = [NSString stringWithFormat:NSLocalizedString(@"[%@] 帧率: %.3f, 视频码率: %.3f kb/s, 音频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%, 语音延时: %d ms", nil), publish ? NSLocalizedString(@"推流", nil): NSLocalizedString(@"拉流", nil), fps, kbs, akbs, rtt, pktLostRate/256.0 * 100, delay];
+    NSString *totalString =[NSString stringWithFormat:NSLocalizedString(@"[%@] 流ID: %@, 帧率: %.3f, 视频码率: %.3f kb/s, 音频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%, 语音延时: %d ms", nil), publish ? NSLocalizedString(@"推流", nil): NSLocalizedString(@"拉流", nil), streamID, fps, kbs, akbs, rtt, pktLostRate/256.0 * 100, delay];
+    [self.staticsArray insertObject:totalString atIndex:0];
+    
+    // 通知 log 界面更新
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"logUpdateNotification" object:self userInfo:nil];
+    
+    return qualityString;
+}
+
 - (void)addLogString:(NSString *)logString
 {
     if (logString.length != 0)
@@ -637,8 +653,13 @@
     }
     else if(AVAudioSessionInterruptionTypeEnded == [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue])
     {
-        // 恢复音频设备
-        [[ZegoDemoHelper api] resumeModule:ZEGOAPI_MODULE_AUDIO];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            // 延迟2s恢复音频设备，原因为系统可能在通话恢复后未完全释放设备，导致立即释放后推拉流不能重新恢复
+            [[ZegoDemoHelper api] resumeModule:ZEGOAPI_MODULE_AUDIO];
+        });
+        
+        
     }
 }
 
@@ -1114,6 +1135,11 @@
 - (BOOL)onGetEnableLoopback
 {
     return self.enableLoopback;
+}
+
+- (BOOL)onGetMixEnginePlayout;
+{
+    return self.enableMixEnginePlayout;
 }
 
 - (BOOL)onGetEnableVirtualStereo

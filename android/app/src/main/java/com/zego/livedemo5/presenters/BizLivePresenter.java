@@ -14,6 +14,7 @@ import com.zego.livedemo5.ZegoApiManager;
 import com.zego.livedemo5.ZegoAppHelper;
 import com.zego.livedemo5.ZegoApplication;
 import com.zego.livedemo5.interfaces.OnUpdateRoomListListener;
+import com.zego.livedemo5.utils.PreferenceUtil;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -69,6 +70,14 @@ public class BizLivePresenter {
             public void run() {
                 RequestQueue mQueue = Volley.newRequestQueue(ZegoApplication.sApplicationContext);
                 long appID = ZegoApiManager.getInstance().getAppID();
+                int currentAppFlavor = PreferenceUtil.getInstance().getCurrentAppFlavor();
+                if (currentAppFlavor == -1 || currentAppFlavor == 0) {
+                    appID = ZegoAppHelper.UDP_APP_ID;
+                }else if(currentAppFlavor == 1){
+                    appID = ZegoAppHelper.INTERNATIONAL_APP_ID;
+                }else if(currentAppFlavor == 2){
+                    appID = PreferenceUtil.getInstance().getAppId();
+                }
                 // 区分国内环境与国际环境
                 String domain = ZegoAppHelper.isInternationalProduct(appID) ? "zegocloud.com" : "zego.im";
                 String url = String.format("https://liveroom%d-api.%s/demo/roomlist?appid=%s", appID, domain, appID);

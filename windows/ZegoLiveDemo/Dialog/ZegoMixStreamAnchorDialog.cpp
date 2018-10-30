@@ -444,7 +444,7 @@ void ZegoMixStreamAnchorDialog::OnPublishQualityUpdate(const QString& streamId, 
 	if (nIndex < 0 || nIndex > 11)
 		return;
 
-	AVViews[nIndex]->setCurrentQuality(quality);
+	//AVViews[nIndex]->setCurrentQuality(quality);
 
 	/*if (capFPS == 0)
 	{
@@ -470,7 +470,7 @@ void ZegoMixStreamAnchorDialog::OnPlayQualityUpdate(const QString& streamId, int
 	if (nIndex < 0 || nIndex > 11)
 		return;
 
-	AVViews[nIndex]->setCurrentQuality(quality);
+	//AVViews[nIndex]->setCurrentQuality(quality);
 
 }
 

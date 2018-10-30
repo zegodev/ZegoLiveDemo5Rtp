@@ -33,14 +33,6 @@ namespace ZEGO
          */
         ZEGO_API int SendReliableMessage(const char *pszMsgType, const char *pszMsgData);
         
-        /**
-         获取可靠业务广播
-         
-         @param pszMsgType 业务类型
-         @param msgSeq 本地最新的业务序号
-         @return 发送序号 seq
-         */
-        ZEGO_API int GetReliableMessage(const char *pszMsgType, const unsigned int msgSeq);
     }
 }
 

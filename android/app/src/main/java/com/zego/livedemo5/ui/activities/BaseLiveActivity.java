@@ -22,6 +22,7 @@ import android.support.v7.app.AlertDialog;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -71,6 +72,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import butterknife.OnClick;
 
@@ -1011,14 +1013,15 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
     /**
      * 拉流质量更新.
      */
-    protected void handlePlayQualityUpdate(String streamID, int quality, double videoFPS, double videoBitrate) {
+    protected void handlePlayQualityUpdate(String streamID, int quality, double videoFPS, double videoBitrate, int delay) {
         ViewLive viewLive = getViewLiveByStreamID(streamID);
         if (viewLive != null) {
             viewLive.setLiveQuality(quality, videoFPS, videoBitrate);
         }
 
         // for espresso test, don't delete the log
-        LiveQualityLogger.write("playStreamQuality: %d, streamId: %s, videoFPS: %.2f, videoBitrate: %.2fKb/s", quality, streamID, videoFPS, videoBitrate);
+        LiveQualityLogger.write("playStreamQuality: %d, streamId: %s, videoFPS: %.2f, videoBitrate: %.2fKb/s, delay: %d", quality, streamID, videoFPS, videoBitrate, delay);
+        Log.d("playstat", String.format("delay:%d", delay));
     }
 
     /**

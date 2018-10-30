@@ -4,6 +4,9 @@ buildscript {
     repositories {
         jcenter()
         // maven { url "http://192.168.100.229:8081/repository/maven-public/" }
+        flatDir {
+            dirs '3rdlibs'   // aar目录
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
@@ -16,6 +19,10 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        flatDir {
+            dirs '3rdlibs'   // aar目录
+        }
+        maven { url "https://jitpack.io" }
         // maven { url "http://192.168.100.229:8081/repository/maven-public/" }
     }
 }

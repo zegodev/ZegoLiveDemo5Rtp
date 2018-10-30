@@ -156,12 +156,14 @@ namespace AVE {
     };
     
     struct VideoCodecConfig {
-        VideoCodecConfig() : width(0), height(0), codec_type(CODEC_TYPE_AVC_AVCC) {
+        VideoCodecConfig() : width(0), height(0), codec_type(CODEC_TYPE_AVC_AVCC), media_side_info(0), media_side_info_size(0) {
         }
         
         int width;
         int height;
         VideoCodecType codec_type;
+        const char* media_side_info;
+        int media_side_info_size;
     };
     
     class VideoCaptureEncodedFrameCallback {

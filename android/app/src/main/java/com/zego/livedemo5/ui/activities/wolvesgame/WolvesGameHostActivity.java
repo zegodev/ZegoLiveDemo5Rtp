@@ -233,7 +233,7 @@ public class WolvesGameHostActivity extends WolvesGameBaseActivity {
     }
 
     private void onSpeakingButtonClick() {
-        if (isSpeaking) {
+        if (mBtnSpeaking.getText().equals(getString(R.string.end_speaking))) {
             mHandler.removeMessages(MsgIds.STOP_SPEAKING_FOR_ME);
             stopTalking();
         } else {
@@ -250,7 +250,6 @@ public class WolvesGameHostActivity extends WolvesGameBaseActivity {
             zegoLiveRoom.stopPublishing();
         }
 
-        isSpeaking = false;
     }
 
     private void stopPlay(String streamId) {
@@ -714,7 +713,6 @@ public class WolvesGameHostActivity extends WolvesGameBaseActivity {
                     return;
                 }
 
-                isSpeaking = true;
                 if (currentSpeakingIndex == SpeakingMode.FreeSpeakingMode) {
                     mTextTips.setText(R.string.mode_update_system_success);
                 } else {

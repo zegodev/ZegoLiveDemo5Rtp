@@ -49,12 +49,20 @@ android {
         }
     }
 
+    repositories {
+        flatDir {
+            dirs '3rdlibs'   // aar目录
+        }
+    }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs', 'bizlibs', 'zegovideofilterlibs']
         }
     }
 }
+
+
 
 def getDemoVersionName(){
     String versionName = "1.0"
@@ -91,6 +99,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
+    compile(name: 'zego-qrcode', ext: 'aar')
+    compile 'com.alibaba:fastjson:1.2.44'
     androidTestCompile 'com.android.support.test:runner:' + rootProject.runnerVersion
     androidTestCompile 'com.android.support.test:rules:' + rootProject.rulesVersion
     // Force usage of support annotations in the test app, since it is internally used by the
@@ -99,4 +109,5 @@ dependencies {
     // Note that espresso-idling-resource is used in the code under test.
     compile 'com.android.support.test.espresso:espresso-idling-resource:' + rootProject.espressoVersion
     compile files('libs/zegoliveroom.jar')
+
 }

@@ -59,7 +59,6 @@
     <string-array name="app_flavors">
         <item>China</item>
         <item>International</item>
-        <item>WebRtc</item>
         <item>Custom</item>
     </string-array>
 </resources>

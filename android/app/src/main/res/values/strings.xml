@@ -10,6 +10,9 @@
     <string name="day_ago">&#160;days ago</string>
     <string name="year_ago">&#160;years ago</string>
 
+    <string name="zg_toast_config_successful">Config Successful</string>
+    <string name="zg_toast_config_failure">Config failure</string>
+
     <string name="user_id">User ID:</string>
     <string name="user_name">User Name:</string>
     <string name="quality_options">Quality Options:</string>
@@ -21,6 +24,10 @@
     <string name="about">About</string>
     <string name="demo_version">Version:&#160;</string>
     <string name="upload_log_successfully">Log has been uploaded successfully</string>
+
+    <string name="zg_scan_qr_code">Scan qr code</string>
+    <string name="zg_scan_qr_code_setting">Quick Setup</string>
+    <string name="zg_scan_qr_code_setting_text">Quick setup App By Scanning QRCode</string>
 
     <string name="resolution_prefix">Resolution&#160;<xliff:g id="value">%1$s</xliff:g></string>
     <string name="fps_prefix">Frame Rate&#160;<xliff:g id="value">%1$s</xliff:g></string>

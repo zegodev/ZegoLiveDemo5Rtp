@@ -123,7 +123,7 @@ public class MixStreamPlayActivity extends BasePlayActivity {
             @Override
             public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
                 // 拉流质量回调
-                handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
+                handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate, streamQuality.delay);
             }
 
             @Override

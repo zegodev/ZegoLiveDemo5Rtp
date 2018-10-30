@@ -168,7 +168,7 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
 
     @OnClick(R.id.btn_start_or_stop_speaking)
     public void onStartOrStopSpeakingClick(View view) {
-        if (isSpeaking) {
+        if (mBtnSpeaking.getText().equals(getString(R.string.end_speaking))) {
             stopTalking(true);
         } else {
             if (!requestPermission()) {
@@ -218,7 +218,6 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
      * @param sendNotify true: 需要发送 StopSpeaking 指令给Host（仅主动停止说话的情景下才需要，如果是接收来自于Host发送的停止指令，则不应该再发送 StopSpeaking 通知）; false: 不发送
      */
     private void stopTalking(boolean sendNotify) {
-        isSpeaking = false;
         mBtnSpeaking.setText(R.string.start_speaking);
 
         mHandler.removeMessages(MsgIds.STOP_SPEAKING_FOR_ME);
@@ -376,8 +375,8 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
 
                 if (currentSpeakingUser != null) {
                     mCurrentSpeakingHead.setVisibility(View.VISIBLE);
-                    zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, currentSpeakingUser.getStreamId());
                     zegoLiveRoom.startPlayingStream(currentSpeakingUser.getStreamId(), mCurrentSpeakingHead);
+                    zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, currentSpeakingUser.getStreamId());
                 }
             }
             mBtnSpeaking.setText(R.string.start_speaking);
@@ -420,7 +419,7 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
 
     private void handleStopSpeakingCommand(JSONObject json) {
         String userId = json.optString(kUserIdKey);
-        if (isSpeaking && isMe(userId)) {
+        if (mBtnSpeaking.getText().equals(getString(R.string.end_speaking)) && isMe(userId)) {
             stopTalking(false);
         } else {
             WolfInfo wolf = getWolfById(userId);
@@ -482,7 +481,6 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
             if (wolf == null || TextUtils.isEmpty(wolf.getStreamId())) continue;
 
             if (isMe(wolf.getUserId())) {
-                isSpeaking = false;
                 zegoLiveRoom.stopPreview();
                 zegoLiveRoom.setPreviewView(null);
                 zegoLiveRoom.enableMic(false);

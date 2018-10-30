@@ -33,6 +33,8 @@
 		16F48AC31FF490AA001C8992 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; };
 		A745D7441E4B322E009A4265 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; };
 		A745D7451E4B32FC009A4265 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
+		A7C911AC214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
 		A7CD23E01EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
 		A7CD23E11EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
 		EF0387301FB2E424004EF33C /* ZegoImageFilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; };
@@ -257,6 +259,7 @@
 		4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoLiveRoom.framework; path = libs/ZegoLiveRoom.framework; sourceTree = "<group>"; };
 		A745D7481E4C197F009A4265 /* LiveDemo5.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveDemo5.entitlements; sourceTree = "<group>"; };
+		A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QRCodeReaderViewController.framework; sourceTree = "<group>"; };
 		A7CD23DE1EBB6135002F446A /* ZegoTestPushViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoTestPushViewController.h; path = LiveDemo3/ZegoTestPushViewController.h; sourceTree = "<group>"; };
 		A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZegoTestPushViewController.m; path = LiveDemo3/ZegoTestPushViewController.m; sourceTree = "<group>"; };
 		EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoImageFilter.framework; path = libs/ZegoImageFilter.framework; sourceTree = "<group>"; };
@@ -430,6 +433,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF0387341FB2F64B004EF33C /* ZegoImageFilter.framework in Frameworks */,
+				A7C911AC214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */,
 				16CD53C91F3C3487003D43B3 /* SSZipArchive.framework in Frameworks */,
 				EF9F41621F3B04A9003F7C0F /* MessageUI.framework in Frameworks */,
 				EF9F41611F3B0498003F7C0F /* SafariServices.framework in Frameworks */,
@@ -446,6 +450,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */,
 				162CB30B1F74AE2A0080185B /* VideoToolbox.framework in Frameworks */,
 				16F48A6E1FF3A4A5001C8992 /* Bugly.framework in Frameworks */,
 				EF0387301FB2E424004EF33C /* ZegoImageFilter.framework in Frameworks */,
@@ -542,6 +547,7 @@
 		EF32D6F31D6599B700A764FC /* thirdLib */ = {
 			isa = PBXGroup;
 			children = (
+				A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */,
 				164C75A1211853A60012FB01 /* PgySDK.framework */,
 				164C75A2211853A60012FB01 /* PgyUpdate.framework */,
 				16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */,

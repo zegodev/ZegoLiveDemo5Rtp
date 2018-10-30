@@ -39,8 +39,12 @@ void ZegoSingleAnchorDialog::initDialog()
 	QString strTitle = QString(tr("【%1】%2")).arg(tr("单主播模式")).arg(m_pChatRoom->getRoomName());
 	ui.m_lbRoomName->setText(strTitle);
 
-	if (mBase.GetUseSurfaceMerge())
+	if (mBase.GetUseSurfaceMerge()) 
+	{
 		ui.m_bFullScreen->setEnabled(false);
+		ui.m_bCamera->setVisible(false);
+	}
+		
 
 	//单主播模式不需要第二个摄像头
 	ui.m_lbCamera2->setVisible(false);
@@ -246,7 +250,7 @@ void ZegoSingleAnchorDialog::OnPublishQualityUpdate(const QString& streamId, int
 	if (nIndex < 0 || nIndex > 11)
 		return;
 
-	AVViews[nIndex]->setCurrentQuality(quality);
+	//AVViews[nIndex]->setCurrentQuality(quality);
 
 	/*if (capFPS == 0)
 	{

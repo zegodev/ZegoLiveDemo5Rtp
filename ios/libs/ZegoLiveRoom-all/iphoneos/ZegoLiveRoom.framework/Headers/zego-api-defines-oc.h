@@ -79,6 +79,17 @@ typedef enum {
     ZegoVideoViewModeScaleToFill        = 2,
 } ZegoVideoViewMode;
 
+typedef enum {
+    /** 预览启用镜像，推流不启用镜像 */
+    ZegoVideoMirrorModePreviewMirrorPublishNoMirror = 0,
+    /** 预览启用镜像，推流启用镜像 */
+    ZegoVideoMirrorModePreviewCaptureBothMirror = 1,
+    /** 预览不启用镜像，推流不启用镜像 */
+    ZegoVideoMirrorModePreviewCaptureBothNoMirror = 2,
+    /** 预览不启用镜像，推流启用镜像 */
+    ZegoVideoMirrorModePreviewNoMirrorPublishMirror = 3
+}ZegoVideoMirrorMode;
+
 /** 采集旋转角度，逆时针旋转 */
 typedef enum {
     /** 旋转 0 度 */
@@ -227,7 +238,8 @@ typedef enum : NSUInteger {
 @property (copy) NSString *outputBackgroundImage;
 /** 是否开启音浪。true：开启，false：关闭 */
 @property BOOL withSoundLevel;
-
+/** 扩展信息 **/
+@property int extra;
 @end
 
 /** 发布直播的模式 */
@@ -268,8 +280,10 @@ enum ZegoAPIModuleType
 
 typedef struct
 {
-    /** 视频帧率 */
+    /** 视频帧率(编码/网络发送) */
     double fps;
+    /** 视频采集帧率 */
+    double cfps;
     /** 视频码率(kb/s) */
     double kbps;
     /** 音频码率(kb/s) */
@@ -303,6 +317,8 @@ typedef struct
     int pktLostRate;
     /** 直播质量(0~3) */
     int quality;
+    /** 语音延时(ms) */
+    int delay;
     
 } ZegoAPIPlayQuality;
 
@@ -320,16 +336,24 @@ typedef enum : NSUInteger {
     ZEGOAPI_LATENCY_MODE_LOW2,
     /** 低延迟模式，无法用于 RTMP 流。支持WebRTC必须使用此模式 */
     ZEGOAPI_LATENCY_MODE_LOW3,
+    /**< 普通延迟模式，使用此模式前先咨询即构技术支持 */
+    ZEGOAPI_LATENCY_MODE_NORMAL3,
 } ZegoAPILatencyMode;
 
 /** 流量控制属性 */
 typedef enum : NSUInteger {
-    /** 无*/
-    ZEGOAPI_TRAFFIC_NONE = 0,
-    /** 帧率*/
-    ZEGOAPI_TRAFFIC_FPS = 1,
-    /** 分辨率*/
-    ZEGOAPI_TRAFFIC_RESOLUTION = 1 << 1,
+    /**< 基本流量控制，只有码率控制，不带自适应帧率和分辨率 */
+    ZEGOAPI_TRAFFIC_CONTROL_BASIC = 0,
+    /**< 自适应帧率 */
+    ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS = 1,
+    /** 自适应分辨率*/
+    ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION = 1 << 1,
+    
+    /**< 废弃 */
+    ZEGOAPI_TRAFFIC_NONE = ZEGOAPI_TRAFFIC_CONTROL_BASIC,
+    ZEGOAPI_TRAFFIC_FPS = ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS,
+    ZEGOAPI_TRAFFIC_RESOLUTION = ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION,
+    
 } ZegoAPITrafficControlProperty;
 
 /** 音频设备模式 */

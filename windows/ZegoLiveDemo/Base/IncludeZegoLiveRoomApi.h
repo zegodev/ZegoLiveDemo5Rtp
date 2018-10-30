@@ -14,6 +14,7 @@
 #include "LiveRoom-IM.h"
 #include "LiveRoom-Player.h"
 #include "LiveRoom-Publisher.h"
+#include "ZegoLiveDemoDefines.h"
 
 extern ZEGOAVKIT_API void ZegoExternalLogWithNotice(const char* content);
 inline void log_string_notice(const char* content) { ZegoExternalLogWithNotice(content); qDebug() << content; }
@@ -38,7 +39,7 @@ namespace ZEGO
 #endif
 */
 
-#if defined(Q_PROCESSOR_X86_32)
+#if defined(Q_PROCESSOR_X86_32) && !defined(BUILD_FOR_XP)
 #define USE_EXTERNAL_SDK
 #endif
 

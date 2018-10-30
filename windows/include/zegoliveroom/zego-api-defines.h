@@ -68,11 +68,20 @@ namespace ZEGO
             ZegoVideoViewModeScaleToFill = 2,       ///< 填充整个View
         };
         
+        enum ZegoVideoMirrorMode
+        {
+            ZegoVideoMirrorModePreviewMirrorPublishNoMirror = 0,  ///< 预览启用镜像，推流不启用镜像
+            ZegoVideoMirrorModePreviewCaptureBothMirror = 1,      ///< 预览启用镜像，推流启用镜像
+            ZegoVideoMirrorModePreviewCaptureBothNoMirror = 2,    ///< 预览不启用镜像，推流不启用镜像
+            ZegoVideoMirrorModePreviewNoMirrorPublishMirror = 3   ///< 预览不启用镜像，推流启用镜像
+        };
+        
         enum VideoExternalRenderType
         {
-            DECODE_RGB_SERIES = 0,   ///< 回调时，抛解码后数据，视频帧数据格式转换成RGB系列数据
-            DECODE = 1,              ///< 回调时，抛解码后数据，视频帧数据格式根据回调参数决定
-            NOT_DECODE = 2           ///< 回调时，抛解码之前的帧数据给用户自解码
+            DECODE_RGB_SERIES = 0,   ///< 回调时，抛解码后数据，视频帧数据格式转换成RGB系列数据；设置了该类型后，SDK内部渲染无效。
+            DECODE = 1,              ///< 回调时，抛解码后数据，视频帧数据格式根据回调参数决定；设置了该类型后，SDK内部渲染无效。
+            NOT_DECODE = 2,           ///< 回调时，抛解码之前的帧数据给用户自解码；设置了该类型后，SDK内部渲染无效。
+			DECODE_RENDER = 3		 ///< 回调时，抛解码后数据，视频帧数据格式根据回调参数决定；设置了该类型后，SDK内部渲染同时有效。
         };
         
         enum ZegoVideoCodecAvc
@@ -155,15 +164,19 @@ namespace ZEGO
             FetchStreamError = 5,           ///< 获取流信息失败
             NoStreamError = 6,              ///< 无流信息
             MediaServerNetWorkError = 7,    ///< 媒体服务器连接失败
-            DNSResolveError = 8,            ///< DNS 解释失败
+            DNSResolveError = 8,            ///< DNS 解析失败
             
             NotLoginError = 9,              ///< 未登陆
             LogicServerNetWrokError = 10,   ///< 逻辑服务器网络错误
+            
+            InitConfigError = 11,           ///< 初始化配置失败
             
             PublishBadNameError = 105,
             HttpDNSResolveError = 106 ZEGO_DEPRECATED,
             
             PublishForbidError = (SEG_PUBLISH_FATAL_ERROR | 0x03f3),             ///< 禁止推流, 低8位为服务端返回错误码：1011
+            
+            PublishStopError = (SEG_PUBLISH_FATAL_ERROR | 0x03f6),             ///< 停止推流, 低8位为服务端返回错误码：1014
             
             PublishDeniedError = (SEG_PUBLISH_NORMAL_ERROR | 0x1),              ///< 推流被拒绝
 
@@ -276,7 +289,7 @@ namespace ZEGO
             }
         };
         
-        /** 混流失败消息信息 */
+        /** 混流结果消息 */
         struct ZegoMixStreamResult
         {
             unsigned int uiErrorCode;   /**< 错误码，0 表示成功，此时 oStreamInfo 有效。150 表示输入流不存在，参考 nNonExistsStreamCount 和 ppNonExistsStreamIDList */
@@ -284,11 +297,29 @@ namespace ZEGO
             int nNonExistsStreamCount;                                      /**< 不存在的输入流个数 */
             const char* ppNonExistsStreamIDList[ZEGO_MAX_MIX_INPUT_COUNT];  /**< 不存在的输入流 ID 列表 */
             
-            ZegoStreamInfo oStreamInfo;
+            ZegoStreamInfo oStreamInfo;        /**< 混流输出信息 */
             
             ZegoMixStreamResult()
             : uiErrorCode(0)
             , nNonExistsStreamCount(0)
+            {}
+        };
+        
+        /** 混流结果消息扩展 */
+        struct ZegoMixStreamResultEx
+        {
+            unsigned int uiErrorCode;   /**< 错误码，0 表示成功，此时 oStreamInfo 有效。150 表示输入流不存在，参考 nNonExistsStreamCount 和 ppNonExistsStreamIDList */
+            
+            int nNonExistsStreamCount;                                      /**< 不存在的输入流个数 */
+            const char* ppNonExistsStreamIDList[ZEGO_MAX_MIX_INPUT_COUNT];  /**< 不存在的输入流 ID 列表 */
+            
+            int nStreamInfoCount;                   /**< 混流输出个数 */
+            ZegoStreamInfo *pStreamInfoList;        /**< 混流输出列表 */
+            
+            ZegoMixStreamResultEx()
+            : uiErrorCode(0)
+            , nNonExistsStreamCount(0)
+            , nStreamInfoCount(0)
             {}
         };
         
@@ -366,6 +397,7 @@ namespace ZEGO
             ZEGO_LATENCY_MODE_NORMAL2,                  /**< 普通延迟模式，最高码率可达 192K */
             ZEGO_LATENCY_MODE_LOW2,                     /**< 低延迟模式，无法用于 RTMP 流。相对于 ZEGO_LATENCY_MODE_LOW 而言，CPU 开销稍低 */
             ZEGO_LATENCY_MODE_LOW3,                     /**< 低延迟模式，无法用于 RTMP 流。支持WebRTC必须使用此模式 */
+            ZEGO_LATENCY_MODE_NORMAL3,                  /**< 普通延迟模式，使用此模式前先咨询即构技术支持 */
         };
         
         /** 流量控制属性 */
@@ -407,6 +439,7 @@ namespace ZEGO
             int pktLostRate;                ///< 丢包率(0~255)
             
             int quality;                    ///< 质量(0~4)
+            int delay;                      ///< 语音延迟(ms)
         };
         
         /** 推流通道 */

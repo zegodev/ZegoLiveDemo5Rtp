@@ -1,7 +1,13 @@
 package com.zego.livedemo5.ui.fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -19,11 +25,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.alibaba.fastjson.JSONObject;
+import com.dommy.qrcode.util.Constant;
+import com.google.zxing.activity.CaptureActivity;
 import com.zego.livedemo5.MainActivity;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.ZegoApiManager;
 import com.zego.livedemo5.ZegoAppHelper;
 import com.zego.livedemo5.constants.Constants;
+import com.zego.livedemo5.entities.AppConfig;
 import com.zego.livedemo5.ui.activities.AboutZegoActivity;
 import com.zego.livedemo5.ui.activities.ZegoLogShareActivity;
 import com.zego.livedemo5.ui.activities.base.AbsBaseFragment;
@@ -34,6 +44,7 @@ import com.zego.livedemo5.utils.SystemUtil;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.constants.ZegoAvConfig;
 
+
 import java.io.File;
 import java.io.FilenameFilter;
 
@@ -41,11 +52,10 @@ import butterknife.Bind;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-
 /**
  * des: 设置页面.
  */
-public class SettingFragment extends AbsBaseFragment implements MainActivity.OnSetConfigsCallback {
+public class SettingFragment extends AbsBaseFragment {
 
 
     @Bind(R.id.tv_sdk_version)
@@ -132,6 +142,9 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
     @Bind(R.id.tv_share_log)
     public TextView tvShareLog;
 
+    @Bind(R.id.scan)
+    public LinearLayout scan;
+
 
     // 分辨率text
     private String mResolutionTexts[];
@@ -160,6 +173,8 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
         mResolutionTexts = mResources.getStringArray(R.array.resolutions);
     }
 
+    private final static int REQ_CODE = 1028;
+
     @Override
     protected void initViews() {
 
@@ -170,6 +185,15 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
         etUserName.setText(PreferenceUtil.getInstance().getUserName());
         etUserName.setSelection(etUserName.getText().toString().length());
         tvDemoVersion.setText(SystemUtil.getAppVersionName(mParentActivity));
+
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkOrRequestPermission(REQUEST_PERMISSION_CODE)) {
+                    startActivityForResult(new Intent(SettingFragment.this.getActivity(), CaptureActivity.class), REQ_CODE);
+                }
+            }
+        });
 
         final SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -279,23 +303,19 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                PreferenceUtil.getInstance().setAppWebRtc(false);
-
+                PreferenceUtil.getInstance().setAppFlavor(position);
                 mNeedToReInitSDK = true;
-
-                if (position == 3) {
-                    long appid = PreferenceUtil.getInstance().getAppIdCustom();
-
-                    if (appid != -1) {
-                        etAppID.setText(String.valueOf(appid));
-                        etAppID.setEnabled(true);
-                        etAppKey.setText(PreferenceUtil.getInstance().getAppKeyCustomToStr());
-                        llAppKey.setVisibility(View.VISIBLE);
-
-                    } else {
-                        etAppID.setText(String.valueOf(PreferenceUtil.getInstance().getAppId()));
+                if (position == 2) {
+                    long appId = PreferenceUtil.getInstance().getAppId();
+                    if (appId != -1) {
+                        etAppID.setText(String.valueOf(appId));
                         etAppID.setEnabled(true);
                         etAppKey.setText(PreferenceUtil.getInstance().getAppKeyToStr());
+                        llAppKey.setVisibility(View.VISIBLE);
+                    } else {
+                        etAppID.setText("");
+                        etAppID.setEnabled(true);
+                        etAppKey.setText("");
                         llAppKey.setVisibility(View.VISIBLE);
                     }
 
@@ -308,19 +328,12 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
                         case 1:
                             appId = ZegoAppHelper.INTERNATIONAL_APP_ID;
                             break;
-                        case 2:
-                            appId = ZegoAppHelper.UDP_APP_ID;
-
-                            PreferenceUtil.getInstance().setAppWebRtc(true);
                     }
 
                     etAppID.setEnabled(false);
                     etAppID.setText(String.valueOf(appId));
 
                     byte[] signKey = ZegoAppHelper.requestSignKey(appId);
-
-                    PreferenceUtil.getInstance().setAppId(appId);
-                    PreferenceUtil.getInstance().setAppKey(signKey);
 
                     etAppKey.setText(ZegoAppHelper.convertSignKey2String(signKey));
                     llAppKey.setVisibility(View.GONE);
@@ -334,19 +347,8 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
         });
 
 
-        long appId = ZegoApiManager.getInstance().getAppID();
-        if (ZegoAppHelper.isUdpProduct(appId)) {
-            if (PreferenceUtil.getInstance().getAPPWebRtc()) {
-                spAppFlavors.setSelection(2);
-            } else {
-                spAppFlavors.setSelection(0);
-            }
-        } else if (ZegoAppHelper.isInternationalProduct(appId)) {
-            spAppFlavors.setSelection(1);
-        } else {
-            spAppFlavors.setSelection(3);
-        }
-
+        int currentAppFlavor = PreferenceUtil.getInstance().getCurrentAppFlavor();
+        spAppFlavors.setSelection(currentAppFlavor);
 
         seekbarResolution.setEnabled(false);
         seekBarFps.setEnabled(false);
@@ -367,6 +369,56 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
         sdkVeVersion.setText(ZegoLiveRoom.version2());
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_CODE && data != null) {
+            Bundle bundle = data.getExtras();
+            String result = bundle.getString(Constant.INTENT_EXTRA_KEY_QR_SCAN);
+            if (result != null) {
+                try {
+                    JSONObject jsonObject = JSONObject.parseObject(result);
+                    if ("ac".equals(jsonObject.getString("type"))) {
+                        appConfig = jsonObject.getObject("data", AppConfig.class);
+                        PreferenceUtil.getInstance().setAppId(appConfig.appid);
+                        PreferenceUtil.getInstance().setAppKey(ZegoAppHelper.parseSignKeyFromString(appConfig.appkey));
+                        PreferenceUtil.getInstance().setUseTestEvn(appConfig.isTestenv());
+                        PreferenceUtil.getInstance().setBusinessType(appConfig.getBusinesstype());
+                        PreferenceUtil.getInstance().setInternational(appConfig.isI18n());
+
+                        Toast.makeText(SettingFragment.this.getActivity(), getString(R.string.zg_toast_config_successful), Toast.LENGTH_LONG).show();
+                        ZegoApiManager.getInstance().releaseSDK();
+                        ZegoApiManager.getInstance().initSDK();
+                        SettingFragment.this.getActivity().finish();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(SettingFragment.this.getActivity(), getString(R.string.zg_toast_config_failure), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    private final int REQUEST_PERMISSION_CODE = 0506;
+
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE", Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
+
+    private boolean checkOrRequestPermission(int code) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(SettingFragment.this.getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(SettingFragment.this.getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(SettingFragment.this.getActivity(), "android.permission.READ_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(SettingFragment.this.getActivity(), "android.permission.WRITE_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED) {
+                this.requestPermissions(PERMISSIONS_STORAGE, code);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    AppConfig appConfig = null;
 
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
@@ -476,11 +528,12 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
     @Override
     public void onDestroy() {
         super.onDestroy();
+        onSetConfig();
         if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
         }
         if (spinnerResolutions != null)
-            spinnerResolutions.setOnItemClickListener(null);
+            spinnerResolutions.setOnItemSelectedListener(null);
     }
 
     @OnClick(R.id.tv_about)
@@ -488,7 +541,7 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
         AboutZegoActivity.actionStart(mParentActivity);
     }
 
-    @Override
+
     public int onSetConfig() {
         if (reInitTask != null) {
             ZegoAppHelper.removeTask(reInitTask);
@@ -568,26 +621,21 @@ public class SettingFragment extends AbsBaseFragment implements MainActivity.OnS
         final long newAppId = Long.valueOf(strAppID);
         final byte[] newSignKey = byteSignKey;
 
-        if (newAppId != ZegoApiManager.getInstance().getAppID() && newSignKey != ZegoApiManager.getInstance().getSignKey()) {
+        if (PreferenceUtil.getInstance().getCurrentAppFlavor() == 2 || !ZegoAppHelper.isInternationalProduct(newAppId) && !ZegoAppHelper.isUdpProduct(newAppId)) {
             mNeedToReInitSDK = true;
+            PreferenceUtil.getInstance().setAppId(newAppId);
+            PreferenceUtil.getInstance().setAppKey(newSignKey);
         }
 
-        if (!ZegoAppHelper.isAppIdVersion(newAppId)) {
-            PreferenceUtil.getInstance().setCustomAppId(newAppId);
-            PreferenceUtil.getInstance().setCustomAppKey(newSignKey);
-        }
-
-        PreferenceUtil.getInstance().setAppId(newAppId);
-        PreferenceUtil.getInstance().setAppKey(newSignKey);
         int returnValue = mNeedToReInitSDK ? 1 : 0;
         if (mNeedToReInitSDK) {
-            mNeedToReInitSDK = false;
             reInitTask = new Runnable() {
                 @Override
                 public void run() {
-
-                    ZegoApiManager.getInstance().releaseSDK();
-                    ZegoApiManager.getInstance().reInitSDK(newAppId, newSignKey);
+                    if (mNeedToReInitSDK) {
+                        ZegoApiManager.getInstance().releaseSDK();
+                        ZegoApiManager.getInstance().initSDK();
+                    }
                 }
             };
             ZegoAppHelper.postTask(reInitTask);

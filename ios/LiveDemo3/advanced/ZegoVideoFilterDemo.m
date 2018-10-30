@@ -209,13 +209,11 @@
     
     // * 处理完图像，需要从 buffer pool 中取出一个 CVPixelBuffer 实例，把处理过的图像数据拷贝到该实例中
     CVPixelBufferRef dst = [buffer_pool_ dequeueInputBuffer:imageWidth height:imageHeight stride:imageStride];
-    if (!dst) {
-        return ;
-    }
-    
-    if ([ZegoLiveRoomApi copyPixelBufferFrom:output to:dst]) {
-        // * 把从 buffer pool 中得到的 CVPixelBuffer 实例传进来
-        [buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
+    if (dst) {
+        if ([ZegoLiveRoomApi copyPixelBufferFrom:output to:dst]) {
+            // * 把从 buffer pool 中得到的 CVPixelBuffer 实例传进来
+            [buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
+        }
     }
     
     self.pendingCount = self.pendingCount - 1;

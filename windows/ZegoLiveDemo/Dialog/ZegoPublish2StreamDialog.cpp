@@ -446,7 +446,7 @@ void ZegoPublish2StreamDialog::OnPublishQualityUpdate(const QString& streamId, i
 	if (nIndex < 0 || nIndex > 11)
 		return;
 
-	AVViews[nIndex]->setCurrentQuality(quality);
+	//AVViews[nIndex]->setCurrentQuality(quality);
 
 	/*if (capFPS == 0)
 	{

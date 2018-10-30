@@ -11,17 +11,27 @@ import android.os.HandlerThread;
 
 public class ZegoAppHelper {
 
-    static final public long RTMP_APP_ID = 1L;
+    /**
+     * 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
+     * Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey,其他模式不需要可不用填
+     * AppID 填写样式示例：1234567890
+     * signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+     * 0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,
+     * 0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,
+     * 0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
+     **/
 
-    static final public long UDP_APP_ID =  ;
+    static final public long RTMP_APP_ID = ;
+
+    static final public long UDP_APP_ID = ;
 
     static final public long INTERNATIONAL_APP_ID = ;
 
-    static final private byte[] RTMP_SIGN_KEY = new byte[] {};
+    static final private byte[] RTMP_SIGN_KEY = new byte[]{};
 
-    static final private byte[] UDP_SIGN_KEY = new byte[] { };
+    static final private byte[] UDP_SIGN_KEY = new byte[]{};
 
-    static final private byte[] INTERNATIONAL_SIGN_KEY = new byte[] { };
+    static final private byte[] INTERNATIONAL_SIGN_KEY = new byte[]{};
 
     private static ZegoAppHelper sInstance = new ZegoAppHelper();
 
@@ -61,7 +71,7 @@ public class ZegoAppHelper {
         return appId == RTMP_APP_ID;
     }
 
-    static public boolean isAppIdVersion(long appId){
+    static public boolean isAppIdVersion(long appId) {
         if (isRtmpProduct(appId)) {
             return true;
         } else if (isUdpProduct(appId)) {
@@ -87,11 +97,9 @@ public class ZegoAppHelper {
     static public String getAppTitle(long appId, Context context) {
         String appTitle;
         Resources resources = context.getResources();
-        if (appId == 1L) {  // RTMP
-            appTitle = resources.getString(R.string.app_title, "RTMP");
-        } else if (appId == ) {   // UDP
+        if (appId == 0) {   // UDP
             appTitle = resources.getString(R.string.app_title, "UDP");
-        } else if (appId == ) {   // International
+        } else if (appId == 1) {   // International
             appTitle = resources.getString(R.string.app_title, "Int'l");
         } else {    // Custom
             appTitle = resources.getString(R.string.app_title, "Custom");

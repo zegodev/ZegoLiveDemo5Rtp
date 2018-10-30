@@ -881,7 +881,7 @@ public abstract class BaseExternalRenderActivity extends AbsBaseLiveActivity {
     /**
      * 拉流质量更新.
      */
-    protected void handlePlayQualityUpdate(String streamID, int quality, double videoFPS, double videoBitrate) {
+    protected void handlePlayQualityUpdate(String streamID, int quality, double videoFPS, double videoBitrate, int delay) {
         ViewLive viewLive = getViewLiveByStreamID(streamID);
         if (viewLive != null) {
             viewLive.setLiveQuality(quality, videoFPS, videoBitrate);

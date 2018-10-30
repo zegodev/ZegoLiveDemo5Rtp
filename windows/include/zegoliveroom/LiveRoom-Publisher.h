@@ -83,7 +83,7 @@ namespace ZEGO
 
          @param pszTitle 直播名称
          @param pszStreamID 流 ID
-         @param flag 直播属性，参考 ZegoApiPublishFlag
+         @param flag 直播属性，参考 ZegoPublishFlag
          @param pszParams 推流参数
          @return true 成功，false 失败
          @attention 推流成功后，等待 ILivePublisherCallback::OnPublishStateUpdate 回调
@@ -95,7 +95,7 @@ namespace ZEGO
          
          @param pszTitle 直播名称
          @param pszStreamID 流 ID
-         @param flag 直播属性，参考 ZegoApiPublishFlag
+         @param flag 直播属性，参考 ZegoPublishFlag
          @param pszParams 推流参数
          @param idx 推流 channel Index. 默认为主Channel
          @return true 成功，false 失败
@@ -190,7 +190,7 @@ namespace ZEGO
         /**
          设置视频码率
 
-         @param nBitrate 码率
+         @param nBitrate 码率，单位为bps
          @param idx 推流 channel Index. 默认为主Channel
          @return true 成功，false 失败
          */
@@ -294,6 +294,26 @@ namespace ZEGO
          @attention 推流开始前调用本 API 进行参数配置
          */
         ZEGO_API bool SetPreviewViewMode(ZegoVideoViewMode mode, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
+        
+        /**
+         是否启用预览镜像
+         
+         @param bEnable true 启用，false 不启用。默认 true
+         @param idx 推流 channel Index. 默认为主Channel
+         @return true 成功，false 失败
+         @note 默认启用预览镜像
+         */
+        ZEGO_API bool EnablePreviewMirror(bool bEnable, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
+        
+        /**
+         是否启用预览和推流镜像
+         
+         @param mode 镜像模式
+         @param idx 推流 channel Index. 默认为主Channel
+         @return true 成功，false 失败
+         @note 默认启用预览镜像，不启用推流镜像
+         */
+        ZEGO_API bool SetVideoMirrorMode(AV::ZegoVideoMirrorMode mode, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
         
         /**
          设置预览渲染朝向

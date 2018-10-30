@@ -98,4 +98,5 @@
 
     <dimen name="avatar_width">@dimen/dimen_60</dimen>
     <dimen name="avatar_height">@dimen/dimen_60</dimen>
+    <dimen name="text_size_7">20sp</dimen>
 </resources>

@@ -5,6 +5,8 @@
 
 #define MAX_VIEW_COUNT 12
 
+/*#define BUILD_FOR_XP*/
+
 #define m_FirstAnchor "first"
 #define m_HlsKey "Hls"
 #define m_RtmpKey "rtmp"
