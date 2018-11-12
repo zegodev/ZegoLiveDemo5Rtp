@@ -9,7 +9,7 @@ ZegoDeviceManager::ZegoDeviceManager()
 	connect(GetAVSignal(), &QZegoAVSignal::sigVideoDeviceChanged, this, &ZegoDeviceManager::OnVideoDeviceStateChanged);
     
 	connect(GetAVSignal(), &QZegoAVSignal::sigCaptureSoundLevelUpdate, this, &ZegoDeviceManager::OnMicCaptureSoundLevelUpdate);
-	//³õÊ¼»¯ÔÊĞíÊ¹ÓÃÂó¿Ë·ç¡¢ÑïÉùÆ÷ºÍÉãÏñÍ·
+	//åˆå§‹åŒ–å…è®¸ä½¿ç”¨éº¦å…‹é£ã€æ‰¬å£°å™¨å’Œæ‘„åƒå¤´
 	LIVEROOM::EnableMic(m_micEnabled);
 	LIVEROOM::EnableSpeaker(m_speakerEnabled);
 	LIVEROOM::EnableCamera(m_cameraEnabled);
@@ -21,14 +21,14 @@ ZegoDeviceManager::~ZegoDeviceManager()
 
 }
 
-//Éè±¸³õÊ¼»¯
+//è®¾å¤‡åˆå§‹åŒ–
 void ZegoDeviceManager::EnumAudioDeviceList()
 {
 	int nDeviceCount = 0;
 	AV::DeviceInfo* pDeviceList(NULL);
 
 	m_audioDeviceList.clear();
-	//»ñÈ¡ÒôÆµÉè±¸
+	//è·å–éŸ³é¢‘è®¾å¤‡
 	pDeviceList = LIVEROOM::GetAudioDeviceList(AV::AudioDeviceType::AudioDevice_Input, nDeviceCount);
 	for (int i = 0; i < nDeviceCount; i++)
 	{
@@ -42,8 +42,25 @@ void ZegoDeviceManager::EnumAudioDeviceList()
 	if (m_audioDeviceList.size() > 0)
 	{
 		m_micListIndex = 0;
-		m_audioDeviceId = m_audioDeviceList.at(m_micListIndex).deviceId;
 		
+		unsigned int *id_len = new unsigned int;
+		*id_len = 1024;
+		char *mic_id = new char[*id_len];
+		LIVEROOM::GetDefaultAudioDeviceId(AV::AudioDeviceType::AudioDevice_Input, mic_id, id_len);
+		QString defaultId = mic_id;
+
+		//è®¾ç½®é»˜è®¤éº¦å…‹é£ä¸ç³»ç»Ÿä¸€è‡´
+		for (int i = 0; i < m_audioDeviceList.size(); i++)
+		{
+			if (m_audioDeviceList.at(i).deviceId == defaultId)
+			{
+				m_micListIndex = i;
+				break;
+			}
+		}
+
+		m_audioDeviceId = m_audioDeviceList.at(m_micListIndex).deviceId;
+
 		emit sigMicIdChanged(m_audioDeviceId);
 	}
 	else
@@ -56,14 +73,14 @@ void ZegoDeviceManager::EnumAudioDeviceList()
 
 }
 
-//Éè±¸³õÊ¼»¯
+//è®¾å¤‡åˆå§‹åŒ–
 void ZegoDeviceManager::EnumVideoDeviceList()
 {
 	int nDeviceCount = 0;
 	AV::DeviceInfo* pDeviceList(NULL);
 
 	m_videoDeviceList.clear();
-	//»ñÈ¡ÊÓÆµÉè±¸
+	//è·å–è§†é¢‘è®¾å¤‡
 	pDeviceList = LIVEROOM::GetVideoDeviceList(nDeviceCount);
 	for (int i = 0; i < nDeviceCount; i++)
 	{
@@ -73,10 +90,26 @@ void ZegoDeviceManager::EnumVideoDeviceList()
 
 		m_videoDeviceList.append(info);
 	}
-	//ÉèÖÃÉãÏñÍ·1
+	//è®¾ç½®æ‘„åƒå¤´1
 	if (m_videoDeviceList.size() > 0)
 	{
 		m_cameraListIndex = 0;
+
+		unsigned int *id_len = new unsigned int;
+		*id_len = 1024;
+		char *camera_id = new char[*id_len];
+		LIVEROOM::GetDefaultVideoDeviceId(camera_id, id_len);
+		QString defaultId = camera_id;
+		//è®¾ç½®é»˜è®¤æ‘„åƒå¤´ä¸ç³»ç»Ÿä¸€è‡´
+		for (int i = 0; i < m_videoDeviceList.size(); i++)
+		{
+			if (m_videoDeviceList.at(i).deviceId == defaultId)
+			{
+				m_cameraListIndex = i;
+				break;
+			}
+		}
+
 		m_videoDeviceId = m_videoDeviceList.at(m_cameraListIndex).deviceId;
 		emit sigCameraIdChanged(m_videoDeviceId);
 	}
@@ -85,7 +118,7 @@ void ZegoDeviceManager::EnumVideoDeviceList()
 		m_videoDeviceId = "";
 	}
 
-	//ÉèÖÃÉãÏñÍ·2
+	//è®¾ç½®æ‘„åƒå¤´2
 	for (int i = 0; i < nDeviceCount; i++)
 	{
 		if (i != m_cameraListIndex)
@@ -126,7 +159,7 @@ void ZegoDeviceManager::RefreshCameraIndex()
 	}
 }
 
-//ÒôÆµÉè±¸ÇĞ»»
+//éŸ³é¢‘è®¾å¤‡åˆ‡æ¢
 QDeviceState ZegoDeviceManager::SetMicrophoneIdByIndex(int index)
 {
 	if (index >= m_audioDeviceList.size())
@@ -139,13 +172,13 @@ QDeviceState ZegoDeviceManager::SetMicrophoneIdByIndex(int index)
 	return STATE_NORMAL;
 }
 
-//ÊÓÆµÉè±¸ÇĞ»»
+//è§†é¢‘è®¾å¤‡åˆ‡æ¢
 QDeviceState ZegoDeviceManager::SetCameraIdByIndex(int index)
 {
 	if (index >= m_videoDeviceList.size())
 		return STATE_ERROR;
 
-	//ÈôÉãÏñÍ·1Ñ¡ÔñµÄÊÇÉãÏñÍ·2µÄID£¬ÔòÁ½Õß½»»»
+	//è‹¥æ‘„åƒå¤´1é€‰æ‹©çš„æ˜¯æ‘„åƒå¤´2çš„IDï¼Œåˆ™ä¸¤è€…äº¤æ¢
 	if (index == m_camera2ListIndex)
 	{
 		int tmp_index = m_cameraListIndex;
@@ -170,13 +203,13 @@ QDeviceState ZegoDeviceManager::SetCameraIdByIndex(int index)
 	}
 }
 
-//ÊÓÆµÉè±¸2ÇĞ»»
+//è§†é¢‘è®¾å¤‡2åˆ‡æ¢
 QDeviceState ZegoDeviceManager::SetCameraId2ByIndex(int index)
 {
 	if (index >= m_videoDeviceList.size())
 		return STATE_ERROR;
 
-	//ÈôÉãÏñÍ·2Ñ¡ÔñµÄÊÇÉãÏñÍ·1µÄID£¬ÔòÁ½Õß½»»»
+	//è‹¥æ‘„åƒå¤´2é€‰æ‹©çš„æ˜¯æ‘„åƒå¤´1çš„IDï¼Œåˆ™ä¸¤è€…äº¤æ¢
 	if (index == m_cameraListIndex)
 	{
 		int tmp_index = m_cameraListIndex;
@@ -216,7 +249,7 @@ int ZegoDeviceManager::GetVideoDevice2Index()
 	return m_camera2ListIndex;
 }
 
-//ÒôÁ¿ÇĞ»»
+//éŸ³é‡åˆ‡æ¢
 void ZegoDeviceManager::SetMicVolume(int volume)
 {
 	m_micVolume = volume;
@@ -241,7 +274,7 @@ int ZegoDeviceManager::GetMicVolume()
 	return m_micVolume;
 }
 
-//À­Á÷ÒôÁ¿ÇĞ»»
+//æ‹‰æµéŸ³é‡åˆ‡æ¢
 void ZegoDeviceManager::SetPlayVolume(int volume)
 {
 	m_playVolume = volume;
@@ -343,7 +376,7 @@ void ZegoDeviceManager::OnAudioDeviceStateChanged(AV::AudioDeviceType deviceType
 		added_device.deviceName = strDeviceName;
 		m_audioDeviceList.append(added_device);
 
-		//´Ó0µ½1
+		//ä»0åˆ°1
 		if (m_audioDeviceList.size() == 1)
 		{
 			m_micListIndex = 0;
@@ -426,7 +459,7 @@ void ZegoDeviceManager::OnVideoDeviceStateChanged(const QString& strDeviceId, co
 
 			if (m_cameraListIndex == i)
 			{
-				//Èôµ±Ç°»¹ÓĞÉãÏñÍ·´æÔÚ£¬ÇÒÎ´±»ÉãÏñÍ·2Ê¹ÓÃ£¬½«Î´±»Ê¹ÓÃµÄÉãÏñÍ·ÉèÖÃÔÚ1ÉÏ
+				//è‹¥å½“å‰è¿˜æœ‰æ‘„åƒå¤´å­˜åœ¨ï¼Œä¸”æœªè¢«æ‘„åƒå¤´2ä½¿ç”¨ï¼Œå°†æœªè¢«ä½¿ç”¨çš„æ‘„åƒå¤´è®¾ç½®åœ¨1ä¸Š
 				if (m_videoDeviceList.size() > 1)
 				{
 					for (int j = 0; j < m_videoDeviceList.size(); j++)
@@ -438,7 +471,7 @@ void ZegoDeviceManager::OnVideoDeviceStateChanged(const QString& strDeviceId, co
 						}
 					}
 				}
-				else if(m_videoDeviceList.size() == 1)   //½«ÉãÏñÍ·2µÄÉè±¸»»µ½ÉãÏñÍ·1ÉÏ
+				else if(m_videoDeviceList.size() == 1)   //å°†æ‘„åƒå¤´2çš„è®¾å¤‡æ¢åˆ°æ‘„åƒå¤´1ä¸Š
 				{
 					m_videoDeviceId = m_videoDeviceId2;
 					m_videoDeviceId2 = "";
@@ -451,7 +484,7 @@ void ZegoDeviceManager::OnVideoDeviceStateChanged(const QString& strDeviceId, co
 					m_videoDeviceId = "";
 				}
 
-				//Ë¢ĞÂindex
+				//åˆ·æ–°index
 				RefreshCameraIndex();
 
 				emit sigCameraIdChanged(m_videoDeviceId);
@@ -474,7 +507,7 @@ void ZegoDeviceManager::OnVideoDeviceStateChanged(const QString& strDeviceId, co
 					m_videoDeviceId2 = "";
 				}
 
-				//Ë¢ĞÂindex
+				//åˆ·æ–°index
 				RefreshCameraIndex();
 
 				emit sigCameraId2Changed(m_videoDeviceId2);

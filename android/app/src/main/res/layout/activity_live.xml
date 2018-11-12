@@ -250,7 +250,7 @@
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/text_size_5" />
 
-            <ListView
+            <com.zego.livedemo5.ui.widgets.ZegoRecyclerView
                 android:id="@+id/lv_comments"
                 android:layout_width="180dp"
                 android:layout_height="250dp"
@@ -258,7 +258,7 @@
                 android:layout_marginLeft="5dp"
                 android:divider="#00000000">
 
-            </ListView>
+            </com.zego.livedemo5.ui.widgets.ZegoRecyclerView>
         </RelativeLayout>
 
         <RelativeLayout

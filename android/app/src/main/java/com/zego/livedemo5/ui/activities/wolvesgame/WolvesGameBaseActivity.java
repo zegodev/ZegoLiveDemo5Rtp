@@ -35,7 +35,9 @@ import com.zego.zegoliveroom.entity.ZegoUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import butterknife.Bind;
 
@@ -321,8 +323,6 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
 
         WolfInfo wolf = getMyInfo();
         wolf.setState(WolfInfo.SpeakingState.isSpeaking);
-        mRecyclerAdapter.updateItem(wolf);
-
         // 开启流量自动控制
         int properties = ZegoConstants.ZegoTrafficControlProperty.ZEGOAPI_TRAFFIC_FPS
                 | ZegoConstants.ZegoTrafficControlProperty.ZEGOAPI_TRAFFIC_RESOLUTION;
@@ -332,7 +332,8 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
         int publishFlag = getPublishFlag();
         boolean success = zegoLiveRoom.startPublishing(streamId, roomName, publishFlag);
         recordLog("推流(流Id: %s)成功？%s", streamId, success);
-
+        wolf.setStreamId(success ? streamId : null);
+        mRecyclerAdapter.updateItem(wolf);
         return success ? streamId : null;
     }
 
@@ -366,7 +367,10 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
             WolfInfo wolf = getWolfById(stream.userID);
             if (wolf == null) continue;
 
-            wolf.setState(WolfInfo.SpeakingState.isSpeaking);
+            if(currentPublishMode == PublishMode.Low_Cost){
+                wolf.setState(WolfInfo.SpeakingState.isSpeaking);
+            }
+
             wolf.setStreamId(stream.streamID);
             mRecyclerAdapter.updateItem(wolf);
 
@@ -517,6 +521,8 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
             return mData.size();
         }
 
+        Map<String, Boolean> hashMap = new HashMap<>();
+
         private void bindSpeakingViewHolder(WolfHeadViewHolder holder, WolfInfo wolfInfo) {
             if (currentSpeakingMode == SpeakingMode.FreeSpeakingMode) {
                 holder.headImg.setVisibility(View.VISIBLE);
@@ -525,8 +531,10 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
                     _zegoLiveRoom.setPreviewView(holder.headImg);
                     _zegoLiveRoom.startPreview();
                 } else {
+                    _zegoLiveRoom.stopPlayingStream(wolfInfo.getStreamId());
                     _zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, holder.streamId);
                     _zegoLiveRoom.startPlayingStream(wolfInfo.getStreamId(), holder.headImg);
+
                 }
             } else {
                 // 轮流说话模式会显示大头像，小头像用深色背景标识即可

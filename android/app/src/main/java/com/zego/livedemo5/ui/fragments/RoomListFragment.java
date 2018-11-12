@@ -111,7 +111,14 @@ public class RoomListFragment extends AbsBaseFragment implements MainActivity.On
         mListRoomAdapter.setOnItemClickListener(new ListRoomAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-                RoomInfo roomInfo = mListRoom.get(position);
+                RoomInfo roomInfo = null;
+                if (mListRoom != null) {
+                    roomInfo = mListRoom.get(position);
+                }
+
+                if (roomInfo == null) {
+                    return;
+                }
                 // 默认为多人连麦模式, 为了兼容老版本
                 int publishType = 2;
                 if (roomInfo.room_id.startsWith(ZegoRoomUtil.ROOM_PREFIX_SINGLE_ANCHOR)) {

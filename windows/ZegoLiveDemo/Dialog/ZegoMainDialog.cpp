@@ -1127,10 +1127,8 @@ void ZegoMainDialog::OnButtonEnterRoom()
 		modeID = MODE_MIX_STREAM;
 	else
 	{
-		if (pRoom->getLivesCount() == 1)
-			modeID = MODE_SINGLE_ANCHOR;
-		else if (pRoom->getLivesCount() > 1)
-			modeID = MODE_JOIN_PUBLISH;
+		//未知模式情况下均认为连麦房
+		modeID = MODE_JOIN_PUBLISH;
 	}
 	
 	mConfig.SetUserRole(false);

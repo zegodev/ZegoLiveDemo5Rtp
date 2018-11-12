@@ -51,7 +51,7 @@ namespace AVE
         virtual void SetView(void *view) = 0;
         //format support:ARGB32/ABGR32/RGBA32/BGRA32
         virtual void SetVideoPlayCallback(VideoPlayCallback *callback, VideoPixelFormat format) = 0;
-        virtual long SetAudioStream(int streamidx) = 0; 
+        virtual long SetAudioStream(long streamidx) = 0;
 		virtual long GetAudioStreamCount() = 0;
     };
 }

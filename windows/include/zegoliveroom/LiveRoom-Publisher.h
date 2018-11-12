@@ -585,8 +585,9 @@ namespace ZEGO
         /**
          是否开启流量控制
 
-         @param properites 流量控制属性 (帧率，分辨率），参考 ZegoTrafficControlProperty 定义。默认 ZEGO_TRAFFIC_FPS
+         @param properites 流量控制属性 (帧率，分辨率），参考 ZegoTrafficControlProperty 定义。默认 ZEGO_TRAFFIC_CONTROL_ADAPTIVE_FPS
          @param bEnable true 开启，false 关闭。默认开启
+         @attention bEnable设置为false时，properties参数无效
          @attention 确保在推流前调用，在纯 UDP 方案才可以调用此接口
          */
         ZEGO_API void EnableTrafficControl(int properites, bool bEnable);

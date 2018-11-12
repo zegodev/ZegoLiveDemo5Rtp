@@ -2,15 +2,22 @@ package com.zego.livedemo5.ui.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -51,6 +58,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import static android.view.Surface.ROTATION_0;
 import static android.view.Surface.ROTATION_270;
 import static android.view.Surface.ROTATION_90;
+import static com.zego.livedemo5.ZegoApplication.TAG;
 
 /**
  * Copyright © 2016 Zego. All rights reserved.
@@ -185,7 +193,70 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
                 mZegoLiveRoom.enableTorch(isChecked);
             }
         });
+
+
+        mOrientationListener = new OrientationEventListener(this.getActivity(),
+                SensorManager.SENSOR_DELAY_NORMAL) {
+
+            @Override
+            public void onOrientationChanged(int orientation) {
+
+                if (orientation == OrientationEventListener.ORIENTATION_UNKNOWN) {
+                    return;  //手机平放时，检测不到有效的角度
+                }
+
+                int orientation_;
+                //只检测是否有四个角度的改变
+                if (orientation > 335 || orientation < 30) { //0度
+                    orientation_ = 0;
+                    rotation = Surface.ROTATION_0;
+                } else if (orientation > 65 && orientation < 120) { //90度
+                    orientation_ = 90;
+                    rotation = Surface.ROTATION_270;
+                } else if (orientation > 155 && orientation < 210) { //180度
+                    orientation_ = 180;
+                    rotation = Surface.ROTATION_180;
+                } else if (orientation > 245 && orientation < 300) { //270度
+                    orientation_ = 270;
+                    rotation = Surface.ROTATION_90;
+                } else {
+                    return;
+                }
+
+                if (mOrientation != orientation_) {
+                    mOrientation = orientation_;
+                    spBeauties.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isRun) {
+                                stopPreview();
+                                startPreview();
+                            }
+
+                            int currentOrientation = mParentActivity.getWindowManager().getDefaultDisplay().getRotation();
+                            // 设置app朝向
+                           mZegoLiveRoom.setAppOrientation(currentOrientation);
+                        }
+                    }, 900);
+                }
+            }
+        };
+
+        if (mOrientationListener.canDetectOrientation()) {
+
+            mOrientationListener.enable();
+        } else {
+
+            mOrientationListener.disable();
+        }
+
     }
+
+
+    private int rotation;
+    private volatile int mOrientation = -1;
+
+    OrientationEventListener mOrientationListener;
 
     @Override
     protected void loadData() {
@@ -195,6 +266,7 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
     @Override
     public void onResume() {
         super.onResume();
+        isRun = true;
         if (mHasBeenCreated) {
             if (mIsVisibleToUser) {
                 mHandler.removeCallbacksAndMessages(null);
@@ -224,11 +296,18 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
             tbEnableFrontCam.setOnCheckedChangeListener(null);
             mDialogSelectPublishMode = null;
         }
+        if (mOrientationListener != null) {
+            mOrientationListener.disable();
+        }
+
     }
+
+    private volatile boolean isRun = true;
 
     @Override
     public void onStop() {
         super.onStop();
+        isRun = false;
         if (SystemUtil.isAppBackground()) {
 //            stopPreview();
             Log.i("Foreground", "Foreground");
@@ -354,11 +433,8 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
         }
     }
 
-    private void startPreview() {
 
-        // 设置app朝向
-        int currentOrientation = mParentActivity.getWindowManager().getDefaultDisplay().getRotation();
-        mZegoLiveRoom.setAppOrientation(currentOrientation);
+    private void startPreview() {
 
         ZegoAvConfig config = ZegoApiManager.getInstance().getZegoAvConfig();
         // 获取屏幕比例
@@ -370,7 +446,7 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
             int width = config.getVideoCaptureResolutionHeight();
             config.setVideoEncodeResolution(width, height);
             config.setVideoCaptureResolution(width, height);
-           mZegoLiveRoom.setAVConfig(config);
+            mZegoLiveRoom.setAVConfig(config);
         }
 
         // 设置水印
@@ -422,12 +498,6 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
         //mZegoLiveRoom.setZegoExternalRenderCallback(null);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        stopPreview();
-        startPreview();
-    }
 
     public void refresh() {
         stopPreview();

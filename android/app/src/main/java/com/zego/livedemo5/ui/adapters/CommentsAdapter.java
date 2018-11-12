@@ -2,6 +2,7 @@ package com.zego.livedemo5.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -20,7 +21,7 @@ import java.util.List;
  * Copyright © 2017 Zego. All rights reserved.
  */
 
-public class CommentsAdapter extends BaseAdapter {
+public class CommentsAdapter extends RecyclerView.Adapter {
 
     private List<ZegoRoomMessage> mListMsg;
 
@@ -31,14 +32,20 @@ public class CommentsAdapter extends BaseAdapter {
         mListMsg = list;
     }
 
+
     @Override
-    public int getCount() {
-        return mListMsg == null ? 0 : mListMsg.size();
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_comment, parent, false);
+        final MyViewHolder myViewHolder = new MyViewHolder(v);
+        return myViewHolder;
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+
+        final MyViewHolder myViewHolder = (MyViewHolder) holder;
+        ZegoRoomMessage msg = mListMsg.get(position);
+        myViewHolder.msgContent.setText(getStringBuilder(msg.fromUserName, msg.content));
     }
 
     @Override
@@ -46,43 +53,35 @@ public class CommentsAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void addMsgList(List<ZegoRoomMessage> listMsg){
+    @Override
+    public int getItemCount() {
+        return mListMsg == null ? 0 : mListMsg.size();
+    }
+
+    public void addMsgList(List<ZegoRoomMessage> listMsg) {
         mListMsg.addAll(listMsg);
         notifyDataSetChanged();
     }
 
-    public void addMsg(ZegoRoomMessage msg){
-        if(msg != null){
+    public void addMsg(ZegoRoomMessage msg) {
+        if (msg != null) {
             mListMsg.add(msg);
             notifyDataSetChanged();
         }
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder holder;
 
-        if (convertView == null) {
-            holder = new ViewHolder();
-
-            convertView = mInflater.inflate(R.layout.item_user_comment, null);
-            holder.msgContent = (TextView) convertView.findViewById(R.id.tv_msg_content);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        ZegoRoomMessage msg = mListMsg.get(position);
-        holder.msgContent.setText(getStringBuilder(msg.fromUserName, msg.content));
-
-        return convertView;
-    }
-
-    final class ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView msgContent;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            msgContent = (TextView) itemView.findViewById(R.id.tv_msg_content);
+
+        }
     }
 
-    private SpannableStringBuilder getStringBuilder(String fromUserName, String content){
+    private SpannableStringBuilder getStringBuilder(String fromUserName, String content) {
         fromUserName = fromUserName.trim() + ":";
         content = content.trim();
         SpannableStringBuilder builder = new SpannableStringBuilder(fromUserName + content);

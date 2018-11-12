@@ -15,7 +15,7 @@ QZegoAVView::QZegoAVView(ZegoDialogType dialogType, QWidget * parent) :
 
 	//设置AVView不接受焦点，可去除因鼠标点击view时闪烁问题
 	this->setFocusPolicy(Qt::NoFocus);
-	this->setUpdatesEnabled(false);
+	//this->setUpdatesEnabled(false);
 }
 
 QZegoAVView::~QZegoAVView()
@@ -88,7 +88,7 @@ bool QZegoAVView::IsCurUser()
 void QZegoAVView::SetUseExternalRender(bool bIsUse)
 {
 	m_isExternalRender = bIsUse;
-	this->setUpdatesEnabled(true);
+	//this->setUpdatesEnabled(true);
 }
 
 void QZegoAVView::SetOnGetFrameDelegate(OnGetFrameDelegate func)

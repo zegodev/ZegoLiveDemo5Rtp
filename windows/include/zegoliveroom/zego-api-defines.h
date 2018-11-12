@@ -403,9 +403,17 @@ namespace ZEGO
         /** 流量控制属性 */
         enum ZegoTrafficControlProperty
         {
-            ZEGO_TRAFFIC_NONE = 0,                      /**< 无 */
-            ZEGO_TRAFFIC_FPS = 1,                       /**< 帧率 */
-            ZEGO_TRAFFIC_RESOLUTION = 1 << 1,           /**< 分辨率 */
+            /**< 基本流量控制，只有码率控制，不带自适应帧率和分辨率 */
+            ZEGO_TRAFFIC_CONTROL_BASIC = 0,
+            /**< 自适应帧率 */
+            ZEGO_TRAFFIC_CONTROL_ADAPTIVE_FPS = 1,
+            /**< 自适应分辨率 */
+            ZEGO_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION = 1 << 1,
+            
+            /**< 废弃 */
+            ZEGO_TRAFFIC_NONE = ZEGO_TRAFFIC_CONTROL_BASIC,
+            ZEGO_TRAFFIC_FPS = ZEGO_TRAFFIC_CONTROL_ADAPTIVE_FPS,
+            ZEGO_TRAFFIC_RESOLUTION = ZEGO_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION,
         };
         
         /** 音频录制类型 */

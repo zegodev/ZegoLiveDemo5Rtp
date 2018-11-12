@@ -405,7 +405,7 @@ public class VideoCaptureFromImage extends ZegoVideoCaptureDevice
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             doSetRendererView(temp);
         }
         return 0;
@@ -503,7 +503,7 @@ public class VideoCaptureFromImage extends ZegoVideoCaptureDevice
     }
 
     private void releaseCaptureSurface() {
-        if (captureEglBase.hasSurface()) {
+        if (captureEglBase != null && captureEglBase.hasSurface()) {
             captureEglBase.makeCurrent();
             if (mCaptureTextureId != 0) {
                 int[] textures = new int[]{mCaptureTextureId};
@@ -517,7 +517,7 @@ public class VideoCaptureFromImage extends ZegoVideoCaptureDevice
     }
 
     private void releasePreviewSurface() {
-        if (previewEglBase.hasSurface()) {
+        if (previewEglBase != null && previewEglBase.hasSurface()) {
             previewEglBase.makeCurrent();
             if (mPreviewTextureId != 0) {
                 int[] textures = new int[]{mPreviewTextureId};
@@ -588,7 +588,7 @@ public class VideoCaptureFromImage extends ZegoVideoCaptureDevice
     }
 
     private void releasePreviewSurfaceSafe() {
-        if(mHandler == null){
+        if (mHandler == null) {
             releasePreviewSurface();
             return;
         }

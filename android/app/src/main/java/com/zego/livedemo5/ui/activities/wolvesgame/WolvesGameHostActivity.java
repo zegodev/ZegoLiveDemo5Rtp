@@ -113,7 +113,6 @@ public class WolvesGameHostActivity extends WolvesGameBaseActivity {
             } else {
                 roomName = publishTitle;
             }
-//            appOrientation = intent.getIntExtra(IntentExtra.APP_ORIENTATION, Surface.ROTATION_0);
         }
     }
 

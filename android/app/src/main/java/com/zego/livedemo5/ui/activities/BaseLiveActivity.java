@@ -19,6 +19,9 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -30,16 +33,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.ZegoApiManager;
-import com.zego.livedemo5.constants.Constants;
 import com.zego.livedemo5.ui.activities.base.AbsBaseLiveActivity;
-import com.zego.livedemo5.ui.activities.externalrender.VideoRenderer;
 import com.zego.livedemo5.ui.adapters.CommentsAdapter;
 import com.zego.livedemo5.ui.widgets.PublishSettingsPannel;
 import com.zego.livedemo5.ui.widgets.ViewLive;
@@ -72,7 +72,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import butterknife.OnClick;
 
@@ -166,7 +165,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
      */
     protected int mAppOrientation = Surface.ROTATION_0;
 
-    protected ListView mLvComments = null;
+    protected RecyclerView mLvComments = null;
 
     private CommentsAdapter mCommentsAdapter = null;
 
@@ -414,10 +413,14 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         mEdtMessage = (EditText) findViewById(R.id.et_msg);
         mEdtMessage.setSelection(mEdtMessage.getText().length());
 
-        mLvComments = (ListView) findViewById(R.id.lv_comments);
+        mLvComments = (RecyclerView) findViewById(R.id.lv_comments);
         mCommentsAdapter = new CommentsAdapter(this, new ArrayList<ZegoRoomMessage>());
+        mLvComments.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         mLvComments.setAdapter(mCommentsAdapter);
+
+        // 设置Item添加和移除的动画
+        mLvComments.setItemAnimator(new DefaultItemAnimator());
 
         mTvTag = (TextView) findViewById(R.id.tv_tag);
 
@@ -1140,7 +1143,8 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
                 @Override
                 public void run() {
                     // 滚动到最后一行
-                    mLvComments.setSelection(mCommentsAdapter.getListMsg().size() - 1);
+                    mLvComments.scrollToPosition(mCommentsAdapter.getListMsg().size() - 1);
+
                 }
             });
         }
@@ -1165,7 +1169,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
             @Override
             public void run() {
                 // 滚动到最后一行
-                mLvComments.setSelection(mCommentsAdapter.getListMsg().size() - 1);
+                mLvComments.scrollToPosition(mCommentsAdapter.getListMsg().size() - 1);
             }
         });
 
