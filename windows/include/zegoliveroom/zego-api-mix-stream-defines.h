@@ -1,4 +1,4 @@
-//
+﻿//
 //  zego-api-mix-stream-defines.h
 //
 //  Copyright © 2018年 Zego. All rights reserved.
