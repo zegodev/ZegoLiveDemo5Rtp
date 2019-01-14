@@ -494,8 +494,8 @@
             
             self.videoSizeDict[streamID] = @(NO);
             
-            if (CGRectEqualToRect(view.frame, self.playViewContainer.bounds))
-                self.fullscreenButton.hidden = NO;
+//            if (CGRectEqualToRect(view.frame, self.playViewContainer.bounds))
+//                self.fullscreenButton.hidden = NO;
         }
         
         self.streamID2SizeDict[streamID] = [NSValue valueWithCGSize:size];

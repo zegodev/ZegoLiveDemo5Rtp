@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Base\ZegoBase.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Base\ZegoBaseDialog.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Config\ZegoUserConfig.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Delegate\NoFocusFrameDelegate.cpp">
+      <Filter>Delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Device\ZegoDeviceManager.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoExternalAnchorDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoImageShowDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMainDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMixStreamAnchorDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMixStreamAudienceDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMoreAnchorDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMoreAudienceDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoPublish2StreamDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoShareDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoSingleAnchorDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoSingleAudienceDialog.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\External_Input\ZegoInputManager.cpp">
+      <Filter>External_Input</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoRoomModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoRoomMsgModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoStreamModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoUserModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoVideoFrame.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Settings\ZegoSettingsModel.cpp">
+      <Filter>Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Signal\ZegoSDKSignal.cpp">
+      <Filter>Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\FramelessHelper.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoAVView.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoComboBox.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoEnterRoomButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoImageButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoMicrophoneButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoProgressIndicator.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoRoomList.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoRoomMessageLabel.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoSlider.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoStateButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoSwitchButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\VideoCapture\ZegoCamera.cpp">
+      <Filter>VideoCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\VideoCapture\ZegoVideoCaptureFactory.cpp">
+      <Filter>VideoCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\VideoFilter\ZegoVideoFilterDemo.cpp">
+      <Filter>VideoFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\VideoFilter\ZegoVideoFilterFactoryDemo.cpp">
+      <Filter>VideoFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoLiveDemo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\qrc_ZegoMainDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\qrc_ZegoShareDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\qrc_style.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\ZegoLiveDemo_autogen\mocs_compilation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Base\IncludeZegoLiveRoomApi.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Base\ZegoBase.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Base\ZegoBaseDialog.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Base\ZegoLiveDemoDefines.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Config\ZegoUserConfig.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Delegate\NoFocusFrameDelegate.h">
+      <Filter>Delegate</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Device\ZegoDeviceManager.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoExternalAnchorDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoImageShowDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMainDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMixStreamAnchorDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMixStreamAudienceDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMoreAnchorDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoMoreAudienceDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoPublish2StreamDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoShareDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoSingleAnchorDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Dialog\ZegoSingleAudienceDialog.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\External_Input\ZegoInputManager.h">
+      <Filter>External_Input</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoRoomModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoRoomMsgModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoStreamModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoUserModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Model\ZegoVideoFrame.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Settings\ZegoSettingsModel.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Signal\ZegoSDKSignal.h">
+      <Filter>Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\FramelessHelper.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoAVView.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoComboBox.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoEnterRoomButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoImageButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoMicrophoneButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoProgressIndicator.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoRoomList.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoRoomMessageLabel.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoSlider.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoStateButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\UI\ZegoSwitchButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\VideoCapture\ZegoCamera.h">
+      <Filter>VideoCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\VideoCapture\ZegoVideoCaptureFactory.h">
+      <Filter>VideoCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\VideoFilter\ZegoVideoFilterDemo.h">
+      <Filter>VideoFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\VideoFilter\ZegoVideoFilterFactoryDemo.h">
+      <Filter>VideoFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoLiveDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\zego_sdk_protocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\ui_ZegoImageShowDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\ui_ZegoLiveRoomDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\ui_ZegoMainDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\ui_ZegoMusicHookDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\build-win\cmake_temp_x64\ZegoLiveDemo\ui_ZegoShareDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoImageShowDialog.ui" />
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoLiveRoomDialog.ui" />
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoMainDialog.ui" />
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoMusicHookDialog.ui" />
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoShareDialog.ui" />
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoMainDialog.qrc" />
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\ZegoShareDialog.qrc" />
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\style.qrc" />
+    <CustomBuild Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D:\Zegolivedemo\projects\QT\ZegoLiveDemo5\ZegoLiveDemo\Resources\res.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{4998AE8A-76D5-3C3F-86CA-3207A8E6738F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{08C6D23B-E458-3614-BA4A-EB6E599DEF17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Delegate">
+      <UniqueIdentifier>{AF2B3BF8-4CFF-329C-9F33-C8C08ECF2FF2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Device">
+      <UniqueIdentifier>{D2E2D5E9-5E82-3828-979C-26389CDCF98D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialog">
+      <UniqueIdentifier>{07EE160B-262D-395C-857C-12BFC4127587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External_Input">
+      <UniqueIdentifier>{26D758B5-1B37-3E06-8B8A-5BA1EA43EAA8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{70A100A2-47D8-3A58-A9A0-9872151C7F17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{3D4823A5-7FE6-32D7-AB80-7683413FF2F2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{01544CBA-1395-333C-B692-C603504FFCB0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Signal">
+      <UniqueIdentifier>{F81B3A18-CAF9-37AE-83BD-0D83F0DF08F2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7CD0C1ED-8993-3B01-AC41-BC74733E4AE9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{322E0694-EE11-3270-A2C9-9EE7EDACECD2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VideoCapture">
+      <UniqueIdentifier>{92EB9570-E382-37AC-9728-5A20CFD5A378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VideoFilter">
+      <UniqueIdentifier>{732EC873-8022-3305-BB62-660D241ABF90}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

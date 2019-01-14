@@ -27,6 +27,7 @@ namespace AVE
             virtual void OnPlayStop() = 0;
 			virtual void OnBufferBegin() = 0;
 			virtual void OnBufferEnd() = 0;
+            virtual void OnSnapshot(void *image) = 0;
         };
         
         class VideoPlayCallback
@@ -53,6 +54,8 @@ namespace AVE
         virtual void SetVideoPlayCallback(VideoPlayCallback *callback, VideoPixelFormat format) = 0;
         virtual long SetAudioStream(long streamidx) = 0;
 		virtual long GetAudioStreamCount() = 0;
+        virtual void SetRepeatMode(bool repeat_play) = 0;
+        virtual long TakeSnapshot() = 0;
     };
 }
 

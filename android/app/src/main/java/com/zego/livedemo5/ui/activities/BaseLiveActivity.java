@@ -208,6 +208,11 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         mZegoLiveRoom = ZegoApiManager.getInstance().getZegoLiveRoom();
         // 初始化电话监听器
         initPhoneCallingListener();
+
+        RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) findViewById(R.id.textureView).getLayoutParams();
+        layoutParams.height = getWindowManager().getDefaultDisplay().getHeight();
+        layoutParams.width = getWindowManager().getDefaultDisplay().getWidth();
+        findViewById(R.id.zego_scrollview).setLayoutParams(layoutParams);
     }
 
     /**
@@ -1016,15 +1021,14 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
     /**
      * 拉流质量更新.
      */
-    protected void handlePlayQualityUpdate(String streamID, int quality, double videoFPS, double videoBitrate, int delay) {
+    protected void handlePlayQualityUpdate(String streamID, int quality, double videoFPS, double videoBitrate) {
         ViewLive viewLive = getViewLiveByStreamID(streamID);
         if (viewLive != null) {
             viewLive.setLiveQuality(quality, videoFPS, videoBitrate);
         }
 
         // for espresso test, don't delete the log
-        LiveQualityLogger.write("playStreamQuality: %d, streamId: %s, videoFPS: %.2f, videoBitrate: %.2fKb/s, delay: %d", quality, streamID, videoFPS, videoBitrate, delay);
-        Log.d("playstat", String.format("delay:%d", delay));
+        LiveQualityLogger.write("playStreamQuality: %d, streamId: %s, videoFPS: %.2f, videoBitrate: %.2fKb/s", quality, streamID, videoFPS, videoBitrate);
     }
 
     /**

@@ -148,6 +148,28 @@ namespace ZEGO
             unsigned int uiHlsURLCount;
         };
         
+        /** 转推CDN状态 */
+        enum ZegoStreamRelayCDNState
+        {
+            RELAY_STOP = 0,                 /**< 转推停止 */
+            RELAY_START = 1,                /**< 正在转推 */
+            RELAY_RETRY = 2,                /**< 正在重试 */
+        };
+        
+        struct ZegoStreamRelayCDNInfo
+        {
+            ZegoStreamRelayCDNInfo()
+            {
+                rtmpURL[0] = '\0';
+                state = RELAY_STOP;
+                stateTime = 0;
+            }
+            
+            char rtmpURL[ZEGO_MAX_COMMON_LEN];
+            ZegoStreamRelayCDNState state;
+            unsigned int stateTime;
+        };
+        
         const unsigned int SEG_PUBLISH_FATAL_ERROR = 0x0001 << 16;   ///< 推流严重错误段
         const unsigned int SEG_PUBLISH_NORMAL_ERROR = 0x0002 << 16;  ///< 推流普通错误段
         const unsigned int SEG_PLAY_FATAL_ERROR = 0x0003 << 16;      ///< 拉流严重错误段
@@ -370,7 +392,7 @@ namespace ZEGO
         {
             ZEGO_RC_ABR,                /**< 恒定码率 */
             ZEGO_RC_CBR,                /**< 恒定码率 */
-            ZEGO_RC_VBR,                /**< 恒定质量 */
+            ZEGO_RC_VBR,                /**< 恒定质量, 仅用于研究目的 */
             ZEGO_RC_CRF,                /**< 恒定质量 */
         };
         

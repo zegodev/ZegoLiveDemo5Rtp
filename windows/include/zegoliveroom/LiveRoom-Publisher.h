@@ -509,10 +509,10 @@ namespace ZEGO
          设置编码器码率控制策略
 
          @param strategy 策略配置，参考 ZegoVideoEncoderRateControlStrategy
-         @param encoderCRF 当策略为恒定质量（ZEGO_RC_VBR/ZEGO_RC_CRF）有效，取值范围 [0~51]，越小质量越好，建议取值范围 [18, 28]
+         @param encoderCRF 当策略为恒定质量（ZEGO_RC_VBR/ZEGO_RC_CRF）有效，取值范围 [0~51]，越小质量越好，但是码率会相应变大。建议取值范围 [18, 28]
          @param idx 推流 channel Index. 默认为主Channel
          */
-        ZEGO_API void SetVideoEncoderRateControlConfig(int strategy, int encoderCRF, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
+        ZEGO_API void SetVideoEncoderRateControlConfig(AV::ZegoVideoEncoderRateControlStrategy strategy, int encoderCRF, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
         
         /**
          发送媒体次要信息开关
@@ -563,7 +563,8 @@ namespace ZEGO
          
          @param count 声道数，1 或 2，默认为 1（单声道）
          @attention 必须在推流前设置
-         @note SetLatencyMode 设置为 ZEGO_LATENCY_MODE_NORMAL 或 ZEGO_LATENCY_MODE_NORMAL2 才能设置双声道，在移动端双声道通常需要配合音频前处理才能体现效果。
+         @note SetLatencyMode 设置为 ZEGO_LATENCY_MODE_NORMAL, ZEGO_LATENCY_MODE_NORMAL2, ZEGO_LATENCY_MODE_LOW3 才能设置双声道
+         @note 在移动端双声道通常需要配合音频前处理才能体现效果。
          */
         ZEGO_API void SetAudioChannelCount(int count);
         

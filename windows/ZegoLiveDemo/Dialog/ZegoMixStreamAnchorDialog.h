@@ -3,6 +3,8 @@
 #ifndef ZEGOMIXSTREAMANCHORDIALOG_H
 #define ZEGOMIXSTREAMANCHORDIALOG_H
 
+#include "zego-api-mix-stream.h";
+
 #include "Base/ZegoBaseDialog.h"
 #define m_MixStreamID "mixStreamID"
 
@@ -25,6 +27,7 @@ protected slots:
 	void OnPublishQualityUpdate(const QString& streamId, int quality, double capFPS, double videoFPS, double videoKBS, double audioKBS, int rtt, int pktLostRate);
 	void OnJoinLiveRequest(int seq, const QString& fromUserId, const QString& fromUserName, const QString& roomId);
 	void OnMixStream(unsigned int errorCode, const QString& hlsUrl, const QString& rtmpUrl, const QString& mixStreamID, int seq);
+	void OnMixStreamEx(unsigned int errorCode, const QString& hlsUrl, const QString& rtmpUrl, const QString& mixStreamID, int seq);
 	void OnKickOut(int reason, const QString& roomId);
 private slots:
 	void OnButtonSwitchPublish();

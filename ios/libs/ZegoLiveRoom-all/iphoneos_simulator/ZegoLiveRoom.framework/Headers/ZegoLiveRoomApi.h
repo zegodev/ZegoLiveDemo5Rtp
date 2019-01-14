@@ -530,7 +530,7 @@ typedef enum : NSUInteger {
  设备事件回调
  
  @param deviceName 设备名，支持摄像头和麦克风设备，参考 zego-api-defines-oc.h 中定义
- @param errorCode 错误码。设备无错误不会回调，目前出错后的错误码均为 -1
+ @param errorCode 错误码。设备无错误不会回调，目前没有权限的错误码为-3，其他错误情况的错误码均为-1
  @discussion 调用 [ZegoLiveRoomApi -setDeviceEventDelegate] 设置设备事件代理对象后，在此回调中获取设备状态或错误
  */
 - (void)zego_onDevice:(NSString *)deviceName error:(int)errorCode;

@@ -291,8 +291,8 @@
             
             self.videoSizeDict[streamID] = @(NO);
             
-            if (CGRectEqualToRect(view.frame, self.playViewContainer.bounds))
-                self.fullscreenButton.hidden = NO;
+//            if (CGRectEqualToRect(view.frame, self.playViewContainer.bounds))
+//                self.fullscreenButton.hidden = NO;
         }
         
         self.streamID2SizeDict[streamID] = [NSValue valueWithCGSize:size];
@@ -301,7 +301,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate delay:quality.delay];
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)

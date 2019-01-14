@@ -754,8 +754,8 @@
             
             self.videoSizeDict[streamID] = @(NO);
             
-            if (CGRectEqualToRect(view.frame, self.playViewContainer.bounds))
-                self.fullscreenButton.hidden = NO;
+//            if (CGRectEqualToRect(view.frame, self.playViewContainer.bounds))
+//                self.fullscreenButton.hidden = NO;
         }
         
         self.streamID2SizeDict[streamID] = [NSValue valueWithCGSize:size];
@@ -764,7 +764,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate delay:quality.delay];
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)
@@ -1035,7 +1035,7 @@
         
         //停止拉单流
         [self.mixStreamList addObjectsFromArray:self.streamList];
-        [self onStreamUpdateForDelete:self.streamList];
+        [self onStreamUpdateForDelete:self.streamList.copy];
         [self.streamList removeAllObjects];
 
         //开始拉混流
@@ -1084,7 +1084,11 @@
         [self addLogString:logString];
         
         [self setAnchorConfig:publishView];
+        
+        //弱网优化
 //        [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
+//        [[ZegoDemoHelper api] setVideoCodecId:VIDEO_CODEC_MULTILAYER ofChannel:ZEGOAPI_CHN_MAIN];
+//        [[ZegoDemoHelper api] enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_CONTROL_BASIC | ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS | ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION)];
         [[ZegoDemoHelper api] startPublishing:streamID title:self.publishTitle flag:ZEGO_JOIN_PUBLISH];
     }
     else
@@ -1144,15 +1148,15 @@
     if (streamID == nil)
         return;
     
-    id info = self.videoSizeDict[streamID];
-    if (info == nil)
-    {
-        self.fullscreenButton.hidden = YES;
-    }
-    else
-    {
-        self.fullscreenButton.hidden = NO;
-    }
+//    id info = self.videoSizeDict[streamID];
+//    if (info == nil)
+//    {
+//        self.fullscreenButton.hidden = YES;
+//    }
+//    else
+//    {
+//        self.fullscreenButton.hidden = NO;
+//    }
 }
 
 @end

@@ -54,6 +54,7 @@ public class SingleAnchorPlayActivity extends BasePlayActivity {
     @Override
     protected void doBusiness(Bundle savedInstanceState) {
         super.doBusiness(savedInstanceState);
+        mZegoLiveRoom.setRoomConfig(false, true);
         mZegoLiveRoom.loginRoom(mRoomID, ZegoConstants.RoomRole.Audience, new IZegoLoginCompletionCallback() {
             @Override
             public void onLoginCompletion(int errorCode, ZegoStreamInfo[] zegoStreamInfos) {
@@ -82,7 +83,7 @@ public class SingleAnchorPlayActivity extends BasePlayActivity {
             @Override
             public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
                 // 拉流质量回调
-                handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate, streamQuality.delay);
+              handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
             }
 
             @Override

@@ -55,13 +55,13 @@
     [super viewDidLoad];
     
     self.beautifyFeature = [ZegoSettings sharedInstance].beautifyFeature;
-    self.filter = ZEGO_FILTER_NONE;
+//    self.filter = ZEGO_FILTER_NONE;
+//    self.useFrontCamera = YES;
     self.enableMicrophone = YES;
     self.enablePreview = YES;
     self.viewMode = ZegoVideoViewModeScaleAspectFill;
     self.enableCamera = YES;
     self.enableLoopback = NO;
-    self.useFrontCamera = YES;
     
     self.enableVirtualStereo = NO;
     self.enableReverb = NO;

@@ -140,8 +140,11 @@
     
     //开启双声道直播
     [[ZegoDemoHelper api] setAudioChannelCount:2];
-    
+
+    //弱网优化
 //    [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
+//    [[ZegoDemoHelper api] setVideoCodecId:VIDEO_CODEC_MULTILAYER ofChannel:ZEGOAPI_CHN_MAIN];
+//    [[ZegoDemoHelper api] enableTrafficControl:true properties: (ZEGOAPI_TRAFFIC_CONTROL_BASIC | ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS | ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION)];
     bool b = [[ZegoDemoHelper api] startPublishing:self.streamID title:self.liveTitle flag:ZEGO_JOIN_PUBLISH];
     if (b)
     {
@@ -319,7 +322,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate delay:quality.delay];
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)

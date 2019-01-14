@@ -77,7 +77,7 @@ public class GameLivingPlayActivity extends AppCompatActivity {
         mZegoLiveRoom = ZegoApiManager.getInstance().getZegoLiveRoom();
 
         initCallback();
-
+        mZegoLiveRoom.setRoomConfig(false, true);
         mZegoLiveRoom.loginRoom(mRoomID, ZegoConstants.RoomRole.Audience, new IZegoLoginCompletionCallback() {
             @Override
             public void onLoginCompletion(int stateCode, ZegoStreamInfo[] zegoStreamInfos) {

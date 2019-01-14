@@ -235,7 +235,7 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
 
                             int currentOrientation = mParentActivity.getWindowManager().getDefaultDisplay().getRotation();
                             // 设置app朝向
-                           mZegoLiveRoom.setAppOrientation(currentOrientation);
+                            mZegoLiveRoom.setAppOrientation(currentOrientation);
                         }
                     }, 900);
                 }
@@ -374,11 +374,11 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
 
 
     private void dialogList(final LiveDirectionCallback liveDirection) {
-        final String items[] = {"横屏录屏", "竖屏录屏"};
+        final String items[] = {getString(R.string.landscape_mode), getString(R.string.portrait_mode)};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext(), 3);
-        builder.setTitle("选择录屏方向");
-        // 设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+        builder.setTitle(R.string.select_capture_orientation);
+
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -389,7 +389,7 @@ public class PublishFragment extends AbsBaseFragment implements MainActivity.OnR
                 }
             }
         });
-        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.No, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

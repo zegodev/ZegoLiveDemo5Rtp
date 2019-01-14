@@ -5,6 +5,7 @@
 #include "./IncludeZegoLiveRoomApi.h"
 #include "zego-api-external-audio-device.h"
 #include "zego-api-sound-level.h"
+#include "zego-api-mix-stream.h"
 
 #ifdef USE_EXTERNAL_SDK
 #include "Module/ZegoSurfaceMergeApi.h"
@@ -113,6 +114,7 @@ bool QZegoBase::InitAVSDK(QString userID, QString userName)
 		LIVEROOM::SetIMCallback(m_pAVSignal);
 		LIVEROOM::SetDeviceStateCallback(m_pAVSignal);
 		SOUNDLEVEL::SetSoundLevelCallback(m_pAVSignal);
+		MIXSTREAM::SetMixStreamExCallback(m_pAVSignal);
 #ifdef USE_EXTERNAL_SDK
 		SurfaceMergeController::getInstance().setMergeCallback(m_pAVSignal);
 #endif

@@ -252,6 +252,15 @@
 - (bool)enableRateControl:(bool)enable channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
+ 设置编码器码率控制策略
+ 
+ @param strategy 策略配置，参考 ZegoVideoEncoderRateControlStrategy
+ @param encoderCRF 当策略为恒定质量（ZEGOAPI_RC_VBR/ZEGOAPI_RC_CRF）有效，取值范围 [0~51]，越小质量越好，但是码率会相应变大。建议取值范围 [18, 28]
+ @param index 推流 channel Index
+ */
+- (void)setVideoEncoderRateControlConfig:(ZegoAPIVideoEncoderRateControlStrategy)strategy encoderCRF:(int)encoderCRF channelIndex:(ZegoAPIPublishChannelIndex)index;
+
+/**
  是否使用前置摄像头
  
  @param bFront true 使用，false 不使用。默认 true

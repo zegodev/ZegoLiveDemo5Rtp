@@ -124,6 +124,7 @@ namespace AVE {
         /// \brief 当时图像宽高和编码宽高的宽高比不一致时使用的填充模式，默认裁剪
         /// \param mode 填充模式，参考VideoFillMode
         virtual void SetFillMode(int mode) = 0;
+        virtual void SetRotation(int rotation) = 0;
     };
     
     class VideoCaptureSurfaceTextureCallback {
@@ -146,7 +147,7 @@ namespace AVE {
         virtual void SetFillMode(int mode) = 0;
         
         /// \brief SDK默认垂直翻转，如果不需要，设置0
-        /// \param mode 翻转模型，参考VideoFlipMode
+        /// \param mode 翻转模式，参考VideoFlipMode
         virtual void SetFlipMode(int mode) = 0;
     };
     

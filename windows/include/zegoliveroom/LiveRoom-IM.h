@@ -55,7 +55,7 @@ namespace ZEGO
          @param messageCount 历史消息条数
          @return 操作是否成功
          */
-        ZEGO_API bool GetRoomMessage(ROOM::ZegoMessagePriority priority, bool ascendOrder, int messageId, int messageCount);
+        ZEGO_API bool GetRoomMessage(ROOM::ZegoMessagePriority priority, bool ascendOrder, unsigned long long messageId, int messageCount);
         
         /**
          在房间中创建一个会话

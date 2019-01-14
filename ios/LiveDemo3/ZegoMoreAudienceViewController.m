@@ -52,6 +52,7 @@ static id selfObject;
     // Do any additional setup after loading the view.
     
     selfObject = self;
+    self.useFrontCamera = YES;
     
     for (UIViewController *viewController in self.childViewControllers)
     {
@@ -543,8 +544,8 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
             
             self.videoSizeDict[streamID] = @(NO);
             
-            if (CGRectEqualToRect(view.frame, self.playViewContainer.bounds))
-                self.fullscreenButton.hidden = NO;
+//            if (CGRectEqualToRect(view.frame, self.playViewContainer.bounds))
+//                self.fullscreenButton.hidden = NO;
         }
         
         self.streamID2SizeDict[streamID] = [NSValue valueWithCGSize:size];
@@ -553,7 +554,7 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate delay:quality.delay];
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)
@@ -775,15 +776,15 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
     if (streamID == nil)
         return;
     
-    id info = self.videoSizeDict[streamID];
-    if (info == nil)
-    {
-        self.fullscreenButton.hidden = YES;
-    }
-    else
-    {
-        self.fullscreenButton.hidden = NO;
-    }
+//    id info = self.videoSizeDict[streamID];
+//    if (info == nil)
+//    {
+//        self.fullscreenButton.hidden = YES;
+//    }
+//    else
+//    {
+//        self.fullscreenButton.hidden = NO;
+//    }
 }
 
 - (void)addStreamViewContainer:(NSString *)streamID

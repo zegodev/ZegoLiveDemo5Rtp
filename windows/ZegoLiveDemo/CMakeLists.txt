@@ -19,6 +19,12 @@ elseif(WINDOWS_PLATFORM STREQUAL "x86_xp")
 	SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS,5.01")
 endif()
 
+if(WINDOWS_PLATFORM STREQUAL "x64")
+	SET(ARCH_TYPE "x64")
+else()
+	SET(ARCH_TYPE "x86")
+endif()
+
 #添加qt库
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
@@ -116,7 +122,7 @@ if(WIN32)
     endif()
 
 	set(ZEGOLIVEROOM_PATH ${CMAKE_CURRENT_LIST_DIR}/../libs/windows/${WINDOWS_PLATFORM}/$(Configuration)/zegoliveroom.dll)
-    set(MSVC_PATH ${CMAKE_CURRENT_LIST_DIR}/msvc/${WINDOWS_PLATFORM})
+    set(MSVC_PATH ${CMAKE_CURRENT_LIST_DIR}/msvc/${ARCH_TYPE})
     add_definitions(-DUNICODE -D_UNICODE -D_SCL_SECURE_NO_WARNINGS -DWIN32 -DV_LOG -DCURL_STATICLIB)
     link_directories(${CMAKE_CURRENT_LIST_DIR}/../libs/windows/${WINDOWS_PLATFORM})
 

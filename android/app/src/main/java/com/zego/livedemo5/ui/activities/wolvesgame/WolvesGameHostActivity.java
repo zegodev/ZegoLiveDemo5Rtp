@@ -427,6 +427,7 @@ public class WolvesGameHostActivity extends WolvesGameBaseActivity {
         zegoLiveRoom.setZegoLivePlayerCallback(new ZegoLivePlayerCallback());
         zegoLiveRoom.setZegoRoomCallback(new ZegoRoomCallback());
         zegoLiveRoom.setZegoIMCallback(new ZegoIMCallback());
+        zegoLiveRoom.setRoomConfig(false, true);
         zegoLiveRoom.loginRoom(roomId, roomName, ZegoConstants.RoomRole.Anchor, new IZegoLoginCompletionCallback() {
             @Override
             public void onLoginCompletion(int errorCode, ZegoStreamInfo[] zegoStreamInfos) {

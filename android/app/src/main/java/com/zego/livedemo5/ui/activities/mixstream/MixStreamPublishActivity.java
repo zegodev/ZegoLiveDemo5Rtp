@@ -73,7 +73,7 @@ public class MixStreamPublishActivity extends BasePublishActivity {
     protected void doBusiness(Bundle savedInstanceState) {
         super.doBusiness(savedInstanceState);
         mRoomID = ZegoRoomUtil.getRoomID(ZegoRoomUtil.ROOM_TYPE_MIX);
-
+        mZegoLiveRoom.setRoomConfig(false, true);
         // 登录房间
         mZegoLiveRoom.loginRoom(mRoomID, mPublishTitle, ZegoConstants.RoomRole.Anchor, new IZegoLoginCompletionCallback() {
             @Override
@@ -144,7 +144,7 @@ public class MixStreamPublishActivity extends BasePublishActivity {
             @Override
             public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
                 // 拉流质量回调
-                handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate, streamQuality.delay);
+              handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
             }
 
             @Override

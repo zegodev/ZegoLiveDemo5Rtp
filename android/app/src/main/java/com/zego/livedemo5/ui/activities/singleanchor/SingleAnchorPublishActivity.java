@@ -54,7 +54,7 @@ public class SingleAnchorPublishActivity extends BasePublishActivity {
     protected void doBusiness(Bundle savedInstanceState) {
         super.doBusiness(savedInstanceState);
         mRoomID = ZegoRoomUtil.getRoomID(ZegoRoomUtil.ROOM_TYPE_SINGLE);
-
+        mZegoLiveRoom.setRoomConfig(false, true);
         mZegoLiveRoom.loginRoom(mRoomID, mPublishTitle, ZegoConstants.RoomRole.Anchor, new IZegoLoginCompletionCallback() {
             @Override
             public void onLoginCompletion(int errorCode, ZegoStreamInfo[] zegoStreamInfos) {

@@ -1,0 +1,3 @@
+D:/Zegolivedemo/projects/QT/ZegoLiveDemo5/build-win/cmake_temp_x64/CMakeFiles/ALL_BUILD.dir
+D:/Zegolivedemo/projects/QT/ZegoLiveDemo5/build-win/cmake_temp_x64/CMakeFiles/ZERO_CHECK.dir
+D:/Zegolivedemo/projects/QT/ZegoLiveDemo5/build-win/cmake_temp_x64/ZegoLiveDemo/CMakeFiles/ZegoLiveDemo.dir

@@ -17,6 +17,8 @@
 #endif
 
 #include "zego-api-sound-level.h"
+#include "zego-api-mix-stream.h"
+
 #include <QDebug>
 #include <QObject>
 using namespace ZEGO;
@@ -30,7 +32,8 @@ class QZegoAVSignal : public QObject,
 	public SurfaceMerge::IZegoSurfaceMergeCallback,
 #endif
 	public AV::IZegoDeviceStateCallback,
-	public SOUNDLEVEL::IZegoSoundLevelCallback
+	public SOUNDLEVEL::IZegoSoundLevelCallback,
+	public MIXSTREAM::IZegoMixStreamExCallback
 {
 	Q_OBJECT
 
@@ -60,6 +63,7 @@ signals:
 	void sigVideoDeviceChanged(const QString& strDeviceId, const QString& strDeviceName, AV::DeviceState state);
 	void sigUserUpdate(QVector<QString> userIDs, QVector<QString> userNames, QVector<int> userFlags, QVector<int> userRoles, unsigned int userCount, LIVEROOM::ZegoUserUpdateType type);
 	void sigMixStream(unsigned int errorCode, const QString& hlsUrl, const QString& rtmpUrl, const QString& mixStreamID, int seq);
+	void sigMixStreamEx(unsigned int errorCode, const QString& hlsUrl, const QString& rtmpUrl, const QString& mixStreamID, int seq);
 	void sigRecvEndJoinLiveCommand(const QString& userId, const QString& userName, const QString& roomId);
 	void sigSurfaceMergeResult(unsigned char *surfaceMergeData, int datalength);
 	void sigPreviewSnapshot(void *pImage);
@@ -111,6 +115,9 @@ protected:
 	//IZegoSoundLevelCallback
 	void OnSoundLevelUpdate(SOUNDLEVEL::ZegoSoundLevelInfo *pSoundLevelList, unsigned int soundLevelCount);
 	void OnCaptureSoundLevelUpdate(SOUNDLEVEL::ZegoSoundLevelInfo *pCaptureSoundLevel);
+
+	//IZegoMixStreamExCallback
+	void OnMixStreamEx(const AV::ZegoMixStreamResultEx& result, const char* pszMixStreamID, int seq) override;
 
 #ifdef USE_EXTERNAL_SDK
 	void OnSurfaceMergeResult(

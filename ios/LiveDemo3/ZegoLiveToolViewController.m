@@ -370,7 +370,7 @@
     
     NSMutableAttributedString *contentString = [[NSMutableAttributedString alloc] initWithString:content];
     contentString.yy_font = [UIFont systemFontOfSize:16.0];
-    contentString.yy_color = [UIColor whiteColor];
+    contentString.yy_color = [UIColor colorWithRed:253/255.0 green:181/255.0 blue:84/255.0 alpha:1.0];
     
     [totalText appendAttributedString:contentString];
     

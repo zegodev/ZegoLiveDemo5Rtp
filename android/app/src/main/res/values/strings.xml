@@ -13,6 +13,7 @@
     <string name="zg_toast_config_successful">Config Successful</string>
     <string name="zg_toast_config_failure">Config failure</string>
 
+    <string name="send_button_text">send</string>
     <string name="user_id">User ID:</string>
     <string name="user_name">User Name:</string>
     <string name="quality_options">Quality Options:</string>
@@ -71,6 +72,10 @@
     <string name="start_publishing">Live</string>
     <string name="request_to_join">Join</string>
     <string name="stop_publishing">Stop</string>
+
+    <string name="portrait_mode">Portrait Mode</string>
+    <string name="landscape_mode">Landscape Mode</string>
+    <string name="select_capture_orientation">Select Capture Orientation</string>
 
     <!--broadcast-->
     <string name="hint">Hint</string>

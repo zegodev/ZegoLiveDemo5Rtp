@@ -293,6 +293,18 @@ void QZegoAVSignal::OnMixStream(const AV::ZegoMixStreamResult& result, const cha
 	emit sigMixStream(errorCode, hlsUrl, rtmpUrl, mixStreamID, seq);
 }
 
+void QZegoAVSignal::OnMixStreamEx(const AV::ZegoMixStreamResultEx& result, const char* pszMixStreamID, int seq)
+{
+	unsigned int errorCode = result.uiErrorCode;
+	int outputCount = result.nStreamInfoCount;
+	QString mixStreamID = pszMixStreamID ? pszMixStreamID : "";
+
+	QString hlsUrl = (outputCount > 0) ? result.pStreamInfoList[0].arrHlsURLs[0] : "url is null";
+	QString rtmpUrl = (outputCount > 0) ? result.pStreamInfoList[0].arrRtmpURLs[0] : "url is null";
+
+	emit sigMixStreamEx(errorCode, hlsUrl, rtmpUrl, mixStreamID, seq);
+}
+
 void QZegoAVSignal::OnRecvEndJoinLiveCommand(const char* pszFromUserId, const char* pszFromUserName, const char *pszRoomID)
 {
 	QString userId = pszFromUserId;

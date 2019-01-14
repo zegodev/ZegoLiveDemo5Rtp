@@ -331,7 +331,7 @@ public class ViewLive extends RelativeLayout {
 
         if (mTvSwitchToFullScreen != null) {
             if (mNeedToSwitchFullScreen) {
-                mTvSwitchToFullScreen.setVisibility(View.VISIBLE);
+                // mTvSwitchToFullScreen.setVisibility(View.VISIBLE);
 
                 if (mode == ZegoVideoViewMode.ScaleAspectFill) {
                     // 退出全屏

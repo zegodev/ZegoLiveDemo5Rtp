@@ -151,7 +151,7 @@ public class MoreAnchorsPublishActivity extends BasePublishActivity {
         });
 
         mRoomID = ZegoRoomUtil.getRoomID(ZegoRoomUtil.ROOM_TYPE_MORE);
-
+        mZegoLiveRoom.setRoomConfig(false, true);
         mZegoLiveRoom.loginRoom(mRoomID, mPublishTitle, ZegoConstants.RoomRole.Anchor, new IZegoLoginCompletionCallback() {
             @Override
             public void onLoginCompletion(int errorCode, ZegoStreamInfo[] zegoStreamInfos) {
@@ -227,7 +227,7 @@ public class MoreAnchorsPublishActivity extends BasePublishActivity {
             @Override
             public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
                 // 拉流质量回调
-                handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate, streamQuality.delay);
+              handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
             }
 
             @Override

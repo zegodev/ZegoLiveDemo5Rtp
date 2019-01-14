@@ -30,15 +30,15 @@
 		16F48AAB1FF48F8C001C8992 /* BroadcastSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F48AAA1FF48F8C001C8992 /* BroadcastSetupViewController.m */; };
 		16F48ABF1FF48FAE001C8992 /* ZegoAVKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F48ABD1FF48FAD001C8992 /* ZegoAVKitManager.m */; };
 		16F48AC21FF48FB7001C8992 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16F48AC01FF48FB7001C8992 /* MainInterface.storyboard */; };
-		16F48AC31FF490AA001C8992 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; };
-		A745D7441E4B322E009A4265 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; };
-		A745D7451E4B32FC009A4265 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		335BB5FC218C29AA00577169 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
+		335BB5FD218C29C100577169 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
+		335BB5FE218C29C100577169 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		337C1B092189B1E300E84AA4 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
 		A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
 		A7C911AC214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
 		A7CD23E01EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
 		A7CD23E11EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
 		EF0387301FB2E424004EF33C /* ZegoImageFilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; };
-		EF0387321FB2E437004EF33C /* ZegoImageFilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; };
 		EF0387331FB2E437004EF33C /* ZegoImageFilter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF0387341FB2F64B004EF33C /* ZegoImageFilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */; };
 		EF32D6F81D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF32D6F51D6599B700A764FC /* TencentOpenApi_IOS_Bundle.bundle */; };
@@ -67,7 +67,6 @@
 		EF71E9B91E67CFAD00723EF7 /* ZegoLiveApi-utils.m in Sources */ = {isa = PBXBuildFile; fileRef = EF71E9B71E67CFAD00723EF7 /* ZegoLiveApi-utils.m */; };
 		EF71E9BC1E67CFB700723EF7 /* ZegoVideoFilterDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = EF71E9BB1E67CFB700723EF7 /* ZegoVideoFilterDemo.m */; };
 		EF71E9BD1E67CFB700723EF7 /* ZegoVideoFilterDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = EF71E9BB1E67CFB700723EF7 /* ZegoVideoFilterDemo.m */; };
-		EF71EA341E72410800723EF7 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; };
 		EF792F571E8BA68200A39DBC /* ZegoWerewolfHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF792F561E8BA68200A39DBC /* ZegoWerewolfHostViewController.m */; };
 		EF792F581E8BA68200A39DBC /* ZegoWerewolfHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF792F561E8BA68200A39DBC /* ZegoWerewolfHostViewController.m */; };
 		EF792F5B1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF792F5A1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m */; };
@@ -206,7 +205,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A745D7451E4B32FC009A4265 /* ZegoLiveRoom.framework in Embed Frameworks */,
+				335BB5FE218C29C100577169 /* ZegoLiveRoom.framework in Embed Frameworks */,
 				EF0387331FB2E437004EF33C /* ZegoImageFilter.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -256,8 +255,8 @@
 		16F48AC11FF48FB7001C8992 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		16F48AC41FF490DF001C8992 /* GameLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameLive.entitlements; sourceTree = "<group>"; };
 		16F48AC51FF490EA001C8992 /* GameLiveSetupUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameLiveSetupUI.entitlements; sourceTree = "<group>"; };
+		337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoLiveRoom.framework; path = libs/ZegoLiveRoom.framework; sourceTree = "<group>"; };
 		4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
-		A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoLiveRoom.framework; path = libs/ZegoLiveRoom.framework; sourceTree = "<group>"; };
 		A745D7481E4C197F009A4265 /* LiveDemo5.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveDemo5.entitlements; sourceTree = "<group>"; };
 		A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QRCodeReaderViewController.framework; sourceTree = "<group>"; };
 		A7CD23DE1EBB6135002F446A /* ZegoTestPushViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoTestPushViewController.h; path = LiveDemo3/ZegoTestPushViewController.h; sourceTree = "<group>"; };
@@ -415,7 +414,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				16F48A9B1FF48F8B001C8992 /* ReplayKit.framework in Frameworks */,
-				16F48AC31FF490AA001C8992 /* ZegoLiveRoom.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,8 +438,8 @@
 				EF422AA41E7F76CA00FA1C8C /* CoreMedia.framework in Frameworks */,
 				EF422A921E7B85BF00FA1C8C /* VideoToolbox.framework in Frameworks */,
 				EFAF4B621D2B771000560B00 /* libresolv.tbd in Frameworks */,
+				337C1B092189B1E300E84AA4 /* ZegoLiveRoom.framework in Frameworks */,
 				EF422A911E7B854300FA1C8C /* libiconv.tbd in Frameworks */,
-				EF71EA341E72410800723EF7 /* ZegoLiveRoom.framework in Frameworks */,
 				EFAF4B511D2B6C7800560B00 /* CoreTelephony.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -450,22 +448,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				335BB5FC218C29AA00577169 /* ZegoLiveRoom.framework in Frameworks */,
 				A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */,
 				162CB30B1F74AE2A0080185B /* VideoToolbox.framework in Frameworks */,
 				16F48A6E1FF3A4A5001C8992 /* Bugly.framework in Frameworks */,
+				335BB5FD218C29C100577169 /* ZegoLiveRoom.framework in Frameworks */,
 				EF0387301FB2E424004EF33C /* ZegoImageFilter.framework in Frameworks */,
 				EF9F415D1F3B01C9003F7C0F /* SafariServices.framework in Frameworks */,
 				163FEE311F32F9ED00FA86E6 /* libz.tbd in Frameworks */,
 				163FEDF01F32D77F00FA86E6 /* MessageUI.framework in Frameworks */,
 				164C75A3211853A60012FB01 /* PgySDK.framework in Frameworks */,
 				EF32D7071D659C6A00A764FC /* CoreGraphics.framework in Frameworks */,
-				A745D7441E4B322E009A4265 /* ZegoLiveRoom.framework in Frameworks */,
 				164C75A4211853A60012FB01 /* PgyUpdate.framework in Frameworks */,
 				16CD53C81F3C33A5003D43B3 /* SSZipArchive.framework in Frameworks */,
 				EF32D7051D659C6000A764FC /* SystemConfiguration.framework in Frameworks */,
 				EF32D7031D659C5400A764FC /* Security.framework in Frameworks */,
 				EFF10F131D1A2B1800ECE11E /* CoreTelephony.framework in Frameworks */,
-				EF0387321FB2E437004EF33C /* ZegoImageFilter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,8 +798,8 @@
 		EFF10F1C1D1A2BAF00ECE11E /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */,
 				EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */,
-				A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */,
 			);
 			name = libs;
 			sourceTree = "<group>";

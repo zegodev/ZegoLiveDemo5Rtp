@@ -1429,12 +1429,13 @@ void ZegoBaseDialog::OnSwitchVideoDevice(int id)
 	    LIVEROOM::SetVideoDevice(qtoc(m_device->GetVideoDeviceId()));
 		m_pAVSettings->SetCameraId(qtoc(m_device->GetVideoDeviceId()));
 
+#ifdef USE_EXTERNAL_SDK
 		if (mBase.GetUseSurfaceMerge())
 		{
 			SurfaceMergeController::getInstance().setSurfaceCameraId(m_device->GetVideoDeviceId());
 			SurfaceMergeController::getInstance().startSurfaceMerge();
 		}
-
+#endif
 		update();
 
 		LIVEROOM::EnableCamera(true);

@@ -301,6 +301,14 @@
 - (bool)enableRateControl:(bool)enable;
 
 /**
+ 设置编码器码率控制策略
+ 
+ @param strategy 策略配置，参考 ZegoVideoEncoderRateControlStrategy
+ @param encoderCRF 当策略为恒定质量（ZEGOAPI_RC_VBR/ZEGOAPI_RC_CRF）有效，取值范围 [0~51]，越小质量越好，但是码率会相应变大。建议取值范围 [18, 28]
+ */
+- (void)setVideoEncoderRateControlConfig:(ZegoAPIVideoEncoderRateControlStrategy)strategy encoderCRF:(int)encoderCRF;
+
+/**
  是否使用前置摄像头
  
  @param bFront true 使用，false 不使用。默认 true
@@ -507,7 +515,9 @@
  设置推流音频声道数
  
  @param count 声道数，1 或 2，默认为 1（单声道）
- @discussion 必须在初始化 SDK 后，调用推流前设置。setLatencyMode 设置为 ZEGOAPI_LATENCY_MODE_NORMAL 或 ZEGOAPI_LATENCY_MODE_NORMAL2 才能设置双声道，在移动端双声道通常需要配合音频前处理才能体现效果
+ @discussion 必须在初始化 SDK 后，调用推流前设置。
+ @discussion setLatencyMode 设置为 ZEGO_LATENCY_MODE_NORMAL, ZEGO_LATENCY_MODE_NORMAL2, ZEGO_LATENCY_MODE_LOW3 才能设置双声道
+ @discusssion 在移动端双声道通常需要配合音频前处理才能体现效果
  */
 - (void)setAudioChannelCount:(int)count;
 
@@ -661,6 +671,13 @@
  @discussion 用户调用该 API 将混音数据传递给 SDK。混音数据 bit depth 必须为 16
  */
 - (void)onAuxCallback:(void *)pData dataLen:(int *)pDataLen sampleRate:(int *)pSampleRate channelCount:(int *)pChannelCount;
+
+/**
+ 转推CDN状态信息更新
+ @param statesInfo CDN状态信息
+ @param streamID 推流的流ID
+ */
+- (void)onRelayCDNStateUpdate:(NSArray<ZegoAPIStreamRelayCDNInfo *> *)statesInfo streamID:(NSString*)streamID;
 
 @end
 

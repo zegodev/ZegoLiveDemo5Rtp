@@ -321,13 +321,13 @@
     int ret = [[ZegoDemoHelper api] setAVConfig:config];
     assert(ret);
     
-    bool b = [[ZegoDemoHelper api] setFrontCam:self.switchCamera.on];
+    bool b = [[ZegoDemoHelper api] setFrontCam:self.switchCamera.isOn];
     assert(b);
     
     b = [[ZegoDemoHelper api] enableMic:YES];
     assert(b);
     
-    b = [[ZegoDemoHelper api] enableTorch:self.switchTorch.on];
+    b = [[ZegoDemoHelper api] enableTorch:self.switchTorch.isOn];
     assert(b);
     
     b = [[ZegoDemoHelper api] enableBeautifying:(int)[self.beautifyPicker selectedRowInComponent:0]];

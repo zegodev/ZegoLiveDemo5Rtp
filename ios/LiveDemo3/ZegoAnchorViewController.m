@@ -79,29 +79,16 @@
     {
         [self updatePublishView:self.publishView];
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (BOOL)shouldAutorotate
-{
-    return NO;
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    if (self.orientation == UIInterfaceOrientationPortrait)
-        return UIInterfaceOrientationMaskPortrait;
-    else if (self.orientation == UIInterfaceOrientationLandscapeLeft)
-        return UIInterfaceOrientationMaskLandscapeLeft;
-    else if (self.orientation == UIInterfaceOrientationLandscapeRight)
-        return UIInterfaceOrientationMaskLandscapeRight;
     
-    return UIInterfaceOrientationMaskPortrait;
+    // 监听屏幕旋转
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleUserInterfaceRotate:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
+
+- (void)handleUserInterfaceRotate:(NSNotification *)notification
+{
+    [[ZegoDemoHelper api] setAppOrientation:[UIApplication sharedApplication].statusBarOrientation];
+}
+
 
 #pragma mark - ZegoLiveRoom
 
@@ -134,6 +121,7 @@
     [[ZegoDemoHelper api] setAudioChannelCount:2];
     
     [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_NORMAL];
+    [[ZegoDemoHelper api] setPreviewViewMode:ZegoVideoViewModeScaleAspectFit];
     bool b = [[ZegoDemoHelper api] startPublishing:self.streamID title:self.liveTitle flag:ZEGOAPI_SINGLE_ANCHOR];
     if (b)
     {

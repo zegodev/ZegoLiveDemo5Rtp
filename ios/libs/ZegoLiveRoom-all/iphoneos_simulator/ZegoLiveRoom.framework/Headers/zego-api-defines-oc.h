@@ -242,18 +242,18 @@ typedef enum : NSUInteger {
 @property int extra;
 @end
 
-/** 发布直播的模式 */
-enum ZegoAPIVideoEncoderRateControlStrategy
+/** 视频编码码率控制策略 */
+typedef enum
 {
     /** 恒定码率 */
     ZEGOAPI_RC_ABR = 0,
     /** 恒定码率 */
     ZEGOAPI_RC_CBR,
-    /** 恒定质量 */
+    /** 恒定质量,仅用于研究目的 */
     ZEGOAPI_RC_VBR,
     /** 恒定质量 */
     ZEGOAPI_RC_CRF,
-};
+} ZegoAPIVideoEncoderRateControlStrategy;
 
 /** 发布直播的模式 */
 enum ZegoAPIPublishFlag
@@ -456,4 +456,31 @@ typedef enum : NSUInteger
 
 @end
 
+/**
+ 转推CDN状态
+ */
+
+typedef enum : NSUInteger
+{
+    /**< 转推停止 */
+    ZEGOAPI_RELAY_STOP = 0,
+    /**< 正在转推 */
+    ZEGOAPI_RELAY_START = 1,
+    /**< 正在重试 */
+    ZEGOAPI_RELAY_RETRY = 2,
+} ZegoAPIStreamRelayCDNState;
+
+/**
+ 转推CDN状态信息
+ */
+@interface ZegoAPIStreamRelayCDNInfo : NSObject
+
+/** 转推CDN的rtmp地址 */
+@property (copy) NSString *rtmpURL;
+/** 当前状态 */
+@property (assign) ZegoAPIStreamRelayCDNState state;
+/** 状态改变时的时间 */
+@property (assign) unsigned int stateTime;
+
+@end
 #endif /* zego_api_defines_oc_h */

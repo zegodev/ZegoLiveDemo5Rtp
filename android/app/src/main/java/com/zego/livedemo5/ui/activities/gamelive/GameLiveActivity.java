@@ -243,6 +243,7 @@ public  class GameLiveActivity extends AppCompatActivity {
             mMediaProjection = mMediaProjectionManager.getMediaProjection(resultCode, data);
 
             mRoomID = ZegoRoomUtil.getRoomID(ZegoRoomUtil.ROOM_TYPE_GAME);
+            mZegoLiveRoom.setRoomConfig(false, true);
             mZegoLiveRoom.loginRoom(mRoomID, mPublishTitle, ZegoConstants.RoomRole.Anchor, new IZegoLoginCompletionCallback() {
                 @Override
                 public void onLoginCompletion(int stateCode, ZegoStreamInfo[] zegoStreamInfos) {

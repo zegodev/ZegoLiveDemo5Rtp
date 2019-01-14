@@ -126,6 +126,11 @@ namespace ZEGO
             virtual void OnMixStream(const AV::ZegoMixStreamResult& result, const char* pszMixStreamID, int seq) {}
             
             
+            /// \breif 转推CDN状态通知
+            /// \param streamID 流ID
+            /// \param statesInfo 转推CDN状态信息列表
+            /// \param stateCount 状态信息列表个数
+            virtual void OnRelayCDNStateUpdate(const char *streamID, AV::ZegoStreamRelayCDNInfo* statesInfo, unsigned int statesInfoCount) {}
             
             virtual ~ILivePublisherCallback() {}
             

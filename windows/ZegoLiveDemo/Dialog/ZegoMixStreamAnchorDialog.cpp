@@ -28,7 +28,8 @@ ZegoMixStreamAnchorDialog::ZegoMixStreamAnchorDialog(RoomPtr room, ZegoDeviceMan
 	connect(GetAVSignal(), &QZegoAVSignal::sigPlayStateUpdate, this, &ZegoMixStreamAnchorDialog::OnPlayStateUpdate);
 	connect(GetAVSignal(), &QZegoAVSignal::sigPlayQualityUpdate, this, &ZegoMixStreamAnchorDialog::OnPlayQualityUpdate);
 	connect(GetAVSignal(), &QZegoAVSignal::sigJoinLiveRequest, this, &ZegoMixStreamAnchorDialog::OnJoinLiveRequest);
-	connect(GetAVSignal(), &QZegoAVSignal::sigMixStream, this, &ZegoMixStreamAnchorDialog::OnMixStream);
+	//connect(GetAVSignal(), &QZegoAVSignal::sigMixStream, this, &ZegoMixStreamAnchorDialog::OnMixStream);
+	connect(GetAVSignal(), &QZegoAVSignal::sigMixStreamEx, this, &ZegoMixStreamAnchorDialog::OnMixStreamEx);
 	connect(ui.m_bRequestJoinLive, &QPushButton::clicked, this, &ZegoMixStreamAnchorDialog::OnButtonSwitchPublish);
 
 	//设置混流回调初始值
@@ -219,36 +220,44 @@ void ZegoMixStreamAnchorDialog::StartMixStream()
 	int width = m_pAVSettings->GetResolution().cx;
 	int height = m_pAVSettings->GetResolution().cy;
 
-	AV::ZegoCompleteMixStreamConfig mixStreamConfig;
-	mixStreamConfig.pInputStreamList = new AV::ZegoMixStreamConfig[size];
-	
+	MIXSTREAM::ZegoMixStreamConfig mixStreamNewConfig;
+	//AV::ZegoCompleteMixStreamConfig mixStreamConfig;
+	mixStreamNewConfig.pInputStreamList = new MIXSTREAM::ZegoMixStreamInput[size];
+	mixStreamNewConfig.pOutputList = new MIXSTREAM::ZegoMixStreamOutput;
 	for (int i = 0; i < size; i++)
 	{
-		strcpy(mixStreamConfig.pInputStreamList[i].szStreamID, m_mixStreamInfos[i]->szStreamID);
-		mixStreamConfig.pInputStreamList[i].layout.top = m_mixStreamInfos[i]->layout.top;
-		mixStreamConfig.pInputStreamList[i].layout.bottom = m_mixStreamInfos[i]->layout.bottom;
-		mixStreamConfig.pInputStreamList[i].layout.left = m_mixStreamInfos[i]->layout.left;
-		mixStreamConfig.pInputStreamList[i].layout.right = m_mixStreamInfos[i]->layout.right;
+		strcpy(mixStreamNewConfig.pInputStreamList[i].szStreamID, m_mixStreamInfos[i]->szStreamID);
+		mixStreamNewConfig.pInputStreamList[i].layout.top = m_mixStreamInfos[i]->layout.top;
+		mixStreamNewConfig.pInputStreamList[i].layout.bottom = m_mixStreamInfos[i]->layout.bottom;
+		mixStreamNewConfig.pInputStreamList[i].layout.left = m_mixStreamInfos[i]->layout.left;
+		mixStreamNewConfig.pInputStreamList[i].layout.right = m_mixStreamInfos[i]->layout.right;
 	}
 
-	mixStreamConfig.nInputStreamCount = size;
-	strcpy(mixStreamConfig.szOutputStream, m_myMixStreamID.toStdString().c_str());
-	mixStreamConfig.bOutputIsUrl = false;
-	mixStreamConfig.nOutputWidth = width;
-	mixStreamConfig.nOutputHeight = height;
-	mixStreamConfig.nOutputFps = m_pAVSettings->GetFps();
-	mixStreamConfig.nOutputBitrate = m_pAVSettings->GetBitrate();
-	mixStreamConfig.nChannels = 2;
+	mixStreamNewConfig.nInputStreamCount = size;
+	mixStreamNewConfig.nOutputStreamCount = 1;
+	strcpy(mixStreamNewConfig.pOutputList->target, m_myMixStreamID.toStdString().c_str());
+	mixStreamNewConfig.pOutputList->isUrl = false;
+	mixStreamNewConfig.nOutputWidth = width;
+	mixStreamNewConfig.nOutputHeight = height;
+	mixStreamNewConfig.nOutputFps = m_pAVSettings->GetFps();
+	mixStreamNewConfig.nOutputBitrate = m_pAVSettings->GetBitrate();
+	mixStreamNewConfig.nChannels = 2;
+
+	mixStreamNewConfig.nOutputRateControlMode = 1;
+	mixStreamNewConfig.nOutputQuality = 23;
 
 	qDebug() << "startMixStream!";
-	LIVEROOM::MixStream(mixStreamConfig, m_mixStreamRequestSeq++);
+	//LIVEROOM::MixStream(mixStreamConfig, m_mixStreamRequestSeq++);
+	MIXSTREAM::MixStreamEx(m_myMixStreamID.toStdString().c_str(), mixStreamNewConfig);
 }
 
 void ZegoMixStreamAnchorDialog::StopMixStream()
 {
-	AV::ZegoCompleteMixStreamConfig mixStreamConfig;
+	//AV::ZegoCompleteMixStreamConfig mixStreamConfig;
 	qDebug() << "stopMixStream!";
-	LIVEROOM::MixStream(mixStreamConfig, m_mixStreamRequestSeq++);
+	//LIVEROOM::MixStream(mixStreamConfig, m_mixStreamRequestSeq++);
+	MIXSTREAM::ZegoMixStreamConfig config;
+	MIXSTREAM::MixStreamEx(m_myMixStreamID.toStdString().c_str(), config);
 }
 
 void ZegoMixStreamAnchorDialog::MixStreamAdd(QVector<StreamPtr> vStreamList, const QString& roomId)
@@ -506,6 +515,39 @@ void ZegoMixStreamAnchorDialog::OnMixStream(unsigned int errorCode, const QStrin
 
 	}
 	
+}
+
+void ZegoMixStreamAnchorDialog::OnMixStreamEx(unsigned int errorCode, const QString& hlsUrl, const QString& rtmpUrl, const QString& mixStreamID, int seq)
+{
+	qDebug() << "mixStreamEx update!";
+
+	if (errorCode == 0)
+	{
+		qDebug() << tr("混流成功！ 其混流ID为：") << mixStreamID;
+		qDebug() << "mix hls :" << hlsUrl;
+		qDebug() << "mix rtmp :" << rtmpUrl;
+		sharedHlsUrl = hlsUrl;
+		sharedRtmpUrl = rtmpUrl;
+
+		QJsonObject extraInfo;
+		extraInfo.insert(m_RoomName, m_pChatRoom->getRoomName());
+		extraInfo.insert(m_FirstAnchor, true);
+		extraInfo.insert(m_MixStreamID, mixStreamID);
+		//封装存放分享地址的json对象
+		if (!sharedHlsUrl.isEmpty())
+			extraInfo.insert(m_HlsKey, sharedHlsUrl);
+
+		if (!sharedRtmpUrl.isEmpty())
+			extraInfo.insert(m_RtmpKey, sharedRtmpUrl);
+
+		QString jsonString = QJsonDocument(extraInfo).toJson().simplified();
+		LIVEROOM::SetPublishStreamExtraInfo(qtoc(jsonString));
+
+		SetOperation(true);
+		ui.m_bRequestJoinLive->setEnabled(true);
+		ui.m_bRequestJoinLive->setText(tr("停止直播"));
+
+	}
 }
 
 void ZegoMixStreamAnchorDialog::OnJoinLiveRequest(int seq, const QString& fromUserId, const QString& fromUserName, const QString& roomId)
