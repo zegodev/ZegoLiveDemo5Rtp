@@ -32,7 +32,8 @@ void QZegoUserConfig::LoadConfig(void)
 	m_strUserName = "mac-" + m_strUserId;
 #endif
 	m_bPrimary = true;
-	m_isUseTestEnv = false;
+	//默认为测试环境以防用户用自己的APPID的时候无法登录房间
+	m_isUseTestEnv = true;
 
 	m_isVerticalCapture = false;
 
