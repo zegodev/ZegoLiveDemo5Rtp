@@ -357,7 +357,7 @@ public class SettingFragment extends AbsBaseFragment {
         LinearLayout container = (LinearLayout) mRootView.findViewById(R.id.container);
 
         container.setOnClickListener(mOnClickListener);
-        tbTestEnv.setChecked(PreferenceUtil.getInstance().getTestEnv(false));
+        tbTestEnv.setChecked(PreferenceUtil.getInstance().getTestEnv(true));
         tbVideoCapture.setChecked(PreferenceUtil.getInstance().getVideoCapture(false));
         tbExternalRender.setChecked(PreferenceUtil.getInstance().getUseExternalRender(false));
         tbVideoFilter.setChecked(PreferenceUtil.getInstance().getVideoFilter(false));

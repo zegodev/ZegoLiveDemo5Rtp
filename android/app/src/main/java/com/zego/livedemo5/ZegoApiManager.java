@@ -59,7 +59,7 @@ public class ZegoApiManager {
     private void openAdvancedFunctions() {
 
         // 开启测试环境
-        if (PreferenceUtil.getInstance().getTestEnv(false)) {
+        if (PreferenceUtil.getInstance().getTestEnv(true)) {
             ZegoLiveRoom.setTestEnv(true);
         }
 
@@ -375,7 +375,7 @@ public class ZegoApiManager {
     }
 
     public boolean isUseTestEvn() {
-        return PreferenceUtil.getInstance().getTestEnv(false);
+        return PreferenceUtil.getInstance().getTestEnv(true);
     }
 
 }
