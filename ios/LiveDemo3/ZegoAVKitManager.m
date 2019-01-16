@@ -23,7 +23,7 @@ static ZegoLiveRoomApi *g_ZegoApi = nil;
 //NSData *g_signKey = nil;
 //uint32_t g_appID = 0;
 
-BOOL g_useTestEnv = NO;
+BOOL g_useTestEnv = YES;
 BOOL g_useAlphaEnv = NO;
 
 // Demo 默认版本为 UDP
