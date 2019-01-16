@@ -34,9 +34,8 @@ import com.zego.zegoliveroom.constants.ZegoIM;
 import com.zego.zegoliveroom.constants.ZegoVideoViewMode;
 import com.zego.zegoliveroom.entity.AuxData;
 import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
+import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoConversationMessage;
-import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
-import com.zego.zegoliveroom.entity.ZegoPublishStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUser;
@@ -587,10 +586,9 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
         }
 
         @Override
-        public void onPublishQualityUpdate(String s, ZegoPublishStreamQuality zegoPublishStreamQuality) {
+        public void onPublishQualityUpdate(String s, ZegoStreamQuality streamQuality) {
 
         }
-
 
         /**
          * 音乐伴奏回调, 每次取20毫秒的数据.
@@ -640,7 +638,7 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
         }
 
         @Override
-        public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
+        public void onPlayQualityUpdate(String s, ZegoStreamQuality streamQuality) {
 
         }
 

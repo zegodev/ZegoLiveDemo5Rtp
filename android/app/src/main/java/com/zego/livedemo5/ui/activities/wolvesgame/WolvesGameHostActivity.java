@@ -29,8 +29,7 @@ import com.zego.zegoliveroom.constants.ZegoIM;
 import com.zego.zegoliveroom.constants.ZegoVideoViewMode;
 import com.zego.zegoliveroom.entity.AuxData;
 import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
-import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
-import com.zego.zegoliveroom.entity.ZegoPublishStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoConversationMessage;
 import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
@@ -766,7 +765,7 @@ public class WolvesGameHostActivity extends WolvesGameBaseActivity {
         }
 
         @Override
-        public void onPublishQualityUpdate(String s, ZegoPublishStreamQuality zegoPublishStreamQuality) {
+        public void onPublishQualityUpdate(String s, ZegoStreamQuality streamQuality) {
 
         }
 
@@ -818,7 +817,7 @@ public class WolvesGameHostActivity extends WolvesGameBaseActivity {
         }
 
         @Override
-        public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
+        public void onPlayQualityUpdate(String s, ZegoStreamQuality streamQuality) {
 
         }
 

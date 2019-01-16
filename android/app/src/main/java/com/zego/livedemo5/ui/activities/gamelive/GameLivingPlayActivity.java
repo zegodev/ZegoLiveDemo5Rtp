@@ -22,7 +22,7 @@ import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.constants.ZegoVideoViewMode;
-import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 
 /**
@@ -111,10 +111,9 @@ public class GameLivingPlayActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
+            public void onPlayQualityUpdate(String s, ZegoStreamQuality streamQuality) {
 
             }
-
 
             @Override
             public void onInviteJoinLiveRequest(int seq, String fromUserID, String fromUserName, String roomID) {

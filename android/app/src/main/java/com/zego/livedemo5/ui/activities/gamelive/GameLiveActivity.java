@@ -32,7 +32,7 @@ import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
 import com.zego.zegoliveroom.constants.ZegoAvConfig;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.AuxData;
-import com.zego.zegoliveroom.entity.ZegoPublishStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoavkit2.screencapture.ZegoScreenCaptureFactory;
 
@@ -179,10 +179,9 @@ public  class GameLiveActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPublishQualityUpdate(String s, ZegoPublishStreamQuality zegoPublishStreamQuality) {
+            public void onPublishQualityUpdate(String s, ZegoStreamQuality streamQuality) {
 
             }
-
 
             @Override
             public AuxData onAuxCallback(int dataLen) {

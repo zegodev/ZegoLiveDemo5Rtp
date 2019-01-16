@@ -17,8 +17,8 @@ import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.AuxData;
 import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
+import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoConversationMessage;
-import com.zego.zegoliveroom.entity.ZegoPublishStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUserState;
@@ -84,8 +84,9 @@ public class SingleAnchorPublishActivity extends BasePublishActivity {
             }
 
             @Override
-            public void onPublishQualityUpdate(String streamID, ZegoPublishStreamQuality streamQuality) {
-                handlePublishQualityUpdate(streamID, streamQuality.quality, streamQuality.vnetFps, streamQuality.vkbps);
+            public void onPublishQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
+                // 推流质量回调
+                handlePublishQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
             }
 
             @Override

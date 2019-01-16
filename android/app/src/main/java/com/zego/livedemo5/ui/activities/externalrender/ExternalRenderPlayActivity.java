@@ -20,8 +20,8 @@ import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.callback.im.IZegoRoomMessageCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.constants.ZegoIM;
-import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
+import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 
 /**
  * Copyright © 2016 Zego. All rights reserved.
@@ -95,9 +95,9 @@ public class ExternalRenderPlayActivity extends BasePlayActivity {
             }
 
             @Override
-            public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
+            public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
                 // 拉流质量回调
-                handlePlayQualityUpdate(s, zegoPlayStreamQuality.quality, zegoPlayStreamQuality.vdjFps, zegoPlayStreamQuality.vkbps);
+              handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
             }
 
             @Override
