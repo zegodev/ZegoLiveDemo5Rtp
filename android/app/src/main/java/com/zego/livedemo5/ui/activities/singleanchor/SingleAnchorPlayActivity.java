@@ -10,7 +10,6 @@ import android.view.View;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.constants.IntentExtra;
 import com.zego.livedemo5.presenters.RoomInfo;
-import com.zego.livedemo5.presenters.StreamInfo;
 import com.zego.livedemo5.ui.activities.BasePlayActivity;
 import com.zego.livedemo5.ui.widgets.ViewLive;
 import com.zego.zegoliveroom.callback.IZegoLivePlayerCallback;
@@ -19,8 +18,8 @@ import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
-import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoConversationMessage;
+import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUserState;
@@ -81,9 +80,9 @@ public class SingleAnchorPlayActivity extends BasePlayActivity {
             }
 
             @Override
-            public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
+            public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
                 // 拉流质量回调
-              handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
+                handlePlayQualityUpdate(s, zegoPlayStreamQuality.quality, zegoPlayStreamQuality.vdjFps, zegoPlayStreamQuality.vkbps);
             }
 
             @Override

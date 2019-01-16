@@ -23,8 +23,9 @@ import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.AuxData;
 import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
-import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoConversationMessage;
+import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoPublishStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUserState;
@@ -88,10 +89,10 @@ public class MoreAnchorsPlayActivity extends BasePlayActivity {
             public void onJoinLiveRequest(final int seq, String fromUserID, String fromUserName, String roomID) {
             }
 
+
             @Override
-            public void onPublishQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
-                // 推流质量回调
-                handlePublishQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
+            public void onPublishQualityUpdate(String streamID, ZegoPublishStreamQuality streamQuality) {
+                handlePublishQualityUpdate(streamID, streamQuality.quality, streamQuality.vnetFps, streamQuality.vkbps);
             }
 
             @Override
@@ -122,9 +123,9 @@ public class MoreAnchorsPlayActivity extends BasePlayActivity {
             }
 
             @Override
-            public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
+            public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
                 // 拉流质量回调
-               handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
+                handlePlayQualityUpdate(s, zegoPlayStreamQuality.quality, zegoPlayStreamQuality.vdjFps, zegoPlayStreamQuality.vkbps);
             }
 
             @Override
