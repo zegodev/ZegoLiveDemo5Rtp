@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "com.zego.livedemo5"
         minSdkVersion 15
@@ -16,6 +15,12 @@ android {
         ndk {
             //设置支持的SO库架构
             abiFilters 'armeabi-v7a', 'x86'//, 'arm64-v8a', 'armeabi'
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
         }
     }
 
@@ -74,40 +79,41 @@ def getDemoVersionName(){
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile fileTree(include: ['*.jar'], dir: 'bizlibs')
-    compile fileTree(include: ['*.jar'], dir: '3rdlibs')
-    compile fileTree(include: ['*.jar'], dir: 'zegovideofilterlibs')
-    compile 'com.android.support:appcompat-v7:' + rootProject.supportLibVersion
-    compile 'com.android.support:design:' + rootProject.supportLibVersion
-    compile 'com.android.support:cardview-v7:' + rootProject.supportLibVersion
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.tencent.bugly:crashreport:2.2.2'
-    compile 'com.tencent.bugly:nativecrashreport:3.0'
-    compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
-    compile 'com.google.guava:guava:18.0'
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'bizlibs')
+    implementation fileTree(include: ['*.jar'], dir: '3rdlibs')
+    implementation fileTree(include: ['*.jar'], dir: 'zegovideofilterlibs')
+    implementation 'com.android.support:appcompat-v7:' + rootProject.supportLibVersion
+    implementation 'com.android.support:design:' + rootProject.supportLibVersion
+    implementation 'com.android.support:cardview-v7:' + rootProject.supportLibVersion
+    implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.google.android.gms:play-services-appindexing:8.4.0'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.tencent.bugly:crashreport:2.2.2'
+    implementation 'com.tencent.bugly:nativecrashreport:3.0'
+    implementation 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
+    implementation 'com.google.guava:guava:18.0'
+    testImplementation 'junit:junit:4.12'
     // Testing-only dependencies
     // Force usage of support annotations in the test app, since it is internally used by the runner module.
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:' + rootProject.espressoVersion
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:' + rootProject.espressoVersion) {
+    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + rootProject.espressoVersion
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:' + rootProject.espressoVersion) {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
-    compile(name: 'zego-qrcode', ext: 'aar')
-    compile 'com.alibaba:fastjson:1.2.44'
-    androidTestCompile 'com.android.support.test:runner:' + rootProject.runnerVersion
-    androidTestCompile 'com.android.support.test:rules:' + rootProject.rulesVersion
+    implementation(name: 'zego-qrcode', ext: 'aar')
+    implementation(name: 'zego-config-api', ext: 'aar')
+    implementation 'com.alibaba:fastjson:1.2.44'
+    androidTestImplementation 'com.android.support.test:runner:' + rootProject.runnerVersion
+    androidTestImplementation 'com.android.support.test:rules:' + rootProject.rulesVersion
     // Force usage of support annotations in the test app, since it is internally used by the
     // runner module.
-    androidTestCompile 'com.android.support:support-annotations:' + rootProject.supportLibVersion
+    androidTestImplementation 'com.android.support:support-annotations:' + rootProject.supportLibVersion
     // Note that espresso-idling-resource is used in the code under test.
-    compile 'com.android.support.test.espresso:espresso-idling-resource:' + rootProject.espressoVersion
-    compile files('libs/zegoliveroom.jar')
+    implementation 'com.android.support.test.espresso:espresso-idling-resource:' + rootProject.espressoVersion
+    implementation files('libs/zegoliveroom.jar')
 
 }

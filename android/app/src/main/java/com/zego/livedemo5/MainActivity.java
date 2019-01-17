@@ -32,6 +32,7 @@ import com.zego.livedemo5.ui.fragments.PublishFragment;
 import com.zego.livedemo5.ui.fragments.RoomListFragment;
 import com.zego.livedemo5.ui.widgets.NavigationBar;
 import com.zego.livedemo5.utils.PreferenceUtil;
+import com.zego.livedemo5.utils.SystemUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,12 +164,14 @@ public class MainActivity extends AbsBaseActivity implements NavigationBar.Navig
     }
 
     private void checkApkUpdate() {
-        /** 可选配置集成方式 **/
-        new PgyUpdateManager.Builder()
-                .setForced(false)                //设置是否强制更新
-                .setUserCanRetry(false)         //失败后是否提示重新下载
-                .setDeleteHistroyApk(false)     // 检查更新前是否删除本地历史 Apk， 默认为true
-                .register();
+        if (checkOrRequestPermission(1002) && !SystemUtil.isDebugVersion(this)) {
+            /** 可选配置集成方式 **/
+            new PgyUpdateManager.Builder()
+                    .setForced(false)                // 设置是否强制更新
+                    .setUserCanRetry(false)         // 失败后是否提示重新下载
+                    .setDeleteHistroyApk(false)     // 检查更新前是否删除本地历史 Apk， 默认为true
+                    .register();
+        }
     }
 
     @Override

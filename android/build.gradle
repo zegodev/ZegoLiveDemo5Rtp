@@ -3,14 +3,14 @@
 buildscript {
     repositories {
         jcenter()
-        // maven { url "http://192.168.100.229:8081/repository/maven-public/" }
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        google()
         flatDir {
             dirs '3rdlibs'   // aar目录
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-
+        classpath 'com.android.tools.build:gradle:3.1.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -18,12 +18,12 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         flatDir {
             dirs '3rdlibs'   // aar目录
         }
-        maven { url "https://jitpack.io" }
-        // maven { url "http://192.168.100.229:8081/repository/maven-public/" }
+        google()
+        jcenter()
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
 }
 
