@@ -105,7 +105,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
     implementation(name: 'zego-qrcode', ext: 'aar')
-    implementation(name: 'zego-config-api', ext: 'aar')
     implementation 'com.alibaba:fastjson:1.2.44'
     androidTestImplementation 'com.android.support.test:runner:' + rootProject.runnerVersion
     androidTestImplementation 'com.android.support.test:rules:' + rootProject.rulesVersion
