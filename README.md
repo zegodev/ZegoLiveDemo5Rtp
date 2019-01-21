@@ -33,7 +33,7 @@ $ git lfs install
 
 **解决方式**：进入[SDK下载链接](https://storage.zego.im/downloads/ZegoLiveRoom-MediaPlayer-iOS.zip)，下载SDK后将项目中libs/ZegoLiveRoom-all/下的iphoneos、iphone_simulator两个文件夹内的framework替换为下载的SDK即可正常编译运行。
 
-> iOS会在编译前执行脚本拷贝对应版本的SDK到libs根目录，所以项目在第一次编译前Xcode中SDK文件是缺失的，正常编译即可。
+> iOS会在编译前执行脚本拷贝对应版本的SDK到libs根目录，所以项目在第一次编译前Xcode中SDK文件是缺失的，正常编译即可。
 
 > 如果iOS运行报错 `image not found` ，是由于framework未导入到项目。需要打开 Xcode，选择：项目 TARGET -> General -> Embedded Binaries以及Link Binary With Libraries，添加缺失的framework即可。
 
