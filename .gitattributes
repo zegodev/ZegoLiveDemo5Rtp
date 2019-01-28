@@ -1,3 +1,0 @@
-*.framework filter=lfs diff=lfs merge=lfs -text
-ios/libs/ZegoLiveRoom-all/iphoneos/ZegoLiveRoom.framework/ZegoLiveRoom filter=lfs diff=lfs merge=lfs -text
-ios/libs/ZegoLiveRoom-all/iphoneos_simulator/ZegoLiveRoom.framework/ZegoLiveRoom filter=lfs diff=lfs merge=lfs -text

@@ -1,5 +1,6 @@
 ios/LiveDemo3.xcodeproj/xcuserdata/xia.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
-ios/sdk_pkg_info.json
+ios/libs/*.framework
+ios/libs/*.txt
 android/build/
 android/app/build/
 android/.idea/
