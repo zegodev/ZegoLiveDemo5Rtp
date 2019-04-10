@@ -32,7 +32,7 @@ void QZegoUserConfig::LoadConfig(void)
 	m_strUserName = "mac-" + m_strUserId;
 #endif
 	m_bPrimary = true;
-	m_isUseTestEnv = false;
+	m_isUseTestEnv = true;
 
 	m_isVerticalCapture = false;
 
