@@ -24,7 +24,6 @@ namespace ZEGO
         ZEGO_API void UploadLog();
         ZEGO_API void SetVerbose(bool bVerbose);
         ZEGO_API void SetUseTestEnv(bool bTestEnv);
-        ZEGO_API void SetUseAlphaEnv(bool bAlpha);
         ZEGO_API void SetPlatformInfo(const char* pszInfo);
 
         /**
@@ -116,7 +115,7 @@ namespace ZEGO
          登录房间
 
          @param pszRoomID 房间 ID
-         @param role 成员角色
+         @param role 成员角色, 参见 ZegoRoomRole
          @param pszRoomName 房间名称
          @return true 成功，false 失败
          */

@@ -157,7 +157,7 @@ namespace AVE {
     };
     
     struct VideoCodecConfig {
-        VideoCodecConfig() : width(0), height(0), codec_type(CODEC_TYPE_AVC_AVCC), media_side_info(0), media_side_info_size(0) {
+        VideoCodecConfig() : width(0), height(0), codec_type(CODEC_TYPE_AVC_AVCC), media_side_info(0), media_side_info_size(0), is_external_clock(false) {
         }
         
         int width;
@@ -165,6 +165,8 @@ namespace AVE {
         VideoCodecType codec_type;
         const char* media_side_info;
         int media_side_info_size;
+
+        bool is_external_clock;
     };
     
     class VideoCaptureEncodedFrameCallback {

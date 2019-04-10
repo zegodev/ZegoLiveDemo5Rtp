@@ -83,9 +83,9 @@ namespace AVE
 		int nSampleRate;        //pcm capture or encode sample rate, if 0 use sdk inner sample rate..
         int nChannel;           //pcm capture or encode channels. if 0 use sdk inner channels.
 		int nSamples;           /*
-                                 bEncode == false, if nSamples == 0. use sdk inner samples, push 20ms audio data to external prep module once.
+                                 bEncode == false, if nSamples == 0. use sdk inner samples, push 10ms audio data to external prep module once.
 								                   else push nSamples(nSamples >= 160 AND nSamples <= 2048) audio data to external prep module once,
-												   some audio processing algorithm may need length not 20ms.
+												   some audio processing algorithm may need length not 10ms.
 														
                                  bEncode == true, AAC encode one frame need samples(480/512/1024/1960/2048).
                                 */

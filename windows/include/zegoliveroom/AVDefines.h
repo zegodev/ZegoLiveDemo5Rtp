@@ -26,7 +26,6 @@ namespace ZEGO
             @param bit_depth 位深度，16 bit
             @param type 音频类型，参考 ZegoAVAPIAudioRecordMask
             @attention 开启音频录制并设置成功代理对象后，用户调用此 API 获取 SDK 录制的音频数据。用户可自行对数据进行处理，例如：存储等
-            @note SDK 发送音频数据的周期为 20ms
             @note 存储数据时注意取 sampleRate、numOfChannels、bitDepth 参数写包头信息
             */
             virtual void OnAudioRecordCallback(const unsigned char *pData, int data_len, int sample_rate, int num_channels, int bit_depth, unsigned int type) {}
@@ -88,6 +87,11 @@ namespace ZEGO
 
             @param deviceName 设备名称
             @param errorCode 错误码
+            
+            @discussion 返回值存在以下几种取值
+             "camera", -1/-3
+             "hw_encoder", -1
+             "sw_encoder", -1
             */
             virtual void OnDeviceError(const char* deviceName, int errorCode) {}
         };

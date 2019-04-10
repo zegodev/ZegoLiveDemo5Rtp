@@ -28,6 +28,9 @@
 #include <QStandardItemModel>
 //虚拟立体声和混响接口
 #include "zego-api-audio-processing.h"
+#include <config_api_helper.h>
+#include <room_info.hpp>
+#include <app_type.hpp>
 
 typedef enum _LiveMode
 {
@@ -88,6 +91,10 @@ private slots:
 	void on_m_switchVerticalCapture_clicked();
 	void on_m_bUploadLog_clicked();
 
+private slots:
+	void onUpdateRoomList(const std::vector<zego::RoomInfo> & room_list);
+	void onUpdateRoomListError();
+
 protected:
 	virtual bool eventFilter(QObject *target, QEvent *event);
 
@@ -97,6 +104,7 @@ private:
 	void PullRoomList();
 	void ParseRoomList(QByteArray json);
 	void RefreshRoomList(QVector<RoomPtr> roomList);
+	void ParseAndRefreshRoomList(const std::vector<zego::RoomInfo> & room_list);
 	void addModeButtonGroup();
 	void addQualityButtonGroup();
 	void initComboBox();
@@ -152,7 +160,7 @@ private:
 	QListView *m_cbCameraListView2;
 	//实现自定义标题栏的拖动
 	FramelessHelper *m_pHelper = nullptr;
-
+	
 	//当前视频质量是否自定义
 	bool isVideoCustom;
 	//检查当前slider是否pressed

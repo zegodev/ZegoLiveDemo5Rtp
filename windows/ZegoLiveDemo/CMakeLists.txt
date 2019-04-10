@@ -15,14 +15,8 @@ if(WINDOWS_PLATFORM STREQUAL "x86")
 elseif(WINDOWS_PLATFORM STREQUAL "x64")
     SET(CMAKE_PREFIX_PATH $ENV{QT_DIR_x64})
 elseif(WINDOWS_PLATFORM STREQUAL "x86_xp")
-	SET(CMAKE_PREFIX_PATH $ENV{QT_DIR_XP})
+	SET(CMAKE_PREFIX_PATH $ENV{QT_DIR})
 	SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS,5.01")
-endif()
-
-if(WINDOWS_PLATFORM STREQUAL "x64")
-	SET(ARCH_TYPE "x64")
-else()
-	SET(ARCH_TYPE "x86")
 endif()
 
 #添加qt库
@@ -60,14 +54,14 @@ if(WIN32)
     list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/OSX_Objective-C/ZegoCGImageToQImage.mm)
     list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/OSX_Objective-C/ZegoViewZoom.h)
     list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/OSX_Objective-C/ZegoViewZoom.mm)
-    if(NOT WINDOWS_PLATFORM STREQUAL "x86")
+    #if(NOT WINDOWS_PLATFORM STREQUAL "x86")
         list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/AudioHookDialog/ZegoMusicHookDialog.h)
         list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/AudioHookDialog/ZegoMusicHookDialog.cpp)
         list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/SoftWareInfo/ZegoSoftWareInfo.h)
         list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/SoftWareInfo/ZegoSoftWareInfo.cpp)
         list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/Module/ZegoSurfaceMergeApi.h)
         list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/Module/ZegoSurfaceMergeApi.cpp)
-    endif()
+    #endif()
 elseif(APPLE)
 	list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/SoftWareInfo/ZegoSoftWareInfo.h)
     list(REMOVE_ITEM All_SOURCES ${CMAKE_CURRENT_LIST_DIR}/SoftWareInfo/ZegoSoftWareInfo.cpp)
@@ -83,14 +77,15 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 if(WIN32)
     include_directories(${CMAKE_CURRENT_LIST_DIR}/../include/zegoliveroom
+    					${CMAKE_CURRENT_LIST_DIR}/../thirdLibs/zegoautoconfig/include
                         ${CMAKE_CURRENT_LIST_DIR}
                         ${CMAKE_CURRENT_LIST_DIR}/UI)
 
-    if(WINDOWS_PLATFORM STREQUAL "x86")
-        include_directories(${CMAKE_CURRENT_LIST_DIR}/../include/zegosurfacemerge
-                            ${CMAKE_CURRENT_LIST_DIR}/../include/zegoaudiohook
-                            ${CMAKE_CURRENT_LIST_DIR}/AudioHookDialog)
-    endif(WINDOWS_PLATFORM STREQUAL "x86")
+    #if(WINDOWS_PLATFORM STREQUAL "x86")
+        #include_directories(${CMAKE_CURRENT_LIST_DIR}/../include/zegosurfacemerge
+                            #${CMAKE_CURRENT_LIST_DIR}/../include/zegoaudiohook
+                            #${CMAKE_CURRENT_LIST_DIR}/AudioHookDialog)
+    #endif(WINDOWS_PLATFORM STREQUAL "x86")
 
 elseif(APPLE)
     include_directories(${CMAKE_CURRENT_LIST_DIR}
@@ -111,20 +106,29 @@ if(WIN32)
     set(WATERPRINTS_PATH ${CMAKE_CURRENT_LIST_DIR}/Resources/images/waterprint)
     set(PCM_FILE_PATH ${CMAKE_CURRENT_LIST_DIR}/Resources/a.pcm)
     set(OPENSSL_PATH ${CMAKE_CURRENT_LIST_DIR}/openssl)
+    #set(AUTO_CONFIG_PATH ${CMAKE_CURRENT_LIST_DIR}/../../../../../demo-auto-config-client/__builds__/_builds/vs-15-2017/$(Configuration))
+    #set(AUTO_HEADER_PATH ${CMAKE_CURRENT_LIST_DIR}/../../../../../demo-auto-config-client/src/windows/config_api.helper.h)
 
-    if(WINDOWS_PLATFORM STREQUAL "x86")
-    	set(LINK_LIBRARY zegoliveroom.lib ZegoSurfaceMerge.lib ZegoAudioHook.lib)
-        set(ZEGOSURFACEMERGE_PATH ${CMAKE_CURRENT_LIST_DIR}/../libs/windows/x86/$(Configuration)/ZegoSurfaceMerge.dll)
-        set(ZEGOAUDIOHOOK_PATH ${CMAKE_CURRENT_LIST_DIR}/../libs/windows/x86/$(Configuration)/ZegoAudioHook.dll)
-        set(MUSICHOOK_PATH ${CMAKE_CURRENT_LIST_DIR}/MusicHook)
-    else()
-    	set(LINK_LIBRARY zegoliveroom.lib)
-    endif()
+    #if(WINDOWS_PLATFORM STREQUAL "x86")
+    	#set(LINK_LIBRARY zegoliveroom.lib ZegoSurfaceMerge.lib ZegoAudioHook.lib)
+        #set(ZEGOSURFACEMERGE_PATH ${CMAKE_CURRENT_LIST_DIR}/../libs/windows/x86/$(Configuration)/ZegoSurfaceMerge.dll)
+        #set(ZEGOAUDIOHOOK_PATH ${CMAKE_CURRENT_LIST_DIR}/../libs/windows/x86/$(Configuration)/ZegoAudioHook.dll)
+        #set(MUSICHOOK_PATH ${CMAKE_CURRENT_LIST_DIR}/MusicHook)
+    #else()
+    	set(LINK_LIBRARY zegoliveroom.lib zego_app_config.lib)
+    #endif()
 
 	set(ZEGOLIVEROOM_PATH ${CMAKE_CURRENT_LIST_DIR}/../libs/windows/${WINDOWS_PLATFORM}/$(Configuration)/zegoliveroom.dll)
-    set(MSVC_PATH ${CMAKE_CURRENT_LIST_DIR}/msvc/${ARCH_TYPE})
+    set(ZEGOAUTOCONFIG_PATH ${CMAKE_CURRENT_LIST_DIR}/../thirdLibs/zegoautoconfig/libs/${WINDOWS_PLATFORM}/$(Configuration)/zego_app_config.dll)
+
+    set(MSVC_PATH ${CMAKE_CURRENT_LIST_DIR}/msvc/${WINDOWS_PLATFORM})
     add_definitions(-DUNICODE -D_UNICODE -D_SCL_SECURE_NO_WARNINGS -DWIN32 -DV_LOG -DCURL_STATICLIB)
-    link_directories(${CMAKE_CURRENT_LIST_DIR}/../libs/windows/${WINDOWS_PLATFORM})
+    link_directories(${CMAKE_CURRENT_LIST_DIR}/../libs/windows/${WINDOWS_PLATFORM}
+    				${CMAKE_CURRENT_LIST_DIR}/../thirdLibs/zegoautoconfig/libs/${WINDOWS_PLATFORM})
+
+    
+    add_definitions(-DBUILD_FOR_XP)
+    
 
 elseif(APPLE)
     SET(BUILD_WITH_INSTALL_RPATH TRUE)
@@ -146,7 +150,15 @@ add_executable(${NAME} ${exe_property} ${All_SOURCES} ${ZegoLiveDemo_RC} ${FORMS
 if(WIN32)
     #add_custom_command(TARGET ZegoLiveDemo PRE_BUILD COMMAND python ${SCRIPT_PATH}/setup-newest-zegoliveroom.py --config $(Configuration) --platform ${WINDOWS_PLATFORM})
 
+    #add_custom_command(TARGET ZegoLiveDemo PRE_BUILD COMMAND if exist ${AUTO_CONFIG_PATH} cmake -E copy ${AUTO_CONFIG_PATH}/zego_app_config.dll ${CMAKE_CURRENT_LIST_DIR}/../libs/windows/${WINDOWS_PLATFORM}/$(Configuration)/zego_app_config.dll)
+
+    #add_custom_command(TARGET ZegoLiveDemo PRE_BUILD COMMAND if exist ${AUTO_CONFIG_PATH} cmake -E copy ${AUTO_CONFIG_PATH}/zego_app_config.lib ${CMAKE_CURRENT_LIST_DIR}/../libs/windows/${WINDOWS_PLATFORM}/$(Configuration)/zego_app_config.lib)
+
+    #add_custom_command(TARGET ZegoLiveDemo PRE_BUILD COMMAND if exist ${AUTO_HEADER_PATH} cmake -E copy ${AUTO_HEADER_PATH} ${CMAKE_CURRENT_LIST_DIR}/../include/zegoautoconfig/config_api_helper.h)
+
     add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${ZEGOLIVEROOM_PATH} cmake -E copy ${ZEGOLIVEROOM_PATH} ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration))
+
+    add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${ZEGOAUTOCONFIG_PATH} cmake -E copy ${ZEGOAUTOCONFIG_PATH} ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration))
 
     add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${OPENSSL_PATH}/${WINDOWS_PLATFORM}/libeay32.dll cmake -E copy ${OPENSSL_PATH}/${WINDOWS_PLATFORM}/libeay32.dll ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration))
 
@@ -164,15 +176,15 @@ if(WIN32)
 
     add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${PCM_FILE_PATH} cmake -E copy ${PCM_FILE_PATH} ${CMAKE_CURRENT_BINARY_DIR}/Resources/a.pcm)
 
-    if(WINDOWS_PLATFORM STREQUAL "x86")
-        add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${ZEGOSURFACEMERGE_PATH} cmake -E copy ${ZEGOSURFACEMERGE_PATH} ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration))
+    #if(WINDOWS_PLATFORM STREQUAL "x86")
+        #add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${ZEGOSURFACEMERGE_PATH} cmake -E copy ${ZEGOSURFACEMERGE_PATH} ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration))
 
-        add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${ZEGOAUDIOHOOK_PATH} cmake -E copy ${ZEGOAUDIOHOOK_PATH} ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration))
+        #add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${ZEGOAUDIOHOOK_PATH} cmake -E copy ${ZEGOAUDIOHOOK_PATH} ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration))
 
-        add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${MUSICHOOK_PATH} cmake -E copy_directory ${MUSICHOOK_PATH} ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration)/MusicHook)
+        #add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${MUSICHOOK_PATH} cmake -E copy_directory ${MUSICHOOK_PATH} ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration)/MusicHook)
 
-        add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${MUSICHOOK_PATH} cmake -E copy_directory ${MUSICHOOK_PATH} ${CMAKE_CURRENT_BINARY_DIR}/MusicHook)
-    endif()    
+        #add_custom_command(TARGET ZegoLiveDemo POST_BUILD COMMAND if exist ${MUSICHOOK_PATH} cmake -E copy_directory ${MUSICHOOK_PATH} ${CMAKE_CURRENT_BINARY_DIR}/MusicHook)
+    #endif()    
 
 elseif(APPLE)
     set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/Resources/ZegoLiveDemo.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)

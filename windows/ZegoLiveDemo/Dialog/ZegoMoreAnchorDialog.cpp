@@ -251,7 +251,7 @@ void ZegoMoreAnchorDialog::GetOut()
 //SDK回调
 void ZegoMoreAnchorDialog::OnLoginRoom(int errorCode, const QString& strRoomID, QVector<StreamPtr> vStreamList)
 {
-	qDebug() << "Login Room!";
+	qDebug() << "Login Room!" << " streamID: "<<strRoomID;
 	if (errorCode != 0)
 	{
 		QMessageBox::information(NULL, tr("提示"), tr("登陆房间失败,错误码: %1").arg(errorCode));

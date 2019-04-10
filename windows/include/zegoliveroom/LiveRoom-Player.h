@@ -104,6 +104,14 @@ namespace ZEGO
          */
         ZEGO_API bool RequireHardwareDecoder(bool bRequired);
         
+        
+        /**
+            获取audio route type
+         
+         @return audio route type
+         */
+        ZEGO_API int GetAudioRouteType();
+        
         /**
          （声音输出）静音开关
 
@@ -119,6 +127,7 @@ namespace ZEGO
          @param bOn true 打开，false 关闭。默认 true
          @return true 成功，false 失败
          @attention 设置为关闭后，扬声器无声音，耳机仍有声音输出
+         @attention 在推流之前设置,且当前的 SetAudioDeviceMoce 设置为 ZEGO_AUDIO_DEVICE_MODE_COMMUNICATION 时有效
          */
         ZEGO_API bool setBuiltInSpeakerOn(bool bOn);
         

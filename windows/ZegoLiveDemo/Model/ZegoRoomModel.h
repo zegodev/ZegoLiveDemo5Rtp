@@ -10,7 +10,7 @@ class QZegoRoomModel
 {
 public :
 	QZegoRoomModel() { m_strRoomId = nullptr; m_strRoomName = nullptr; }
-	QZegoRoomModel(QString &roomId, QString &roomName, QString &anchorId, QString &anchorName);
+	QZegoRoomModel(QString roomId, QString roomName, QString anchorId, QString anchorName, int streamCount);
 	~QZegoRoomModel();
 
 public :

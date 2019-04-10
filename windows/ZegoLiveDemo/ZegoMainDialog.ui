@@ -1258,7 +1258,7 @@ QTabBar::tab:selected{
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="m_tabVideoConfig">
              <property name="styleSheet">
@@ -2146,7 +2146,7 @@ border: none;</string>
                        </size>
                       </property>
                       <property name="maximum">
-                       <number>22</number>
+                       <number>39</number>
                       </property>
                       <property name="pageStep">
                        <number>1</number>

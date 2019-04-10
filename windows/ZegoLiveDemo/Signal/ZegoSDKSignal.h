@@ -11,6 +11,9 @@
 #include "LiveRoomCallback-Player.h"
 #include "LiveRoomCallback-Publisher.h"
 
+#include <room_list_update_listener.hpp>
+#include <room_info.hpp>
+
 #ifdef USE_EXTERNAL_SDK
 #include "ZegoSurfaceMergeCallback.h"
 #include "ZegoSurfaceMergeDefine.h"
@@ -33,7 +36,8 @@ class QZegoAVSignal : public QObject,
 #endif
 	public AV::IZegoDeviceStateCallback,
 	public SOUNDLEVEL::IZegoSoundLevelCallback,
-	public MIXSTREAM::IZegoMixStreamExCallback
+	public MIXSTREAM::IZegoMixStreamExCallback,
+	public zego::RoomListUpdateListener
 {
 	Q_OBJECT
 
@@ -71,6 +75,10 @@ signals:
 	
 	void sigCaptureSoundLevelUpdate(float soundlevel);
 	
+
+	void sigUpdateRoomList(const std::vector<zego::RoomInfo> & room_list);
+	void sigUpdateRoomListError();
+
 protected:
 	void OnInitSDK(int nError);
 	void OnLoginRoom(int errorCode, const char *pszRoomID, const LIVEROOM::ZegoStreamInfo *pStreamInfo, unsigned int streamCount);
@@ -98,7 +106,7 @@ protected:
 	void OnVideoSizeChanged(const char* pStreamID, int nWidth, int nHeight) {};
 	void OnEndJoinLive(int result, int seq, const char *pszRoomID){};
 	void OnRecvEndJoinLiveCommand(const char *pszFromUserId, const char *pszFromUserName, const char* pszRoomID);
-	void OnUserUpdate(const LIVEROOM::ZegoUserInfo *pUserInfo, unsigned int userCount, LIVEROOM::ZegoUserUpdateType type);
+	void OnUserUpdate(const LIVEROOM::ZegoUserInfo *pUserInfo, unsigned int userCount, LIVEROOM::ZegoUserUpdateType type) override;
 	void OnSendRoomMessage(int errorCode, const char *pszRoomID, int sendSeq, unsigned long long messageId);
 	void OnCreateConversation(int errorCode, const char *pszRoomID, int sendSeq, const char *pszConversationID) {};
 	void OnGetConversationInfo(int errorCode, const char *pszRoomID, const char *pszConverID, ROOM::ZegoConverInfo *pConverInfo, ROOM::ZegoUser *pMemberList, unsigned int memberCount) {};
@@ -118,6 +126,11 @@ protected:
 
 	//IZegoMixStreamExCallback
 	void OnMixStreamEx(const AV::ZegoMixStreamResultEx& result, const char* pszMixStreamID, int seq) override;
+
+
+	//Auto Config
+	virtual void on_update_room_list(const std::vector<zego::RoomInfo> & room_list) override;
+	virtual void on_update_room_list_error() override;
 
 #ifdef USE_EXTERNAL_SDK
 	void OnSurfaceMergeResult(

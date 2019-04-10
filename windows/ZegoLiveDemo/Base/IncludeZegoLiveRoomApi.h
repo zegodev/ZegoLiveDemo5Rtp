@@ -39,7 +39,7 @@ namespace ZEGO
 #endif
 */
 
-#define BUILD_FOR_XP
+
 #if defined(Q_PROCESSOR_X86_32) && !defined(BUILD_FOR_XP)
 #define USE_EXTERNAL_SDK
 #endif

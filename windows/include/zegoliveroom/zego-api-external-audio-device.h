@@ -1,5 +1,5 @@
 //
-//  zego-api-external-audio-capture.h
+//  zego-api-external-audio-device.h
 //  zegoavkit
 //
 //  Copyright © 2018年 Zego. All rights reserved.
@@ -7,6 +7,8 @@
 
 #ifndef zego_api_external_audio_device_h
 #define zego_api_external_audio_device_h
+
+#include <zego-api-defines.h>
 
 #include "audio_in_output.h"
 #include "zego-api-audio-frame.h"

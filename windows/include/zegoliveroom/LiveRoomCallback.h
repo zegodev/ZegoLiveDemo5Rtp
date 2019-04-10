@@ -127,6 +127,11 @@ namespace ZEGO
         {
         public:
             /**
+             音视频引擎启动时回调
+             */
+            virtual void OnAVEngineStart() = 0;
+            
+            /**
              音视频引擎停止时回调
              */
             virtual void OnAVEngineStop() = 0;

@@ -1,4 +1,4 @@
-﻿//
+//
 //  zego-api-mix-stream-defines.h
 //
 //  Copyright © 2018年 Zego. All rights reserved.
@@ -122,6 +122,8 @@ namespace MIXSTREAM
         
         ZegoMixStreamWatermark *pOutputWatermark;   /**< 混流水印 */
         
+        bool bSingleStreamPassThrough;              /**< 混流输入为一条流时，混流输出的属性与单流一致(分辨率，编码格式等)，若需要开启此功能，请于即构技术支持联系 */
+        
         ZegoMixStreamConfig ()
         : nOutputFps(0)
         , nOutputRateControlMode(0)
@@ -143,6 +145,7 @@ namespace MIXSTREAM
         , bWithSoundLevel(false)
         , nExtra(0)
         , pOutputWatermark(0)
+        , bSingleStreamPassThrough(false)
         {
             
         }

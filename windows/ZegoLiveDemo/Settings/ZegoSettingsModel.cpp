@@ -1,7 +1,8 @@
 ﻿#include "ZegoSettingsModel.h"
-
+#include <QDebug>
 //默认的索引组合类型（视频质量的组合）
-static IndexSet g_PrimaryDefConf[] = { { 8, 17, 3 }, { 5, 15, 3 }, { 4, 11, 3 }, { 2, 6, 3 }, { 1, 5, 3 }, { 0, 0, 3 } };
+//static IndexSet g_PrimaryDefConf[] = { { 8, 17, 3 }, { 5, 15, 3 }, { 4, 11, 3 }, { 2, 6, 3 }, { 1, 5, 3 }, { 0, 0, 3 } };
+static IndexSet g_PrimaryDefConf[] = { { 8, 37, 3 },{ 5, 36, 3 },{ 4, 34, 3 },{ 2, 28, 3 },{ 1, 25, 3 },{ 0, 0, 3 } };
 
 QZegoSettingsModel::QZegoSettingsModel()
 {
@@ -104,9 +105,13 @@ QString QZegoSettingsModel::GetMircophoneId(void)
 //通过索引初始化
 void QZegoSettingsModel::InitByIndex(void)
 {
+	qDebug() << "resolution index: " << m_index.indexResolution << " bitrate index: " << m_index.indexBitrate << " fps index: " << m_index.indexFps;
+
 	m_sizeResolution = g_Resolution[m_index.indexResolution];
 	m_nBitrate = g_Bitrate[m_index.indexBitrate];
 	m_nFps = g_Fps[m_index.indexFps];
+
+	qDebug() <<  " bitrate: " << m_nBitrate;
 }
 
 void QZegoSettingsModel::InitDeviceId(void)

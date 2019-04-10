@@ -72,11 +72,12 @@ namespace ZEGO
          @param storagePath 录制文件存储路径
          @param enableStatusCallback 是否开启录制状态回调，true: 表示会以指定的 interval 间隔回调 {@link IZegoMediaRecordCallback#OnRecordStatusUpdate}。false: 表示不回调
          @param interval 录制信息更新频率，单位毫秒，有效范围：1000-10000，默认值3000
+         @param isFragment 录制文件是否分片，MP4格式才有效
          @param return true 调用成功，false 调用失败
          @discussion 必须在init sdk之后调用
          @discussion 要监听录制文件的状态，需要实现{@link IZegoMediaRecordCallback::OnRecordStatusUpdate}。
          */
-        ZEGOAVKIT_API bool StartRecord(ZegoMediaRecordChannelIndex channelIndex, ZegoMediaRecordType recordType, const char* storagePath, const bool enableStatusCallback = false, const int interval = 3000, ZegoMediaRecordFormat recordFormat = ZegoMediaRecordFormat::ZEGO_MEDIA_RECORD_FLV);
+        ZEGOAVKIT_API bool StartRecord(ZegoMediaRecordChannelIndex channelIndex, ZegoMediaRecordType recordType, const char* storagePath, const bool enableStatusCallback = false, const int interval = 3000, ZegoMediaRecordFormat recordFormat = ZegoMediaRecordFormat::ZEGO_MEDIA_RECORD_FLV, bool isFragment = false);
         
         /**
          停止录制

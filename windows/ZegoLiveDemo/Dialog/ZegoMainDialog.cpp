@@ -42,6 +42,9 @@ ZegoMainDialog::ZegoMainDialog(QWidget *parent) : QDialog(parent)
 	connect(ui.m_strEdAPPID, &QLineEdit::editingFinished, this, &ZegoMainDialog::OnSaveAppIdChanged);
 	connect(ui.m_strEdAPPSign, &QLineEdit::editingFinished, this, &ZegoMainDialog::OnSaveAppSignChanged);
 
+	connect(GetAVSignal(), &QZegoAVSignal::sigUpdateRoomList, this, &ZegoMainDialog::onUpdateRoomList);
+	connect(GetAVSignal(), &QZegoAVSignal::sigUpdateRoomListError, this, &ZegoMainDialog::onUpdateRoomListError);
+
 	//InitSDK成功回调
 	connect(GetAVSignal(), &QZegoAVSignal::sigInitSDK, this, &ZegoMainDialog::OnInitSDK);
 	
@@ -66,6 +69,9 @@ ZegoMainDialog::ZegoMainDialog(QWidget *parent) : QDialog(parent)
 	ui.m_strEdAPPID->installEventFilter(this);
 	ui.m_strEdAPPSign->installEventFilter(this);
 	this->installEventFilter(this);
+
+	//zego::ConfigApiHelper::sharedInstance()->api->create();
+	zego::ConfigApiHelper::sharedInstance()->api->set_auto_config_params(zego::AppType::LIVE_DEMO5, "");
 }
 
 ZegoMainDialog::~ZegoMainDialog()
@@ -225,7 +231,7 @@ void ZegoMainDialog::initDialog()
 	//sdk版本号
 	ui.m_lbTitleVersion->setText(tr("版本: %1").arg(QString(QLatin1String(LIVEROOM::GetSDKVersion()))));
 	//pull房间列表
-	PullRoomList();
+	//PullRoomList();
 
 	m_initedDialog = true;
 }
@@ -312,7 +318,7 @@ void ZegoMainDialog::setDefalutVideoQuality(SettingsPtr curSettings)
 
 	int defBitrate = curSettings->GetBitrate();
 
-	for (int i = 0; i < sizeof(g_Bitrate) / sizeof(g_Bitrate[0]); ++i)
+	/*for (int i = 0; i < sizeof(g_Bitrate) / sizeof(g_Bitrate[0]); ++i)
 	{
 		QString strBitrate;
 		int m = g_Bitrate[i] / (1000 * 1000);
@@ -322,6 +328,17 @@ void ZegoMainDialog::setDefalutVideoQuality(SettingsPtr curSettings)
 		if (defBitrate == g_Bitrate[i])
 		{
 			ui.m_sliderBitrate->setValue(g_Bitrate_length - i);
+			ui.m_lbValueBitrate->setText(strBitrate);
+		}
+	}*/
+	for (int i = 40; i >= 1; i--) {
+		QString strBitrate;
+		int m = i * 100 * 1000;
+		strBitrate = QString("%1k").arg(m / 1000);
+		m_vecBitrate.push_back(strBitrate);
+
+		if (defBitrate == m) {
+			ui.m_sliderBitrate->setValue(i - 1);
 			ui.m_lbValueBitrate->setText(strBitrate);
 		}
 	}
@@ -367,17 +384,17 @@ void ZegoMainDialog::PullRoomList()
 		ui.m_cbAppVersion->setEnabled(true);
 		return;
 	}
-	unsigned long strAppID;
+	long long strAppID;
 	if (m_versionMode == Version::ZEGO_PROTOCOL_CUSTOM)
 	{
-		strAppID = ui.m_strEdAPPID->text().toULong();
+		strAppID = ui.m_strEdAPPID->text().toLongLong();
 	}
 	else
 	{
 		strAppID = mBase.GetAppID();
 	}
 
-	QString cstrBaseUrl;
+	/*QString cstrBaseUrl;
 	if (!m_isUseTestEnv) //非测试环境
 	    cstrBaseUrl.sprintf(("https://liveroom%u-api.zego.im/demo/roomlist?appid=%u"), strAppID, strAppID);
 	else                 //测试环境
@@ -392,6 +409,8 @@ void ZegoMainDialog::PullRoomList()
 	//建立信号槽，当请求服务器完毕之后，保存房间列表的JSON数据
 	connect(m_networkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(writeJsonData(QNetworkReply *)));
 	m_networkManager->get(*m_networkRequest);
+	*/
+	zego::ConfigApiHelper::sharedInstance()->api->update_room_list(strAppID);
 }
 
 void ZegoMainDialog::writeJsonData(QNetworkReply *reply)
@@ -414,7 +433,8 @@ void ZegoMainDialog::writeJsonData(QNetworkReply *reply)
 	}
 
 	//解析房间列表
-	ParseRoomList(json);
+	//ParseRoomList(json);
+
 }
 
 void ZegoMainDialog::ParseRoomList(QByteArray json)
@@ -464,7 +484,7 @@ void ZegoMainDialog::ParseRoomList(QByteArray json)
 		nAnchorSize = streamInfo.size();
 		//僵尸房间不加载
 		if (nAnchorSize != 0){
-			RoomPtr pRoom(new QZegoRoomModel(strRoomID, strRoomName, strAnchorID, strAnchorName));
+			RoomPtr pRoom(new QZegoRoomModel(strRoomID, strRoomName, strAnchorID, strAnchorName, nAnchorSize));
 			pRoom->setLivesCount(nAnchorSize);
 
 			vRoomList.push_back(pRoom);
@@ -524,6 +544,68 @@ void ZegoMainDialog::RefreshRoomList(QVector<RoomPtr> roomList)
 		QModelIndex indexTmp = m_roomListModel->index(index, 3, QModelIndex());
 		ui.m_roomList->setIndexWidget(indexTmp, pBtn);
 		
+	}
+	//停止转菊花
+	ui.m_progIndicator->stopAnimation();
+	//恢复app版本按钮
+	ui.m_cbAppVersion->setEnabled(true);
+}
+
+void ZegoMainDialog::ParseAndRefreshRoomList(const std::vector<zego::RoomInfo> & room_list) {
+
+
+	QVector<RoomPtr> vRoomList;
+	for (int i = 0; i < room_list.size(); i++) {
+		RoomPtr ptr(new QZegoRoomModel( QString::fromStdString(room_list.at(i).room_id), QString::fromStdString(room_list.at(i).room_name), QString::fromStdString(room_list.at(i).anchor_id_name), QString::fromStdString(room_list.at(i).anchor_nick_name), room_list.at(i).stream_info.size()));
+		vRoomList.push_back(ptr);
+	}
+
+	m_roomList.clear();
+	m_roomList = vRoomList;
+
+	for (size_t index = 0; index < m_roomList.size(); index++)
+	{
+		//第一列：房间名
+		QString strRoomName;
+		strRoomName = m_roomList[index]->getRoomName();
+		if (strRoomName.size() == 0)
+			strRoomName = m_roomList[index]->getRoomId();
+
+		m_roomListModel->setItem(index, 0, new QStandardItem(strRoomName));
+
+		//第二列：直播模式
+		QString strLiveMode;
+		strLiveMode = m_roomList[index]->getRoomId().mid(0, 3);
+		if (strLiveMode == "#d-")
+			m_roomListModel->setItem(index, 1, new QStandardItem(tr("单主播模式")));
+		else if (strLiveMode == "#m-")
+			m_roomListModel->setItem(index, 1, new QStandardItem(tr("连麦模式")));
+		else if (strLiveMode == "#s-")
+			m_roomListModel->setItem(index, 1, new QStandardItem(tr("混流模式")));
+		else if (strLiveMode == "#g-")
+			m_roomListModel->setItem(index, 1, new QStandardItem(tr("游戏模式")));
+		else if (strLiveMode == "#i-")
+			m_roomListModel->setItem(index, 1, new QStandardItem(tr("狼人杀模式")));
+		else
+			m_roomListModel->setItem(index, 1, new QStandardItem(tr("-")));
+
+		//第三列：连麦人数
+		QString strDetail("-");
+		unsigned int uLivesCount = m_roomList[index]->getLivesCount();
+
+		if (uLivesCount != 0)
+			strDetail = QString(tr("%1人正在连麦")).arg(m_roomList[index]->getLivesCount());
+
+		m_roomListModel->setItem(index, 2, new QStandardItem(strDetail));
+
+		//第四列：进入按钮
+		ZegoEnterRoomButton *pBtn = new ZegoEnterRoomButton();
+		pBtn->initButton();
+		ui.m_roomList->resizeRowsToContents();
+		connect(pBtn, &QPushButton::clicked, this, &ZegoMainDialog::OnButtonEnterRoom);
+		QModelIndex indexTmp = m_roomListModel->index(index, 3, QModelIndex());
+		ui.m_roomList->setIndexWidget(indexTmp, pBtn);
+
 	}
 	//停止转菊花
 	ui.m_progIndicator->stopAnimation();
@@ -690,6 +772,7 @@ void ZegoMainDialog::OnInitSDK(int nError)
 	if (nError == 0)
 	{
 		qDebug() << "InitSDK Succeeded";
+		PullRoomList();
 	}
 	else
 	{
@@ -792,7 +875,7 @@ void ZegoMainDialog::OnSliderValueChange(int value)
 	{
 		slider->setValue(value);
 		ui.m_lbValueBitrate->setText(m_vecBitrate[g_Bitrate_length - value]);
-		curSettings->SetBitrate(g_Bitrate[g_Bitrate_length - value]);
+		curSettings->SetBitrate((value + 1) * 100 * 1000);
 	}
 	else if (slider == ui.m_sliderFPS)
 	{
@@ -849,7 +932,7 @@ void ZegoMainDialog::OnButtonSliderValueChange()
 		if (curValue >= 0){
 			ui.m_sliderBitrate->setValue(curValue);
 			ui.m_lbValueBitrate->setText(m_vecBitrate[g_Bitrate_length - curValue]);
-			curSettings->SetBitrate(g_Bitrate[g_Bitrate_length - curValue]);
+			curSettings->SetBitrate((curValue + 1) * 100 * 1000);
 
 			mConfig.SetVideoSettings(curSettings);
 			mConfig.SaveConfig();
@@ -861,7 +944,7 @@ void ZegoMainDialog::OnButtonSliderValueChange()
 		if (curValue <= g_Bitrate_length){
 			ui.m_sliderBitrate->setValue(curValue);
 			ui.m_lbValueBitrate->setText(m_vecBitrate[g_Bitrate_length - curValue]);
-			curSettings->SetBitrate(g_Bitrate[g_Bitrate_length - curValue]);
+			curSettings->SetBitrate((curValue + 1) * 100 * 1000);
 
 			mConfig.SetVideoSettings(curSettings);
 			mConfig.SaveConfig();
@@ -1015,7 +1098,7 @@ void ZegoMainDialog::on_m_bCreateRoom_clicked()
 		ui.m_edRoomName->setText("");
 	}
 
-	RoomPtr pRoom(new QZegoRoomModel(strRoomID, strRoomName, strUserId, strUserName));
+	RoomPtr pRoom(new QZegoRoomModel(strRoomID, strRoomName, strUserId, strUserName, 0));
 
 	if (mConfig.GetUseExternalCaptureAndRender())
 	{
@@ -1892,3 +1975,17 @@ bool ZegoMainDialog::eventFilter(QObject *target, QEvent *event)
 	return QDialog::eventFilter(target, event);
 }
 
+void ZegoMainDialog::onUpdateRoomList(const std::vector<zego::RoomInfo> & room_list)
+{
+	ui.m_progIndicator->stopAnimation();
+	ui.m_cbAppVersion->setEnabled(true);
+
+	qDebug() << "room list: ";
+	ParseAndRefreshRoomList(room_list);
+}
+
+void ZegoMainDialog::onUpdateRoomListError()
+{
+	ui.m_progIndicator->stopAnimation();
+	ui.m_cbAppVersion->setEnabled(true);
+}

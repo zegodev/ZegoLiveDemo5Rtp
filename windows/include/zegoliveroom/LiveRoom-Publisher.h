@@ -226,6 +226,16 @@ namespace ZEGO
         ZEGO_API bool SetVideoCaptureResolution(int nWidth, int nHeight, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
         
         /**
+         设置视频关键帧间隔
+         
+         @param nIntervalSecond 关键帧间隔，单位为秒，默认2秒
+         @param idx 推流 channel Index. 默认为主Channel
+         @return true 成功，false 失败
+         @attention 推流开始前调用本 API 进行参数配置
+         */
+        ZEGO_API bool SetVideoKeyFrameInterval(int nIntervalSecond, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
+        
+        /**
          主播开启美颜功能
 
          @param nFeature 美颜特性。默认无美颜
@@ -368,6 +378,15 @@ namespace ZEGO
          */
         ZEGO_API bool EnableAEC(bool bEnable);
         
+        
+        /**
+         设置回声消除模式
+
+         @param mode 回声消除模式
+         @discussion 建议在推流前调用设置
+         */
+        ZEGO_API void SetAECMode(AV::ZegoAECMode mode);
+        
         /**
          开启摄像头
 
@@ -390,13 +409,14 @@ namespace ZEGO
 
          @param bEnable true 打开，false 关闭。默认 false
          @return true 成功，false 失败
+         @discussion 推流时可调用本 API 进行参数配置。连接耳麦时设置才实际生效。开启采集监听，主播方讲话后，会听到自己的声音。
          */
         ZEGO_API bool EnableLoopback(bool bEnable);
         
         /**
          设置监听音量
 
-         @param volume 音量大小，取值（0, 100）。默认 100
+         @param volume 音量大小，取值（0, 100）。默认 80
          @attention 推流时可调用本 API 进行参数配置
          */
         ZEGO_API void SetLoopbackVolume(int volume);
@@ -584,6 +604,14 @@ namespace ZEGO
         ZEGO_API void EnableDTX(bool bEnable);
         
         /**
+         是否开启语音活动检测
+         
+         @param bEnable true 开启；false 关闭，默认关闭
+         @attention 确保在推流前调用，只有纯 UDP 方案才可以调用此接口
+         */
+        ZEGO_API void EnableVAD(bool bEnable);
+        
+        /**
          是否开启流量控制
 
          @param properites 流量控制属性 (帧率，分辨率），参考 ZegoTrafficControlProperty 定义。默认 ZEGO_TRAFFIC_CONTROL_ADAPTIVE_FPS
@@ -592,6 +620,16 @@ namespace ZEGO
          @attention 确保在推流前调用，在纯 UDP 方案才可以调用此接口
          */
         ZEGO_API void EnableTrafficControl(int properites, bool bEnable);
+        
+        /**
+         设置TrafficControl视频码率最小值
+         
+         @param nBitrate 码率，单位为bps
+         @param mode 低于最低码率时的视频发送模式
+         @attention InitSDK 之后调用有效
+         @note 设置一个在traffic control中video码率的一个最小值，当网络不足以发送这个最小值的时候视频会被卡住，而不是以低于该码率继续发送。初始化SDK后默认情况下没有设置改值，即尽可能的保持视频流畅，InitSDK之后可以随时修改，未重新InitSDK之前如果需要取消该设置值的限制可以设置为0
+         */
+        ZEGO_API void SetMinVideoBitrateForTrafficControl(int nBitrate, AV::ZegoTrafficControlMinVideoBitrateMode mode = AV::ZEGO_TRAFFIC_CONTROL_MIN_VIDEO_BITRATE_NO_VIDEO);
         
         /**
         音频采集噪声抑制开关

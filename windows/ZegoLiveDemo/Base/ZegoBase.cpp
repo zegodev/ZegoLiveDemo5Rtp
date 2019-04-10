@@ -1,6 +1,7 @@
 #include <QSharedPointer>
 #include "ZegoBase.h"
 #include <QDebug>
+#include <config_api_helper.h>
 
 #include "./IncludeZegoLiveRoomApi.h"
 #include "zego-api-external-audio-device.h"
@@ -12,8 +13,8 @@
 #endif
 
 /*
-#warning 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey,其他模式不需要可不用填
+#warning 请提前在即构管理控制台获取 appID 与 appSign
+#warning Demo 默认使用 UDP 模式，请填充该模式下的 appID 与 appSign,其他模式不需要可不用填
 #warning AppID 填写样式示例：1234567890
 #warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
 								0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,
@@ -26,19 +27,13 @@ static unsigned char g_bufSignKey_Udp[] = ;
 static unsigned long g_dwAppID_International = 0;
 static unsigned char g_bufSignKey_International[] =
 { 
-	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+	0x0
 };
 
 static unsigned long  g_dwAppID_Custom = 0;
 static unsigned char g_bufSignKey_Custom[] =
 {
-	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+	0x0
 };
 
 QZegoBase::QZegoBase(void) : m_dwInitedMask(INIT_NONE)
@@ -53,14 +48,14 @@ QZegoBase::QZegoBase(void) : m_dwInitedMask(INIT_NONE)
 	appSigns.push_back(g_bufSignKey_International);
 	appSigns.push_back(g_bufSignKey_Custom);
 
-	m_pAVSignal = new QZegoAVSignal;
-
+	m_pAVSignal = std::make_shared<QZegoAVSignal>();
+	//m_pAVSignal = new QZegoAVSignal;
 }
 
 QZegoBase::~QZegoBase(void)
 {
 	UninitAVSDK();
-	delete m_pAVSignal;
+	//delete m_pAVSignal;
 }
 
 bool QZegoBase::InitAVSDK(QString userID, QString userName)
@@ -108,13 +103,15 @@ bool QZegoBase::InitAVSDK(QString userID, QString userName)
 			SurfaceMergeController::getInstance().init();
 #endif
 		//设置回调
-		LIVEROOM::SetLivePublisherCallback(m_pAVSignal);
-		LIVEROOM::SetLivePlayerCallback(m_pAVSignal);
-		LIVEROOM::SetRoomCallback(m_pAVSignal);
-		LIVEROOM::SetIMCallback(m_pAVSignal);
-		LIVEROOM::SetDeviceStateCallback(m_pAVSignal);
-		SOUNDLEVEL::SetSoundLevelCallback(m_pAVSignal);
-		MIXSTREAM::SetMixStreamExCallback(m_pAVSignal);
+		LIVEROOM::SetLivePublisherCallback(m_pAVSignal.get());
+		LIVEROOM::SetLivePlayerCallback(m_pAVSignal.get());
+		LIVEROOM::SetRoomCallback(m_pAVSignal.get());
+		LIVEROOM::SetIMCallback(m_pAVSignal.get());
+		LIVEROOM::SetDeviceStateCallback(m_pAVSignal.get());
+		SOUNDLEVEL::SetSoundLevelCallback(m_pAVSignal.get());
+		MIXSTREAM::SetMixStreamExCallback(m_pAVSignal.get());
+
+		zego::ConfigApiHelper::sharedInstance()->api->set_room_list_update_listener(m_pAVSignal);
 #ifdef USE_EXTERNAL_SDK
 		SurfaceMergeController::getInstance().setMergeCallback(m_pAVSignal);
 #endif
@@ -173,12 +170,15 @@ bool QZegoBase::InitAVSDKwithCustomAppId(QString userID, QString userName, unsig
 			SurfaceMergeController::getInstance().init();
 #endif
 		//设置回调
-		LIVEROOM::SetLivePublisherCallback(m_pAVSignal);
-		LIVEROOM::SetLivePlayerCallback(m_pAVSignal);
-		LIVEROOM::SetRoomCallback(m_pAVSignal);
-		LIVEROOM::SetIMCallback(m_pAVSignal);
-		LIVEROOM::SetDeviceStateCallback(m_pAVSignal);
-		SOUNDLEVEL::SetSoundLevelCallback(m_pAVSignal);
+		LIVEROOM::SetLivePublisherCallback(m_pAVSignal.get());
+		LIVEROOM::SetLivePlayerCallback(m_pAVSignal.get());
+		LIVEROOM::SetRoomCallback(m_pAVSignal.get());
+		LIVEROOM::SetIMCallback(m_pAVSignal.get());
+		LIVEROOM::SetDeviceStateCallback(m_pAVSignal.get());
+		SOUNDLEVEL::SetSoundLevelCallback(m_pAVSignal.get());
+
+		zego::ConfigApiHelper::sharedInstance()->api->set_room_list_update_listener(m_pAVSignal);
+
 #ifdef USE_EXTERNAL_SDK
 		SurfaceMergeController::getInstance().setMergeCallback(m_pAVSignal);
 #endif
@@ -240,7 +240,7 @@ bool QZegoBase::IsAVSdkInited(void)
 
 QZegoAVSignal* QZegoBase::GetAVSignal(void)
 {
-	return m_pAVSignal;
+	return m_pAVSignal.get();
 }
 
 ZegoVideoCaptureFactory * QZegoBase::GetVideoFactory()

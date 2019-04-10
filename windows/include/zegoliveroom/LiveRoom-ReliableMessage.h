@@ -27,8 +27,8 @@ namespace ZEGO
         /**
          可靠业务广播通道
 
-         @param pszMsgType 业务类型，不能超过 128 字节
-         @param pszMsgData 业务内容，不能超过 10240 字节
+         @param pszMsgType 业务类型，不能超过 128 字节, 不允许为空字符串
+         @param pszMsgData 业务内容，不能超过 2048 字节, 允许为空字符串
          @return 发送序号 seq
          */
         ZEGO_API int SendReliableMessage(const char *pszMsgType, const char *pszMsgData);

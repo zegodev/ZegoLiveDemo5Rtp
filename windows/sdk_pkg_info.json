@@ -2,7 +2,7 @@
   "project": "livedemo3",
   "platform": "qt",
   "sdk_name": "zegoliveroom",
-  "sdk_absolute_path_on_share": "\\\\192.168.1.3\\share\\zego_sdk\\zegoliveroom_release_new\\zegoliveroom_190104_190013_release-new-0-gcb20f711_video_bn562_12_winxp\\windows\\zegoliveroom_190104_190013_release-new-0-gcb20f711_video_bn562_12_winxp.zip",
+  "sdk_absolute_path_on_share": "\\\\192.168.1.3\\share\\zego_sdk\\zegoliveroom_release_new\\zegoliveroom_190313_213919_release-new-0-gf6f00774_video_bn619_12_win\\windows\\zegoliveroom_190313_213919_release-new-0-gf6f00774_video_bn619_12_win.zip",
   "copy_file_dirs": [
     {
       "src": "release/iphoneos_simulator",

@@ -72,6 +72,7 @@ namespace ZEGO
 		@param nPlayChannel 播放通道
 		@param bEnable true 开启， false 不开启，默认为不开启
 		@note 只要当VideoExternalRenderType设置为DECODE_RENDER，该接口才有效
+        @note 在初始化SDK之后调用有效
 		*/
 		ZEGOAVKIT_API bool EnableVideoRender(bool bEnable, int nPlayChannel);
 
@@ -81,6 +82,7 @@ namespace ZEGO
 		@param bEnable true 开启， false 不开启，默认为不开启
 		@param nPublishChannel 推流通道，默认为主通道
 		@note 只要当VideoExternalRenderType设置为DECODE_RENDER，该接口才有效
+        @note 在初始化SDK之后调用有效
 		*/
 		ZEGOAVKIT_API bool EnableVideoPreview(bool bEnable, AV::PublishChannelIndex nPublishChannel = AV::PUBLISH_CHN_MAIN);
     }

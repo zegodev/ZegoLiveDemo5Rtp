@@ -156,6 +156,18 @@ namespace ZEGO
             RELAY_RETRY = 2,                /**< 正在重试 */
         };
         
+        enum ZegoStreamRelayCDNDetail
+        {
+            Relay_None = 0,                       ///< 无
+            Relay_ServerError = 8,                ///< 服务器错误
+            Relay_HandShakeFailed = 9,            ///< 握手失败
+            Relay_AccessPointError = 10,          ///< 接入点错误
+            Relay_CreateStreamFailed = 11,        ///< 创建流失败
+            Relay_BadName = 12,                   ///< BAD NAME
+            Relay_CDNServerDisconnected = 13,     ///< CDN服务器主动断开
+            Relay_Disconnected = 14,              ///< 主动断开
+        };
+        
         struct ZegoStreamRelayCDNInfo
         {
             ZegoStreamRelayCDNInfo()
@@ -163,10 +175,12 @@ namespace ZEGO
                 rtmpURL[0] = '\0';
                 state = RELAY_STOP;
                 stateTime = 0;
+                detail = Relay_None;
             }
             
             char rtmpURL[ZEGO_MAX_COMMON_LEN];
             ZegoStreamRelayCDNState state;
+            ZegoStreamRelayCDNDetail detail;   //转推停止或重试时有效
             unsigned int stateTime;
         };
         
@@ -406,9 +420,10 @@ namespace ZEGO
         /** 音频设备模式 */
         enum ZegoAVAPIAudioDeviceMode
         {
-            ZEGO_AUDIO_DEVICE_MODE_COMMUNICATION = 1,    /**< 开启硬件回声消除 */
-            ZEGO_AUDIO_DEVICE_MODE_GENERAL = 2,          /**< 关闭硬件回声消除 */
-            ZEGO_AUDIO_DEVICE_MODE_AUTO = 3              /**< 根据场景自动选择是否开启硬件回声消除 */
+            ZEGO_AUDIO_DEVICE_MODE_COMMUNICATION = 1,    /**< 开启系统回声消除 */
+            ZEGO_AUDIO_DEVICE_MODE_GENERAL = 2,          /**< 关闭系统回声消除 */
+            ZEGO_AUDIO_DEVICE_MODE_AUTO = 3,             /**< 根据场景自动选择是否开启系统回声消除 */
+            ZEGO_AUDIO_DEVICE_MODE_COMMUNICATION2 = 4,   /**< 开启系统回声消除，与communication相比，communication2会始终占用麦克风设备 */
         };
         
         /** 延迟模式 */
@@ -432,10 +447,21 @@ namespace ZEGO
             /**< 自适应分辨率 */
             ZEGO_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION = 1 << 1,
             
+            /**< 音频流量控制*/
+            ZEGO_TRAFFIC_CONTROL_ADAPTIVE_AUDIO_BITRATE = 1 << 2,
+            
             /**< 废弃 */
             ZEGO_TRAFFIC_NONE = ZEGO_TRAFFIC_CONTROL_BASIC,
             ZEGO_TRAFFIC_FPS = ZEGO_TRAFFIC_CONTROL_ADAPTIVE_FPS,
             ZEGO_TRAFFIC_RESOLUTION = ZEGO_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION,
+        };
+        
+        enum ZegoTrafficControlMinVideoBitrateMode
+        {
+            /** 低于设置的最低码率时，停止视频发送 */
+            ZEGO_TRAFFIC_CONTROL_MIN_VIDEO_BITRATE_NO_VIDEO = 0,
+            /** 低于设置的最低码率时，视频以极低的频率发送 （不超过2FPS) */
+            ZEGO_TRAFFIC_CONTROL_MIN_VIDEO_BITRATE_ULTRA_LOW_FPS
         };
         
         /** 音频录制类型 */
@@ -447,29 +473,60 @@ namespace ZEGO
             ZEGO_AUDIO_RECORD_MIX       = 0x04  /**< 打开采集和渲染混音结果录制 */
         };
         
+        enum LiveStreamQuality
+        {
+            Excellent   = 0,
+            Good        = 1,
+            Middle      = 2,
+            Poor        = 3,
+            Die         = 4,
+            MaxGrade,
+        };
+        
         struct PublishQuality
         {
-            double fps;             ///< 视频帧率(编码/网络发送)
-            double cfps;            ///< 视频采集帧率
+            double cfps;            ///< 视频帧率(采集)
+            double vencFps;         ///< 视频帧率(编码)
+            double fps;             ///< 视频帧率(网络发送)
             double kbps;            ///< 视频码率(kb/s)
+          
+            double acapFps;         ///< 音频帧率（采集）
+            double afps;            ///< 音频帧率（网络发送）
             double akbps;           ///< 音频码率(kb/s)
+            
             int rtt;                ///< 延时(ms)
             int pktLostRate;        ///< 丢包率(0~255)
+            int quality;            ///< 质量(0~3)
             
-            int quality;            ///< 质量(0~4)
+            bool isHardwareVenc;    ///< 是否硬编
+            int width;              ///< 视频宽度
+            int height;             ///< 视频高度
         };
         
         struct PlayQuality
         {
-            double fps;                      ///< 视频帧率
-            double kbps;                     ///< 视频码率(kb/s)
+            double fps;                     ///< 视频帧率(网络接收)
+            double vdjFps;                  ///< 视频帧率(dejitter)
+            double vdecFps;                 ///< 视频帧率(解码)
+            double vrndFps;                 ///< 视频帧率(渲染)
+            double kbps;                    ///< 视频码率(kb/s)
+            
+            double afps;                    ///< 音频帧率(网络接收)
+            double adjFps;                  ///< 音频帧率(dejitter)
+            double adecFps;                 ///< 音频帧率(解码)
+            double arndFps;                 ///< 音频帧率(渲染)
             double akbps;                   ///< 音频码率(kb/s)
-            double audioBreakRate;          ///< 音频卡顿率(次/min)
+            
+            double audioBreakRate;          ///< 音频卡顿次数
+            double videoBreakRate;          ///< 视频卡顿次数
             int rtt;                        ///< 延时(ms)
             int pktLostRate;                ///< 丢包率(0~255)
-            
-            int quality;                    ///< 质量(0~4)
+            int quality;                    ///< 质量(0~3)
             int delay;                      ///< 语音延迟(ms)
+            
+            bool isHardwareVdec;            ///< 是否硬解
+            int width;                      ///< 视频宽度
+            int height;                     ///< 视频高度
         };
         
         /** 推流通道 */
@@ -491,6 +548,14 @@ namespace ZEGO
         {
             unsigned int soundLevelID;          ///< soundlevel ID
             unsigned char soundLevel;           ///< soundlevel 的值
+        };
+        
+        /** 回声消除模式 */
+        enum ZegoAECMode
+        {
+            AEC_MODE_AGGRESSIVE,
+            AEC_MODE_MEDIUM,
+            AEC_MODE_SOFT
         };
     }
 }

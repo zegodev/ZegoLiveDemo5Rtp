@@ -1,7 +1,7 @@
 #include "Model/ZegoRoomModel.h"
 
-QZegoRoomModel::QZegoRoomModel(QString &roomId, QString &roomName, QString &anchorId, QString &anchorName)
-	: m_strRoomId(roomId), m_strRoomName(roomName), m_strAnchorId(anchorId), m_strAnchorName(anchorName)
+QZegoRoomModel::QZegoRoomModel(QString roomId, QString roomName, QString anchorId, QString anchorName, int streamCount)
+	: m_strRoomId(roomId), m_strRoomName(roomName), m_strAnchorId(anchorId), m_strAnchorName(anchorName), m_uLivesCount(streamCount)
 {
 
 }

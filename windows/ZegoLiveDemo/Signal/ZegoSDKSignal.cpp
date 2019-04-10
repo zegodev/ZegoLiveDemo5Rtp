@@ -355,3 +355,13 @@ void QZegoAVSignal::OnCaptureSoundLevelUpdate(SOUNDLEVEL::ZegoSoundLevelInfo *pC
 
 	emit sigCaptureSoundLevelUpdate(pCaptureSoundLevel->soundLevel);
 }
+
+void QZegoAVSignal::on_update_room_list(const std::vector<zego::RoomInfo> & room_list) 
+{
+	emit sigUpdateRoomList(room_list);
+}
+
+void QZegoAVSignal::on_update_room_list_error() 
+{
+	emit sigUpdateRoomListError();
+}

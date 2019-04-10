@@ -10,14 +10,16 @@
 
 #include "./AVDefines.h"
 
-#ifdef WIN32
-    #ifdef ZEGO_EXPORTS
-        #define ZEGO_API __declspec(dllexport)
+#ifndef ZEGO_API
+    #ifdef WIN32
+        #ifdef ZEGO_EXPORTS
+            #define ZEGO_API __declspec(dllexport)
+        #else
+            #define ZEGO_API __declspec(dllimport)
+        #endif
     #else
-        #define ZEGO_API __declspec(dllimport)
+        #define ZEGO_API __attribute__((visibility("default")))
     #endif
-#else
-    #define ZEGO_API __attribute__((visibility("default")))
 #endif
 
 namespace ZEGO
@@ -116,8 +118,10 @@ namespace ZEGO
         /** 成员角色 */
         enum ZegoRoomRole
         {
+            UnknownRole = 0,/**< 未知角色 */
             Anchor = 1,     /**< 主播 */
             Audience = 2,   /**< 观众 */
+            Assistant = 32, /**< 助教 */
         };
 
         /** 用户更新类型 */

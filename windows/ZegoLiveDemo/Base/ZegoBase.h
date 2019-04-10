@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QDir>
+#include <memory>
 #include "Settings/ZegoSettingsModel.h"
 #include "Signal/ZegoSDKSignal.h"
 #include "VideoCapture/ZegoVideoCaptureFactory.h"
@@ -66,7 +67,9 @@ private :
 	QVector <unsigned int> appIDs;
 	QVector <unsigned char *> appSigns;
 
-	QZegoAVSignal* m_pAVSignal;
+	//QZegoAVSignal* m_pAVSignal;
+	std::shared_ptr<QZegoAVSignal> m_pAVSignal;
+
 	//外部采集工厂对象
 	ZegoVideoCaptureFactory *g_captureFactory;
 	//外部滤镜工厂对象
