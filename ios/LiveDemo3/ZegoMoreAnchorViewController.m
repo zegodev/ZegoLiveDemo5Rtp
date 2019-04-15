@@ -114,6 +114,8 @@
 
 - (void)setupLiveKit
 {
+    [[ZegoDemoHelper api] setRoomConfig:NO userStateUpdate:YES];
+    
     [[ZegoDemoHelper api] setRoomDelegate:self];
     [[ZegoDemoHelper api] setPlayerDelegate:self];
     [[ZegoDemoHelper api] setPublisherDelegate:self];
@@ -513,9 +515,17 @@
 #pragma mark - ZegoAnchorToolViewControllerDelegate
 - (void)onCloseButton:(id)sender
 {
-    [self closeAllStream];
-    [[ZegoDemoHelper api] logoutRoom];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要退出直播页面吗？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self closeAllStream];
+        [[ZegoDemoHelper api] logoutRoom];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)onMutedButton:(id)sender

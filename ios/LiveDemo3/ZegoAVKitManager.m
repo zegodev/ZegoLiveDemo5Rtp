@@ -8,6 +8,7 @@
 #include "ZegoAVKitManager.h"
 #import "ZegoSettings.h"
 #import "ZegoVideoFilterDemo.h"
+#import <ZGAppSupport/ZGAppSupportHelper.h>
 
 #import <ZegoLiveRoom/ZegoLiveRoomApi-AudioIO.h>
 
@@ -16,6 +17,9 @@ NSString *kZegoDemoAppIDKey             = @"appid";
 NSString *kZegoDemoAppSignKey           = @"appsign";
 NSString *kZegoDemoAppBizType           = @"biztype";
 NSString *kZegoDemoAppUseI18nDomain     = @"i18n-domain";
+NSString *kZegoDemoAppEnvKey            = @"envtype";
+
+NSString *ZegoLiveRoomApiInitCompleteNotification = @"ZegoLiveRoomApiInitCompleteNotification";
 
 
 static ZegoLiveRoomApi *g_ZegoApi = nil;
@@ -23,7 +27,7 @@ static ZegoLiveRoomApi *g_ZegoApi = nil;
 //NSData *g_signKey = nil;
 //uint32_t g_appID = 0;
 
-BOOL g_useTestEnv = YES;
+BOOL g_useTestEnv = NO;
 BOOL g_useAlphaEnv = NO;
 
 // Demo 默认版本为 UDP
@@ -78,7 +82,7 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
             g_useInternationDomain = NO;
         }
         
-        [ZegoLiveRoomApi setUseTestEnv:g_useTestEnv];
+        [ZegoLiveRoomApi setUseTestEnv:[self usingTestEnv]];
         [ZegoLiveRoomApi enableExternalRender:[self usingExternalRender]];
         
 #ifdef DEBUG
@@ -94,7 +98,12 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
         if (appID > 0) {    // 手动输入为空的情况下容错
             NSData *appSign = [self zegoAppSignFromServer];
             if (appSign) {
-                g_ZegoApi = [[ZegoLiveRoomApi alloc] initWithAppID:appID appSignature:appSign];
+                g_ZegoApi = [[ZegoLiveRoomApi alloc] initWithAppID:appID appSignature:appSign completionBlock:^(int errorCode) {
+                    NSLog(@"init SDK result:%d", errorCode);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [NSNotificationCenter.defaultCenter postNotificationName:ZegoLiveRoomApiInitCompleteNotification object:@(errorCode)];
+                    });
+                }];
             }
         }
 
@@ -166,11 +175,16 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
     
     g_useTestEnv = testEnv;
     [ZegoLiveRoomApi setUseTestEnv:testEnv];
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setObject:@(testEnv) forKey:kZegoDemoAppEnvKey];
 }
 
 + (bool)usingTestEnv
 {
-    return g_useTestEnv;
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    id useTestEnv = [ud objectForKey:kZegoDemoAppEnvKey];
+    return useTestEnv ? [useTestEnv boolValue]:g_useTestEnv;
 }
 
 + (bool)usingAlphaEnv
@@ -474,10 +488,10 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     [ZegoLiveRoomApi setVideoFilterFactory:g_filterFactory];
 }
 
-#warning 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
-#warning AppID 填写样式示例：1234567890
-#warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
+#warning 请提前在即构管理控制台获取 appID 与 appSign
+#warning Demo 默认使用 UDP 模式，请填充该模式下的 appID 与 appSign
+#warning appID 填写样式示例：1234567890
+#warning appSign 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 + (uint32_t)appID
 {
     switch ([self appType]) {
@@ -502,10 +516,10 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     }
 }
 
-#warning 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
-#warning AppID 填写样式示例：1234567890
-#warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
+#warning 请提前在即构管理控制台获取 appID 与 appSign
+#warning Demo 默认使用 UDP 模式，请填充该模式下的 appID 与 appSign
+#warning appID 填写样式示例：1234567890
+#warning appSign 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 + (NSData *)zegoAppSignFromServer
 {
     //!! Demo 暂时把 signKey 硬编码到代码中，该用法不规范
@@ -626,16 +640,14 @@ NSData* ConvertStringToSign(NSString* strSign)
 
 + (void)setUsingAlphaEnv:(bool)alphaEnv
 {
-    if ([ZegoLiveRoomApi respondsToSelector:@selector(setUseAlphaEnv:)])
+
+    if (g_useAlphaEnv != alphaEnv)
     {
-        if (g_useAlphaEnv != alphaEnv)
-        {
-            [self releaseApi];
-        }
-        
-        g_useAlphaEnv = alphaEnv;
-        [ZegoLiveRoomApi performSelector:@selector(setUseAlphaEnv:) withObject:@(alphaEnv)];
+        [self releaseApi];
     }
+        
+    g_useAlphaEnv = alphaEnv;
+    [ZGAppSupportHelper.sharedInstance.api setUseAlphaEnv:g_useAlphaEnv];
 }
 
 @end

@@ -33,6 +33,8 @@
 		335BB5FD218C29C100577169 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
 		335BB5FE218C29C100577169 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		337C1B092189B1E300E84AA4 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
+		33C4426221E74A9B00D57521 /* ZGAppSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C4426021E749EE00D57521 /* ZGAppSupport.framework */; };
+		33C4426321E74A9B00D57521 /* ZGAppSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 33C4426021E749EE00D57521 /* ZGAppSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
 		A7C911AC214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
 		A7CD23E01EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
@@ -204,6 +206,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				33C4426321E74A9B00D57521 /* ZGAppSupport.framework in Embed Frameworks */,
 				335BB5FE218C29C100577169 /* ZegoLiveRoom.framework in Embed Frameworks */,
 				EF0387331FB2E437004EF33C /* ZegoImageFilter.framework in Embed Frameworks */,
 			);
@@ -255,6 +258,7 @@
 		16F48AC41FF490DF001C8992 /* GameLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameLive.entitlements; sourceTree = "<group>"; };
 		16F48AC51FF490EA001C8992 /* GameLiveSetupUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameLiveSetupUI.entitlements; sourceTree = "<group>"; };
 		337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoLiveRoom.framework; path = libs/ZegoLiveRoom.framework; sourceTree = "<group>"; };
+		33C4426021E749EE00D57521 /* ZGAppSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZGAppSupport.framework; path = libs/ZGAppSupport.framework; sourceTree = "<group>"; };
 		4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		A745D7481E4C197F009A4265 /* LiveDemo5.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveDemo5.entitlements; sourceTree = "<group>"; };
 		A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QRCodeReaderViewController.framework; sourceTree = "<group>"; };
@@ -447,10 +451,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				335BB5FD218C29C100577169 /* ZegoLiveRoom.framework in Frameworks */,
 				A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */,
 				162CB30B1F74AE2A0080185B /* VideoToolbox.framework in Frameworks */,
+				33C4426221E74A9B00D57521 /* ZGAppSupport.framework in Frameworks */,
 				16F48A6E1FF3A4A5001C8992 /* Bugly.framework in Frameworks */,
-				335BB5FD218C29C100577169 /* ZegoLiveRoom.framework in Frameworks */,
 				EF0387301FB2E424004EF33C /* ZegoImageFilter.framework in Frameworks */,
 				EF9F415D1F3B01C9003F7C0F /* SafariServices.framework in Frameworks */,
 				163FEE311F32F9ED00FA86E6 /* libz.tbd in Frameworks */,
@@ -796,6 +801,7 @@
 		EFF10F1C1D1A2BAF00ECE11E /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				33C4426021E749EE00D57521 /* ZGAppSupport.framework */,
 				337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */,
 				EF03872F1FB2E424004EF33C /* ZegoImageFilter.framework */,
 			);
@@ -889,7 +895,7 @@
 				TargetAttributes = {
 					16F48A991FF48F8B001C8992 = {
 						CreatedOnToolsVersion = 9.2;
-						DevelopmentTeam = 3WR2G89LR2;
+						DevelopmentTeam = B82BHJ5H89;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -899,7 +905,7 @@
 					};
 					16F48AA41FF48F8B001C8992 = {
 						CreatedOnToolsVersion = 9.2;
-						DevelopmentTeam = 3WR2G89LR2;
+						DevelopmentTeam = B82BHJ5H89;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -908,7 +914,7 @@
 						};
 					};
 					EFAF4B331D2B6C7800560B00 = {
-						DevelopmentTeam = 3WR2G89LR2;
+						DevelopmentTeam = B82BHJ5H89;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -918,7 +924,7 @@
 					};
 					EFF10EF11D1A297900ECE11E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 3WR2G89LR2;
+						DevelopmentTeam = B82BHJ5H89;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -1241,7 +1247,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
@@ -1273,7 +1279,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
@@ -1314,7 +1320,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
@@ -1346,7 +1352,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
@@ -1387,7 +1393,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1423,7 +1429,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1468,7 +1474,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1504,7 +1510,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1604,13 +1610,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",
 					"$(PROJECT_DIR)/libs",
 					"$(PROJECT_DIR)/libs/libsZegoImageFilter/Release/Release-iphoneosAndRelease-iphonesimulator",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = LiveDemo3/Info.plist;
@@ -1632,8 +1639,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
-				ENABLE_BITCODE = YES;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",
@@ -1734,7 +1741,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1742,6 +1749,7 @@
 					"$(PROJECT_DIR)/libs/ZegoLiveRoom/debug/iphoneos_simulator",
 					"$(PROJECT_DIR)/libs",
 					"$(PROJECT_DIR)/libs/libsZegoImageFilter/ReleaseStatic/ReleaseStatic-iphoneosAndRelease-iphonesimulator",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = LiveDemo3/Info.plist;
@@ -1763,8 +1771,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
-				ENABLE_BITCODE = YES;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/thirdLib",
 					"$(PROJECT_DIR)/libs",
@@ -1790,8 +1798,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
-				ENABLE_BITCODE = YES;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
@@ -1825,8 +1833,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
-				ENABLE_BITCODE = YES;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/thirdLib",
 					"$(PROJECT_DIR)/libs",
@@ -1967,13 +1975,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",
 					"$(PROJECT_DIR)/libs",
 					"$(PROJECT_DIR)/libs/libsZegoImageFilter/Release/Release-iphoneosAndRelease-iphonesimulator",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = LiveDemo3/Info.plist;
@@ -1995,13 +2004,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WR2G89LR2;
+				DEVELOPMENT_TEAM = B82BHJ5H89;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",
 					"$(PROJECT_DIR)/libs",
 					"$(PROJECT_DIR)/libs/libsZegoImageFilter/ReleaseStatic/ReleaseStatic-iphoneosAndRelease-iphonesimulator",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = LiveDemo3/Info.plist;

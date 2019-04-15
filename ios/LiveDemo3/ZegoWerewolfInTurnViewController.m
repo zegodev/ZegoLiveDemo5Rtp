@@ -275,6 +275,8 @@
         [self stopTalkingWithDontStopMode];
     else
         [self stopTalkingWithStopMode];
+    
+    [ZegoDemoHelper.api setPreviewView:nil];
 }
 
 - (void)updateSpeakingButton:(BOOL)enable
@@ -1090,7 +1092,7 @@
         NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"发布直播成功,流ID:%@", nil), streamID];
         [self addLogString:logString];
         
-        self.tipsLabel.text = NSLocalizedString(@"系统同步成功", nil);
+//        self.tipsLabel.text = NSLocalizedString(@"系统同步成功", nil);
         
         ZegoWerewolUserInfo *userInfo = [self getSelfUserInfo];
         if (userInfo == nil || ![userInfo.streamId isEqualToString:streamID])
@@ -1119,7 +1121,7 @@
         
         //推流失败，streamId清空
         userInfo.streamId = nil;
-        self.tipsLabel.text = NSLocalizedString(@"系统同步失败", nil);
+//        self.tipsLabel.text = NSLocalizedString(@"系统同步失败", nil);
         
         if (stateCode != 1)
         {
@@ -1152,7 +1154,7 @@
 - (void)notifyAnchorLogout
 {
     //主播退出，关闭房间
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"anchor is logout" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"主持人已离开房间" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
     [self onCloseView:nil];
 }

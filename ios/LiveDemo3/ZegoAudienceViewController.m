@@ -116,6 +116,8 @@
 #pragma mark - ZegoLiveRoom
 - (void)setupLiveKit
 {
+    [[ZegoDemoHelper api] setRoomConfig:NO userStateUpdate:YES];
+    
     [[ZegoDemoHelper api] setRoomDelegate:self];
     [[ZegoDemoHelper api] setPlayerDelegate:self];
     [[ZegoDemoHelper api] setIMDelegate:self];

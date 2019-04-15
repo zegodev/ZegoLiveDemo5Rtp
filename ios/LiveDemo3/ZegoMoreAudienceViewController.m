@@ -306,6 +306,8 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
 #pragma mark - ZegoLiveRoom
 - (void)setupLiveKit
 {
+    [[ZegoDemoHelper api] setRoomConfig:NO userStateUpdate:YES];
+    
     [[ZegoDemoHelper api] setRoomDelegate:self];
     [[ZegoDemoHelper api] setPlayerDelegate:self];
     [[ZegoDemoHelper api] setPublisherDelegate:self];
@@ -997,7 +999,16 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
     }
     else if ([[self.publishButton currentTitle] isEqualToString:NSLocalizedString(@"请求连麦", nil)])
     {
+        __block BOOL response = NO;
+        __block BOOL timeout = NO;
+        
         bool success = [[ZegoDemoHelper api] requestJoinLive:^(int result, NSString *fromUserID, NSString *fromUserName) {
+            if (timeout) {
+                return;
+            }
+            
+            response = YES;
+            
             NSString *logString = nil;
             if (result != 0)
             {
@@ -1012,6 +1023,20 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
             }
             [self addLogString:logString];
         }];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (response) {
+                return;
+            }
+            
+            timeout = YES;
+            self.publishButton.enabled = YES;
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请求响应超时" message:@"主播没有响应你的请求" preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+        });
         
         assert(success);
 

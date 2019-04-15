@@ -28,6 +28,8 @@ typedef enum : NSUInteger {
     ZegoAppTypeCustom   = 2,    // 自定义
 } ZegoAppType;
 
+extern NSString *ZegoLiveRoomApiInitCompleteNotification;
+
 @interface ZegoDemoHelper : NSObject
 
 + (ZegoLiveRoomApi *)api;

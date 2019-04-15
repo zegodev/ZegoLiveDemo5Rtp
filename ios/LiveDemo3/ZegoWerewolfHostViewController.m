@@ -100,26 +100,34 @@
 // 关闭页面
 - (IBAction)onCloseView:(id)sender
 {
-    if (self.speakingTimer)
-    {
-        [self onSpeakingTimer];
-        [self reportStopSpeaking];
-    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要退出直播页面吗？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (self.speakingTimer)
+        {
+            [self onSpeakingTimer];
+            [self reportStopSpeaking];
+        }
+        
+        if (self.sendStopSpeakingTimer)
+        {
+            [self stopTimer:self.sendStopSpeakingTimer];
+            [self onStopSpeakingTimer];
+        }
+        
+        [self stopCurrentMode];
+        [self.userList removeAllObjects];
+        
+        [[ZegoDemoHelper api] logoutRoom];
+        
+        [self.speakButton removeObserver:self forKeyPath:@"enabled"];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }]];
     
-    if (self.sendStopSpeakingTimer)
-    {
-        [self stopTimer:self.sendStopSpeakingTimer];
-        [self onStopSpeakingTimer];
-    }
-    
-    [self stopCurrentMode];
-    [self.userList removeAllObjects];
-    
-    [[ZegoDemoHelper api] logoutRoom];
-    
-    [self.speakButton removeObserver:self forKeyPath:@"enabled"];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 // 开始说话
@@ -355,6 +363,8 @@
         [self stopTalkingWithDontStopMode];
     else
         [self stopTalkingWithStopMode];
+    
+    [ZegoDemoHelper.api setPreviewView:nil];
 }
 
 - (void)updateSpeakingButton:(BOOL)enable
@@ -1279,7 +1289,7 @@
         NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"发布直播成功,流ID:%@", nil), streamID];
         [self addLogString:logString];
         
-        self.tipsLabel.text = NSLocalizedString(@"系统同步成功", nil);
+//        self.tipsLabel.text = NSLocalizedString(@"系统同步成功", nil);
         
         ZegoWerewolUserInfo *userInfo = [self getSelfUserInfo];
         if (userInfo == nil || ![userInfo.streamId isEqualToString:streamID])
@@ -1308,7 +1318,7 @@
         
         //推流失败，streamId清空
         userInfo.streamId = nil;
-        self.tipsLabel.text = NSLocalizedString(@"系统同步失败", nil);
+//        self.tipsLabel.text = NSLocalizedString(@"系统同步失败", nil);
         
         if (stateCode != 1)
         {
@@ -1375,7 +1385,7 @@
         if (state.role == ZEGO_ANCHOR && state.updateFlag == ZEGO_USER_DELETE)
         {
             //主播退出，关闭房间
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"anchor is logout" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"主持人已离开房间" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             [alertView show];
             
             [self onCloseView:nil];

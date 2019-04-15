@@ -127,6 +127,8 @@
 
 - (void)setupLiveKit
 {
+    [[ZegoDemoHelper api] setRoomConfig:NO userStateUpdate:YES];
+    
     [[ZegoDemoHelper api] setRoomDelegate:self];
     [[ZegoDemoHelper api] setPlayerDelegate:self];
     [[ZegoDemoHelper api] setPublisherDelegate:self];
@@ -653,13 +655,22 @@
 
 - (void)onCloseButton:(id)sender
 {
-    // 退出时关闭混流
-    [[ZegoDemoHelper api] updateMixInputStreams:nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要退出直播页面吗？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // 退出时关闭混流
+        [[ZegoDemoHelper api] updateMixInputStreams:nil];
+        
+        [self closeAllStream];
+        [[ZegoDemoHelper api] logoutRoom];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];        
+    }]];
     
-    [self closeAllStream];
-    [[ZegoDemoHelper api] logoutRoom];
+    [self presentViewController:alert animated:YES completion:nil];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)onMutedButton:(id)sender

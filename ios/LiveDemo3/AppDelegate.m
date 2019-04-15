@@ -27,6 +27,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(onReceiveZegoLiveRoomApiInitCompleteNotification)
+                                               name:ZegoLiveRoomApiInitCompleteNotification
+                                             object:nil];
+    
     [ZegoDemoHelper api];
     
 #if !TARGET_OS_SIMULATOR
@@ -75,6 +80,15 @@
         developmentDevice:YES
 #endif
                    config:config];
+}
+
+- (void)onReceiveZegoLiveRoomApiInitCompleteNotification {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+    
+    //changeRootViewController
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *rootVC = [sb instantiateViewControllerWithIdentifier:@"RootVC"];
+    [self.window setRootViewController:rootVC];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

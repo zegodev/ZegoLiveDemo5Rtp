@@ -57,6 +57,23 @@
                </EnvironmentBuildable>
             </ActionContent>
          </ExecutionAction>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Copy  ZGAppSupport"
+               scriptText = "import os&#10;import shutil&#10;&#10;current_folder = os.getenv(&apos;PROJECT_DIR&apos;)&#10;action = os.getenv(&apos;ACTION&apos;)&#10;if action == &quot;install&quot;:&#10;    source_folder = &quot;iphoneos&quot;&#10;else:&#10;    source_folder = &quot;iphoneos_simulator&quot;&#10;&#10;source_framework_folder = os.path.join(current_folder, &quot;libs&quot;, &quot;libsZGAppSupport&quot;, source_folder, &quot;ZGAppSupport.framework&quot;)&#10;dest_framework_folder = os.path.join(current_folder, &quot;libs&quot;, &quot;ZGAppSupport.framework&quot;)&#10;&#10;if os.path.exists(dest_framework_folder):&#10;    shutil.rmtree(dest_framework_folder, ignore_errors=True)&#10;&#10;if os.path.exists(source_framework_folder):&#10;    shutil.copytree(source_framework_folder, dest_framework_folder)&#10;"
+               shellToInvoke = "/usr/bin/env python">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "EFF10EF11D1A297900ECE11E"
+                     BuildableName = "LiveDemo5.app"
+                     BlueprintName = "LiveDemo5"
+                     ReferencedContainer = "container:LiveDemo3.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
       </PreActions>
       <BuildActionEntries>
          <BuildActionEntry

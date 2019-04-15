@@ -15,17 +15,22 @@
 #import "ZegoRenderAudienceViewController.h"
 #import <Foundation/NSURLSession.h>
 #import "ZegoSettings.h"
+#import <ZGAppSupport/ZGAppSupportHelper.h>
+#import <ZGAppSupport/ZGRoomListUpdateListener.h>
+#import "ZegoAVKitManager.h"
 
 @implementation ZegoRoomTableViewCell
 
 @end
 
-@interface ZegoRoomViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ZegoRoomViewController () <UITableViewDataSource, UITableViewDelegate, ZGRoomListUpdateListener>
 @property (weak, nonatomic) IBOutlet UITableView *liveView;
 
 @property (nonatomic, strong) NSMutableArray<ZegoRoomInfo *>* roomList;
 
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+
+@property (strong, nonatomic) ZGAppSupport *appSupport;
 
 @end
 
@@ -36,17 +41,33 @@
     // Do any additional setup after loading the view.
     _roomList = [NSMutableArray array];
     
+    _appSupport = ({
+        ZGAppSupport *api = ZGAppSupportHelper.sharedInstance.api;
+        [api setAutoConfigParams:ZGAppTypeLiveDemo5 configId:@""];
+        [api setRoomListUpdateListener:self];
+        api;
+    });
+    
     _refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.liveView insertSubview:self.refreshControl atIndex:0];
     
-    [self getLiveRoom];
-    
     self.liveView.tableFooterView = [[UIView alloc] init];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplicationActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRoomInstanceClear:) name:@"RoomInstanceClear" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onApplicationActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onRoomInstanceClear:)
+                                                 name:@"RoomInstanceClear"
+                                               object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(onReceiveZegoLiveRoomApiInitCompleteNotification)
+                                               name:ZegoLiveRoomApiInitCompleteNotification
+                                             object:nil];
     
+    [self getLiveRoom];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,6 +78,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [self.refreshControl endRefreshing];
+    self.refreshControl.hidden = YES;
 }
 
 - (void)refreshRoomList
@@ -84,6 +107,10 @@
     [self getLiveRoom];
 }
 
+- (void)onReceiveZegoLiveRoomApiInitCompleteNotification {
+    [self getLiveRoom];
+}
+
 - (BOOL)isWereWolfRoom:(NSString *)roomID
 {
     if ([roomID hasPrefix:@"#i-"] || [roomID hasPrefix:@"#w-"])
@@ -95,100 +122,49 @@
 - (void)getLiveRoom
 {
     [self.refreshControl beginRefreshing];
-    
-    NSString *mainDomain = @"zego.im";
-    if ([ZegoDemoHelper usingInternationDomain])
-        mainDomain = @"zegocloud.com";
-    
-    NSString *baseUrl = nil;
-    if ([ZegoDemoHelper usingAlphaEnv])
-        baseUrl = @"https://alpha-liveroom-api.zego.im";
-    else if([ZegoDemoHelper usingTestEnv])
-        baseUrl =@"https://test2-liveroom-api.zego.im";
-    else
-        baseUrl = [NSString stringWithFormat:@"https://liveroom%u-api.%@", [ZegoDemoHelper appID], mainDomain];
-    
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/demo/roomlist?appid=%u", baseUrl, [ZegoDemoHelper appID]]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSLog(@"URL %@", URL.absoluteString);
-    
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    configuration.timeoutIntervalForRequest = 10;
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSLog(@"%d",ZegoDemoHelper.appID);
+    [self.appSupport updateRoomList:ZegoDemoHelper.appID];
+}
+
+#pragma mark - ZGRoomListUpdateListener
+- (void)onUpdateRoomList:(NSArray<ZGRoomInfo *> *)roomList {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.refreshControl isRefreshing])
+            [self.refreshControl endRefreshing];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            if ([self.refreshControl isRefreshing])
-                [self.refreshControl endRefreshing];
-            
-            if ([self.delegate respondsToSelector:@selector(onRefreshRoomListFinished)])
-                [self.delegate onRefreshRoomListFinished];
-            
-            
-            [self.roomList removeAllObjects];
-            
-            if (error)
-            {
-                NSLog(@"get live room error: %@", error);
-                return;
+        if ([self.delegate respondsToSelector:@selector(onRefreshRoomListFinished)])
+            [self.delegate onRefreshRoomListFinished];
+        
+        [self.roomList removeAllObjects];
+        
+        for (ZGRoomInfo *info in roomList) {
+            ZegoRoomInfo *roomInfo = [ZegoRoomInfo new];
+            roomInfo.roomID = info.roomId;
+            roomInfo.roomName = info.roomName;
+            roomInfo.anchorID = info.anchorIdName;
+            roomInfo.anchorName = info.anchorNickName;
+            roomInfo.streamInfo = @[].mutableCopy;
+            for (ZGStreamInfo *stream in info.streamInfo) {
+                [roomInfo.streamInfo addObject:stream.streamId];
             }
             
-            if ([response isKindOfClass:[NSHTTPURLResponse class]])
-            {
-                NSError *jsonError;
-                NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                if (jsonError)
-                {
-                    NSLog(@"parsing json error");
-                    return;
-                }
-                else
-                {
-                    NSLog(@"%@", jsonResponse);
-                    NSUInteger code = [jsonResponse[@"code"] integerValue];
-                    if (code != 0)
-                        return;
-                    
-                    NSArray *roomList = jsonResponse[@"data"][@"room_list"];
-                    for (int idx = 0; idx < roomList.count; idx++)
-                    {
-                        ZegoRoomInfo *info = [ZegoRoomInfo new];
-                        NSDictionary *infoDict = roomList[idx];
-                        info.roomID = infoDict[@"room_id"];
-                        if (info.roomID.length == 0)
-                            continue;
-                        
-                        //非狼人杀模式下，过滤掉没有流信息的房间
-                        if (![self isWereWolfRoom:info.roomID] &&
-                            [infoDict objectForKey:@"stream_info"])
-                        {
-                            NSArray *streamList = infoDict[@"stream_info"];
-                            if (streamList.count == 0)
-                                continue;
-                        }
-                        
-                        info.anchorID = infoDict[@"anchor_id_name"];
-                        info.anchorName = infoDict[@"anchor_nick_name"];
-                        info.roomName = infoDict[@"room_name"];
-                        
-                        info.streamInfo = [[NSMutableArray alloc] initWithCapacity:1];
-                        for (NSDictionary *dict in infoDict[@"stream_info"]) {
-                            [info.streamInfo addObject:dict[@"stream_id"]];
-                        }
-                        
-                        [self.roomList addObject:info];
-                    }
-                    
-                    [self.liveView reloadData];
-                }
-            }
-        });
-    }];
-    
-    [task resume];
+            [self.roomList addObject:roomInfo];
+        }
+        
+        [self.liveView reloadData];
+    });
+}
+
+- (void)onUpdateRoomListError {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"onUpdateRoomListError");
+        
+        if ([self.refreshControl isRefreshing])
+            [self.refreshControl endRefreshing];
+        
+        if ([self.delegate respondsToSelector:@selector(onRefreshRoomListFinished)])
+            [self.delegate onRefreshRoomListFinished];
+    });
 }
 
 #pragma mark UITableViewDataSource & UITableViewDelegate
@@ -222,6 +198,8 @@
     {
         cell.publishTitleLabel.text = info.roomName;
     }
+    
+    cell.anchorLabel.text = info.anchorName;
     
 //    if (info.livesCount > 1)
 //    {

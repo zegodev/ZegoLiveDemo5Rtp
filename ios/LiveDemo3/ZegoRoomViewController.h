@@ -11,6 +11,7 @@
 @interface ZegoRoomTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *publishTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *anchorLabel;
 @property (nonatomic, weak) IBOutlet UILabel *livesCountLabel;
 
 @end

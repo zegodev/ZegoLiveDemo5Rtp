@@ -95,6 +95,8 @@
     self.sharedButton.enabled = NO;
     self.fullscreenButton.hidden = YES;
     
+    self.useFrontCamera = YES;
+    
     [self playStreamEnteringRoom];
     
     if ([ZegoDemoHelper recordTime])
@@ -228,7 +230,7 @@
     self.viewContainersDict[streamID] = bigView;
     
     bool ret = [[ZegoDemoHelper api] startPlayingStream:streamID inView:bigView];
-    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFill ofStream:streamID];
+    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
     [[ZegoDemoHelper api] setViewRotation:0 ofStream:streamID];
     
     assert(ret);
@@ -520,6 +522,8 @@
 
 - (void)setupLiveKit
 {
+    [[ZegoDemoHelper api] setRoomConfig:NO userStateUpdate:YES];
+    
     [[ZegoDemoHelper api] setRoomDelegate:self];
     [[ZegoDemoHelper api] setPlayerDelegate:self];
     [[ZegoDemoHelper api] setPublisherDelegate:self];
@@ -641,12 +645,25 @@
                     continue;
                 }
                 
-                for (ZegoStream *mixStream in self.mixStreamList) {
-                    if(mixStream.extraInfo.length > 0 && [mixStream.streamID isEqualToString:stream.streamID]) {
-                        [self.mixStreamList removeObject:stream];
+                ZegoStream *removeStream = nil;
+                for (ZegoStream *localStream in self.streamList) {
+                    if ([localStream.streamID isEqualToString:stream.streamID]) {
+                        removeStream = localStream;
                         break;
                     }
                 }
+                
+                [self.streamList removeObject:removeStream];
+                
+                removeStream = nil;
+                for (ZegoStream *mixStream in self.mixStreamList) {
+                    if([mixStream.streamID isEqualToString:stream.streamID]) {
+                        removeStream = mixStream;
+                        break;
+                    }
+                }
+                
+                [self.mixStreamList removeObject:removeStream];
             }
             
             [self stopPlayMixStream:streamList];
@@ -1034,6 +1051,7 @@
         [self removeStreamViewContainer:self.publishStreamID];
         
         //停止拉单流
+        [self.mixStreamList removeAllObjects];
         [self.mixStreamList addObjectsFromArray:self.streamList];
         [self onStreamUpdateForDelete:self.streamList.copy];
         [self.streamList removeAllObjects];
