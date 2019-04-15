@@ -11,9 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zego.livedemo5.R;
-import com.zego.livedemo5.presenters.RoomInfo;
-import com.zego.livedemo5.utils.StringUtil;
-import com.zego.livedemo5.utils.ZegoRoomUtil;
+import com.zego.support.RoomInfo;
 import com.zego.livedemo5.ui.widgets.CirImageView;
 import com.zego.livedemo5.ui.widgets.MaterialProgressBarSupport;
 
@@ -60,23 +58,22 @@ public class ListRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (hasMoreData) {
                 ((FooterViewHolder) holder).mProgressView.setVisibility(View.VISIBLE);
                 ((FooterViewHolder) holder).mProgressView.startProgress();
-                //((FooterViewHolder) holder).mProgressView.setIndeterminate(true);
+
                 ((FooterViewHolder) holder).mTextView.setText(R.string.app_loading_more);
             } else {
                 ((FooterViewHolder) holder).mProgressView.stopProgress();
                 ((FooterViewHolder) holder).mProgressView.setVisibility(View.GONE);
-                //((FooterViewHolder) holder).mProgressView.st;
                 ((FooterViewHolder) holder).mTextView.setText(R.string.app_no_more_data);
                 ((FooterViewHolder) holder).mTextView.setVisibility(View.GONE);
             }
         } else {
             RoomInfo room = mListRoom.get(position);
-            String roomName = room.room_name;
+            String roomName = room.getRoomName();
             if(TextUtils.isEmpty(roomName)){
-                roomName = room.room_id;
+                roomName = room.getRoomId();
             }
-            ((LiveListHolder) holder).tvPulishTitle.setText(StringUtil.replaceBlank(roomName));
-            ((LiveListHolder) holder).tvPublishTime.setText(StringUtil.replaceBlank(room.anchor_nick_name));
+            ((LiveListHolder) holder).tvPulishTitle.setText(roomName);
+            ((LiveListHolder) holder).tvPublishTime.setText(room.getAnchorNickName());
 
             if (mOnItemClickListener != null) {
                 ((LiveListHolder) holder).rlytItem.setOnClickListener(new View.OnClickListener() {

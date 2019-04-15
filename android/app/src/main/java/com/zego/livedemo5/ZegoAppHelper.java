@@ -12,10 +12,10 @@ import android.os.HandlerThread;
 public class ZegoAppHelper {
 
     /**
-     * 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
-     * Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey,其他模式不需要可不用填
+     * 请提前在即构管理控制台获取 appID 与 appSign
+     * Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 appSign,其他模式不需要可不用填
      * AppID 填写样式示例：1234567890l
-     * signKey 填写样式示例：{(byte)0x00,(byte)0x01,(byte)0x02,(byte)0x03}
+     * appSign 填写样式示例：{(byte)0x00,(byte)0x01,(byte)0x02,(byte)0x03}
      **/
 
     static final public long RTMP_APP_ID = ;
@@ -24,11 +24,11 @@ public class ZegoAppHelper {
 
     static final public long INTERNATIONAL_APP_ID = ;
 
-    static final private byte[] RTMP_SIGN_KEY = new byte[]{};
+    static final private byte[] RTMP_APP_SIGN =;
 
-    static final private byte[] UDP_SIGN_KEY = new byte[]{};
+    static final private byte[] UDP_APP_SIGN =;
 
-    static final private byte[] INTERNATIONAL_SIGN_KEY = new byte[]{};
+    static final private byte[] INTERNATIONAL_APP_SIGN = ;
 
     private static ZegoAppHelper sInstance = new ZegoAppHelper();
 
@@ -82,11 +82,11 @@ public class ZegoAppHelper {
 
     static public byte[] requestSignKey(long appId) {
         if (isRtmpProduct(appId)) {
-            return RTMP_SIGN_KEY;
+            return RTMP_APP_SIGN;
         } else if (isUdpProduct(appId)) {
-            return UDP_SIGN_KEY;
+            return UDP_APP_SIGN;
         } else if (isInternationalProduct(appId)) {
-            return INTERNATIONAL_SIGN_KEY;
+            return INTERNATIONAL_APP_SIGN;
         }
         return null;
     }
@@ -104,25 +104,25 @@ public class ZegoAppHelper {
         return appTitle;
     }
 
-    static public String convertSignKey2String(byte[] signKey) {
+    static public String convertSignKey2String(byte[] appSign) {
         StringBuilder buffer = new StringBuilder();
-        for (int b : signKey) {
+        for (int b : appSign) {
             buffer.append("0x").append(Integer.toHexString((b & 0x000000FF) | 0xFFFFFF00).substring(6)).append(",");
         }
         buffer.setLength(buffer.length() - 1);
         return buffer.toString();
     }
 
-    static public byte[] parseSignKeyFromString(String strSignKey) throws NumberFormatException {
-        String[] keys = strSignKey.split(",");
+    static public byte[] parseSignKeyFromString(String strAppSign) throws NumberFormatException {
+        String[] keys = strAppSign.split(",");
         if (keys.length != 32) {
             throw new NumberFormatException("App Sign Key Illegal");
         }
-        byte[] byteSignKey = new byte[32];
+        byte[] byteAppSign = new byte[32];
         for (int i = 0; i < 32; i++) {
             int data = Integer.valueOf(keys[i].trim().replace("0x", ""), 16);
-            byteSignKey[i] = (byte) data;
+            byteAppSign[i] = (byte) data;
         }
-        return byteSignKey;
+        return byteAppSign;
     }
 }

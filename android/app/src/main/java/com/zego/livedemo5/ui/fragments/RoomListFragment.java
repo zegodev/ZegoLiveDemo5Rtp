@@ -7,15 +7,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.android.volley.VolleyError;
 import com.zego.livedemo5.MainActivity;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.ZegoApiManager;
-import com.zego.livedemo5.interfaces.OnUpdateRoomListListener;
+import com.zego.livedemo5.ZegoApplication;
 import com.zego.livedemo5.presenters.BizLivePresenter;
-import com.zego.livedemo5.presenters.RoomInfo;
-import com.zego.livedemo5.ui.activities.externalrender.ExternalRenderPlayActivity;
 import com.zego.livedemo5.ui.activities.gamelive.GameLivingPlayActivity;
 import com.zego.livedemo5.ui.activities.mixstream.MixStreamPlayActivity;
 import com.zego.livedemo5.ui.activities.moreanchors.MoreAnchorsPlayActivity;
@@ -25,9 +21,11 @@ import com.zego.livedemo5.utils.ZegoRoomUtil;
 import com.zego.livedemo5.ui.adapters.ListRoomAdapter;
 import com.zego.livedemo5.ui.adapters.SpaceItemDecoration;
 import com.zego.livedemo5.ui.activities.base.AbsBaseFragment;
+import com.zego.support.RoomInfo;
+import com.zego.support.RoomListUpdateListener;
+import com.zego.zegoliveroom.callback.IZegoInitSDKCompletionCallback;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 
@@ -35,7 +33,7 @@ import butterknife.Bind;
  * Copyright © 2016 Zego. All rights reserved.
  * des:
  */
-public class RoomListFragment extends AbsBaseFragment implements MainActivity.OnReInitSDKCallback {
+public class RoomListFragment extends AbsBaseFragment implements MainActivity.OnReInitSDKCallback, IZegoInitSDKCompletionCallback {
 
     @Bind(R.id.srl)
     public SwipeRefreshLayout swipeRefreshLayout;
@@ -68,42 +66,12 @@ public class RoomListFragment extends AbsBaseFragment implements MainActivity.On
     }
 
     @Override
+    public void onInitSDK(int errorCode) {
+        ZegoApplication.zgAppSupportApi.api().updateRoomList(ZegoApiManager.getInstance().getCurrentAppID());
+    }
+
+    @Override
     protected void initVariables() {
-
-        BizLivePresenter.getInstance().setUpdateRoomListListener(new OnUpdateRoomListListener() {
-            @Override
-            public void onUpdateRoomList(List<RoomInfo> listRoom) {
-                mListRoom.clear();
-                for (RoomInfo roomInfo : listRoom) {
-                    if ((roomInfo.stream_info != null && roomInfo.stream_info.size() > 0) || roomInfo.room_id.startsWith(ZegoRoomUtil.ROOM_PREFIX_WERE_WOLVES)) {
-                        mListRoom.add(roomInfo);
-                    }
-                }
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mListRoom.size() == 0) {
-                            tvHintPullRefresh.setVisibility(View.VISIBLE);
-                        } else {
-                            tvHintPullRefresh.setVisibility(View.INVISIBLE);
-                        }
-                        mListRoomAdapter.notifyDataSetChanged();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-                swipeRefreshLayout.setRefreshing(false);
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(RoomListFragment.this.getActivity(), getString(R.string.request_room_list_timeout), Toast.LENGTH_LONG);
-                    }
-                });
-            }
-        });
 
         mListRoom = new ArrayList<>();
         mListRoomAdapter = new ListRoomAdapter(mParentActivity, mListRoom);
@@ -121,25 +89,21 @@ public class RoomListFragment extends AbsBaseFragment implements MainActivity.On
                 }
                 // 默认为多人连麦模式, 为了兼容老版本
                 int publishType = 2;
-                if (roomInfo.room_id.startsWith(ZegoRoomUtil.ROOM_PREFIX_SINGLE_ANCHOR)) {
+                if (roomInfo.getRoomId().startsWith(ZegoRoomUtil.ROOM_PREFIX_SINGLE_ANCHOR)) {
                     publishType = 1;
-                } else if (roomInfo.room_id.startsWith(ZegoRoomUtil.ROOM_PREFIX_MORE_ANCHORS)) {
+                } else if (roomInfo.getRoomId().startsWith(ZegoRoomUtil.ROOM_PREFIX_MORE_ANCHORS)) {
                     publishType = 2;
-                } else if (roomInfo.room_id.startsWith(ZegoRoomUtil.ROOM_PREFIX_MIX_STREAM)) {
+                } else if (roomInfo.getRoomId().startsWith(ZegoRoomUtil.ROOM_PREFIX_MIX_STREAM)) {
                     publishType = 3;
-                } else if (roomInfo.room_id.startsWith(ZegoRoomUtil.ROOM_PREFIX_GAME_LIVING)) {
+                } else if (roomInfo.getRoomId().startsWith(ZegoRoomUtil.ROOM_PREFIX_GAME_LIVING)) {
                     publishType = 4;
-                } else if (roomInfo.room_id.startsWith(ZegoRoomUtil.ROOM_PREFIX_WERE_WOLVES)) {
+                } else if (roomInfo.getRoomId().startsWith(ZegoRoomUtil.ROOM_PREFIX_WERE_WOLVES)) {
                     publishType = 5;
                 }
 
                 switch (publishType) {
                     case 1:
-                        if (ZegoApiManager.getInstance().isUseExternalRender()) {
-                            ExternalRenderPlayActivity.actionStart(mParentActivity, roomInfo);
-                        } else {
-                            SingleAnchorPlayActivity.actionStart(mParentActivity, roomInfo);
-                        }
+                        SingleAnchorPlayActivity.actionStart(mParentActivity, roomInfo);
                         break;
                     case 2:
                         MoreAnchorsPlayActivity.actionStart(getActivity(), roomInfo);
@@ -162,7 +126,7 @@ public class RoomListFragment extends AbsBaseFragment implements MainActivity.On
     @Override
     public void onDestroy() {
         super.onDestroy();
-        BizLivePresenter.getInstance().setUpdateRoomListListener(null);
+        ZegoApplication.zgAppSupportApi.api().setRoomListUpdateListener(null);
         if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
         }
@@ -184,19 +148,59 @@ public class RoomListFragment extends AbsBaseFragment implements MainActivity.On
         rlvRoomList.setLayoutManager(mLinearLayoutManager);
         rlvRoomList.addItemDecoration(new SpaceItemDecoration(mResources.getDimensionPixelSize(R.dimen.dimen_5)));
 
+        ZegoApiManager.getInstance().setZegoInitSDKCompletionCallback(this);
+
         // 设置 进度条的颜色变化，最多可以设置4种颜色
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_blue_dark,
                 android.R.color.holo_orange_dark, android.R.color.holo_orange_dark);
 
+        ZegoApplication.zgAppSupportApi.api().setRoomListUpdateListener(new RoomListUpdateListener() {
+            @Override
+            public void onUpdateRoomList(ArrayList<RoomInfo> listRoom) {
+                mListRoom.clear();
+                for (com.zego.support.RoomInfo roomInfo : listRoom) {
+                    if ((roomInfo.getStreamInfo() != null && roomInfo.getStreamInfo().size() > 0) || roomInfo.getRoomId().startsWith(ZegoRoomUtil.ROOM_PREFIX_WERE_WOLVES)) {
+                        mListRoom.add(roomInfo);
+                    }
+                }
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mListRoom.size() == 0) {
+                            tvHintPullRefresh.setVisibility(View.VISIBLE);
+                        } else {
+                            tvHintPullRefresh.setVisibility(View.INVISIBLE);
+                        }
+                        mListRoomAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+
+            @Override
+            public void onUpdateRoomListError() {
+                swipeRefreshLayout.setRefreshing(false);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(RoomListFragment.this.getActivity(), getString(R.string.request_room_list_failure), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // 通知数据变化
+                mListRoomAdapter.notifyDataSetChanged();
                 // 下拉刷新, 数据清零
                 mListRoom.clear();
-
                 BizLivePresenter.getInstance().getRoomList();
             }
         });
+
+        BizLivePresenter.getInstance().getRoomList();
 
         rlvRoomList.setAdapter(mListRoomAdapter);
 

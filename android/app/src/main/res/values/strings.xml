@@ -87,7 +87,7 @@
     <string name="do_you_really_want_to_leave">Do you really want to leave?</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
-    <string name="request_room_list_timeout">Request Room List Timeout</string>
+    <string name="request_room_list_failure">Request Room List failure</string>
 
     <!--log-->
     <string name="someone_is_requesting_to_broadcast"><xliff:g id="value">%1$s</xliff:g>:&#160;is requesting to broadcast</string>
@@ -155,5 +155,7 @@
     <string name="tips_publish_finish">Publish finish，errorCode: %1$d, streamId: %2$s</string>
     <string name="tips_publish_stop">Stop publish</string>
     <string name="tips_over_max_play_channle_count">Over max play count</string>
+    <string name="tips_auto_open_hardware_codec">1080P resolution has opened the hardware codec, can be manually closed !</string>
+
 
 </resources>

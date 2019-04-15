@@ -81,15 +81,7 @@ public abstract class BasePublishActivity extends BaseLiveActivity {
     @Override
     protected void logout() {
         // 退出时不主动结束连麦，以后通过一单独入口来实现该功能
-//        for (final String userId : hasJoinedUsers) {
-//            mZegoLiveRoom.endJoinLive(userId, new IZegoEndJoinLiveCallback() {
-//                @Override
-//                public void onEndJoinLive(int result, String roomId) {
-//                    recordLog("onEndJoinLive, userId: %s, result: %d", userId, result);
-//                }
-//            });
-//        }
-//        hasJoinedUsers.clear();
+
         super.logout();
     }
 

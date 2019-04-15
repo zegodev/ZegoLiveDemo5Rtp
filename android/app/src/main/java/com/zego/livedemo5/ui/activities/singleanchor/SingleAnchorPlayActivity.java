@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.zego.support.RoomInfo;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.constants.IntentExtra;
-import com.zego.livedemo5.presenters.RoomInfo;
-import com.zego.livedemo5.presenters.StreamInfo;
 import com.zego.livedemo5.ui.activities.BasePlayActivity;
 import com.zego.livedemo5.ui.widgets.ViewLive;
 import com.zego.zegoliveroom.callback.IZegoLivePlayerCallback;
@@ -19,8 +18,8 @@ import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
-import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoConversationMessage;
+import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUserState;
@@ -41,7 +40,7 @@ public class SingleAnchorPlayActivity extends BasePlayActivity {
      */
     public static void actionStart(Activity activity, RoomInfo roomInfo) {
         Intent intent = new Intent(activity, SingleAnchorPlayActivity.class);
-        intent.putExtra(IntentExtra.ROOM_ID, roomInfo.room_id);
+        intent.putExtra(IntentExtra.ROOM_ID, roomInfo.getRoomId());
 
         ArrayList<String> streamList = getStremListFromRoomInfo(roomInfo);
         intent.putStringArrayListExtra(IntentExtra.LIST_STREAM, streamList);
@@ -58,9 +57,9 @@ public class SingleAnchorPlayActivity extends BasePlayActivity {
         mZegoLiveRoom.loginRoom(mRoomID, ZegoConstants.RoomRole.Audience, new IZegoLoginCompletionCallback() {
             @Override
             public void onLoginCompletion(int errorCode, ZegoStreamInfo[] zegoStreamInfos) {
-                if(errorCode == 0){
+                if (errorCode == 0) {
                     handleAudienceLoginRoomSuccess(zegoStreamInfos);
-                }else {
+                } else {
                     handleAudienceLoginRoomFail(errorCode);
                 }
             }
@@ -81,9 +80,9 @@ public class SingleAnchorPlayActivity extends BasePlayActivity {
             }
 
             @Override
-            public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
+            public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
                 // 拉流质量回调
-              handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
+                handlePlayQualityUpdate(s, zegoPlayStreamQuality.quality, zegoPlayStreamQuality.vdjFps, zegoPlayStreamQuality.vkbps);
             }
 
             @Override
@@ -134,6 +133,8 @@ public class SingleAnchorPlayActivity extends BasePlayActivity {
                             handleStreamDeleted(listStream, roomID);
                             break;
                     }
+                    // 禁止连麦按钮
+                    mTvPublisnControl.setEnabled(false);
                 }
             }
 
@@ -211,7 +212,7 @@ public class SingleAnchorPlayActivity extends BasePlayActivity {
 
     @Override
     protected void sendRoomMessage() {
-        doSendRoomMsg(mEdtMessage.getText().toString());
+        doSendRoomMsg(mTvMessage.getText().toString());
     }
 
     @Override

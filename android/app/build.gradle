@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     defaultConfig {
         applicationId "com.zego.livedemo5"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName getDemoVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -93,6 +93,7 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:3.0'
     implementation 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
     implementation 'com.google.guava:guava:18.0'
+    implementation 'com.android.support:multidex:1.0.3'
     testImplementation 'junit:junit:4.12'
     // Testing-only dependencies
     // Force usage of support annotations in the test app, since it is internally used by the runner module.
@@ -105,6 +106,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
     implementation(name: 'zego-qrcode', ext: 'aar')
+    implementation(name: 'zego-app-support', ext: 'aar')
     implementation 'com.alibaba:fastjson:1.2.44'
     androidTestImplementation 'com.android.support.test:runner:' + rootProject.runnerVersion
     androidTestImplementation 'com.android.support.test:rules:' + rootProject.rulesVersion

@@ -292,22 +292,31 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureDevice implements Ca
         Camera.Parameters parms = mCam.getParameters();
         Camera.Size psz = parms.getPreferredPreviewSizeForVideo();
 
-        // hardcode
-        psz.width = 640;
-        psz.height = 480;
-        parms.setPreviewSize(psz.width, psz.height);
-        mWidth = psz.width;
-        mHeight = psz.height;
+        if (psz == null) {
+            parms.setPreviewSize(640, 480);
+            mWidth = 640;
+            mHeight = 480;
+        } else {
+            // hardcode
+            psz.width = 640;
+            psz.height = 480;
+
+            parms.setPreviewSize(psz.width, psz.height);
+            mWidth = psz.width;
+            mHeight = psz.height;
+        }
 
         // *
         // * Now set fps
         // *
         List<int[]> supported = parms.getSupportedPreviewFpsRange();
 
-        for (int[] entry : supported) {
-            if ((entry[0] == entry[1]) && entry[0] == mFrameRate * 1000) {
-                parms.setPreviewFpsRange(entry[0], entry[1]);
-                break;
+        if (supported != null) {
+            for (int[] entry : supported) {
+                if ((entry[0] == entry[1]) && entry[0] == mFrameRate * 1000) {
+                    parms.setPreviewFpsRange(entry[0], entry[1]);
+                    break;
+                }
             }
         }
 
@@ -328,15 +337,18 @@ public class VideoCaptureFromCamera extends ZegoVideoCaptureDevice implements Ca
         // * focus mode
         // *
         boolean bFocusModeSet = false;
-        for (String mode : parms.getSupportedFocusModes()) {
-            if (mode.compareTo(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO) == 0) {
-                try {
-                    parms.setFocusMode(mode);
-                    bFocusModeSet = true;
-                    break;
-                } catch (Exception ex) {
-                    Log.i(TAG, "[WARNING] vcap: set focus mode error (stack trace followed)!!!\n");
-                    ex.printStackTrace();
+        List<String> supportFocusModes = parms.getSupportedFocusModes();
+        if (supportFocusModes != null) {
+            for (String mode : supportFocusModes) {
+                if (mode.compareTo(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO) == 0) {
+                    try {
+                        parms.setFocusMode(mode);
+                        bFocusModeSet = true;
+                        break;
+                    } catch (Exception ex) {
+                        Log.i(TAG, "[WARNING] vcap: set focus mode error (stack trace followed)!!!\n");
+                        ex.printStackTrace();
+                    }
                 }
             }
         }

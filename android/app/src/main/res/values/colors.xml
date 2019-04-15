@@ -24,6 +24,8 @@
     <color name="bg_yellow_p">#fcaf09</color>
     <color name="bg_orangered">#ff4500</color>
 
+    <color name="bg_transparent_white">#20ffffff</color>
+
     <!--分隔符-->
     <color name="divider_gray">#dedede</color>
 

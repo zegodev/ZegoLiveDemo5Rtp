@@ -18,9 +18,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.zego.support.RoomInfo;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.constants.IntentExtra;
-import com.zego.livedemo5.presenters.RoomInfo;
 import com.zego.livedemo5.utils.JsonUtil;
 import com.zego.livedemo5.utils.PreferenceUtil;
 import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
@@ -34,8 +34,9 @@ import com.zego.zegoliveroom.constants.ZegoIM;
 import com.zego.zegoliveroom.constants.ZegoVideoViewMode;
 import com.zego.zegoliveroom.entity.AuxData;
 import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
-import com.zego.zegoliveroom.entity.ZegoStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoConversationMessage;
+import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoPublishStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUser;
@@ -61,10 +62,10 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
 
     public static void actionStart(Activity context, RoomInfo roomInfo)  {
         Intent intent = new Intent(context, WolvesGameInTurnActivity.class);
-        intent.putExtra(IntentExtra.ROOM_ID, roomInfo.room_id);
-        intent.putExtra(IntentExtra.ROOM_NAME, roomInfo.room_name);
-        intent.putExtra(IntentExtra.ANCHOR_ID, roomInfo.anchor_id_name);
-        intent.putExtra(IntentExtra.ANCHOR_NAME, roomInfo.anchor_nick_name);
+        intent.putExtra(IntentExtra.ROOM_ID, roomInfo.getRoomId());
+        intent.putExtra(IntentExtra.ROOM_NAME, roomInfo.getRoomName());
+        intent.putExtra(IntentExtra.ANCHOR_ID, roomInfo.getAnchorIdName());
+        intent.putExtra(IntentExtra.ANCHOR_NAME, roomInfo.getAnchorNickName());
         context.startActivity(intent);
         context.overridePendingTransition(R.anim.scale_translate,
                 R.anim.my_alpha_action);
@@ -586,9 +587,10 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
         }
 
         @Override
-        public void onPublishQualityUpdate(String s, ZegoStreamQuality streamQuality) {
+        public void onPublishQualityUpdate(String s, ZegoPublishStreamQuality zegoPublishStreamQuality) {
 
         }
+
 
         /**
          * 音乐伴奏回调, 每次取20毫秒的数据.
@@ -623,6 +625,11 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
         public void onMixStreamConfigUpdate(int stateCode, String mixStreamId, HashMap<String, Object> streamInfo) {
 
         }
+
+        @Override
+        public void onCaptureVideoFirstFrame() {
+
+        }
     }
 
     private class ZegoLivePlayerCallback implements IZegoLivePlayerCallback {
@@ -638,7 +645,7 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
         }
 
         @Override
-        public void onPlayQualityUpdate(String s, ZegoStreamQuality streamQuality) {
+        public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
 
         }
 

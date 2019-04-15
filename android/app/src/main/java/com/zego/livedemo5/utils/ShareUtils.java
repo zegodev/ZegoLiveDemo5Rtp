@@ -1,15 +1,20 @@
 package com.zego.livedemo5.utils;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.zego.livedemo5.BuildConfig;
 import com.zego.livedemo5.ZegoApplication;
 
 import java.io.File;
@@ -53,7 +58,7 @@ public class ShareUtils {
      * @param listShareUrls
      */
     public void shareToQQ(Activity activity, List<String> listShareUrls, String bizID, String streamID) {
-        if (listShareUrls != null && listShareUrls.size() >=2 && activity != null) {
+        if (listShareUrls != null && listShareUrls.size() >= 2 && activity != null) {
 
             String url = "http://www.zego.im/share/index2?video=" + listShareUrls.get(0) + "&rtmp=" + listShareUrls.get(1) +
                     "&id=" + bizID + "stream=" + streamID;
@@ -97,7 +102,7 @@ public class ShareUtils {
                 public void onCancel() {
                 }
             });
-        }else {
+        } else {
             Toast.makeText(activity, "分享失败!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -127,10 +132,17 @@ public class ShareUtils {
             ZipUtil.zipFiles(fileList, zipFile, "Zego LiveDemo5 日志信息");
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//            shareIntent.setDataAndType(Uri.fromFile(zipFile), "application/zip");//getMimeType(logFile));
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(zipFile));
-            shareIntent.setType("application/zip");//getMimeType(logFile));
-//            shareIntent.putExtra(Intent.EXTRA_TEXT, "ZegoLiveDemo5 日志信息");
+            Uri uri;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                uri = FileProvider.getUriForFile(activity, "com.zego.livedemo5.fileProvider", zipFile);
+            }else {
+                uri = Uri.fromFile(zipFile);
+            }
+
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.setType("application/zip");
+
             shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                     | Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -139,4 +151,5 @@ public class ShareUtils {
             e.printStackTrace();
         }
     }
+
 }

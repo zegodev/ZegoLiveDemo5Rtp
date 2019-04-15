@@ -3,46 +3,51 @@ package com.zego.livedemo5;
 import android.app.Application;
 import android.content.Context;
 import android.os.Looper;
-import android.os.StrictMode;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.zego.livedemo5.utils.LiveQualityLogger;
 import com.zego.livedemo5.utils.PreferenceUtil;
+import com.zego.support.AppType;
+import com.zego.support.api.ZGAppSupportHelper;
+import com.zego.zegoliveroom.ZegoLiveRoom;
 
 
 /**
  * des: 自定义Application.
  */
-public class ZegoApplication extends Application implements Thread.UncaughtExceptionHandler {
+public class ZegoApplication extends android.support.multidex.MultiDexApplication implements Thread.UncaughtExceptionHandler {
 
     public static final String TAG = ZegoApplication.class.getSimpleName();
 
-    public static Context sApplicationContext;
+    public static ZegoApplication sApplicationContext;
 
     Thread.UncaughtExceptionHandler mDefaultHandler;
 
+    public static ZGAppSupportHelper zgAppSupportApi;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        sApplicationContext = this;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        sApplicationContext = this;
+        setupSDKContext();
 
-        // 初始化sdk
-        ZegoApiManager.getInstance().initSDK();
+        zgAppSupportApi = ZGAppSupportHelper.create(this);
+        zgAppSupportApi.api().setAutoConfigParams(AppType.LIVE_DEMO5, "");
 
         // bugly初始化用户id
         CrashReport.initCrashReport(getApplicationContext(), "2da9d0c1ef", false);
         CrashReport.setUserId(PreferenceUtil.getInstance().getUserID());
 
-//        // 获取系统默认的UncaughtException处理器
-//        mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
-//        // 设置该CrashHandler为程序的默认处理器
-//        Thread.setDefaultUncaughtExceptionHandler(this);
-
-        // delete latest traffic log then create a new log file
         LiveQualityLogger.openAndReset();
     }
 
@@ -92,5 +97,34 @@ public class ZegoApplication extends Application implements Thread.UncaughtExcep
         }.start();
 
         return true;
+    }
+
+    public static void setupSDKContext() {
+        // 注意，必须在调用其它 ZegoAPI 之前调用此方法
+        ZegoLiveRoom.setSDKContext(new ZegoLiveRoom.SDKContextEx() {
+            @Override
+            public long getLogFileSize() {
+                return 10 * 1024 * 1024;    // 单个日志文件大小不超过 10M，取值范围为 [5M, 100M]
+            }
+
+            @Nullable
+            @Override
+            public String getSoFullPath() {
+                return null;                // return null 表示使用默认方式加载 libzegoliveroom.so，此处可以返回 so 的绝对路径，用来指定从这个位置加载 libzegoliveroom.so，确保应用具备存取此路径的权限
+            }
+
+            @Nullable
+            @Override
+            public String getLogPath() {
+                return null;        // return null 表示日志文件会存储到默认位置，如果返回非空，则将日志文件存储到该路径下，注意应用必须具备存取该目录的权限
+            }
+
+            @NonNull
+            @Override
+            public Application getAppContext() {
+                return ZegoApplication.sApplicationContext;    // 必须返回当前应用的 Application 实例
+            }
+
+        });
     }
 }

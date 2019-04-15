@@ -14,8 +14,8 @@ import com.google.gson.reflect.TypeToken;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.constants.Constants;
 import com.zego.livedemo5.constants.IntentExtra;
-import com.zego.livedemo5.presenters.RoomInfo;
-import com.zego.livedemo5.presenters.StreamInfo;
+import com.zego.support.RoomInfo;
+import com.zego.support.StreamInfo;
 import com.zego.livedemo5.ui.widgets.ViewLive;
 import com.zego.livedemo5.utils.PreferenceUtil;
 import com.zego.livedemo5.utils.ZegoRoomUtil;
@@ -68,10 +68,10 @@ public abstract class BasePlayActivity extends BaseLiveActivity {
 
     static protected ArrayList<String> getStremListFromRoomInfo(RoomInfo roomInfo) {
         ArrayList<String> streamList = null;
-        if (roomInfo.stream_info != null && roomInfo.stream_info.size() > 0) {
-            streamList = new ArrayList<>(roomInfo.stream_info.size());
-            for (StreamInfo stream : roomInfo.stream_info) {
-                streamList.add(stream.stream_id);
+        if (roomInfo.getStreamInfo() != null && roomInfo.getStreamInfo().size() > 0) {
+            streamList = new ArrayList<>(roomInfo.getStreamInfo().size());
+            for (StreamInfo stream : roomInfo.getStreamInfo()) {
+                streamList.add(stream.getStreamId());
             }
         }
         return streamList;

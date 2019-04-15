@@ -6,10 +6,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
+import com.zego.support.RoomInfo;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.constants.IntentExtra;
-import com.zego.livedemo5.presenters.RoomInfo;
-import com.zego.livedemo5.presenters.StreamInfo;
 import com.zego.livedemo5.ui.activities.BasePlayActivity;
 import com.zego.livedemo5.ui.widgets.ViewLive;
 import com.zego.zegoliveroom.callback.IZegoLivePlayerCallback;
@@ -20,13 +19,13 @@ import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.AuxData;
 import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
-import com.zego.zegoliveroom.entity.ZegoStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoPublishStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoConversationMessage;
 import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUserState;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -48,7 +47,7 @@ public class MixStreamPlayActivity extends BasePlayActivity {
      */
     public static void actionStart(Activity activity, RoomInfo roomInfo) {
         Intent intent = new Intent(activity, MixStreamPlayActivity.class);
-        intent.putExtra(IntentExtra.ROOM_ID, roomInfo.room_id);
+        intent.putExtra(IntentExtra.ROOM_ID, roomInfo.getRoomId());
 
 //        ArrayList<String> streamList = getStremListFromRoomInfo(roomInfo);
 //        intent.putStringArrayListExtra(IntentExtra.LIST_STREAM, streamList);
@@ -89,8 +88,8 @@ public class MixStreamPlayActivity extends BasePlayActivity {
             }
 
             @Override
-            public void onPublishQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
-                handlePublishQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
+            public void onPublishQualityUpdate(String streamID, ZegoPublishStreamQuality streamQuality) {
+                handlePublishQualityUpdate(streamID, streamQuality.quality, streamQuality.vnetFps, streamQuality.vkbps);
             }
 
             @Override
@@ -107,6 +106,11 @@ public class MixStreamPlayActivity extends BasePlayActivity {
             public void onMixStreamConfigUpdate(int errorCode, String streamID, HashMap<String, Object> streamInfo) {
 
             }
+
+            @Override
+            public void onCaptureVideoFirstFrame() {
+
+            }
         });
 
         mZegoLiveRoom.setZegoLivePlayerCallback(new IZegoLivePlayerCallback() {
@@ -121,9 +125,9 @@ public class MixStreamPlayActivity extends BasePlayActivity {
             }
 
             @Override
-            public void onPlayQualityUpdate(String streamID, ZegoStreamQuality streamQuality) {
+            public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
                 // 拉流质量回调
-              handlePlayQualityUpdate(streamID, streamQuality.quality, streamQuality.videoFPS, streamQuality.videoBitrate);
+                handlePlayQualityUpdate(s, zegoPlayStreamQuality.quality, zegoPlayStreamQuality.vdjFps, zegoPlayStreamQuality.vkbps);
             }
 
             @Override
@@ -282,7 +286,7 @@ public class MixStreamPlayActivity extends BasePlayActivity {
 
     @Override
     protected void sendRoomMessage() {
-        doSendRoomMsg(mEdtMessage.getText().toString());
+        doSendRoomMsg(mTvMessage.getText().toString());
     }
 
     @Override

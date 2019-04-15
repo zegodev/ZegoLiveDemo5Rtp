@@ -29,9 +29,9 @@ public class ZegoRoomUtil {
     public static final String ROOM_PREFIX_WERE_WOLVES = "#i-";
 
 
-    public static String getRoomID(int roomType){
+    public static String getRoomID(int roomType) {
         String roomID = null;
-        switch (roomType){
+        switch (roomType) {
             case ROOM_TYPE_SINGLE:
                 roomID = ROOM_PREFIX_SINGLE_ANCHOR;
                 break;
@@ -49,14 +49,14 @@ public class ZegoRoomUtil {
                 break;
         }
 
-        return roomID + PreferenceUtil.getInstance().getUserID();
+        return roomID + PreferenceUtil.getInstance().getUserID() + "-" + System.currentTimeMillis();
     }
 
-    public static String getPublishStreamID(){
+    public static String getPublishStreamID() {
         return "s-" + PreferenceUtil.getInstance().getUserID() + "-" + System.currentTimeMillis();
     }
 
-    public static int getZegoBeauty(int index){
+    public static int getZegoBeauty(int index) {
 
         int beauty = 0;
 

@@ -12,17 +12,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.zego.support.RoomInfo;
 import com.zego.livedemo5.R;
 import com.zego.livedemo5.ZegoApiManager;
 import com.zego.livedemo5.constants.IntentExtra;
-import com.zego.livedemo5.presenters.RoomInfo;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoLivePlayerCallback;
 import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.constants.ZegoVideoViewMode;
-import com.zego.zegoliveroom.entity.ZegoStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 
 /**
@@ -50,7 +50,7 @@ public class GameLivingPlayActivity extends AppCompatActivity {
      */
     public static void actionStart(Activity activity, RoomInfo roomInfo) {
         Intent intent = new Intent(activity, GameLivingPlayActivity.class);
-        intent.putExtra(IntentExtra.ROOM_ID, roomInfo.room_id);
+        intent.putExtra(IntentExtra.ROOM_ID, roomInfo.getRoomId());
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.scale_translate,
                 R.anim.my_alpha_action);
@@ -111,9 +111,10 @@ public class GameLivingPlayActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPlayQualityUpdate(String s, ZegoStreamQuality streamQuality) {
+            public void onPlayQualityUpdate(String s, ZegoPlayStreamQuality zegoPlayStreamQuality) {
 
             }
+
 
             @Override
             public void onInviteJoinLiveRequest(int seq, String fromUserID, String fromUserName, String roomID) {

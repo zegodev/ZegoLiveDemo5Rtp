@@ -25,7 +25,6 @@ import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -41,6 +40,7 @@ import com.zego.livedemo5.R;
 import com.zego.livedemo5.ZegoApiManager;
 import com.zego.livedemo5.ui.activities.base.AbsBaseLiveActivity;
 import com.zego.livedemo5.ui.adapters.CommentsAdapter;
+import com.zego.livedemo5.ui.widgets.BottomEditTextDialog;
 import com.zego.livedemo5.ui.widgets.PublishSettingsPannel;
 import com.zego.livedemo5.ui.widgets.ViewLive;
 import com.zego.livedemo5.utils.LiveQualityLogger;
@@ -88,13 +88,11 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
 
     protected TextView mTvPublisnControl = null;
 
-    //protected VideoRenderer videoRenderer = null;
-
     protected TextView mTvPublishSetting = null;
 
     protected TextView mTvSpeaker = null;
 
-    protected EditText mEdtMessage = null;
+    protected TextView mTvMessage = null;
 
     protected TextView mTvSendRoomMsg = null;
 
@@ -109,6 +107,8 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
     protected String mPublishStreamID = null;
 
     protected LinearLayout mllytHeader = null;
+
+    protected TextView mTvMediaSideInfo = null;
 
     protected boolean mIsPublishing = false;
 
@@ -209,10 +209,6 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         // 初始化电话监听器
         initPhoneCallingListener();
 
-        RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) findViewById(R.id.textureView).getLayoutParams();
-        layoutParams.height = getWindowManager().getDefaultDisplay().getHeight();
-        layoutParams.width = getWindowManager().getDefaultDisplay().getWidth();
-        findViewById(R.id.zego_scrollview).setLayoutParams(layoutParams);
     }
 
     /**
@@ -415,8 +411,22 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
             }
         });
 
-        mEdtMessage = (EditText) findViewById(R.id.et_msg);
-        mEdtMessage.setSelection(mEdtMessage.getText().length());
+        mTvMessage = (TextView) findViewById(R.id.et_msg);
+
+
+        mTvMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final BottomEditTextDialog bottomEditTextDialog = new BottomEditTextDialog(mTvMessage.getText().toString(), v.getContext(), true, true);
+                bottomEditTextDialog.show();
+                bottomEditTextDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        mTvMessage.setText(bottomEditTextDialog.getMsg());
+                    }
+                });
+            }
+        });
 
         mLvComments = (RecyclerView) findViewById(R.id.lv_comments);
         mCommentsAdapter = new CommentsAdapter(this, new ArrayList<ZegoRoomMessage>());
@@ -432,6 +442,10 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         mRlytControlHeader.bringToFront();
 
         mTvPublisnControl.setEnabled(false);
+
+        mTvMediaSideInfo = (TextView) findViewById(R.id.tv_media_side_info);
+        mTvMediaSideInfo.setVisibility(View.GONE);
+        mTvMediaSideInfo.setText("");
     }
 
     ViewLive vlBigView;
@@ -672,17 +686,6 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         //开启双声道
         mZegoLiveRoom.setAudioChannelCount(2);
 
-        // 开始播放
-        //if(PreferenceUtil.getInstance().getUseExternalRender(false)){
-        //  if(videoRenderer == null){
-        //      videoRenderer = new VideoRenderer();
-        //  }
-        // 开启外部渲染
-        // videoRenderer.init();
-        // videoRenderer.setRendererView(freeViewLive.getTextureView());
-        // mZegoLiveRoom.setZegoExternalRenderCallback(videoRenderer);
-        //}else{
-        // }
         mZegoLiveRoom.setPreviewView(freeViewLive.getTextureView());
         mZegoLiveRoom.startPreview();
 
@@ -726,12 +729,6 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
             mZegoLiveRoom.stopPublishing();
             mZegoLiveRoom.stopPreview();
             mZegoLiveRoom.setPreviewView(null);
-
-//            mZegoLiveRoom.setZegoExternalRenderCallback(null);
-//            if(videoRenderer != null){
-//                videoRenderer.uninit();
-//
-//            }
         }
     }
 
@@ -1114,7 +1111,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(mMessage)
-
+                .setCancelable(false)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -1181,7 +1178,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
             @Override
             public void onSendRoomMessage(int errorCode, String roomID, long messageID) {
                 if (errorCode == 0) {
-                    mEdtMessage.setText("");
+                    mTvMessage.setText("");
                     recordLog(MY_SELF + ": 发送房间消息成功, roomID:" + roomID);
                 } else {
                     recordLog(MY_SELF + ": 发送房间消息失败, roomID:" + roomID + ", messageID:" + messageID);
@@ -1206,6 +1203,10 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
         TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
         mPhoneStateListener = null;
+    }
+
+    @Override
+    public void finish() {
         // 清空回调, 避免内存泄漏
         mZegoLiveRoom.setZegoLivePublisherCallback(null);
         mZegoLiveRoom.setZegoLivePlayerCallback(null);
@@ -1219,8 +1220,8 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
             viewLive.destroy();
         }
 
+        super.finish();
     }
-
 
     /**
      * 设置推流朝向.

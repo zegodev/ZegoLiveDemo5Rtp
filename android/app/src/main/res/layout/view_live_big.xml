@@ -4,22 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.zego.livedemo5.ui.widgets.ZegoScrollView
-        android:id="@+id/zego_scrollview"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <TextureView
+            android:id="@+id/textureView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextureView
-                android:id="@+id/textureView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
-    </com.zego.livedemo5.ui.widgets.ZegoScrollView>
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 
 
     <RelativeLayout

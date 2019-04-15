@@ -71,7 +71,7 @@
 
     <string name="zg_scan_qr_code">扫描二维码</string>
     <string name="zg_scan_qr_code_setting">扫码设置</string>
-    <string name="zg_scan_qr_code_setting_text">通过扫描二维码快速完成是设置</string>
+    <string name="zg_scan_qr_code_setting_text">通过扫描二维码快速完成设置</string>
 
     <string name="zg_toast_config_successful">配置成功</string>
     <string name="zg_toast_config_failure">配置失败</string>
@@ -86,7 +86,7 @@
     <string name="do_you_really_want_to_leave">确定要退出直播页面吗</string>
     <string name="Yes">确定</string>
     <string name="No">取消</string>
-    <string name="request_room_list_timeout">请求房间列表超时!</string>
+    <string name="request_room_list_failure">请求房间列表失败!</string>
     <string name="dialog_anchor_stop_live">当前主播停止直播</string>
     <string name="dialog_stop_live_title">提示</string>
 
@@ -152,6 +152,6 @@
     <string name="tips_publish_finish">发布直播结束，errorCode: %1$d, streamId: %2$s</string>
     <string name="tips_publish_stop">推流终止</string>
     <string name="tips_over_max_play_channle_count">超出房间人数容纳上限</string>
-
+    <string name="tips_auto_open_hardware_codec">1080P 分辨率已打开硬件编解码, 可手动关闭!</string>
 
 </resources>
