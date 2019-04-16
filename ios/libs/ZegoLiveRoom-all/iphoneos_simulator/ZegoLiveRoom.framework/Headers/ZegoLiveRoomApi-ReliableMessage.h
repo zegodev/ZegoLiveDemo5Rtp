@@ -22,8 +22,8 @@ typedef void(^ZegoSendReliableMessageCompletionBlock)(int errorCode, NSString *r
 /**
  业务广播
  
- @param msg 业务广播数据，不能超过 10240 字节
- @param type 业务广播类型，不能超过 128 字节
+ @param msg 业务广播数据，不能超过 2048 字节, 允许为空字符串
+ @param type 业务广播类型，不能超过 128 字节, 不允许为空字符串
  @param completionBlock 业务广播结果，回调 server 下发的转发结果
  @return true 成功，false 失败
  @discussion

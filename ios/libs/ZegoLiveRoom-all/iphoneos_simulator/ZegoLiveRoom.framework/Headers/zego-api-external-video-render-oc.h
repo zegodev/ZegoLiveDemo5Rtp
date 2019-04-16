@@ -27,6 +27,19 @@
 - (CVPixelBufferRef)onCreateInputBufferWithWidth:(int)width height:(int)height cvPixelFormatType:(OSType)cvPixelFormatType;
 
 /**
+ SDK 从用户端获取 PixelBuffer 地址
+ 
+ @param width 视频宽度
+ @param height 视频高度
+ @param cvPixelFormatType format type，用来创建CVPixelBufferRef对象
+ @param streamID 流名
+ @return CVPixelBufferRef 对象
+ @discussion 开启外部渲染，设置外部渲染代理对象成功后，SDK 通过此 API 从用户端获取 PixelBuffer 地址。SDK 获取到用户指定的 PixelBuffer 后，将采集的视频源数据拷贝进去
+ */
+- (CVPixelBufferRef)onCreateInputBufferWithWidth:(int)width height:(int)height cvPixelFormatType:(OSType)cvPixelFormatType streamID:(NSString *)streamID;
+
+
+/**
  SDK 拷贝视频数据完成通知
  
  @param pixelBuffer 拷贝完成的 PixelBuffer 地址
@@ -82,6 +95,7 @@ typedef NS_ENUM(NSInteger, VideoExternalRenderType) {
  @param enable true 开启， false 不开启，默认为不开启
  @param streamID 流ID
  @note 只要当VideoExternalRenderType设置为DECODE_RENDER，该接口才有效
+ @note 在拉流之后调用有效
  */
 + (bool)enableVideoRender:(BOOL)enable streamID:(NSString *)streamID;
 
@@ -91,6 +105,7 @@ typedef NS_ENUM(NSInteger, VideoExternalRenderType) {
  @param enable true 开启， false 不开启，默认为不开启
  @param channelIndex 推流通道，默认为主通道
  @note 只要当VideoExternalRenderType设置为DECODE_RENDER，该接口才有效
+ @note 在初始化SDK之后调用有效
  */
 + (bool)enableVideoPreview:(BOOL)enable channelIndex:(ZegoAPIPublishChannelIndex)channelIndex;
 

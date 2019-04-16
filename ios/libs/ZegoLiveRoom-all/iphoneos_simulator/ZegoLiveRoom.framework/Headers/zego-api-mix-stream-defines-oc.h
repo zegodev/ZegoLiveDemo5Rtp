@@ -92,12 +92,15 @@
 @property int outputBackgroundColor;
 /** 混流背景图，支持预设图片，如 (preset-id://xxx) */
 @property (copy) NSString *outputBackgroundImage;
-/** 是否开启音浪。true：开启，false：关闭 */
+/** 是否开启音浪。YES：开启，NO：关闭 */
 @property BOOL withSoundLevel;
 /** 扩展信息 **/
 @property int extra;
 /** 混流水印 **/
 @property (nonatomic, strong) ZegoMixStreamWatermark *watermark;
+/**< 混流输入为一条流时，混流输出的属性与单流一致(分辨率，编码格式等), 若需要开启此功能，请于即构技术支持联系 */
+@property (nonatomic, assign) BOOL singleStreamPassThrough;
+
 @end
 
 @interface ZegoMixStreamOutputResult : NSObject

@@ -357,14 +357,14 @@
  
  @param bEnable true 打开，false 关闭。默认 false
  @return true 成功，false 失败
- @discussion 推流时可调用本 API 进行参数配置。开启采集监听，主播方讲话后，会听到自己的声音。建议开发者开启采集监听功能时，要求用户连接耳麦，否则会使手机扬声器发出的声音被反复采集
+ @discussion 推流时可调用本 API 进行参数配置。连接耳麦时设置才实际生效。开启采集监听，主播方讲话后，会听到自己的声音。
  */
 - (bool)enableLoopback:(bool)bEnable;
 
 /**
  设置采集监听音量
  
- @param volume 音量大小，取值（0, 100）。默认 100
+ @param volume 音量大小，取值（0, 100）。默认 80
  @discussion 推流时可调用本 API 进行参数配置
  */
 - (void)setLoopbackVolume:(int)volume;
@@ -450,6 +450,14 @@
  @discussion 建议在推流前调用设置
  */
 - (bool)enableAEC:(bool)enable;
+
+/**
+ 设置回声消除模式
+
+ @param mode 回声消除模式
+ @discussion 建议在推流前调用设置
+ */
+- (void)setAECMode:(ZegoAPIAECMode)mode;
 
 /**
  音频采集自动增益开关
@@ -538,6 +546,14 @@
 - (void)enableDTX:(bool)enable;
 
 /**
+ 是否开启语音活动检测
+ 
+ @param enable true 开启；false 关闭，默认关闭
+ @discussion 在推流前调用，只有纯 UDP 方案才可以调用此接口
+ */
+- (void)enableVAD:(bool)enable;
+
+/**
  是否开启流量控制
  
  @param enable true 开启；false 关闭。默认开启流量控制，property 为 ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS
@@ -546,6 +562,15 @@
  @discussion 在推流前调用，在纯 UDP 方案才可以调用此接口
  */
 - (void)enableTrafficControl:(bool)enable properties:(NSUInteger)properties;
+
+/**
+ 设置TrafficControl视频码率最小值
+ 
+ @param bitrate 码率，单位为bps
+ @attention InitSDK 之后调用有效
+ @note 设置一个在traffic control中video码率的一个最小值，当网络不足以发送这个最小值的时候视频会被卡住，而不是以低于该码率继续发送。初始化SDK后默认情况下没有设置改值，即尽可能的保持视频流畅，InitSDK之后可以随时修改，未重新InitSDK之前如果需要取消该设置值的限制可以设置为0
+ */
+- (void)setMinVideoBitrateForTrafficControl:(int)bitrate mode:(ZegoAPITrafficControlMinVideoBitrateMode)mode;
 
 /**
  音频采集噪声抑制开关
@@ -657,15 +682,13 @@
  混音数据输入回调
  @param pData 混音数据
  <p><b>注意：</b>
- 1. 每次必须返回 20ms 时长的音频数据；<br>
- 2. 最大支持 48k 采样率、双声道、16位深的 PCM 音频数据；<br>
- 3. 实际数据长度应根据当前音频数据的采样率及声道数决定；<br>
- 4. 为确保混音效果，请不要在此 API 中执行耗时操作</p>
- 20ms音频数据长度计算如下：
- 长度 = 采样率 * 20 / 1000 * 位深字节数 * 通道数 位深字节数固定为2
- 例如: 44.1K采样率双声道20ms数据的长度 *pDataLen为：
- *pDataLen = 44100 * 20 / 1000 * 2 * 2 = 3528
- @param pDataLen 期望的数据长度（以 44.1k 采样率、双声道、16bit 位深、20ms 时长计算得来）
+ 1. 最大支持 48k 采样率、双声道、16位深的 PCM 音频数据；<br>
+ 2. 实际数据长度应根据当前音频数据的采样率及声道数决定；<br>
+ 3. 为确保混音效果，请不要在此 API 中执行耗时操作</p>
+ @param pDataLen pDataLen既是输入参数也是输出参数；
+                 作为输入参数，SDK会提供好长度值，用户按照这个长度写入数据即可，数据充足的情况下，无需更改*pDataLen的值
+                 作为输出参数，如果填写的数据不足SDK提供的长度值，则*pDataLen = 0,
+                 或者最后的尾音不足 SDK提供的长度值，可以用静音数据补齐。
  @param pSampleRate 混音数据采样率，支持16k、32k、44.1k、48k
  @param pChannelCount 混音数据声道数，支持1、2
  @discussion 用户调用该 API 将混音数据传递给 SDK。混音数据 bit depth 必须为 16
@@ -678,6 +701,13 @@
  @param streamID 推流的流ID
  */
 - (void)onRelayCDNStateUpdate:(NSArray<ZegoAPIStreamRelayCDNInfo *> *)statesInfo streamID:(NSString*)streamID;
+
+/**
+ 采集视频的首帧通知
+ */
+- (void)onCaptureVideoFirstFrame;
+
+- (void)onCaptureVideoFirstFrame:(ZegoAPIPublishChannelIndex)index;
 
 @end
 

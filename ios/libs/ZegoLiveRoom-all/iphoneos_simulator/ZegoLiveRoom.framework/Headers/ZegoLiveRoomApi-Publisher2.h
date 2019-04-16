@@ -117,6 +117,16 @@
  */
 - (bool)setAVConfig:(ZegoAVConfig *)config channelIndex:(ZegoAPIPublishChannelIndex)index;
 
+/**
+ 设置视频关键帧间隔
+ 
+ @param intervalSecond 关键帧间隔，单位为秒，默认2秒
+ @param index 推流 channel Index
+ @return true 成功，false 失败
+ @attention 推流开始前调用本 API 进行参数配置
+ */
+- (bool)setVideoKeyFrameInterval:(int)intervalSecond channelIndex:(ZegoAPIPublishChannelIndex)index;
+
 #if TARGET_OS_IPHONE
 /**
  设置手机方向

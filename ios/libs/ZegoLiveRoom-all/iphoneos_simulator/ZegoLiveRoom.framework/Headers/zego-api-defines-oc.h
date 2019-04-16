@@ -280,20 +280,35 @@ enum ZegoAPIModuleType
 
 typedef struct
 {
-    /** 视频帧率(编码/网络发送) */
-    double fps;
-    /** 视频采集帧率 */
+    /** 视频帧率(采集) */
     double cfps;
+    /** 视频帧率(编码) */
+    double vencFps;
+    /** 视频帧率(网络发送) */
+    double fps;
     /** 视频码率(kb/s) */
     double kbps;
+    
+    /** 音频帧率(采集) */
+    double acapFps;
+    /** 音频帧率(网络发送) */
+    double afps;
     /** 音频码率(kb/s) */
     double akbps;
+    
     /** 延时(ms) */
     int rtt;
     /** 丢包率(0~255) */
     int pktLostRate;
     /** 质量(0~3) */
     int quality;
+    
+    /** 是否硬编 */
+    bool isHardwareVenc;
+    /** 视频宽度 */
+    int width;
+    /** 视频高度 */
+    int height;
     
 } ZegoAPIPublishQuality;
 
@@ -303,14 +318,32 @@ typedef ZegoAPIPublishQuality ZegoApiPublishQuality;
 /** 拉流质量 */
 typedef struct
 {
-    /** 视频帧率 */
+    /** 视频帧率(网络接收) */
     double fps;
+    /** 视频帧率(dejitter) */
+    double vdjFps;
+    /** 视频帧率(解码) */
+    double vdecFps;
+    /** 视频帧率(渲染) */
+    double vrndFps;
     /** 视频码率(kb/s) */
     double kbps;
+    
+    /** 音频帧率(网络接收) */
+    double afps;
+    /** 音频帧率(dejitter) */
+    double adjFps;
+    /** 音频帧率(解码) */
+    double adecFps;
+    /** 音频帧率(渲染) */
+    double arndFps;
     /** 音频码率(kb/s) */
     double akbps;
-    /** 音频卡顿率(次/min) */
+    /** 音频卡顿次数 */
     double audioBreakRate;
+    /** 视频卡顿次数 */
+    double videoBreakRate;
+    
     /** 延时(ms) */
     int rtt;
     /** 丢包率(0~255) */
@@ -319,6 +352,13 @@ typedef struct
     int quality;
     /** 语音延时(ms) */
     int delay;
+    
+    /** 是否硬解 */
+    bool isHardwareVdec;
+    /** 视频宽度 */
+    int width;
+    /** 视频高度 */
+    int height;
     
 } ZegoAPIPlayQuality;
 
@@ -349,6 +389,9 @@ typedef enum : NSUInteger {
     /** 自适应分辨率*/
     ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_RESOLUTION = 1 << 1,
     
+    /** 音频流量控制 */
+    ZEGOAPI_TRAFFIC_CONTROL_AUDIO_BITRATE = 1 << 2,
+    
     /**< 废弃 */
     ZEGOAPI_TRAFFIC_NONE = ZEGOAPI_TRAFFIC_CONTROL_BASIC,
     ZEGOAPI_TRAFFIC_FPS = ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS,
@@ -356,14 +399,24 @@ typedef enum : NSUInteger {
     
 } ZegoAPITrafficControlProperty;
 
+typedef enum : NSUInteger {
+    /** 低于设置的最低码率时，停止视频发送 */
+    ZEGOAPI_TRAFFIC_CONTROL_MIN_VIDEO_BITRATE_NO_VIDEO = 0,
+    /** 低于设置的最低码率时，视频以极低的频率发送 （不超过2FPS) */
+    ZEGOAPI_TRAFFIC_CONTROL_MIN_VIDEO_BITRATE_ULTRA_LOW_FPS
+    
+} ZegoAPITrafficControlMinVideoBitrateMode;
+
 /** 音频设备模式 */
 typedef enum : NSUInteger {
-    /** 通话模式, 开启硬件回声消除 */
+    /** 通话模式, 开启系统回声消除 */
     ZEGOAPI_AUDIO_DEVICE_MODE_COMMUNICATION = 1,
-    /** 普通模式, 关闭硬件回声消除 */
+    /** 普通模式, 关闭系统回声消除 */
     ZEGOAPI_AUDIO_DEVICE_MODE_GENERAL = 2,
-    /** 自动模式, 根据场景选择是否开启硬件回声消除 */
-    ZEGOAPI_AUDIO_DEVICE_MODE_AUTO = 3
+    /** 自动模式, 根据场景选择是否开启系统回声消除 */
+    ZEGOAPI_AUDIO_DEVICE_MODE_AUTO = 3,
+    /** 通话模式, 开启系统回声消除，与communication相比，communication2会始终占用麦克风设备 */
+    ZEGOAPI_AUDIO_DEVICE_MODE_COMMUNICATION2 = 4,
 } ZegoAPIAudioDeviceMode;
 
 /** 音频录制时，指定音源类型 */
@@ -470,6 +523,26 @@ typedef enum : NSUInteger
     ZEGOAPI_RELAY_RETRY = 2,
 } ZegoAPIStreamRelayCDNState;
 
+typedef enum : NSUInteger
+{
+    /**< 无 */
+    ZEGOAPI_RELAY_NONE = 0,                       
+    /**< 服务器错误 */
+    ZEGOAPI_RELAY_SERVER_ERROR = 8,
+    /**< 握手失败 */
+    ZEGOAPI_RELAY_HAND_SHAKE_FAILED = 9,
+    /**< 接入点错误 */
+    ZEGOAPI_RELAY_ACCESS_POINT_ERROR = 10,
+    /**< 创建流失败 */
+    ZEGOAPI_RELAY_CREATE_STREAM_FAILED = 11,
+    /**< BAD NAME */
+    ZEGOAPI_RELAY_BAD_NAME = 12,
+    /**< CDN服务器主动断开 */
+    ZEGOAPI_RELAY_CDN_SERVER_DISCONNECTED = 13,
+    /**< 主动断开 */
+    ZEGOAPI_RELAY_DISCONNECTED = 14,
+} ZegoAPIStreamRelayCDNDetail;
+
 /**
  转推CDN状态信息
  */
@@ -479,8 +552,18 @@ typedef enum : NSUInteger
 @property (copy) NSString *rtmpURL;
 /** 当前状态 */
 @property (assign) ZegoAPIStreamRelayCDNState state;
+/** 转推停止或转推重试时的详细原因 */
+@property (assign) ZegoAPIStreamRelayCDNDetail detail;
 /** 状态改变时的时间 */
 @property (assign) unsigned int stateTime;
 
 @end
+
+typedef enum : NSUInteger
+{
+    ZEGOAPI_AEC_MODE_ARRGRESSIVE,
+    ZEGOAPI_AEC_MODE_MEDIUM,
+    ZEGOAPI_AEC_MODE_SOFT,
+} ZegoAPIAECMode;
+
 #endif /* zego_api_defines_oc_h */
