@@ -1,9 +1,11 @@
 package com.zego.livedemo5.ui.activities.gamelive;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.TextureView;
@@ -20,10 +22,16 @@ import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoLivePlayerCallback;
 import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoRoomCallback;
+import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
+import com.zego.zegoliveroom.constants.ZegoIM;
 import com.zego.zegoliveroom.constants.ZegoVideoViewMode;
+import com.zego.zegoliveroom.entity.ZegoBigRoomMessage;
+import com.zego.zegoliveroom.entity.ZegoConversationMessage;
 import com.zego.zegoliveroom.entity.ZegoPlayStreamQuality;
+import com.zego.zegoliveroom.entity.ZegoRoomMessage;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
+import com.zego.zegoliveroom.entity.ZegoUserState;
 
 /**
  * Copyright © 2016 Zego. All rights reserved.
@@ -40,7 +48,6 @@ public class GameLivingPlayActivity extends AppCompatActivity {
     private String mPlayStreamID;
 
     private ZegoLiveRoom mZegoLiveRoom;
-
 
     /**
      * 启动入口.
@@ -174,13 +181,77 @@ public class GameLivingPlayActivity extends AppCompatActivity {
 
             }
         });
+        mZegoLiveRoom.setRoomConfig(true, true);
+
+        mZegoLiveRoom.setZegoIMCallback(new IZegoIMCallback() {
+
+            @Override
+            public void onUserUpdate(ZegoUserState[] listUser, int updateType){
+                handleUserUpdate(listUser, updateType);
+            }
+
+            @Override
+            public void onRecvRoomMessage(String roomID, ZegoRoomMessage[] listMsg){
+
+            }
+
+            @Override
+            public void onRecvConversationMessage(String roomID, String conversationID, ZegoConversationMessage message){
+
+            }
+
+            @Override
+            public void onUpdateOnlineCount(String s, int i){
+
+            }
+
+            @Override
+            public void onRecvBigRoomMessage(String s, ZegoBigRoomMessage[] zegoBigRoomMessages) {
+
+            }
+        });
+    }
+
+
+    /**
+     * 用户更新.
+     */
+    protected void handleUserUpdate(ZegoUserState[] listUser, int updateType) {
+        if (listUser != null) {
+            for (ZegoUserState zegoUserState : listUser) {
+                if (zegoUserState.updateFlag == ZegoIM.UserUpdateFlag.Added) {
+
+                } else if (zegoUserState.updateFlag == ZegoIM.UserUpdateFlag.Deleted) {
+
+                    if (zegoUserState.roomRole == ZegoConstants.RoomRole.Anchor) {
+                        anchorExitDialog(getString(R.string.dialog_stop_live_title), getString(R.string.dialog_anchor_stop_live));
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    protected void anchorExitDialog(String title, String mMessage) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(mMessage)
+                .setCancelable(false)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .create().show();
     }
 
 
     protected void startPlay() {
         mTextureView.setVisibility(View.VISIBLE);
         mTextureView.invalidate();
-        mZegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, mPlayStreamID);
+        mZegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFit, mPlayStreamID);
         mZegoLiveRoom.startPlayingStream(mPlayStreamID, mTextureView);
     }
 

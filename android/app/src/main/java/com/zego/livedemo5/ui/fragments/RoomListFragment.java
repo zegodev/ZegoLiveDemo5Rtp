@@ -159,9 +159,9 @@ public class RoomListFragment extends AbsBaseFragment implements MainActivity.On
             public void onUpdateRoomList(ArrayList<RoomInfo> listRoom) {
                 mListRoom.clear();
                 for (com.zego.support.RoomInfo roomInfo : listRoom) {
-                    if ((roomInfo.getStreamInfo() != null && roomInfo.getStreamInfo().size() > 0) || roomInfo.getRoomId().startsWith(ZegoRoomUtil.ROOM_PREFIX_WERE_WOLVES)) {
-                        mListRoom.add(roomInfo);
-                    }
+
+                    mListRoom.add(roomInfo);
+
                 }
                 mHandler.post(new Runnable() {
                     @Override

@@ -218,7 +218,6 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
 
         mSettingsPannel = (PublishSettingsPannel) findViewById(R.id.publishSettingsPannel);
 
-        mSettingsPannel.initPublishSettings(mEnableCamera, mEnableFrontCam, mEnableMic, mEnableTorch, mEnableBackgroundMusic, mEnableLoopback, mSelectedBeauty, mSelectedFilter, mEnableMixEngine, mEnableVirtualStereo, mEnableReverb, mEnableCustomFocus, mEnableCustomExposure);
         mSettingsPannel.setPublishSettingsCallback(new PublishSettingsPannel.PublishSettingsCallback() {
             @Override
             public void onEnableCamera(boolean isEnable) {
@@ -329,6 +328,8 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
                 ZegoCamera.setCamExposureCompensation(mListExposureCompensation[progress], ZegoConstants.PublishChannelIndex.MAIN);
             }
         });
+
+        mSettingsPannel.initPublishSettings(mEnableCamera, mEnableFrontCam, mEnableMic, mEnableTorch, mEnableBackgroundMusic, mEnableLoopback, mSelectedBeauty, mSelectedFilter, mEnableMixEngine, mEnableVirtualStereo, mEnableReverb, mEnableCustomFocus, mEnableCustomExposure);
 
         mBehavior = BottomSheetBehavior.from(mSettingsPannel);
         flytMainContent = (FrameLayout) findViewById(R.id.main_content);
@@ -688,6 +689,9 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
 
         mZegoLiveRoom.setPreviewView(freeViewLive.getTextureView());
         mZegoLiveRoom.startPreview();
+        if (!mEnableFrontCam) {
+            mZegoLiveRoom.enableTorch(mEnableTorch);
+        }
 
 
         if (PreferenceUtil.getInstance().getVideoFilter(false)) {
@@ -791,7 +795,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
 
         // 播放
         mZegoLiveRoom.startPlayingStream(streamID, freeViewLive.getTextureView());
-        mZegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, streamID);
+        mZegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFit, streamID);
     }
 
     protected void logout() {
@@ -1042,7 +1046,7 @@ public abstract class BaseLiveActivity extends AbsBaseLiveActivity {
                     mZegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFit, streamID);
                 } else {
                     viewLivePlay.setZegoVideoViewMode(true, ZegoVideoViewMode.ScaleAspectFill);
-                    mZegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, streamID);
+                    mZegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFit, streamID);
                 }
             }
         }
