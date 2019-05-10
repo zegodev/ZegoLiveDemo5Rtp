@@ -32,11 +32,13 @@ namespace ZEGO
          
          @param bStart true 开启, false 关闭
          @param bOnlyAudioPublish true 纯音频直播，不传输视频数据, false 音视频直播，传输视频数据
+		 @param mediaInfoType 请参考 MediaInfoType 定义，建议使用 SeiZegoDefined
+         @param seiSendType 请参考 SeiSendType 定义，此参数只对发送SEI时有效，当mediaInfoType为 SideInfoZegoDefined 时此参数无效，当发送SEI时建议使用 SeiSendInVideoFrame
          @param idx 推流 channel Index. 默认为主Channel
          @attention onlyAudioPublish 开关在 start 开关开启时才生效
          @attention 必须在InistSDK之后、推流前，设置
          */
-        ZEGOAVKIT_API void SetMediaSideFlags(bool bStart, bool bOnlyAudioPublish, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
+        ZEGOAVKIT_API void SetMediaSideFlags(bool bStart, bool bOnlyAudioPublish, int mediaInfoType = AV::SideInfoZegoDefined, int seiSendType = AV::SeiSendSingleFrame, AV::PublishChannelIndex idx = AV::PUBLISH_CHN_MAIN);
         
         /**
          发送媒体次要信息

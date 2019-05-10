@@ -16,14 +16,70 @@ namespace ZEGO
 {
 	namespace LIVEROOM
 	{
+        
+        /**
+         获取SDK版本号
+
+         @return 版本号
+         */
         ZEGO_API const char* GetSDKVersion();
+        
+        
+        /**
+         获取SDK版本号2
+
+         @return 版本号2
+         */
         ZEGO_API const char* GetSDKVersion2();
-        ZEGO_API bool SetNetType(int nNetType);
+
+        
+        /**
+         设置日志路径
+
+         @param pszLogDir 日志路径
+         @return true 成功；flase 失败；
+         @discussion 默认日志大小 5 * 1024 * 1024 字节
+         */
         ZEGO_API bool SetLogDir(const char* pszLogDir);
+        
+        /**
+         设置日志路径和大小
+
+         @param pszLogDir 日志路径
+         @param lLogFileSize 单个日志文件大小
+         @return true 成功；flase 失败；
+         @discussion 日志大小取值范围[5M, 100M]
+         */
         ZEGO_API bool SetLogDirAndSize(const char* pszLogDir, unsigned long long lLogFileSize = 5 * 1024 * 1024);
+        
+        
+        /**
+         上传日志
+         */
         ZEGO_API void UploadLog();
+        
+        
+        /**
+         设置是否打印控制台信息
+
+         @param bVerbose 控制台信息
+         */
         ZEGO_API void SetVerbose(bool bVerbose);
+        
+        
+        /**
+         设置是否使用测试环境
+
+         @param bTestEnv 测试环境
+         */
         ZEGO_API void SetUseTestEnv(bool bTestEnv);
+        
+        
+        /**
+         设置平台信息
+
+         @param pszInfo 平台信息
+         */
         ZEGO_API void SetPlatformInfo(const char* pszInfo);
 
         /**
