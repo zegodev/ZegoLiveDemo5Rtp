@@ -72,11 +72,7 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
 {
     if (g_ZegoApi == nil) {
         
-        // 国际版，要切换国际域名
-        if (g_appType == ZegoAppTypeCustom) {
-            [ZegoLiveRoomApi setBusinessType:(int)[[NSUserDefaults standardUserDefaults] integerForKey:kZegoDemoAppBizType]];
-            g_useInternationDomain = [[NSUserDefaults standardUserDefaults] boolForKey:kZegoDemoAppUseI18nDomain];
-        } else if (g_appType == ZegoAppTypeI18N) {
+        if (g_appType == ZegoAppTypeI18N) {
             g_useInternationDomain = YES;
         } else {
             g_useInternationDomain = NO;
@@ -417,9 +413,6 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 
 + (bool)usingInternationDomain
 {
-    if (g_appType == ZegoAppTypeCustom) {
-        return [[NSUserDefaults standardUserDefaults] boolForKey:kZegoDemoAppUseI18nDomain];
-    }
     return g_useInternationDomain;
 }
 
@@ -495,20 +488,8 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 + (uint32_t)appID
 {
     switch ([self appType]) {
-        case ZegoAppTypeCustom:
-        {
-            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-            uint32_t appID = [[ud objectForKey:kZegoDemoAppIDKey] unsignedIntValue];
-            
-            if (appID != 0) {
-                return appID;
-            } else {
-                return 0;
-            }
-        }
-            break;
         case ZegoAppTypeUDP:
-            return ;  // UDP版
+            return 1;  // UDP版
             break;
         case ZegoAppTypeI18N:
             return 100;  // 国际版
@@ -529,37 +510,18 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     
     if (type == ZegoAppTypeUDP)
     {
-        Byte signkey[] = ;
-        return [NSData dataWithBytes:signkey length:32];
-    }
-    else if (type == ZegoAppTypeI18N)
-    {
-        Byte signkey[] = {0x00};
+        Byte signkey[] = {};
         return [NSData dataWithBytes:signkey length:32];
     }
     else
     {
-        // 自定义模式下从本地持久化文件中加载
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        NSString *appSign = [ud objectForKey:kZegoDemoAppSignKey];
-        if (appSign) {
-            return ConvertStringToSign(appSign);
-        } else {
-            return nil;
-        }
+        Byte signkey[] = {0x00};
+        return [NSData dataWithBytes:signkey length:32];
     }
 }
 
 + (NSString *)customAppSign {
-    ZegoAppType type = [self appType];
-    if (type == ZegoAppTypeCustom) {
-        // 从本地持久化文件中加载
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        NSString *appSign = [ud objectForKey:kZegoDemoAppSignKey];
-        return appSign;
-    } else {
-        return nil;
-    }
+    return nil;
 }
 
 + (void)setBizTypeForCustomAppID:(int)bizType {

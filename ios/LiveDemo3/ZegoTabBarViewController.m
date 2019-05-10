@@ -98,29 +98,6 @@
     }
 }
 
-- (IBAction)onContactUs:(id)sender
-{
-    
-#if TARGET_OS_SIMULATOR
-#else
-    if (![QQApiInterface isQQInstalled])
-    {
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"联系我们", nil)];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"没有安装QQ", nil) message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
-        
-        return;
-    }
-    
-    QQApiWPAObject *wpaObject = [QQApiWPAObject objectWithUin:@"84328558"];
-    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:wpaObject];
-    QQApiSendResultCode result = [QQApiInterface sendReq:req];
-    NSLog(@"share result %d", result);
-#endif
-    
-}
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

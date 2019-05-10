@@ -26,8 +26,6 @@
 
 @property (weak, nonatomic) IBOutlet UISwitch *testEnvSwitch;
 @property (weak, nonatomic) IBOutlet UIPickerView *appTypePicker;
-@property (weak, nonatomic) IBOutlet UITextField *appIDText;
-@property (weak, nonatomic) IBOutlet UITextField *appSignText;
 
 @property (weak, nonatomic) IBOutlet UITextField *userID;
 @property (weak, nonatomic) IBOutlet UITextField *userName;
@@ -69,11 +67,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
     
     [self loadEnvironmentSettings];
     [self loadVideoSettings];
@@ -155,26 +148,6 @@
     
     [ZegoSettings sharedInstance].currentConfig = config;
     [self updateVideoSettingUI];
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    if ([ZegoDemoHelper appType] == ZegoAppTypeCustom) {
-        if (self.appIDText.text.length == 0 && self.appSignText.text.length == 0) { // 自定义版本下不输入 AppID 和 AppSign，自动切换为国内版
-            [ZegoDemoHelper setAppType:ZegoAppTypeUDP];
-            [self.appTypePicker selectRow:ZegoAppTypeUDP inComponent:0 animated:NO];
-            [self loadAppID];
-        } else if (self.appIDText.text.length != 0 && self.appSignText.text.length != 0) {
-            NSString *strAppID = self.appIDText.text;
-            uint32_t appID = (uint32_t)[strAppID longLongValue];
-            [ZegoDemoHelper setCustomAppID:appID sign:self.appSignText.text];
-        }
-        
-        if ([self.appIDText.text isEqualToString:@"1"]) {    // 当用户选择自定义，并且输入的 AppID 为 1 时，自动识别为 RTMP 版本且填充 AppSign
-            NSString *signkey = @"0x91,0x93,0xcc,0x66,0x2a,0x1c,0x0e,0xc1,0x35,0xec,0x71,0xfb,0x07,0x19,0x4b,0x38,0x41,0xd4,0xad,0x83,0x78,0xf2,0x59,0x90,0xe0,0xa4,0x0c,0x7f,0xf4,0x28,0x41,0xf7";
-            [ZegoDemoHelper setCustomAppID:1 sign:signkey];
-            [self.appSignText setText:signkey];
-        }
-    }
 }
 
 #pragma mark -- Test egg
@@ -316,49 +289,6 @@
     // 导航栏标题随设置变化
     NSString *title = [NSString stringWithFormat:@"ZEGO(%@)", [ZegoSettings sharedInstance].appTypeList[type]];
     self.tabBarController.navigationItem.title =  NSLocalizedString(title, nil);
-    
-    // 自定义的 APPID 来源于用户输入
-    uint32_t appID = [ZegoDemoHelper appID];
-    NSData *appSign = [ZegoDemoHelper zegoAppSignFromServer];
-    if (type == ZegoAppTypeCustom) {
-        NSString *appSignString = [ZegoDemoHelper customAppSign];
-        
-        if (appID && appSign) {
-            self.appIDText.enabled = YES;
-            [self.appIDText setText:[NSString stringWithFormat:@"%u", appID]];
-            
-            self.appSignText.enabled = YES;
-            [self.appSignText setText:appSignString];
-        } else {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-            [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-            
-            self.appIDText.enabled = YES;
-            [self.appIDText setText:@""];
-            self.appIDText.placeholder = NSLocalizedString(@"请输入 AppID", nil);
-            self.appIDText.clearButtonMode = UITextFieldViewModeWhileEditing;
-            self.appIDText.keyboardType = UIKeyboardTypeDefault;
-            self.appIDText.returnKeyType = UIReturnKeyDone;
-            [self.appIDText becomeFirstResponder];
-
-            self.appSignText.placeholder = NSLocalizedString(@"请输入 AppSign", nil);
-            self.appSignText.clearButtonMode = UITextFieldViewModeWhileEditing;
-            self.appSignText.keyboardType = UIKeyboardTypeASCIICapable;
-            self.appSignText.returnKeyType = UIReturnKeyDone;
-            self.appSignText.enabled = YES;
-            [self.appSignText setText:@""];
-        }
-    } else {
-        // 其他类型的 APPID 从本地加载
-        [self.appIDText resignFirstResponder];
-        [self.appSignText setText:@""];
-        self.appSignText.placeholder = NSLocalizedString(@"AppSign 已设置", nil);
-        self.appSignText.enabled = NO;
-        
-        self.appIDText.enabled = NO;
-        [self.appIDText setText:[NSString stringWithFormat:@"%u", appID]];
-    }
-
 }
 
 - (void)loadAccountSettings {
@@ -577,20 +507,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0)
-    {
-        [self beginQRCodeScan];
-    }
-    else if (indexPath.section == 2)
+    if (indexPath.section == 1)
     {
         if (indexPath.row == 0)
         {
             [ZegoLiveRoomApi uploadLog];
             [self showUploadAlertView];
-        }
-        else if (indexPath.row == 1)
-        {
-            [self shareLogFile];
         }
 
     }
@@ -599,28 +521,6 @@
         SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.zego.im"]];
         [self presentViewController:safariViewController animated:YES completion:nil];
     }
-}
-
-
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger sectionCount = [self.tableView numberOfSections];
-    
-    if (indexPath.section == 0)
-    {
-        return YES;
-    }
-    
-    if (sectionCount >= 2 && (indexPath.section == sectionCount - 2 || indexPath.section == sectionCount - 1))
-    {
-        return YES;
-    }
-    
-    if (indexPath.section == 2 && (indexPath.row == 0 || indexPath.row == 1))
-    {
-        return YES;
-    }
-    
-    return NO;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -653,10 +553,6 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField == self.appSignText) {
-        self.appSignText.placeholder = NSLocalizedString(@"请输入 AppSign", nil);
-    }
-    
     if (self.tapGesture == nil)
         self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapTableView:)];
     
@@ -746,55 +642,4 @@
     }
 }
 
-#pragma mark - QRCodeReader Delegate Methods
-
-- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result
-{
-    [reader stopScanning];
-    
-    NSError* jsonParseError = nil;
-    NSDictionary* jsonRsp = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
-                                                            options:NSJSONReadingAllowFragments
-                                                              error:&jsonParseError];
-    
-    NSString* message = nil;
-    
-    if (!jsonParseError) {
-        NSString* type = jsonRsp[@"type"];
-        if ([type isEqualToString:@"ac"]) {
-            message = jsonRsp[@"data"][@"title"];
-            unsigned int appID = [jsonRsp[@"data"][@"appid"] unsignedIntValue];
-            NSString* appSign = jsonRsp[@"data"][@"appkey"];
-            BOOL testEnv = [jsonRsp[@"data"][@"testenv"] boolValue];
-            int bizType = [jsonRsp[@"data"][@"businesstype"] intValue];
-            NSNumber *i18n = [[jsonRsp objectForKey:@"data"] objectForKey:@"i18n"];
-            if (i18n) {
-                [ZegoDemoHelper setUsingInternationDomain:[i18n boolValue]];
-            }
-           
-            [ZegoDemoHelper releaseApi];
-            
-            [ZegoDemoHelper setAppType:ZegoAppTypeCustom];
-            [ZegoDemoHelper setBizTypeForCustomAppID:bizType];
-            [ZegoDemoHelper setUsingTestEnv:testEnv];
-            [ZegoDemoHelper setCustomAppID:appID sign:appSign];
-            
-            [self loadEnvironmentSettings];
-        } else {
-            message = @"INVALID CONFIG!";
-        }
-    } else {
-        message = jsonParseError.description;
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:^{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Quick Setup" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-    }];
-}
-
-- (void)readerDidCancel:(QRCodeReaderViewController *)reader
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
 @end

@@ -116,10 +116,10 @@ static ZegoAVKitManager *avkitManager;
     return (ZegoAppType)type;
 }
 
-#warning 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
+#warning 请提前在即构管理控制台获取 appID 与 appSign
+#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 appSign,其他模式不需要可不用填
 #warning AppID 填写样式示例：1234567890
-#warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
+#warning appSign 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 - (uint32_t)getAppID
 {
     switch (self.appType) {
@@ -129,25 +129,13 @@ static ZegoAVKitManager *avkitManager;
         case ZegoAppTypeI18N:
             return 100;  // 国际版
             break;
-        case ZegoAppTypeCustom:
-        {
-            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-            uint32_t appID = [[ud objectForKey:kZegoDemoAppIDKey] unsignedIntValue];
-            
-            if (appID != 0) {
-                return appID;
-            } else {
-                return 0;
-            }
-        }
-            break;
     }
 }
 
-#warning 请开发者联系 ZEGO support 获取各自业务的 AppID 与 signKey
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 signKey
+#warning 请提前在即构管理控制台获取 appID 与 appSign
+#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 appSign,其他模式不需要可不用填
 #warning AppID 填写样式示例：1234567890
-#warning signKey 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
+#warning appSign 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 - (NSData *)getZegoAppSign
 {
     //!! Demo 暂时把 signKey 硬编码到代码中，该用法不规范
@@ -164,18 +152,6 @@ static ZegoAVKitManager *avkitManager;
         {
             Byte signkey[] = {0x00};
             return [NSData dataWithBytes:signkey length:32];
-        }
-            break;
-        case ZegoAppTypeCustom:
-        {
-            // 自定义模式下从本地持久化文件中加载
-            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-            NSString *appSign = [ud objectForKey:kZegoDemoAppSignKey];
-            if (appSign) {
-                return ConvertStringToSign(appSign);
-            } else {
-                return nil;
-            }
         }
             break;
     }

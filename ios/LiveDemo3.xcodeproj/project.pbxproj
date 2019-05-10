@@ -11,7 +11,6 @@
 		163FEDF01F32D77F00FA86E6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 163FEDEE1F32D65F00FA86E6 /* MessageUI.framework */; };
 		163FEE311F32F9ED00FA86E6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EF32D6FF1D659B7200A764FC /* libz.tbd */; };
 		164C75A3211853A60012FB01 /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164C75A1211853A60012FB01 /* PgySDK.framework */; };
-		164C75A4211853A60012FB01 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164C75A2211853A60012FB01 /* PgyUpdate.framework */; };
 		16756FC51F57FA47003252AB /* ZegoShareLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */; };
 		16756FC91F58FA90003252AB /* ZegoShareLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */; };
 		16756FCE1F58FC83003252AB /* ZegoTestPullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E24E101EB1D0290055F7A4 /* ZegoTestPullViewController.m */; };
@@ -33,6 +32,7 @@
 		335BB5FD218C29C100577169 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
 		335BB5FE218C29C100577169 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		337C1B092189B1E300E84AA4 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
+		33B845E422851B1700B86227 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
 		33C4426221E74A9B00D57521 /* ZGAppSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C4426021E749EE00D57521 /* ZGAppSupport.framework */; };
 		33C4426321E74A9B00D57521 /* ZGAppSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 33C4426021E749EE00D57521 /* ZGAppSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
@@ -230,7 +230,6 @@
 /* Begin PBXFileReference section */
 		163FEDEE1F32D65F00FA86E6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		164C75A1211853A60012FB01 /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgySDK.framework; sourceTree = "<group>"; };
-		164C75A2211853A60012FB01 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgyUpdate.framework; sourceTree = "<group>"; };
 		16756FC31F57FA47003252AB /* ZegoShareLogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZegoShareLogViewController.h; sourceTree = "<group>"; };
 		16756FC41F57FA47003252AB /* ZegoShareLogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZegoShareLogViewController.m; sourceTree = "<group>"; };
 		16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SSZipArchive.framework; sourceTree = "<group>"; };
@@ -416,6 +415,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33B845E422851B1700B86227 /* ZegoLiveRoom.framework in Frameworks */,
 				16F48A9B1FF48F8B001C8992 /* ReplayKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,7 +462,6 @@
 				163FEDF01F32D77F00FA86E6 /* MessageUI.framework in Frameworks */,
 				164C75A3211853A60012FB01 /* PgySDK.framework in Frameworks */,
 				EF32D7071D659C6A00A764FC /* CoreGraphics.framework in Frameworks */,
-				164C75A4211853A60012FB01 /* PgyUpdate.framework in Frameworks */,
 				16CD53C81F3C33A5003D43B3 /* SSZipArchive.framework in Frameworks */,
 				EF32D7051D659C6000A764FC /* SystemConfiguration.framework in Frameworks */,
 				EF32D7031D659C5400A764FC /* Security.framework in Frameworks */,
@@ -550,7 +549,6 @@
 			children = (
 				A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */,
 				164C75A1211853A60012FB01 /* PgySDK.framework */,
-				164C75A2211853A60012FB01 /* PgyUpdate.framework */,
 				16CD53C71F3C33A5003D43B3 /* SSZipArchive.framework */,
 				4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */,
 				EF32D6F41D6599B700A764FC /* TencentOpenAPI.framework */,
@@ -866,7 +864,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EFF10F0C1D1A297900ECE11E /* Build configuration list for PBXNativeTarget "LiveDemo5" */;
 			buildPhases = (
-				EF33D0931FBADD1F00900046 /* Check Build Result */,
 				EFF10EEE1D1A297900ECE11E /* Sources */,
 				EFF10EEF1D1A297900ECE11E /* Frameworks */,
 				EFF10EF01D1A297900ECE11E /* Resources */,
@@ -899,7 +896,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -909,7 +906,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -918,7 +915,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -928,7 +925,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1003,23 +1000,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		EF33D0931FBADD1F00900046 /* Check Build Result */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Build Result";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/usr/bin/env python";
-			shellScript = "import os\n\naction = os.getenv('ACTION')\nconfiguration = os.getenv('CONFIGURATION')\nif action == \"install\":\n    exit(0)\nif configuration == \"Release\":\n    exit(0)\n\ncurrent_folder = os.getenv('PROJECT_DIR')\naction_file = os.path.join(current_folder, \"..\", \"action.txt\")\nif not os.path.exists(action_file):\n    exit(0)\n\nwith open(action_file, \"r\") as f:\n    if f.read() != \"build success\":\n        print (\"copy_framework_new.py execute failed, check log.txt\")\n        exit(-1)\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		16F48A961FF48F8B001C8992 /* Sources */ = {
@@ -1244,6 +1224,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1253,8 +1234,9 @@
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4.GameLiveSetupUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore.GameLiveSetupUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1275,6 +1257,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1294,7 +1277,7 @@
 					"-framework",
 					CoreMedia,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4.GameLiveSetupUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore.GameLiveSetupUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1315,6 +1298,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1324,8 +1308,9 @@
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-lz";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4.GameLiveSetupUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore.GameLiveSetupUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1346,6 +1331,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLiveSetupUI/GameLiveSetupUI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1365,7 +1351,7 @@
 					"-framework",
 					CoreMedia,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4.GameLiveSetupUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore.GameLiveSetupUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1386,6 +1372,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1399,8 +1386,9 @@
 				INFOPLIST_FILE = GameLive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4.GameLive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore.GameLive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1421,6 +1409,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1444,7 +1433,7 @@
 					"-framework",
 					CoreMedia,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4.GameLive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore.GameLive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1465,6 +1454,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1479,7 +1469,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				OTHER_LDFLAGS = "-lz";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4.GameLive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore.GameLive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1500,6 +1490,7 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = GameLive/GameLive.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1523,7 +1514,7 @@
 					"-framework",
 					CoreMedia,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4.GameLive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore.GameLive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1599,6 +1590,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo5.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1616,7 +1608,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1627,6 +1619,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo3/LiveDemo3.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1650,7 +1643,7 @@
 					"-framework",
 					TencentOpenAPI,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore;
 				PRODUCT_NAME = LiveDemo3;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1728,6 +1721,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo5.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1746,7 +1740,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1757,6 +1751,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo3/LiveDemo3.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1772,7 +1767,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore;
 				PRODUCT_NAME = LiveDemo3;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1783,6 +1778,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo3/LiveDemo3.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1806,7 +1802,7 @@
 					"-framework",
 					TencentOpenAPI,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore;
 				PRODUCT_NAME = LiveDemo3;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1817,6 +1813,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo3/LiveDemo3.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1832,7 +1829,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore;
 				PRODUCT_NAME = LiveDemo3;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1958,6 +1955,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo5.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1975,7 +1973,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1986,6 +1984,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LiveDemo5.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2003,7 +2002,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.udp4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zego.LiveDemo5.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

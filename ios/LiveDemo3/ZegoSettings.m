@@ -60,8 +60,7 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
                                     NSLocalizedString(@"自定义", nil)];
         
         _appTypeList = @[NSLocalizedString(@"国内版", nil),
-                         NSLocalizedString(@"国际版", nil),
-                         NSLocalizedString(@"自定义", nil)];
+                         NSLocalizedString(@"国际版", nil)];
         
         [self loadConfig];
     }

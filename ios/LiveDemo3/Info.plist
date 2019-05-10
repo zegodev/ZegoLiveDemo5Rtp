@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>LiveDemo5</string>
+	<string>视频互动</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -44,7 +44,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
+	<string>4</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>mqqapi</string>
@@ -79,9 +79,9 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>live broadcast</string>
+	<string>ZEGO直播互动需要您允许开启摄像头权限，否则对方将无法看到您的画面。</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>live broadcast</string>
+	<string>ZEGO直播互动需要您允许开启麦克风权限，否则对方将无法听到您的声音。</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
