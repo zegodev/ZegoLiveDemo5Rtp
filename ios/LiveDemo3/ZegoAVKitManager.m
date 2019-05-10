@@ -489,7 +489,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 {
     switch ([self appType]) {
         case ZegoAppTypeUDP:
-            return 1;  // UDP版
+            return ;  // UDP版
             break;
         case ZegoAppTypeI18N:
             return 100;  // 国际版
@@ -510,7 +510,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     
     if (type == ZegoAppTypeUDP)
     {
-        Byte signkey[] = {};
+        Byte signkey[] = ;
         return [NSData dataWithBytes:signkey length:32];
     }
     else
