@@ -377,7 +377,7 @@ public class WolvesGameInTurnActivity extends WolvesGameBaseActivity {
                 if (currentSpeakingUser != null) {
                     mCurrentSpeakingHead.setVisibility(View.VISIBLE);
                     zegoLiveRoom.startPlayingStream(currentSpeakingUser.getStreamId(), mCurrentSpeakingHead);
-                    zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, currentSpeakingUser.getStreamId());
+                    zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFit, currentSpeakingUser.getStreamId());
                 }
             }
             mBtnSpeaking.setText(R.string.start_speaking);

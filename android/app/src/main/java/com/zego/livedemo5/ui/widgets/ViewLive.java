@@ -76,7 +76,7 @@ public class ViewLive extends RelativeLayout {
     /**
      * 视频显示模式.
      */
-    private int mZegoVideoViewMode = ZegoVideoViewMode.ScaleAspectFill;
+    private int mZegoVideoViewMode = ZegoVideoViewMode.ScaleAspectFit;
 
     /**
      * 分享地址.
