@@ -224,7 +224,7 @@
 /**
  设置外部渲染
  
- @warning Deprecated，请使用 ZegoExternalVideoRender
+ @warning Deprecated，请使用 zego-api-external-video-render-oc.h 中的 [ZegoExternalVideoRender enableExternalVideoRender:type:]
  
  @param bEnable 是否外部渲染，true 是，false 不是。默认 false
  @discussion 必须在初始化 SDK 前调用。启用外部渲染后，需要设置外部渲染回调代理对象。SDK 提供给用户外部渲染的源数据格式为 BGRA32
@@ -234,7 +234,7 @@
 /**
  设置外部渲染回调对象
  
- @warning Deprecated，请使用 ZegoExternalVideoRender
+ @warning Deprecated，请使用 zego-api-external-video-render-oc.h 中的 [ZegoExternalVideoRender setExternalVideoRenderDelegate:]
  
  @param renderDelegate 遵循 ZegoLiveApiRenderDelegate 协议的代理对象
  @discussion 使用外部渲染功能，需要设置代理对象。未设置代理对象，或对象设置错误，可能导致无法正常收到相关回调
@@ -247,6 +247,7 @@
  @param enable 开启音频录制。true 开启，false 关闭。默认 false
  @return true 成功，false 失败
  @discussion 初始化 SDK 后调用。开启音频录制后，调用方需要设置音频录制回调代理对象，并通过 [ZegoLiveRoomApi (Player) -onAudioRecord:sampleRate:numOfChannels:bitDepth:type:] 获取 SDK 录制的数据。使用此接口开启音频录制，相当于调用 enableSelectedAudioRecord:(ZegoAPIAudioRecordConfig)config，且 config 中的参数默认值为：ZEGO_AUDIO_RECORD_MIX、44100、单声道。
+ @discussion 在启动推流或者启动本地录制（MediaRecorder）的时候，才能开启音频录制
  */
 - (bool)enableAudioRecord:(BOOL)enable;
 
@@ -254,6 +255,8 @@
  音频录制开关
  
  @warning Deprecated，请使用 enableSelectedAudioRecord:
+ @discussion 在启动推流或者启动本地录制（MediaRecorder）的时候，才能开启音频录制
+ 
  */
 - (bool)enableSelectedAudioRecord:(unsigned int)mask sampleRate:(int)sampleRate;
 
@@ -263,6 +266,7 @@
  @param config 配置信息, 参考 ZegoAPIAudioRecordConfig
  @return true 成功，false 失败
  @discussion 初始化 SDK 后调用。开启音频录制后，调用方需要设置音频录制回调代理对象，并通过 [ZegoLiveRoomApi (Player) -onAudioRecord:sampleRate:numOfChannels:bitDepth:type:] 获取 SDK 录制的数据
+ @discussion 在启动推流或者启动本地录制（MediaRecorder）的时候，才能开启音频录制
  */
 - (bool)enableSelectedAudioRecord:(ZegoAPIAudioRecordConfig)config;
 
@@ -375,7 +379,11 @@
 
 @end
 
-
+/**
+ * 视频外部渲染代理
+ * 
+ * @warning Deprecated，请使用 zego-api-external-video-render-oc.h 中的 ZegoExternalVideoRenderDelegate
+ */
 @protocol ZegoLiveApiRenderDelegate <NSObject>
 
 /**

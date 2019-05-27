@@ -473,6 +473,7 @@
  
  @param factory 工厂对象，遵循 ZegoVideoCaptureFactory 协议的对象
  @discussion 必须在 InitSDK 前调用，并且不能置空
+ @warning Deprecated，请使用 zego-api-external-video-capture-oc.h 中的 [ZegoExternalVideoCapture setVideoCaptureFactory:channelIndex:]
  */
 + (void)setVideoCaptureFactory:(id<ZegoVideoCaptureFactory>)factory;
 
@@ -481,6 +482,7 @@
  
  @param factory 工厂对象，遵循 ZegoVideoFilterFactory 协议的对象
  @discussion 必须在 Init 前调用，并且不能置空
+ @warning Deprecated，请使用 zego-api-external-video-filter-oc.h 中的 [ZegoExternalVideoFilter setVideoFilterFactory:channelIndex:]
  */
 + (void)setVideoFilterFactory:(id<ZegoVideoFilterFactory>)factory;
 
@@ -666,15 +668,7 @@
  @param mixStreamID 混流ID
  @param info 混流播放信息
  @discussion 调用 [ZegoLiveRoomApi (Publisher) -setMixStreamConfig:] 设置混流配置，及 [ZegoLiveRoomApi (Publisher) -updateMixInputStreams:] 更新混流配置后，通过此 API 通知调用方
- @note 常见错误码及其含义如下：
- errorCode = 150，混流的输入流不存在。
- errorCode = 151，混流失败。
- errorCode = 152，停止混流失败。
- errorCode = 153，输入参数错误。
- errorCode = 154，输出参数错误。
- errorCode = 155，输入分辨率格式错误。
- errorCode = 156，输出分辨率格式错误。
- errorCode = 157，混流没开。
+ @note 常见错误码及其含义请参考ZegoError中kMixStream开头的错误码定义
  */
 - (void)onMixStreamConfigUpdate:(int)errorCode mixStream:(NSString *)mixStreamID streamInfo:(NSDictionary *)info;
 
