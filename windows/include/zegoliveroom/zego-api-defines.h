@@ -17,6 +17,7 @@
 
 #define ZEGO_MAX_USERID_LEN         (64)
 #define ZEGO_MAX_USERNAME_LEN       (256)
+#define ZEGO_MAX_EXTRA_INFO_LEN     (1024)
 
 #if defined(_MSC_VER) || defined(__BORLANDC__)
 #	define _I64_				"I64"
@@ -542,6 +543,21 @@ namespace ZEGO
             VideoStreamLayer_Auto = -1,            /**< 根据网络状态选择图层  */
             VideoStreamLayer_BaseLayer = 0,        /**< 指定拉基本层（小分辨率） */
             VideoStreamLayer_ExtendLayer = 1       /**< 指定拉扩展层（大分辨率)  */
+        };
+        
+        /** MediaInfo类型 */
+        enum MediaInfoType
+        {
+            SideInfoZegoDefined = 0,            /**< side info  */
+            SeiZegoDefined = 1,                 /**< sei (nalu type = 6,payload type = 243), sei recommend useing this  */
+            SeiUserUnregisted = 2               /**< sei (nalu type = 6,payload type = 5) */
+        };
+
+        /** SEI发送类型 */
+        enum SeiSendType
+        {
+            SeiSendSingleFrame = 0,             /**< sei send single frame  */
+            SeiSendInVideoFrame = 1             /**< sei send in any video frame(IDR, B, P)  */
         };
         
         struct SoundLevelInfo

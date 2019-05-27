@@ -356,8 +356,8 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
 
         if (currentSpeakingMode == SpeakingMode.InTurnSpeakingMode) {
             mCurrentSpeakingHead.setVisibility(View.VISIBLE);
-            zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, wolfInfo.getStreamId());
             zegoLiveRoom.startPlayingStream(wolfInfo.getStreamId(), mCurrentSpeakingHead);
+            zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFit, wolfInfo.getStreamId());
         }
     }
 
@@ -380,8 +380,8 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
                     zegoLiveRoom.setPreviewView(mCurrentSpeakingHead);
                     zegoLiveRoom.startPreview();
                 } else {
-                    zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, stream.streamID);
                     zegoLiveRoom.startPlayingStream(stream.streamID, mCurrentSpeakingHead);
+                    zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFit, stream.streamID);
                 }
                 bindStream2SpeakingHeaderViewAndShow(stream.streamID);
             }
@@ -532,8 +532,8 @@ public abstract class WolvesGameBaseActivity extends AbsBaseLiveActivity {
                     _zegoLiveRoom.startPreview();
                 } else {
                     _zegoLiveRoom.stopPlayingStream(wolfInfo.getStreamId());
-                    _zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFill, holder.streamId);
                     _zegoLiveRoom.startPlayingStream(wolfInfo.getStreamId(), holder.headImg);
+                    _zegoLiveRoom.setViewMode(ZegoVideoViewMode.ScaleAspectFit, holder.streamId);
 
                 }
             } else {

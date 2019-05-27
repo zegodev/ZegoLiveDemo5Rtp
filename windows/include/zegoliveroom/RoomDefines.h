@@ -51,7 +51,7 @@ namespace ZEGO
             char szUserId[ZEGO_MAX_USERID_LEN];
             char szUserName[ZEGO_MAX_USERNAME_LEN];
             char szStreamId[ZEGO_MAX_COMMON_LEN];
-            char szExtraInfo[ZEGO_MAX_COMMON_LEN];
+            char szExtraInfo[ZEGO_MAX_EXTRA_INFO_LEN];
         };
         
         /** 流更新类型 */

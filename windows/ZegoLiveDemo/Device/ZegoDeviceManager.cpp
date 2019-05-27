@@ -366,58 +366,82 @@ void ZegoDeviceManager::OnMicCaptureSoundLevelUpdate(float soundlevel)
 
 void ZegoDeviceManager::OnAudioDeviceStateChanged(AV::AudioDeviceType deviceType, const QString& strDeviceId, const QString& strDeviceName, AV::DeviceState state)
 {
-	if (deviceType == AV::AudioDeviceType::AudioDevice_Output)
-		return;
+	if (deviceType == AV::AudioDeviceType::AudioDevice_Input) {
 
-	if (state == AV::DeviceState::Device_Added)
-	{
-		QDeviceInfo added_device;
-		added_device.deviceId = strDeviceId;
-		added_device.deviceName = strDeviceName;
-		m_audioDeviceList.append(added_device);
-
-		//从0到1
-		if (m_audioDeviceList.size() == 1)
+		if (state == AV::DeviceState::Device_Added)
 		{
-			m_micListIndex = 0;
-			m_audioDeviceId = m_audioDeviceList.at(m_micListIndex).deviceId;
-			emit sigMicIdChanged(m_audioDeviceId);
+			QDeviceInfo added_device;
+			added_device.deviceId = strDeviceId;
+			added_device.deviceName = strDeviceName;
+			m_audioDeviceList.append(added_device);
 
-			//emit sigDeviceExist(TYPE_AUDIO);
-		}
-
-		emit sigDeviceAdded(TYPE_AUDIO, added_device.deviceName);
-	}
-	else if (state == AV::DeviceState::Device_Deleted)
-	{
-		
-		for (int i = 0; i < m_audioDeviceList.size(); ++i)
-		{
-			if (m_audioDeviceList.at(i).deviceId != strDeviceId)
-				continue;
-
-			m_audioDeviceList.takeAt(i);
-
-			if (m_micListIndex == i)
+			//从0到1
+			if (m_audioDeviceList.size() == 1)
 			{
-				if (m_audioDeviceList.size() > 0)
-				{
-					m_audioDeviceId = m_audioDeviceList.at(0).deviceId;
-					
-				}
-				else
-				{
-					m_audioDeviceId = "";
-					emit sigDeviceNone(TYPE_AUDIO);
-				}
-
-				RefreshMicIndex();
+				m_micListIndex = 0;
+				m_audioDeviceId = m_audioDeviceList.at(m_micListIndex).deviceId;
 				emit sigMicIdChanged(m_audioDeviceId);
+
+				//emit sigDeviceExist(TYPE_AUDIO);
 			}
 
-			emit sigDeviceDeleted(TYPE_AUDIO, i);
+			emit sigDeviceAdded(TYPE_AUDIO, added_device.deviceName);
+		}
+		else if (state == AV::DeviceState::Device_Deleted)
+		{
+
+			for (int i = 0; i < m_audioDeviceList.size(); ++i)
+			{
+				if (m_audioDeviceList.at(i).deviceId != strDeviceId)
+					continue;
+
+				m_audioDeviceList.takeAt(i);
+
+				if (m_micListIndex == i)
+				{
+					if (m_audioDeviceList.size() > 0)
+					{
+						m_audioDeviceId = m_audioDeviceList.at(0).deviceId;
+
+					}
+					else
+					{
+						m_audioDeviceId = "";
+						emit sigDeviceNone(TYPE_AUDIO);
+					}
+
+					RefreshMicIndex();
+					emit sigMicIdChanged(m_audioDeviceId);
+				}
+
+				emit sigDeviceDeleted(TYPE_AUDIO, i);
+			}
+
 		}
 
+	}
+	else {
+		if (state == AV::DeviceState::Device_Added) {
+
+			LIVEROOM::SetAudioDevice(AV::AudioDeviceType::AudioDevice_Output, strDeviceId.toStdString().c_str());
+		}
+		else {
+
+			unsigned int *id_len = new unsigned int;
+			*id_len = 1024;
+			char *speaker_id = new char[*id_len];
+
+			LIVEROOM::GetDefaultAudioDeviceId(AV::AudioDeviceType::AudioDevice_Output, speaker_id, id_len);
+			if (id_len > 0) {
+				LIVEROOM::SetAudioDevice(AV::AudioDeviceType::AudioDevice_Output, speaker_id);
+			}
+			else {
+				LIVEROOM::SetAudioDevice(AV::AudioDeviceType::AudioDevice_Output, nullptr);
+			}
+
+			delete id_len;
+			delete[] speaker_id;
+		}
 	}
 
 }
