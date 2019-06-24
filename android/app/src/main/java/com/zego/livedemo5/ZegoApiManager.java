@@ -70,15 +70,15 @@ public class ZegoApiManager {
     private void openAdvancedFunctions() {
 
         // 开启测试环境
-        if (PreferenceUtil.getInstance().getTestEnv(false)) {
+        if (PreferenceUtil.getInstance().getTestEnv(true)) {
             ZegoLiveRoom.setTestEnv(true);
         }
 
-//        // 外部渲染
-//        if (PreferenceUtil.getInstance().getUseExternalRender(false)) {
-//            // 开启外部渲染
+        // // 外部渲染
+        // if (PreferenceUtil.getInstance().getUseExternalRender(false)) {
+        // // 开启外部渲染
 //            ZegoExternalVideoRender.enableExternalRender(true, VideoExternalRenderType.DECODE_RGB_SERIES);
-//        }
+        // }
 
         // 外部采集
         if (PreferenceUtil.getInstance().getVideoCapture(false)) {
@@ -116,7 +116,7 @@ public class ZegoApiManager {
 
     }
 
-    public void setAlphaEnv(boolean env){
+    public void setAlphaEnv(boolean env) {
         isAlphaEnv = env;
         releaseSDK();
         ZegoApplication.zgAppSupportApi.api().setUseAlphaEnv(env);
@@ -134,9 +134,6 @@ public class ZegoApiManager {
         // 开发者根据需求定制
         openAdvancedFunctions();
 
-        // 设置视频通话类型
-        ZegoLiveRoom.setBusinessType(PreferenceUtil.getInstance().getBusinessType());
-
         // 当前appId
         currentAppID = appID;
 
@@ -149,28 +146,28 @@ public class ZegoApiManager {
         } else if (isConfig) {
             int liveQualityLevel = PreferenceUtil.getInstance().getLiveQuality(3);
             switch (liveQualityLevel) {
-                case 0:
-                    zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.VeryLow);
-                    break;
-                case 1:
-                    zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.Low);
-                    break;
-                case 2:
-                    zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.Generic);
-                    break;
-                case 3:
-                    zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.High);
-                    break;
-                case 4:
-                    zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.VeryHigh);
-                    break;
-                case 5:
-                    zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.SuperHigh);
-                    break;
-                case 6:
-                    // 自定义设置
-                    zegoAvConfig = initZegoAvConfig(Constants.ZEGO_ROTATION_0);
-                    break;
+            case 0:
+                zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.VeryLow);
+                break;
+            case 1:
+                zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.Low);
+                break;
+            case 2:
+                zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.Generic);
+                break;
+            case 3:
+                zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.High);
+                break;
+            case 4:
+                zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.VeryHigh);
+                break;
+            case 5:
+                zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.SuperHigh);
+                break;
+            case 6:
+                // 自定义设置
+                zegoAvConfig = initZegoAvConfig(Constants.ZEGO_ROTATION_0);
+                break;
             }
 
             if (isConfig) {
@@ -202,10 +199,10 @@ public class ZegoApiManager {
 
     public ZegoAvConfig initZegoAvConfig(int orientation) {
         int liveQualityLevel = PreferenceUtil.getInstance().getLiveQuality(3);
-        //默认竖屏
+        // 默认竖屏
         int number = 1;
         if (orientation == ZEGO_ROTATION_270) {
-            //切换横屏
+            // 切换横屏
             number = 0;
         }
 
