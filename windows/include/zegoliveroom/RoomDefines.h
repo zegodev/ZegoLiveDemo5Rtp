@@ -60,34 +60,6 @@ namespace ZEGO
             StreamAdded     = 2001,     /**< 新增流 */
             StreamDeleted   = 2002,     /**< 删除流 */
         };
-        
-        const int kLiveRoomErrorBase = 0x01000000;
-        
-        
-        /** 回调状态码定义 */
-        enum LiveRoomState
-        {
-            Begin = 0,                      /**< 开始 */
-            
-            FatalError = 3,                 /**< 直播遇到严重的问题（如出现，请联系 ZEGO 技术支持 */
-            
-            CreateStreamError = 4,          /**< 创建直播流失败 */
-            FetchStreamError = 5,           /**< 获取流信息失败 */
-            NoStreamError = 6,              /**< 无流信息 */
-            MediaServerNetWorkError = 7,    /**< 媒体服务器连接失败 */
-            DNSResolveError = 8,            /**< DNS 解释失败 */
-            
-            NotLoginError = 9,              /**< 未登陆 */
-            LogicServerNetWrokError = 10,   /**< 逻辑服务器网络错误 */
-            InitConfigError = 11,           /**< 初始化配置失败 */
-            
-            PublishBadNameError = 105,      /**< 推流名称错误 */
-            AddStreamError      = 0x1 | kLiveRoomErrorBase, // 16777217
-            ParameterError      = 0x2 | kLiveRoomErrorBase, // 16777218
-            MultiLoginError     = 0x3 | kLiveRoomErrorBase, // 16777219
-            ManualKickoutError  = 0x4 | kLiveRoomErrorBase, // 16777220
-            RoomSessionError    = 0x5 | kLiveRoomErrorBase, // 16777221
-        };
 
         /** 发布直播的模式 */
         enum ZegoPublishFlag
@@ -280,11 +252,28 @@ namespace ZEGO
             unsigned long long sendTime;
         };
         
-        enum ZegoKickoutReason
+        struct ZegoReliableMessage
         {
-            MultipleLogin = 1,
-            ManualKickout = 2,
-            RoomSessionError = 3,
+            /** 消息类型 */
+            const char *type;
+            /** 当前最新消息Seq */
+            unsigned int latestSeq;
+            /** 消息内容 */
+            const char *content;
+            /** 消息发送UserID */
+            const char *userID;
+            /** 消息发送UserName */
+            const char *userName;
+            /** 发送时间 */
+            unsigned long long sendTime;
+        };
+        
+        struct ZegoReliableMessageInfo
+        {
+            /** 消息类型 */
+            const char *type;
+            /** 当前最新消息Seq */
+            unsigned int latestSeq;
         };
     }
 }

@@ -29,6 +29,7 @@ namespace AVE
 			virtual void OnBufferBegin() = 0;
 			virtual void OnBufferEnd() = 0;
             virtual void OnSnapshot(void *image) = 0;
+            virtual void OnProcessInterval(long timestamp_ms) = 0;
         };
         
         class VideoPlayCallback
@@ -50,6 +51,7 @@ namespace AVE
         virtual void SeekTo(long timestamp_ms) = 0;                          //Units in millisecond
         virtual long GetDuration() = 0;
         virtual long GetCurrentDuration() = 0;
+        virtual long SetProcessInterval(long interval_ms) = 0;
         
         virtual void SetView(void *view) = 0;
         //format support:ARGB32/ABGR32/RGBA32/BGRA32

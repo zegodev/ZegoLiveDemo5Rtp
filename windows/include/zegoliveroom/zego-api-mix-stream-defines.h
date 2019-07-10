@@ -1,4 +1,4 @@
-﻿//
+//
 //  zego-api-mix-stream-defines.h
 //
 //  Copyright © 2018年 Zego. All rights reserved.
@@ -124,6 +124,8 @@ namespace MIXSTREAM
         
         bool bSingleStreamPassThrough;              /**< 混流输入为一条流时，混流输出的属性与单流一致(分辨率，编码格式等)，若需要开启此功能，请于即构技术支持联系 */
         
+        const char *pAdvancedConfig;                /**< 高级功能配置，格式 "config1=xxx;config2=xxx"，请与即构技术支持联系了解可支持字段 */
+        
         ZegoMixStreamConfig ()
         : nOutputFps(0)
         , nOutputRateControlMode(0)
@@ -146,6 +148,7 @@ namespace MIXSTREAM
         , nExtra(0)
         , pOutputWatermark(0)
         , bSingleStreamPassThrough(false)
+        , pAdvancedConfig(nullptr)
         {
             
         }

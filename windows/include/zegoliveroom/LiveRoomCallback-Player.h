@@ -84,6 +84,43 @@ namespace ZEGO
             virtual void OnVideoSizeChanged(const char* pStreamID, int nWidth, int nHeight) {};
             
             /**
+             远端摄像头状态通知
+
+             @param pStreamID 流 ID
+             @param nStatus，参考 zego-api-defines.h 中 DeviceStatus 的定义
+             */
+            virtual void OnRemoteCameraStatusUpdate(const char* pStreamID, int nStatus) {};
+            
+            /**
+             远端麦克风状态通知
+
+             @param pStreamID 流 ID
+             @param nStatus，参考 zego-api-defines.h 中 DeviceStatus 的定义
+             */
+            virtual void OnRemoteMicStatusUpdate(const char* pStreamID, int nStatus) {};
+            
+            /**
+             接收到远端音频的首帧通知
+             
+             @param pStreamID 流 ID
+             */
+            virtual void OnRecvRemoteAudioFirstFrame(const char* pStreamID) {};
+            
+            /**
+             接收到远端视频的首帧通知
+             
+             @param pStreamID 流 ID
+             */
+            virtual void OnRecvRemoteVideoFirstFrame(const char* pStreamID) {};
+            
+            /**
+             远端视频渲染首帧通知
+             
+             @param pStreamID 流 ID
+             */
+            virtual void OnRenderRemoteVideoFirstFrame(const char* pStreamID) {};
+            
+            /**
              截屏结果
 
              @param pImage 截屏图片
@@ -94,6 +131,11 @@ namespace ZEGO
             virtual ~ILivePlayerCallback() {}
         };
         
+        /**
+         * 视频帧数据回调
+         * 
+         * @warning Deprecated，请使用 zego-api-external-video-render.h 中的 IZegoExternalRenderCallback2
+         */
         class IZegoVideoRenderCallback
         {
         public:

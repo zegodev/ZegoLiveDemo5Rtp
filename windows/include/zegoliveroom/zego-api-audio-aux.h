@@ -47,11 +47,27 @@ namespace ZEGO
         ZEGOAVKIT_API bool EnableAux(bool bEnable);
         
         /**
-         * 设置混音带有媒体次要信息回调
-         * @param pCB 回调对象指针
-         * @return true 成功，false 失败
+         设置混音带有媒体次要信息回调
+         
+         @param pCB 回调对象指针
+         @return true 成功，false 失败
          */
         ZEGOAVKIT_API bool SetAuxCallback(IZegoAuxCallback* pCB);
+        
+        /**
+         设置混音音量
+         
+        @param volume 音量 0 ~ 100，默认为 50
+         */
+        ZEGOAVKIT_API void SetAuxVolume(int volume);
+        
+        /**
+         混音静音开关
+         
+         @param bMute true: aux 输入播放静音，false: 不静音。默认 false
+         @return true 成功，false 失败
+         */
+        ZEGOAVKIT_API bool MuteAux(bool bMute);
     }
 }
 

@@ -112,6 +112,12 @@ namespace ZEGO
             Device_Deleted,             /**< 删除设备 */
         };
         
+        enum DeviceStatus
+        {
+            Device_Opened = 0,          /**< 设备已打开 */
+            Device_Closed,              /**< 设备已关闭 */
+        };
+        
         /** 音量类型 */
         enum VolumeType
         {
@@ -183,44 +189,6 @@ namespace ZEGO
             ZegoStreamRelayCDNState state;
             ZegoStreamRelayCDNDetail detail;   //转推停止或重试时有效
             unsigned int stateTime;
-        };
-        
-        const unsigned int SEG_PUBLISH_FATAL_ERROR = 0x0001 << 16;   ///< 推流严重错误段
-        const unsigned int SEG_PUBLISH_NORMAL_ERROR = 0x0002 << 16;  ///< 推流普通错误段
-        const unsigned int SEG_PLAY_FATAL_ERROR = 0x0003 << 16;      ///< 拉流严重错误段
-        const unsigned int SEG_PLAY_NORMAL_ERROR = 0x0004 << 16;     ///< 拉流普通错误段
-        
-        enum ZegoAVAPIState
-        {
-            AVStateBegin = 0,               ///< 直播开始
-            AVStateEnd = 1,                 ///< 直播正常停止
-            TempBroken = 2 ZEGO_DEPRECATED, ///< 直播异常中断
-            FatalError = 3,                 ///< 直播遇到严重的问题（如出现，请联系 ZEGO 技术支持）
-            
-            CreateStreamError = 4,          ///< 创建直播流失败
-            FetchStreamError = 5,           ///< 获取流信息失败
-            NoStreamError = 6,              ///< 无流信息
-            MediaServerNetWorkError = 7,    ///< 媒体服务器连接失败
-            DNSResolveError = 8,            ///< DNS 解析失败
-            
-            NotLoginError = 9,              ///< 未登陆
-            LogicServerNetWrokError = 10,   ///< 逻辑服务器网络错误
-            
-            InitConfigError = 11,           ///< 初始化配置失败
-            
-            PublishBadNameError = 105,
-            HttpDNSResolveError = 106 ZEGO_DEPRECATED,
-            
-            PublishForbidError = (SEG_PUBLISH_FATAL_ERROR | 0x03f3),             ///< 禁止推流, 低8位为服务端返回错误码：1011
-            
-            PublishStopError = (SEG_PUBLISH_FATAL_ERROR | 0x03f6),             ///< 停止推流, 低8位为服务端返回错误码：1014
-            
-            PublishDeniedError = (SEG_PUBLISH_NORMAL_ERROR | 0x1),              ///< 推流被拒绝
-
-            PlayStreamNotExistError = (SEG_PLAY_FATAL_ERROR | 0x03ec),          ///< 拉的流不存在, 低8位为服务端返回错误码：1004
-            PlayForbidError = (SEG_PLAY_FATAL_ERROR | 0x03f3),                  ///< 禁止拉流, 低8位为服务端返回错误码：1011
-            
-            PlayDeniedError = (SEG_PLAY_NORMAL_ERROR | 0x1),                   ///< 拉流被拒绝
         };
         
         enum ZEGONetType
@@ -382,7 +350,14 @@ namespace ZEGO
             Play_TempDisconnected = 5,     /**< 拉流临时中断 */
             Publish_TempDisconnected = 6,  /**< 推流临时中断 */
             
-            Play_VideoBreak = 7,           /**< 拉流卡顿(视频) */
+            Play_VideoBreak = 7,           /**< 视频卡顿开始 */
+            Play_VideoBreakEnd = 8,        /**< 视频卡顿结束 */
+            
+            Play_AudioBreak = 9,           /**< 音频卡顿开始 */
+            Play_AudioBreakEnd = 10,       /**< 音频卡顿结束 */
+
+            PublishInfo_RegisterFailed = 11,   /**< 注册推流信息失败 */
+            PublishInfo_RegisterSuccess = 12, /**< 注册推流信息成功 */
         };
         
         struct EventInfo
@@ -522,6 +497,8 @@ namespace ZEGO
             double videoBreakRate;          ///< 视频卡顿次数
             int rtt;                        ///< 延时(ms)
             int pktLostRate;                ///< 丢包率(0~255)
+            int peerToPeerDelay;            ///< 端到端延迟
+            int peerToPeerPktLostRate;      ///< 端到端丢包率(0~255)
             int quality;                    ///< 质量(0~3)
             int delay;                      ///< 语音延迟(ms)
             
@@ -576,18 +553,6 @@ namespace ZEGO
     }
 }
 
-/** 接口调用返回错误码 */
-enum ZegoErrorCode
-{
-    kZegoErrorCodeOK = 0,    /**< 没有错误 */
-    kZegoErrorCodeInvalidParameter = 1,  /** 调用输入参数错误 */
-    
-    // * 5101 外部音频设备
-    kZegoErrorCodeExternalAudioDeviceWasNotEnabled = 5101, /** 没有启用外部音频设备 */
-    kZegoErrorCodeExternalAudioDeviceEngineError = 5102, /** 处理音频数据异常 */
-};
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -599,6 +564,7 @@ extern "C" {
     ZEGOAVKIT_API void zego_stream_extra_info_add_rtmp_url(struct ZegoStreamExtraPlayInfo* info, const char* url);
     ZEGOAVKIT_API void zego_stream_extra_info_add_flv_url(struct ZegoStreamExtraPlayInfo* info, const char* url);
     ZEGOAVKIT_API void zego_stream_extra_info_set_params(struct ZegoStreamExtraPlayInfo* info, const char* params);
+    ZEGOAVKIT_API void zego_stream_extra_info_should_switch_server(struct ZegoStreamExtraPlayInfo* info, bool should);
     
 #ifdef __cplusplus
 } // __cplusplus defined.

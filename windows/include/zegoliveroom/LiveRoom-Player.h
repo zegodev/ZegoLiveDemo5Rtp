@@ -217,6 +217,7 @@ namespace ZEGO
 
          @param bEnable true 开启，false 不开启
          @param nType 0 表示使用 OnVideoDataCallback 回调接口，1 表示使用 OnVideoDataCallback2 回调接口，这两个接口都定义在 IZegoVideoRenderCallback 中。
+         @warning Deprecated，请使用 zego-api-external-video-render.h 的 EnableExternalRender 代替
          */
         ZEGO_API void EnableExternalRender(bool bEnable, int nType = 0);
         
@@ -225,6 +226,7 @@ namespace ZEGO
          设置外部渲染回调
 
          @param pCB 回调实现实例
+         @warning Deprecated，请使用 zego-api-external-video-render.h 的 SetExternalRenderCallback 代替
          */
         ZEGO_API void SetExternalRenderCallback(IZegoVideoRenderCallback* pCB);
         
@@ -238,6 +240,7 @@ namespace ZEGO
          @param nSampleRate 采样率 8000, 16000, 22050, 24000, 32000, 44100, 48000
          @param nChannels 声道数 1(单声道) 或 2(双声道)
          @return true 成功，false 失败
+         @attention 在启动推流或者启动本地录制（MediaRecorder）的时候，才能开启音频录制
          */
         ZEGO_API bool EnableSelectedAudioRecord(unsigned int uMask, int nSampleRate = 44100, int nChannels = 1);
         
@@ -256,6 +259,7 @@ namespace ZEGO
          @param nSampleRate 采样率
          @return true 成功，false 失败
          @warning 已废弃，请使用 EnableSelectedAudioRecord
+         @attention 在启动推流或者启动本地录制（MediaRecorder）的时候，才能开启音频录制
          */
         ZEGO_API bool EnableAudioRecord(bool bEnable, int nSampleRate = 44100);
         

@@ -20,7 +20,7 @@ namespace MIXSTREAM
         /**
          混流请求结果回调
          @param result 混流结果
-         @param pszMixStreamID 混流ID
+         @param pszMixStreamID 混流任务ID
          @param seq 请求 seq
          */
         virtual void OnMixStream(const AV::ZegoMixStreamResult& result, const char* pszMixStreamID, int seq) = 0;
@@ -35,10 +35,21 @@ namespace MIXSTREAM
         /**
          混流请求结果回调
          @param result 混流结果
-         @param pszMixStreamID 混流ID
+         @param pszMixStreamID 混流任务ID
          @param seq 请求 seq
          */
-        virtual void OnMixStreamEx(const AV::ZegoMixStreamResultEx& result, const char* pszMixStreamID, int seq) = 0;
+        virtual void OnMixStreamEx(const AV::ZegoMixStreamResultEx& result, const char* mixStreamID, int seq) = 0;
+        
+        
+        /**
+         混流转推CDN状态回调
+
+         @param mixStreamID 混流任务ID
+         @param statesInfo 混流转推CDN信息
+         @param statesInfoCount 混流转推CDN信息个数
+         @discussion 混流直推即构服务器时，ZegoStreamRelayCDNInfo 中的 rtmpUrl 字段以 avertp:// 开头
+         */
+        virtual void OnMixStreamRelayCDNStateUpdate(const char *mixStreamID, AV::ZegoStreamRelayCDNInfo *statesInfo, unsigned int statesInfoCount) {}
         
         virtual ~IZegoMixStreamExCallback() {}
     };
@@ -74,10 +85,10 @@ namespace MIXSTREAM
     /**
      混流接口，支持混流一路或者多路输出。
      
-     @param mixStreamID 混流ID
+     @param mixStreamID 混流任务ID
      @param config 混流配置信息
      @return seq 如果 > 0 表示调用成功，而且这个返回值会和 OnMixStream 的参数 seq 一一匹配。
-     @note 混流ID，表示混流的唯一ID，调用方应该保证 taskID 的唯一性。如果 taskID 相同，服务端就认为是更新同一个混流。
+     @note 混流任务ID，表示混流任务的唯一ID，调用方应该保证 mixStreamID 的唯一性。如果 mixStreamID 相同，服务端就认为是更新同一个混流。
      */
     ZEGOAVKIT_API int MixStreamEx(const char* mixStreamID, const ZegoMixStreamConfig& config);
     

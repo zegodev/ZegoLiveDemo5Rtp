@@ -172,10 +172,11 @@ namespace AVE {
     class VideoCaptureEncodedFrameCallback {
     public:
         /// \brief 通知SDK采集到编码数据，SDK会切换到内部线程进行发送
-        /// \param data 码流指针
+        /// \note 推荐每 2S 一个 gop，每个 I 帧必须携带 sps 和 pps，且放在最前面。仅接受 I 帧 和 P 帧，不接受 B 帧
+        /// \param data 码流指针，目前只支持 H.264 码流
         /// \param length 码流长度
         /// \param codec_config 码流的信息，参考VideoCodecConfig
-        /// \param b_keyframe 是否为关键帧
+        /// \param b_keyframe 是否为关键帧，建议关键帧间隔在 2S 左右
         /// \param reference_time_ms 采集到该帧的时间戳，单位毫秒，不能超过2^52, 用于音画同步，如果采集实现是摄像头，最好使用系统采集回调的原始时间戳，如果不是，最好是生成该帧的UTC时间戳
         virtual void OnEncodedFrame(const char* data, int length,
                                     const VideoCodecConfig& codec_config,

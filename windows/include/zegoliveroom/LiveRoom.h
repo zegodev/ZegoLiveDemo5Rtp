@@ -156,6 +156,7 @@ namespace ZEGO
 
          @param audienceCreateRoom 观众是否可以创建房间。true 可以，false 不可以。默认 true
          @param userStateUpdate 用户状态（用户进入、退出房间）是否广播。true 广播，false 不广播。默认 false
+         @discussion 在登录房间前调用有效，退出房间后失效
          */
         ZEGO_API void SetRoomConfig(bool audienceCreateRoom, bool userStateUpdate);
         
@@ -164,8 +165,18 @@ namespace ZEGO
          
          @param thirdPartyToken 第三方传入的token
          @discussion 使用此函数验证登录时用户的合法性，登录房间前调用，token的生成规则请联系即构。若不需要验证用户合法性，不需要调用此函数
+         @discussion 在登录房间前调用有效，退出房间后失效
          */
         ZEGO_API void SetCustomToken(const char *thirdPartyToken);
+        
+        
+        /**
+         设置房间最大在线人数
+
+         @param maxCount 最大人数
+         @discussion 在登录房间前调用有效，退出房间后失效
+         */
+        ZEGO_API void SetRoomMaxUserCount(unsigned int maxCount);
         
         /**
          登录房间
@@ -424,6 +435,7 @@ namespace ZEGO
          @attention "lower_audio_cap_sample_rate", bool value, default: false. enforce to use lower audio capture sample. for Android
          @attention "alsa_capture_device_name" string value: plughw:[card_id],[device_id], eg: plughw:1,0, default is plug:default. view the device list with arecord. for Linux
          @attention "alsa_playback_device_name" string value: plughw:[card_id],[device_id], eg: plughw:1,0, default is plug:default. view the device list with aplay. for Linux
+         @attention "play_nodata_abort", bool value, default: false，设置拉流时没拉到数据是否终止拉流，设置为false表示不终止，设置为true表示终止，拉流之前调用有效
          */
         ZEGO_API void SetConfig(const char *config);
         

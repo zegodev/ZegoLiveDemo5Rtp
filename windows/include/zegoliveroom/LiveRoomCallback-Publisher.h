@@ -111,6 +111,7 @@ namespace ZEGO
              @param pNumChannels 混音数据声道数，支持1、2
              @attention 用户调用该 API 将混音数据传递给 SDK
              @note 混音数据 bit depth 必须为 16
+             @warning Deprecated 请使用 zego-api-audio-aux.h 中的 IZegoAudioAuxCallbackEx
              */
             virtual void OnAuxCallback(unsigned char *pData, int *pDataLen, int *pSampleRate, int *pNumChannels) {}
             
@@ -132,6 +133,14 @@ namespace ZEGO
              */
             virtual void OnRelayCDNStateUpdate(const char *streamID, AV::ZegoStreamRelayCDNInfo* statesInfo, unsigned int statesInfoCount) {}
             
+            /**
+             添加/删除转推地址状态回调
+             
+             @param pszStreamID 流 ID
+             @param strTarget 转推地址（支持rtmp/avertp）
+             @param errorCode 错误码
+             */
+            virtual void OnUpdatePublishTargetState(int errorCode, const char *streamID, int seq) {}
             
             /**
              采集视频的首帧通知
@@ -139,6 +148,11 @@ namespace ZEGO
             virtual void OnCaptureVideoFirstFrame() {}
             
             virtual void OnCaptureVideoFirstFrame(AV::PublishChannelIndex idx) {}
+            
+            /**
+             采集音频的首帧通知
+             */
+            virtual void OnCaptureAudioFirstFrame() {}
             
             virtual ~ILivePublisherCallback() {}
             
