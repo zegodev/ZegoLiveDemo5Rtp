@@ -394,22 +394,7 @@ void ZegoMainDialog::PullRoomList()
 		strAppID = mBase.GetAppID();
 	}
 
-	/*QString cstrBaseUrl;
-	if (!m_isUseTestEnv) //非测试环境
-	    cstrBaseUrl.sprintf(("https://liveroom%u-api.zego.im/demo/roomlist?appid=%u"), strAppID, strAppID);
-	else                 //测试环境
-		cstrBaseUrl.sprintf(("https://test2-liveroom-api.zego.im/demo/roomlist?appid=%u"), strAppID, strAppID);
-
-	QUrl url(cstrBaseUrl);
-
-	m_networkManager = new QNetworkAccessManager(this);
-	QNetworkRequest *m_networkRequest = new QNetworkRequest;
-	m_networkRequest->setUrl(url);
-
-	//建立信号槽，当请求服务器完毕之后，保存房间列表的JSON数据
-	connect(m_networkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(writeJsonData(QNetworkReply *)));
-	m_networkManager->get(*m_networkRequest);
-	*/
+	
 	zego::ConfigApiHelper::sharedInstance()->api->update_room_list(strAppID);
 }
 
@@ -1318,8 +1303,6 @@ void ZegoMainDialog::on_m_switchTestEnv_clicked()
 	mConfig.SetUseTestEnv(m_isUseTestEnv);
 	mConfig.SaveConfig();
 
-	//当开启/关闭了测试环境时，其房间列表需要马上刷新一次，因为在两个环境下拉取房间列表不一样，避免出错
-	PullRoomList();
 }
 
 void ZegoMainDialog::on_m_switchCapture_clicked()
