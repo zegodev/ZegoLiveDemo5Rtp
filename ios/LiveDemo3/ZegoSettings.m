@@ -60,7 +60,8 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
                                     NSLocalizedString(@"自定义", nil)];
         
         _appTypeList = @[NSLocalizedString(@"国内版", nil),
-                         NSLocalizedString(@"国际版", nil)];
+                         NSLocalizedString(@"国际版", nil),
+                         NSLocalizedString(@"自定义", nil)];
         
         [self loadConfig];
     }
@@ -78,7 +79,7 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
 }
 
 - (NSUserDefaults *)myUserDefaults {
-    return [[NSUserDefaults alloc] initWithSuiteName:@"group.liveDemo5"];
+    return [[NSUserDefaults alloc] initWithSuiteName:@"group.Livedemo5.store"];
 }
 
 #pragma mark - UserID & UserName
@@ -184,7 +185,7 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
 
 // 从本地文件加载保存的视频配置
 - (void)loadConfig {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *ud = [self myUserDefaults];
     id preset = [ud objectForKey:kZegoDemoVideoPresetKey];
     if (preset) {
         _presetIndex = [preset integerValue];
@@ -221,7 +222,7 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
 
 // 保存视频配置
 - (void)saveConfig {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *ud = [self myUserDefaults];
     [ud setObject:@(_presetIndex) forKey:kZegoDemoVideoPresetKey];
     
     if (_presetIndex >= self.presetVideoQualityList.count - 1) {

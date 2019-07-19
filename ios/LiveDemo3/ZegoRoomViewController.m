@@ -87,13 +87,11 @@
     if ([self.refreshControl isRefreshing])
         return;
     
-    [self.roomList removeAllObjects];
     [self getLiveRoom];
 }
 
 - (void)handleRefresh:(UIRefreshControl *)refreshControl
 {
-    [self.roomList removeAllObjects];
     [self getLiveRoom];
 }
 
@@ -122,6 +120,10 @@
 - (void)getLiveRoom
 {
     [self.refreshControl beginRefreshing];
+    
+    [self.roomList removeAllObjects];
+    [self.liveView reloadData];
+    
     NSLog(@"%d",ZegoDemoHelper.appID);
     [self.appSupport updateRoomList:ZegoDemoHelper.appID];
 }
@@ -131,11 +133,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.refreshControl isRefreshing])
             [self.refreshControl endRefreshing];
-        
-        if ([self.delegate respondsToSelector:@selector(onRefreshRoomListFinished)])
-            [self.delegate onRefreshRoomListFinished];
-        
-        [self.roomList removeAllObjects];
         
         for (ZGRoomInfo *info in roomList) {
             ZegoRoomInfo *roomInfo = [ZegoRoomInfo new];
@@ -150,6 +147,9 @@
             
             [self.roomList addObject:roomInfo];
         }
+        
+        if ([self.delegate respondsToSelector:@selector(onRefreshRoomListFinished)])
+            [self.delegate onRefreshRoomListFinished];
         
         [self.liveView reloadData];
     });
@@ -181,9 +181,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZegoRoomTableViewCell *cell = (ZegoRoomTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"roomListID" forIndexPath:indexPath];
-    
-    if (indexPath.row >= self.roomList.count)
-        return cell;
     
     ZegoRoomInfo *info = self.roomList[indexPath.row];
     
@@ -219,9 +216,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row >= self.roomList.count)
-        return;
-    
+
     ZegoRoomInfo *info = [self.roomList objectAtIndex:indexPath.row];
     
     UIViewController *controller = [[ZegoSettings sharedInstance] getViewControllerFromRoomInfo:info];

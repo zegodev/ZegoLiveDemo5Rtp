@@ -56,9 +56,12 @@ static ZegoAVKitManager *avkitManager;
     if (self)
     {
         _requiredHardwareAccelerate = YES;
-        _testEnvironment = NO;
         
-        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.liveDemo5"];
+        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.Livedemo5.store"];
+        
+        id useTestEnv = [sharedDefaults objectForKey:@"envtype"];
+        _testEnvironment = useTestEnv ? [useTestEnv boolValue]:NO;
+        
         self.userID = [sharedDefaults stringForKey:@"userid"];
         self.userName = [sharedDefaults stringForKey:@"username"];
         if (self.userID.length == 0)
@@ -83,6 +86,10 @@ static ZegoAVKitManager *avkitManager;
     }
     
     return self;
+}
+
++ (NSUserDefaults *)myUserDefaults {
+    return [[NSUserDefaults alloc] initWithSuiteName:@"group.Livedemo5.store"];
 }
 
 - (void)initZegoLiveApi
@@ -111,15 +118,11 @@ static ZegoAVKitManager *avkitManager;
 #pragma mark - AppID & AppSign
 
 - (ZegoAppType)appType {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *ud = [[NSUserDefaults alloc] initWithSuiteName:@"group.Livedemo5.store"];
     NSUInteger type = [ud integerForKey:kZegoDemoAppTypeKey];
     return (ZegoAppType)type;
 }
 
-#warning 请提前在即构管理控制台获取 appID 与 appSign
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 appSign,其他模式不需要可不用填
-#warning AppID 填写样式示例：1234567890
-#warning appSign 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 - (uint32_t)getAppID
 {
     switch (self.appType) {
@@ -127,15 +130,23 @@ static ZegoAVKitManager *avkitManager;
             return ;  // UDP版
             break;
         case ZegoAppTypeI18N:
-            return 100;  // 国际版
+            return 3322882036;  // 国际版
+            break;
+        case ZegoAppTypeCustom:
+        {
+            NSUserDefaults *ud = [ZegoAVKitManager myUserDefaults];
+            uint32_t appID = [[ud objectForKey:kZegoDemoAppIDKey] unsignedIntValue];
+            
+            if (appID != 0) {
+                return appID;
+            } else {
+                return 0;
+            }
+        }
             break;
     }
 }
 
-#warning 请提前在即构管理控制台获取 appID 与 appSign
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 AppID 与 appSign,其他模式不需要可不用填
-#warning AppID 填写样式示例：1234567890
-#warning appSign 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 - (NSData *)getZegoAppSign
 {
     //!! Demo 暂时把 signKey 硬编码到代码中，该用法不规范
@@ -150,8 +161,20 @@ static ZegoAVKitManager *avkitManager;
             break;
         case ZegoAppTypeI18N:
         {
-            Byte signkey[] = {0x00};
+            Byte signkey[] = {0x5d,0xe6,0x83,0xac,0xa4,0xe5,0xad,0x43,0xe5,0xea,0xe3,0x70,0x6b,0xe0,0x77,0xa4,0x18,0x79,0x38,0x31,0x2e,0xcc,0x17,0x19,0x32,0xd2,0xfe,0x22,0x5b,0x6b,0x2b,0x2f};
             return [NSData dataWithBytes:signkey length:32];
+        }
+            break;
+        case ZegoAppTypeCustom:
+        {
+            // 自定义模式下从本地持久化文件中加载
+            NSUserDefaults *ud = [ZegoAVKitManager myUserDefaults];
+            NSString *appSign = [ud objectForKey:kZegoDemoAppSignKey];
+            if (appSign) {
+                return ConvertStringToSign(appSign);
+            } else {
+                return nil;
+            }
         }
             break;
     }
@@ -246,7 +269,7 @@ Byte toByte(NSString* c)
             unsigned long currentTime = (unsigned long)[[NSDate date] timeIntervalSince1970];
             self.streamID = [NSString stringWithFormat:@"s-%@-%lu", self.userID, currentTime];
             
-            [self.zegoLiveApi startPublishing:self.streamID title:@"1234567890qwertyuiop" flag:ZEGOAPI_JOIN_PUBLISH];
+            [self.zegoLiveApi startPublishing:self.streamID title:self.liveTitle flag:ZEGOAPI_JOIN_PUBLISH];
         }
     }];
     

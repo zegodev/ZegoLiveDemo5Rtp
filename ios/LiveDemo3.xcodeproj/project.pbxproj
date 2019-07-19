@@ -32,7 +32,6 @@
 		335BB5FD218C29C100577169 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
 		335BB5FE218C29C100577169 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		337C1B092189B1E300E84AA4 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
-		33B845E422851B1700B86227 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
 		33C4426221E74A9B00D57521 /* ZGAppSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C4426021E749EE00D57521 /* ZGAppSupport.framework */; };
 		33C4426321E74A9B00D57521 /* ZGAppSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 33C4426021E749EE00D57521 /* ZGAppSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
@@ -415,7 +414,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33B845E422851B1700B86227 /* ZegoLiveRoom.framework in Frameworks */,
 				16F48A9B1FF48F8B001C8992 /* ReplayKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -383,6 +383,7 @@
  @param enable true 启用混音输入，false 关闭混音输入。默认 false
  @return true 成功，false 失败
  @discussion 推流开始前调用本 API 进行参数配置。主播端开启混音后，SDK 在 [ZegoLiveRoomApi (Publisher) -onAuxCallback:dataLen:sampleRate:channelCount:] 中获取混音输入数据
+ @warning Deprecated，请使用 [ZegoAudioAux enableAux:]
  */
 - (bool)enableAux:(BOOL)enable;
 
@@ -392,6 +393,7 @@
  @param bMute true: aux 输入播放静音，false: 不静音。默认 false
  @return true 成功，false 失败
  @discussion 该接口调用时机无要求，开发者按需调用即可
+ @warning Deprecated，请使用 [ZegoAudioAux muteAux:]
  */
 - (bool)muteAux:(bool)bMute;
 
@@ -535,6 +537,7 @@
  设置混音音量
  
  @param volume 0~100，默认为 50
+ @warning Deprecated，请使用 [ZegoAudioAux setAuxVolume:]
  */
 - (void)setAuxVolume:(int)volume;
 
@@ -602,17 +605,7 @@
  @param streamID 流 ID
  @param info 推流信息
  @discussion 主播调用 [ZegoLiveRoomApi (Publisher) -startPublishing:title:flag:] 推流成功后，通过该 API 通知主播方
- @note 推流状态码及其含义如下：
- stateCode = 0，直播开始。
- stateCode = 3，直播遇到严重问题（如出现，请联系 ZEGO 技术支持）。
- stateCode = 4，创建直播流失败。
- stateCode = 5，获取流信息失败。
- stateCode = 6，无流信息。
- stateCode = 7，媒体服务器连接失败（请确认推流端是否正常推流、正式环境和测试环境是否设置同一个、网络是否正常）。
- stateCode = 8，DNS 解析失败。
- stateCode = 9，未登录就直接拉流。
- stateCode = 10，逻辑服务器网络错误(网络断开时间过长时容易出现此错误)。
- stateCode = 105，发布流名被占用。
+ @note 推流状态码，详见 enum ZegoErrorCode
  */
 - (void)onPublishStateUpdate:(int)stateCode streamID:(NSString *)streamID streamInfo:(NSDictionary *)info;
 
@@ -686,6 +679,7 @@
  @param pSampleRate 混音数据采样率，支持16k、32k、44.1k、48k
  @param pChannelCount 混音数据声道数，支持1、2
  @discussion 用户调用该 API 将混音数据传递给 SDK。混音数据 bit depth 必须为 16
+ @warning Deprecated，请使用 ZegoAudioAuxDelgate 代替
  */
 - (void)onAuxCallback:(void *)pData dataLen:(int *)pDataLen sampleRate:(int *)pSampleRate channelCount:(int *)pChannelCount;
 
@@ -702,6 +696,11 @@
 - (void)onCaptureVideoFirstFrame;
 
 - (void)onCaptureVideoFirstFrame:(ZegoAPIPublishChannelIndex)index;
+
+/**
+ 采集音频的首帧通知
+ */
+- (void)onCaptureAudioFirstFrame;
 
 @end
 

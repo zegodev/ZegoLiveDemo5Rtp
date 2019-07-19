@@ -72,7 +72,11 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
 {
     if (g_ZegoApi == nil) {
         
-        if (g_appType == ZegoAppTypeI18N) {
+        // 国际版，要切换国际域名
+        if (g_appType == ZegoAppTypeCustom) {
+            [ZegoLiveRoomApi setBusinessType:(int)[[self myUserDefaults] integerForKey:kZegoDemoAppBizType]];
+            g_useInternationDomain = [[self myUserDefaults] boolForKey:kZegoDemoAppUseI18nDomain];
+        } else if (g_appType == ZegoAppTypeI18N) {
             g_useInternationDomain = YES;
         } else {
             g_useInternationDomain = NO;
@@ -142,6 +146,10 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
     g_ZegoApi = nil;
 }
 
++ (NSUserDefaults *)myUserDefaults {
+    return [[NSUserDefaults alloc] initWithSuiteName:@"group.Livedemo5.store"];
+}
+
 + (void)setCustomAppID:(uint32_t)appid sign:(NSString *)sign
 {
     NSData *d = ConvertStringToSign(sign);
@@ -152,7 +160,7 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
 //        g_signKey = [[NSData alloc] initWithData:d];
         
         // 持久化
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        NSUserDefaults *ud = [self myUserDefaults];
         [ud setObject:@(appid) forKey:kZegoDemoAppIDKey];
         [ud setObject:sign forKey:kZegoDemoAppSignKey];
         
@@ -167,18 +175,19 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
     if (g_useTestEnv != testEnv)
     {
         [self releaseApi];
+        [self api];
     }
     
     g_useTestEnv = testEnv;
     [ZegoLiveRoomApi setUseTestEnv:testEnv];
     
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *ud = [self myUserDefaults];
     [ud setObject:@(testEnv) forKey:kZegoDemoAppEnvKey];
 }
 
 + (bool)usingTestEnv
 {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *ud = [self myUserDefaults];
     id useTestEnv = [ud objectForKey:kZegoDemoAppEnvKey];
     return useTestEnv ? [useTestEnv boolValue]:g_useTestEnv;
 }
@@ -404,7 +413,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 
 + (void)setUsingInternationDomain:(bool)bUse
 {
-    [[NSUserDefaults standardUserDefaults] setBool:bUse forKey:kZegoDemoAppUseI18nDomain];
+    [[self myUserDefaults] setBool:bUse forKey:kZegoDemoAppUseI18nDomain];
     if (g_useInternationDomain == bUse)
         return;
     
@@ -413,6 +422,9 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 
 + (bool)usingInternationDomain
 {
+    if (g_appType == ZegoAppTypeCustom) {
+        return [[self myUserDefaults] boolForKey:kZegoDemoAppUseI18nDomain];
+    }
     return g_useInternationDomain;
 }
 
@@ -421,7 +433,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
         return;
     
     // 本地持久化
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *ud = [self myUserDefaults];
     [ud setInteger:type forKey:kZegoDemoAppTypeKey];
     
     g_appType = type;
@@ -435,7 +447,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 }
 
 + (ZegoAppType)appType {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *ud = [self myUserDefaults];
     NSUInteger type = [ud integerForKey:kZegoDemoAppTypeKey];
     g_appType = (ZegoAppType)type;
     return (ZegoAppType)type;
@@ -481,26 +493,31 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     [ZegoLiveRoomApi setVideoFilterFactory:g_filterFactory];
 }
 
-#warning 请提前在即构管理控制台获取 appID 与 appSign
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 appID 与 appSign
-#warning appID 填写样式示例：1234567890
-#warning appSign 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
 + (uint32_t)appID
 {
     switch ([self appType]) {
+        case ZegoAppTypeCustom:
+        {
+            NSUserDefaults *ud = [self myUserDefaults];
+            uint32_t appID = [[ud objectForKey:kZegoDemoAppIDKey] unsignedIntValue];
+            
+            if (appID != 0) {
+                return appID;
+            } else {
+                return 0;
+            }
+        }
+            break;
         case ZegoAppTypeUDP:
             return ;  // UDP版
             break;
         case ZegoAppTypeI18N:
-            return 100;  // 国际版
+            return 3322882036;  // 国际版
             break;
     }
 }
 
-#warning 请提前在即构管理控制台获取 appID 与 appSign
-#warning Demo 默认使用 UDP 模式，请填充该模式下的 appID 与 appSign
-#warning appID 填写样式示例：1234567890
-#warning appSign 填写样式示例：{0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x01}
+
 + (NSData *)zegoAppSignFromServer
 {
     //!! Demo 暂时把 signKey 硬编码到代码中，该用法不规范
@@ -508,24 +525,49 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 
     ZegoAppType type = [self appType];
     
+//    if (type == ZegoAppTypeRTMP)
+//    {
+//        Byte signkey[] = {0x91, 0x93, 0xcc, 0x66, 0x2a, 0x1c, 0x0e, 0xc1, 0x35, 0xec, 0x71, 0xfb, 0x07, 0x19, 0x4b, 0x38, 0x41, 0xd4, 0xad, 0x83, 0x78, 0xf2, 0x59, 0x90, 0xe0, 0xa4, 0x0c, 0x7f, 0xf4, 0x28, 0x41, 0xf7};
+//        return [NSData dataWithBytes:signkey length:32];
+//    }
+//    else
     if (type == ZegoAppTypeUDP)
     {
         Byte signkey[] = ;
         return [NSData dataWithBytes:signkey length:32];
     }
+    else if (type == ZegoAppTypeI18N)
+    {
+        Byte signkey[] = {0x5d,0xe6,0x83,0xac,0xa4,0xe5,0xad,0x43,0xe5,0xea,0xe3,0x70,0x6b,0xe0,0x77,0xa4,0x18,0x79,0x38,0x31,0x2e,0xcc,0x17,0x19,0x32,0xd2,0xfe,0x22,0x5b,0x6b,0x2b,0x2f};
+        return [NSData dataWithBytes:signkey length:32];
+    }
     else
     {
-        Byte signkey[] = {0x00};
-        return [NSData dataWithBytes:signkey length:32];
+        // 自定义模式下从本地持久化文件中加载
+        NSUserDefaults *ud = [self myUserDefaults];
+        NSString *appSign = [ud objectForKey:kZegoDemoAppSignKey];
+        if (appSign) {
+            return ConvertStringToSign(appSign);
+        } else {
+            return nil;
+        }
     }
 }
 
 + (NSString *)customAppSign {
-    return nil;
+    ZegoAppType type = [self appType];
+    if (type == ZegoAppTypeCustom) {
+        // 从本地持久化文件中加载
+        NSUserDefaults *ud = [self myUserDefaults];
+        NSString *appSign = [ud objectForKey:kZegoDemoAppSignKey];
+        return appSign;
+    } else {
+        return nil;
+    }
 }
 
 + (void)setBizTypeForCustomAppID:(int)bizType {
-    [[NSUserDefaults standardUserDefaults] setInteger:bizType forKey:kZegoDemoAppBizType];
+    [[self myUserDefaults] setInteger:bizType forKey:kZegoDemoAppBizType];
 }
 
 + (NSString *)getMyRoomID:(ZegoDemoRoomType)roomType

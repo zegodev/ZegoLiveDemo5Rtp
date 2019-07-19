@@ -45,6 +45,10 @@
 
 @property (nonatomic, assign) UIInterfaceOrientation orientation;
 
+@property (assign, nonatomic) NSTimeInterval startLoginTime;
+@property (assign, nonatomic) NSTimeInterval startPublishTime;
+@property (strong, nonatomic) NSMutableDictionary<NSString*,NSNumber*> *startPlayTimeMap;
+
 @end
 
 @implementation ZegoMoreAnchorViewController
@@ -58,6 +62,7 @@
     
     _viewContainersDict = [[NSMutableDictionary alloc] initWithCapacity:self.maxStreamCount];
     _playStreamList = [[NSMutableArray alloc] init];
+    _startPlayTimeMap = [NSMutableDictionary dictionary];
     
     for (UIViewController *viewController in self.childViewControllers)
     {
@@ -139,6 +144,7 @@
     }
     
     self.viewContainersDict[self.streamID] = self.publishView;
+    self.startPublishTime = NSDate.timeIntervalSinceReferenceDate;
     
     //开启双声道直播
     [[ZegoDemoHelper api] setAudioChannelCount:2];
@@ -171,12 +177,14 @@
 {
     self.roomID = [ZegoDemoHelper getMyRoomID:MultiPublisherRoom];
     self.streamID = [ZegoDemoHelper getPublishStreamID];
+    self.startLoginTime = NSDate.timeIntervalSinceReferenceDate;
     
     [[ZegoDemoHelper api] loginRoom:self.roomID roomName:self.liveTitle role:ZEGO_ANCHOR withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
         NSLog(@"%s, error: %d", __func__, errorCode);
         if (errorCode == 0)
         {
-            NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomID: %@", nil), self.roomID];
+            NSTimeInterval loginTime = NSDate.timeIntervalSinceReferenceDate - self.startLoginTime;
+            NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomID: %@，耗时:%f", nil), self.roomID, loginTime];
             [self addLogString:logString];
             [self doPublish];
         }
@@ -237,6 +245,10 @@
 
     if (stateCode == 0)
     {
+        NSTimeInterval publishTime = NSDate.timeIntervalSinceReferenceDate - self.startPublishTime;
+
+        [self addLogString:[NSString stringWithFormat:@"推流成功，流ID:%@，耗时：%f", streamID, publishTime]];
+        
         self.isPublishing = YES;
         self.stopPublishButton.enabled = YES;
         
@@ -310,7 +322,9 @@
     
     if (stateCode == 0)
     {
-        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"播放流成功, 流ID:%@", nil), streamID];
+        NSTimeInterval playTime = NSDate.date.timeIntervalSince1970 - self.startPlayTimeMap[streamID].doubleValue;
+
+        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"播放流成功, 流ID:%@，耗时:%f", nil), streamID, playTime];
         [self addLogString:logString];
     }
     else
@@ -449,6 +463,7 @@
         return;
     
     UIView *playView = [self createPlayView:streamID];
+    self.startPlayTimeMap[streamID] = @(NSDate.date.timeIntervalSince1970);
     
     [[ZegoDemoHelper api] startPlayingStream:streamID inView:playView];
     [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];

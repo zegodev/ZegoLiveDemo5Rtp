@@ -43,6 +43,11 @@ static id selfObject;
 @property (nonatomic, copy) NSString *sharedHls;
 @property (nonatomic, copy) NSString *sharedRtmp;
 
+@property (assign, nonatomic) NSTimeInterval startLoginTime;
+@property (assign, nonatomic) NSTimeInterval startPublishTime;
+@property (strong, nonatomic) NSMutableDictionary<NSString*,NSNumber*> *startPlayTimeMap;
+
+
 @end
 
 @implementation ZegoMoreAudienceViewController
@@ -76,6 +81,8 @@ static id selfObject;
     _videoSizeDict = [[NSMutableDictionary alloc] initWithCapacity:self.maxStreamCount];
     _streamID2SizeDict = [[NSMutableDictionary alloc] initWithCapacity:self.maxStreamCount];
     _originStreamList = [[NSMutableArray alloc] initWithCapacity:self.maxStreamCount];
+    _startPlayTimeMap = [NSMutableDictionary dictionary];
+
     
     [self setupLiveKit];
     
@@ -321,11 +328,15 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
     NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"开始登录房间", nil)];
     [self addLogString:logString];
     
+    self.startLoginTime = NSDate.timeIntervalSinceReferenceDate;
+    
     [[ZegoDemoHelper api] loginRoom:self.roomID role:ZEGO_AUDIENCE withCompletionBlock:^(int errorCode, NSArray<ZegoStream *> *streamList) {
         NSLog(@"%s, error: %d", __func__, errorCode);
         if (errorCode == 0)
         {
-            NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomID: %@", nil), self.roomID];
+            NSTimeInterval loginTime = NSDate.timeIntervalSinceReferenceDate - self.startLoginTime;
+            NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomID: %@，耗时:%f", nil), self.roomID, loginTime];
+
             [self addLogString:logString];
             
             self.loginRoomSuccess = YES;
@@ -439,6 +450,8 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
         
         [self setAnchorConfig:publishView];
         
+        self.startPublishTime = NSDate.timeIntervalSinceReferenceDate;
+        
         //开启双声道直播
         [[ZegoDemoHelper api] setAudioChannelCount:2];
 //        [[ZegoDemoHelper api] setLatencyMode:ZEGOAPI_LATENCY_MODE_LOW3];
@@ -508,7 +521,10 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
     
     if (stateCode == 0)
     {
-        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"播放流成功, 流ID:%@", nil), streamID];
+        NSTimeInterval playTime = NSDate.date.timeIntervalSince1970 - self.startPlayTimeMap[streamID].doubleValue;
+        
+        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"播放流成功, 流ID:%@，耗时:%f", nil), streamID, playTime];
+
         [self addLogString:logString];
     }
     else
@@ -600,8 +616,9 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
 
     if (stateCode == 0)
     {
-        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"发布直播成功,流ID:%@", nil), streamID];
-        [self addLogString:logString];
+        NSTimeInterval publishTime = NSDate.timeIntervalSinceReferenceDate - self.startPublishTime;
+        
+        [self addLogString:[NSString stringWithFormat:@"推流成功，流ID:%@，耗时：%f", streamID, publishTime]];
         
         //记录当前的发布信息
         self.isPublishing = YES;
@@ -810,6 +827,8 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
     
     UIImage *backgroundImage = [[ZegoSettings sharedInstance] getBackgroundImage:self.view.bounds.size withText:NSLocalizedString(@"加载中", nil)];
     [self setBackgroundImage:backgroundImage playerView:bigView];
+    
+    self.startPlayTimeMap[streamID] = @(NSDate.date.timeIntervalSince1970);
     
     self.viewContainersDict[streamID] = bigView;
     bool ret = [[ZegoDemoHelper api] startPlayingStream:streamID inView:bigView];

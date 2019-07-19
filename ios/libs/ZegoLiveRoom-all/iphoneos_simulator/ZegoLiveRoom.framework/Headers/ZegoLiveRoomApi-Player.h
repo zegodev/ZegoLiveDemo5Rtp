@@ -312,16 +312,7 @@
  @param stateCode 播放状态码，0 表示拉流成功
  @param streamID 流 ID
  @discussion 观众调用 [ZegoLiveRoomApi (Player) -startPlayingStream:inView:] 或 [ZegoLiveRoomApi (Player) -startPlayingStream:inView:params:] 拉流成功后，通过该 API 通知
- @note 拉流状态码及其含义如下:
- stateCode = 0，直播开始。
- stateCode = 3，直播遇到严重问题（如出现，请联系 ZEGO 技术支持）。
- stateCode = 4，创建直播流失败。
- stateCode = 5，获取流信息失败。
- stateCode = 6，无流信息。
- stateCode = 7，媒体服务器连接失败（请确认推流端是否正常推流、正式环境和测试环境是否设置同一个、网络是否正常）。
- stateCode = 8，DNS 解析失败。
- stateCode = 9，未登录就直接拉流。
- stateCode = 10，逻辑服务器网络错误(网络断开时间过长时容易出现此错误)。
+ @note 拉流状态码，详见 enum ZegoErrorCode
  */
 - (void)onPlayStateUpdate:(int)stateCode streamID:(NSString *)streamID;
 
@@ -356,6 +347,43 @@
  @discussion startPlay 后，以下情况下，播放端会收到该通知：1. SDK 在获取到第一帧数据后 2. 直播过程中视频宽高发生变化。从播放第一条流，到获得第一帧数据，中间可能出现一个短暂的时间差（具体时长取决于当前的网络状态），推荐在进入直播页面时加载一张预览图以提升用户体验，然后在本回调中去掉预览图
  */
 - (void)onVideoSizeChangedTo:(CGSize)size ofStream:(NSString *)streamID;
+
+/**
+ 远端摄像头状态通知
+ 
+ @param streamID 流的唯一标识
+ @param status 参考 zego-api-defines-oc.h 中 ZegoAPIDeviceStatus 的定义
+ */
+- (void)onRemoteCameraStatusUpdate:(int)status ofStream:(NSString *)streamID;
+
+/**
+ 远端麦克风状态通知
+ 
+ @param streamID 流的唯一标识
+ @param status 参考 zego-api-defines-oc.h 中 ZegoAPIDeviceStatus 的定义
+ */
+- (void)onRemoteMicStatusUpdate:(int)status ofStream:(NSString *)streamID;
+
+/**
+ 接收到远端音频的首帧通知
+ 
+ @param streamID 流的唯一标识
+ */
+- (void)onRecvRemoteAudioFirstFrame:(NSString *)streamID;
+
+/**
+ 接收到远端视频的首帧通知
+ 
+ @param streamID 流的唯一标识
+ */
+- (void)onRecvRemoteVideoFirstFrame:(NSString *)streamID;
+
+/**
+ 远端视频渲染首帧通知
+ 
+ @param streamID 流的唯一标识
+ */
+- (void)onRenderRemoteVideoFirstFrame:(NSString *)streamID;
 
 /**
  观看质量更新

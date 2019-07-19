@@ -31,6 +31,9 @@
                                                name:ZegoLiveRoomApiInitCompleteNotification
                                              object:nil];
     
+    // 初始环境设置为 Test，使用者根据需要考虑是否去除该代码
+    [ZegoDemoHelper setUsingTestEnv:YES];
+    
     [ZegoDemoHelper api];
     
 #if !TARGET_OS_SIMULATOR
