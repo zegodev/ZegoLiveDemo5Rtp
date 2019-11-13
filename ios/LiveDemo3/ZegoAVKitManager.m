@@ -9,6 +9,7 @@
 #import "ZegoSettings.h"
 #import "ZegoVideoFilterDemo.h"
 #import <ZGAppSupport/ZGAppSupportHelper.h>
+#import "ZGKeyCenter.h"
 
 #import <ZegoLiveRoom/ZegoLiveRoomApi-AudioIO.h>
 
@@ -509,10 +510,10 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
         }
             break;
         case ZegoAppTypeUDP:
-            return ;  // UDP版
+            return [ZGKeyCenter appID];  // UDP版
             break;
         case ZegoAppTypeI18N:
-            return 3322882036;  // 国际版
+            return [ZGKeyCenter appIDOfI18N];  // 国际版
             break;
     }
 }
@@ -533,13 +534,11 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
 //    else
     if (type == ZegoAppTypeUDP)
     {
-        Byte signkey[] = ;
-        return [NSData dataWithBytes:signkey length:32];
+        return [ZGKeyCenter appSign];
     }
     else if (type == ZegoAppTypeI18N)
     {
-        Byte signkey[] = {0x5d,0xe6,0x83,0xac,0xa4,0xe5,0xad,0x43,0xe5,0xea,0xe3,0x70,0x6b,0xe0,0x77,0xa4,0x18,0x79,0x38,0x31,0x2e,0xcc,0x17,0x19,0x32,0xd2,0xfe,0x22,0x5b,0x6b,0x2b,0x2f};
-        return [NSData dataWithBytes:signkey length:32];
+        return [ZGKeyCenter appSignOfI18N];
     }
     else
     {

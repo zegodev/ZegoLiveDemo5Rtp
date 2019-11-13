@@ -82,11 +82,15 @@ typedef enum : NSUInteger {
  kDispatchEmptyPublishIpsError  = 32001002,
  kDispatchEmptyPlayIpsError     = 32001003,
  kDispatchStreamNotExistError   = 32001004,
+ kDispatchAgentTimeoutError     = 35500001,
+ kDispatchAgentDroppedError     = 35500002,
 
  kLogicServerNoUrlError         = 40000404,
  kLogicServerCouldntConnectError= 41200007,
  kLogicServerTimeoutError       = 41200028,
  kLogicServerSslCaCertError     = 41200060,
+ kLoginAgentTimeoutError        = 45500001,
+ kLoginAgentDroppedError        = 45500002,
 
  kLiveRoomRequestParamError     = 50001001,
  kLiveRoomHBTimeoutError        = 50001002,
@@ -114,6 +118,8 @@ typedef enum : NSUInteger {
  kLiveRoomRequiredReloginError  = 52002001,
  kLiveRoomThirdTokenAuthError   = 52002002,
  kLiveRoomNetBrokenTimeoutError = 52002003,
+ kLiveRoomAgentTimeoutError     = 55500001,
+ kLiveRoomAgentDroppedError     = 55500002,
 
  kRoomConnectError              = 60001001,
  kRoomDoHandShakeReqError       = 60001002,
@@ -121,6 +127,7 @@ typedef enum : NSUInteger {
  kRoomTimeoutError              = 60001004,
  kRoomHbTimeoutError            = 60001005,
  kRoomStartConnectError         = 60001006,
+ kRoomReconnectFailError        = 60001007,
  kRoomInvalidSocketError        = 60002001,
  kRoomInvalidRspError           = 60003001,
  kRoomDecodeSignError           = 62001001,
@@ -153,6 +160,8 @@ typedef enum : NSUInteger {
  kMixStreamWaterMarkParamError  = 82000170, //混流水印参数错误
  kMixStreamWaterMarkImageError  = 82000171, //混流水印image错误
  kMixStreamQpsOverloadError     = 82000190, //混流请求qps超限错误
+ kMixStreamAgentTimeoutError    = 85500001,
+ kMixStreamAgentDroppedError    = 85500002,
 
 } ZegoErrorCode;
 

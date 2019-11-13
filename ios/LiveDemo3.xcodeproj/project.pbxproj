@@ -34,6 +34,10 @@
 		337C1B092189B1E300E84AA4 /* ZegoLiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */; };
 		33C4426221E74A9B00D57521 /* ZGAppSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C4426021E749EE00D57521 /* ZGAppSupport.framework */; };
 		33C4426321E74A9B00D57521 /* ZGAppSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 33C4426021E749EE00D57521 /* ZGAppSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		86C55EA4237AC9BB00A4A83A /* ZGKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C55EA2237AC9BA00A4A83A /* ZGKeyCenter.m */; };
+		86C55EA5237AC9BB00A4A83A /* ZGKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C55EA2237AC9BA00A4A83A /* ZGKeyCenter.m */; };
+		86C55EA6237AC9BB00A4A83A /* ZGKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C55EA2237AC9BA00A4A83A /* ZGKeyCenter.m */; };
+		86C55EA7237AC9BB00A4A83A /* ZGKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C55EA2237AC9BA00A4A83A /* ZGKeyCenter.m */; };
 		A7C911AB214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
 		A7C911AC214642210030B00D /* QRCodeReaderViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */; };
 		A7CD23E01EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
@@ -258,6 +262,8 @@
 		337C1B072189B1E300E84AA4 /* ZegoLiveRoom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZegoLiveRoom.framework; path = libs/ZegoLiveRoom.framework; sourceTree = "<group>"; };
 		33C4426021E749EE00D57521 /* ZGAppSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZGAppSupport.framework; path = libs/ZGAppSupport.framework; sourceTree = "<group>"; };
 		4D5E1CE51D9BB0E000FFE6EB /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
+		86C55EA2237AC9BA00A4A83A /* ZGKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGKeyCenter.m; sourceTree = "<group>"; };
+		86C55EA3237AC9BA00A4A83A /* ZGKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGKeyCenter.h; sourceTree = "<group>"; };
 		A745D7481E4C197F009A4265 /* LiveDemo5.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveDemo5.entitlements; sourceTree = "<group>"; };
 		A7C911AA214642210030B00D /* QRCodeReaderViewController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QRCodeReaderViewController.framework; sourceTree = "<group>"; };
 		A7CD23DE1EBB6135002F446A /* ZegoTestPushViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoTestPushViewController.h; path = LiveDemo3/ZegoTestPushViewController.h; sourceTree = "<group>"; };
@@ -769,6 +775,8 @@
 				EFAC2FCE1D48E0AD000A7885 /* a.pcm */,
 				EFF10F061D1A297900ECE11E /* LaunchScreen.storyboard */,
 				EFF10F091D1A297900ECE11E /* Info.plist */,
+				86C55EA3237AC9BA00A4A83A /* ZGKeyCenter.h */,
+				86C55EA2237AC9BA00A4A83A /* ZGKeyCenter.m */,
 				EFF10EF51D1A297900ECE11E /* Supporting Files */,
 			);
 			path = LiveDemo3;
@@ -1004,6 +1012,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86C55EA6237AC9BB00A4A83A /* ZGKeyCenter.m in Sources */,
 				16F48ABF1FF48FAE001C8992 /* ZegoAVKitManager.m in Sources */,
 				16F48A9F1FF48F8B001C8992 /* SampleHandler.m in Sources */,
 			);
@@ -1014,6 +1023,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16F48AAB1FF48F8C001C8992 /* BroadcastSetupViewController.m in Sources */,
+				86C55EA7237AC9BB00A4A83A /* ZGKeyCenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1046,6 +1056,7 @@
 				EFAF4B3B1D2B6C7800560B00 /* ZegoRoomInfo.m in Sources */,
 				EF792F5C1E8BA77B00A39DBC /* ZegoWerewolfBaseViewController.m in Sources */,
 				EF7BA74E1E1D00CF0094BBA7 /* UIView+YYText.m in Sources */,
+				86C55EA5237AC9BB00A4A83A /* ZGKeyCenter.m in Sources */,
 				EF7BA7561E1D00CF0094BBA7 /* YYTextWeakProxy.m in Sources */,
 				EF7BA73A1E1D00CF0094BBA7 /* YYTextMagnifier.m in Sources */,
 				EF7BA7301E1D00CF0094BBA7 /* YYTextEffectWindow.m in Sources */,
@@ -1100,6 +1111,7 @@
 				EF3AA9671DAF7C3A00AF960C /* ZegoInstrument.m in Sources */,
 				EF7BA7451E1D00CF0094BBA7 /* YYTextRunDelegate.m in Sources */,
 				16756FC51F57FA47003252AB /* ZegoShareLogViewController.m in Sources */,
+				86C55EA4237AC9BB00A4A83A /* ZGKeyCenter.m in Sources */,
 				EF792F571E8BA68200A39DBC /* ZegoWerewolfHostViewController.m in Sources */,
 				EF7BA72D1E1D00CF0094BBA7 /* YYTextDebugOption.m in Sources */,
 				EF871D0F1D1A32FD00C2D08A /* ZegoTabBarViewController.m in Sources */,
@@ -1544,7 +1556,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1672,7 +1684,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1858,7 +1870,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1917,7 +1929,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
