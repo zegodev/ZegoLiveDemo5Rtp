@@ -187,9 +187,9 @@
         
         [buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
         
-        self.pendingCount = self.pendingCount - 1;
     }
     
+    self.pendingCount = self.pendingCount - 1;
     CGImageRelease(videoImage);
     
 }
@@ -359,17 +359,14 @@
         int imageStride = (int)CVPixelBufferGetBytesPerRowOfPlane(pixel_buffer, 0);
         
         CVPixelBufferRef dst = [buffer_pool_ dequeueInputBuffer:imageWidth height:imageHeight stride:imageStride];
-        if (!dst) {
-            return ;
-        }
-        
-        // add your own code here
-        if ([self copyVideoFrame:pixel_buffer toPixelBuffer:dst]) {
-            [buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
+        if (dst) {
+            // add your own code here
+            if ([self copyVideoFrame:pixel_buffer toPixelBuffer:dst]) {
+                [buffer_pool_ queueInputBuffer:dst timestamp:timestamp_100n];
+            }
         }
         
         self.pendingCount = self.pendingCount - 1;
-        
         CVPixelBufferRelease(pixel_buffer);
     });
 }
