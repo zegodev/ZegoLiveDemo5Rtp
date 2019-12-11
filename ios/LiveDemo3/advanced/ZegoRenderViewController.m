@@ -11,8 +11,9 @@
 #import <OpenGLES/EAGL.h>
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
+#import <ZegoLiveRoom/zego-api-external-video-render-oc.h>
 
-@interface ZegoRenderViewController () <ZegoLiveApiRenderDelegate>
+@interface ZegoRenderViewController () <ZegoExternalVideoRenderDelegate>
 
 @end
 
@@ -47,7 +48,8 @@
     // Do any additional setup after loading the view.
     is_inited_ = false;
 
-    [[ZegoDemoHelper api] setRenderDelegate:self];
+    [[ZegoExternalVideoRender sharedInstance]
+     setExternalVideoRenderDelegate:self];
     
     signal_ = dispatch_semaphore_create(1);
     array_ = [[NSMutableArray alloc] initWithCapacity:4];
@@ -325,9 +327,10 @@
     }
 }
 
-#pragma mark ZegoLiveRenderDelegate
-- (CVPixelBufferRef)onCreateInputBufferWithWidth:(int)width height:(int)height stride:(int)stride
-{
+#pragma mark - ZegoExternalVideoRenderDelegate
+
+- (CVPixelBufferRef)onCreateInputBufferWithWidth:(int)width height:(int)height cvPixelFormatType:(OSType)cvPixelFormatType streamID:(NSString *)streamID {
+    
     if (video_width_ != width || video_height_ != height)
     {
         if (video_height_ && video_width_)
@@ -351,8 +354,7 @@
     return pixelBuffer;
 }
 
-- (void)onPixelBufferCopyed:(CVPixelBufferRef)pixelBuffer ofStream:(NSString *)streamID
-{
+- (void)onPixelBufferCopyed:(CVPixelBufferRef)pixelBuffer streamID:(NSString *)streamID {
     dispatch_time_t overTime = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_semaphore_wait(signal_, overTime);
@@ -362,14 +364,5 @@
         dispatch_semaphore_signal(signal_);
     });
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -341,7 +341,7 @@
 
 - (void)onSendComment:(NSString *)comment
 {
-    bool ret = [[ZegoDemoHelper api] sendRoomMessage:comment type:ZEGO_TEXT category:ZEGO_CHAT priority:ZEGO_DEFAULT completion:nil];
+    bool ret = [[ZegoDemoHelper api] sendRoomMessage:comment type:ZEGO_TEXT category:ZEGO_CHAT completion:nil];
     if (ret)
     {
         ZegoRoomMessage *roomMessage = [ZegoRoomMessage new];
@@ -363,7 +363,7 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:likeDict options:0 error:nil];
     NSString *content = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    bool ret = [[ZegoDemoHelper api] sendRoomMessage:content type:ZEGO_TEXT category:ZEGO_LIKE priority:ZEGO_DEFAULT completion:nil];
+    bool ret = [[ZegoDemoHelper api] sendRoomMessage:content type:ZEGO_TEXT category:ZEGO_LIKE completion:nil];
     if (ret)
     {
         ZegoRoomMessage *roomMessage = [ZegoRoomMessage new];

@@ -12,6 +12,9 @@
 #import "ZGKeyCenter.h"
 
 #import <ZegoLiveRoom/ZegoLiveRoomApi-AudioIO.h>
+#import <ZegoLiveRoom/zego-api-external-video-render-oc.h>
+#import <ZegoLiveRoom/zego-api-external-video-capture-oc.h>
+#import <ZegoLiveRoom/zego-api-external-video-filter-oc.h>
 
 NSString *kZegoDemoAppTypeKey           = @"apptype";
 NSString *kZegoDemoAppIDKey             = @"appid";
@@ -84,7 +87,8 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
         }
         
         [ZegoLiveRoomApi setUseTestEnv:[self usingTestEnv]];
-        [ZegoLiveRoomApi enableExternalRender:[self usingExternalRender]];
+        
+        [ZegoExternalVideoRender setVideoRenderType:[self usingExternalRender]?VideoRenderTypeExternalInternalRgb:VideoRenderTypeNone];
         
 #ifdef DEBUG
         [ZegoLiveRoomApi setVerbose:YES];
@@ -216,11 +220,11 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
             g_factory = [[VideoCaptureFactoryDemo alloc] init];
 #endif
         
-        [ZegoLiveRoomApi setVideoCaptureFactory:g_factory];
+        [ZegoExternalVideoCapture setVideoCaptureFactory:g_factory channelIndex:ZEGOAPI_CHN_MAIN];
     }
     else
     {
-        [ZegoLiveRoomApi setVideoCaptureFactory:nil];
+        [ZegoExternalVideoCapture setVideoCaptureFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
     }
 }
 
@@ -249,7 +253,7 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
     }
     
     g_useExternalRender = bUse;
-    [ZegoLiveRoomApi enableExternalRender:bUse];
+    [ZegoExternalVideoRender setVideoRenderType:bUse?VideoRenderTypeExternalInternalRgb:VideoRenderTypeNone];
 }
 
 + (bool)usingExternalRender
@@ -270,11 +274,11 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
         if (g_filterFactory == nullptr)
             g_filterFactory = [[ZegoVideoFilterFactoryDemo alloc] init];
         
-        [ZegoLiveRoomApi setVideoFilterFactory:g_filterFactory];
+        [ZegoExternalVideoFilter setVideoFilterFactory:g_filterFactory channelIndex:ZEGOAPI_CHN_MAIN];
     }
     else
     {
-        [ZegoLiveRoomApi setVideoFilterFactory:nil];
+        [ZegoExternalVideoFilter setVideoFilterFactory:nil channelIndex:ZEGOAPI_CHN_MAIN];
     }
 }
 
@@ -491,7 +495,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     if (g_filterFactory == nullptr)
         g_filterFactory = [[ZegoVideoFilterFactoryDemo alloc] init];
     
-    [ZegoLiveRoomApi setVideoFilterFactory:g_filterFactory];
+    [ZegoExternalVideoFilter setVideoFilterFactory:g_filterFactory channelIndex:ZEGOAPI_CHN_MAIN];
 }
 
 + (uint32_t)appID
