@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, VideoPixelFormat) {
  @param pixelFormat format type, 用于指定 data 的数据类型
  @streamID 流名
  */
-- (void)onVideoRenderCallback:(unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat streamID:(const char *)streamID;
+- (void)onVideoRenderCallback:(unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat streamID:(NSString *)streamID;
 
 /**
  SDK 通知下一帧数据是否需要翻转

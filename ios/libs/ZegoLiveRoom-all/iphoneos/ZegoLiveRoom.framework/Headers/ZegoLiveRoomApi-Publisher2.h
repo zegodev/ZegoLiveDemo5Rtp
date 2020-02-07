@@ -455,5 +455,27 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
  */
 - (void)sendMediaSideInfo:(const unsigned char *)inData dataLen:(int)dataLen packet:(bool)packet channelIndex:(ZegoAPIPublishChannelIndex)index;
 
+/**
+ 给推流通道设置扩展参数，一般不建议修改
+
+ @param param_config 参数配置信息
+ @param idx 推流通道索引
+
+ @attention 配置项写法，例如 "zego_channel_param_key_video_swencoder_usage=camera", 等号后面值的类型要看下面每一项的定义
+ @attention "zego_channel_param_key_video_swencoder_usage", string value: camera|screen，设置编码时使用场景模式，仅使用 OpenH264 编码时有效
+ @attention "zego_channel_param_key_video_x264_config_tune", string value: animation, 设置编码的 tune 值，目前只支持 animation，仅使用 X264 编码时有效
+ @attention 初始化 SDK 之后推流前设置才生效，推流过程中设置无效
+*/
+- (void)setChannelExtraParam:(NSString *)param_config channelIndex:(ZegoAPIPublishChannelIndex)channelIndex;
+
+/**
+ 获取当前推流通道使用的 AVCaptureDevice 对象
+
+ @param idx 推流通道索引
+
+ @attention 必须在预览之后或者推流之后才能调用
+*/
+- (AVCaptureDevice*)getAVCaptureDevice:(ZegoAPIPublishChannelIndex)channelIndex;
+
 @end
 

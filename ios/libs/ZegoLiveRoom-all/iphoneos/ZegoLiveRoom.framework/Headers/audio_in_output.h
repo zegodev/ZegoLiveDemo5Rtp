@@ -74,7 +74,7 @@ namespace AVE
     };
 
     
-    struct ExtPrepSet
+    struct ExtAudioProcSet
     {
         bool bEncode;           /*
                                  bEncode == false, external prep output PCM data.
@@ -92,7 +92,8 @@ namespace AVE
 		
     };
     
-    typedef void(*OnPrepCallback)(const AudioFrame& inFrame, AudioFrame& outFrame);
+    typedef struct ExtAudioProcSet ExtPrepSet;
+	typedef void(*OnPrepCallback)(const AudioFrame& inFrame, AudioFrame& outFrame);
 
     /*
      const AudioFrame& inFrame：
@@ -121,6 +122,12 @@ namespace AVE
      Even without any treatment, you need copy data from inFrame to outFrame,else the outFrame.buffer is empty data(all zeros/000000....0000);
      */
     
+    typedef struct ExtAudioProcSet ExtPostpSet;
+	typedef void(*OnPostpCallback)(const char* streamId, const AudioFrame& inFrame, AudioFrame& outFrame);
+	/* for audio post-process only support now:
+	   ExtPostpSet.bEncode = false;
+	*/
+
 }
 
 #endif

@@ -43,6 +43,30 @@ typedef enum : NSUInteger
     ZEGOAPI_MEDIA_RECORD_MP4  = 2
 } ZegoAPIMediaRecordFormat;
 
+typedef enum : NSUInteger
+{
+    /** 成功 */
+    ZEGOAPI_MEDIA_RECORD_SUCCESS = 0,
+    /** 路径太长 */
+    ZEGOAPI_MEDIA_RECORD_PATH_TOO_LONG,
+    /** 初始化 avcontext 失败 */
+    ZEGOAPI_MEDIA_RECORD_INIT_FAILED,
+    /** 打开文件失败 */
+    ZEGOAPI_MEDIA_RECORD_OPEN_FILE_FAILED,
+    /** 写文件头失败 */
+    ZEGOAPI_MEDIA_RECORD_WRITE_HEADER_FAILED,
+    /** 开始录制 */
+    ZEGOAPI_MEDIA_RECORD_RECORD_BEGIN,
+    /** 停止录制 */
+    ZEGOAPI_MEDIA_RECORD_RECORD_END,
+    /** 剩余空间不够 */
+    ZEGOAPI_MEDIA_RECORD_NO_SPACE,
+    /** 文件句柄异常 */
+    ZEGOAPI_MEDIA_RECORD_BAD_FILE_DESC,
+    /** IO 异常 */
+    ZEGOAPI_MEDIA_RECORD_IO_ERROR,
+} ZegoAPIMediaRecordErrorCode;
+
 @protocol ZegoMediaRecordDelegage <NSObject>
 @required
 /**
@@ -50,7 +74,7 @@ typedef enum : NSUInteger
  
  * 设置了媒体录制代理(-setMediaRecordDelegage:)，并启动录制后能收到此回调，通知 App 录制是否启动成功，以及启动录制时设置的录制文件保存路径。
  
- @param errCode 错误码， 0: 录制成功，1：文件存储路径太长，2：初始化 avcontext 失败，3：打开文件失败，4：写文件失败
+ @param errCode 错误码， 详见 enum ZegoAPIMediaRecordErrorCode。
  @param index 录制通道，详见 enum ZegoAPIMediaRecordChannelIndex。
  @param storagePath 录制文件存储路径
  @see -startRecord:recordType:storagePath:enableStatusUpdate:interval:

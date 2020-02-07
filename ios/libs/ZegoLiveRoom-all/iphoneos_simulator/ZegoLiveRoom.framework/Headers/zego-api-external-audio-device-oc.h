@@ -47,14 +47,14 @@ typedef enum ZegoAPIAuxPublishChannelAudioSrcType
 + (void)enableExternalAudioDevice:(bool)enable;
 
 /**
- 选择辅助推流通道的音频采集源
-
- * 需要同时推两路流时使用。
- * 注意：必须在初始化 SDK 之后，推流之前设置。
+  选择辅助推流通道的音频采集源
  
- @param type 辅助推流通道音频采集源类别，详见 enum ZegoAPIAuxPublishChannelAudioSrcType
- @return 详见 enum ZegoAPIErrorCode，默认值为 kZegoAPIAuxPublishChannelAudioSrcTypeNone(无声)
- */
+  * 需要同时推两路流时使用。
+  * 注意：必须在 init SDK 之前设置。
+  
+  @param type 辅助推流通道音频采集源类别，详见 enum ZegoAPIAuxPublishChannelAudioSrcType
+  @return 详见 enum ZegoAPIErrorCode，默认值为 kZegoAPIAuxPublishChannelAudioSrcTypeNone(无声)
+  */
 + (int)setAudioSrcForAuxiliaryPublishChannel:(ZegoAPIAuxPublishChannelAudioSrcType)type;
 
 /**

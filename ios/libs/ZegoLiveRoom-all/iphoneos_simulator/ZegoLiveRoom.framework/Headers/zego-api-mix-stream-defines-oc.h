@@ -232,6 +232,7 @@
 
 @end
 
+
 /**
  混流结果
  */
@@ -253,5 +254,20 @@
 @end
 
 
+/**
+ 混流中，发言者及其说话音量信息。
+ */
+@interface ZegoSoundLevelInMixedStreamInfo : NSObject
+
+/**
+ 音浪ID，用于标识用户，对应于 ZegoMixStreamConfig 的 inputStreamList 中的单条输入流信息的 soundLevelID 参数的设置值。
+ */
+@property (assign) unsigned int soundLevelID;
+/**
+ 音量level
+ */
+@property (assign) unsigned char soundLevel;
+
+@end
 
 #endif /* zego_api_mix_stream_defines_oc_h */

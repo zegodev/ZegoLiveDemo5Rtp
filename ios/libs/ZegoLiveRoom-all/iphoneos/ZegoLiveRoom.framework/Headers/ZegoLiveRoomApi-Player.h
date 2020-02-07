@@ -77,6 +77,16 @@
 - (bool)stopPlayingStream:(NSString *)streamID;
 
 /**
+ 设置拉流优先级的权重，被置为 focus 的流，优先保证其质量。
+
+ @param streamID 流 ID，当为空时，恢复所有流的权重
+ @return true: 设置成功, false 设置失败
+ @attention 默认所有流的权重相同。
+ @attention 在本地网络不好的时候，保证focus流的同时，可能造成其他的卡顿更多。
+ */
+- (bool)setPlayStreamFocus:(NSString *)streamID;
+
+/**
  请求连麦
  
  @param blk 回调 block
@@ -229,17 +239,6 @@
  @discussion 该设置会影响 [ZegoLivePlayerDelegate -onPlayQualityUpdate:stream:videoFPS:videoBitrate:] 的回调频率
  */
 + (void)setPlayQualityMonitorCycle:(unsigned int)timeInMS;
-
-/**
- 音频录制开关
- 
- @warning Deprecated，请使用 enableSelectedAudioRecord:
- @param enable 开启音频录制。true 开启，false 关闭。默认 false
- @return true 成功，false 失败
- @discussion 初始化 SDK 后调用。开启音频录制后，调用方需要设置音频录制回调代理对象，并通过 [ZegoLiveRoomApi (Player) -onAudioRecord:sampleRate:numOfChannels:bitDepth:type:] 获取 SDK 录制的数据。使用此接口开启音频录制，相当于调用 enableSelectedAudioRecord:(ZegoAPIAudioRecordConfig)config，且 config 中的参数默认值为：ZEGO_AUDIO_RECORD_MIX、44100、单声道。
- @discussion 在启动推流或者启动本地录制（MediaRecorder）的时候，才能开启音频录制
- */
-- (bool)enableAudioRecord:(BOOL)enable;
 
 /**
  音频录制开关

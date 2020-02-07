@@ -184,32 +184,6 @@
  */
 - (bool)endJoinLive:(NSString *)userId completionBlock:(ZegoCustomCommandBlock)block;
 
-/**
- 设置混流配置
- 
- @warning Deprecated，请使用 zego-api-mix-stream-oc.h 中的 [ZegoStreamMixer mixStreamEx:mixStreamID:] 代替
- */
-- (bool)setMixStreamConfig:(NSDictionary *)config;
-
-/**
- 更新混流配置
- 
- @warning Deprecated，请使用 zego-api-mix-stream-oc.h 中的 [ZegoStreamMixer mixStreamEx:mixStreamID:] 代替
- */
-- (bool)updateMixInputStreams:(NSArray<ZegoMixStreamInfo*> *)lstMixStreamInfo;
-
-
-/**
- 开始混流
- 
- @warning Deprecated，请使用 zego-api-mix-stream-oc.h 中的 [ZegoStreamMixer mixStreamEx:mixStreamID:] 代替
- 
- @param completeMixConfig 混流配置
- @param seq 请求序号，回调会带回次 seq
- @return true 成功，等待回调，false 失败
- @discussion 每次需要更新混流配置时，都可以调用此接口；如果需要多次调用，可以通过传入不同的 seq 区分回调
- */
-- (bool)mixStream:(ZegoCompleteMixStreamConfig *)completeMixConfig seq:(int)seq;
 
 /**
  硬件编码开关
@@ -462,16 +436,6 @@
 - (void)setCaptureVolume:(int)volume;
 
 /**
- 混音开关
- 
- @param enable true 启用混音输入，false 关闭混音输入。默认 false
- @return true 成功，false 失败
- @discussion 推流开始前调用本 API 进行参数配置。主播端开启混音后，SDK 在 ZegoLiveRoomApi (Publisher) -onAuxCallback:dataLen:sampleRate:channelCount: 中获取混音输入数据
- @warning Deprecated，请使用 ZegoAudioAux 的 enableAux:
- */
-- (bool)enableAux:(BOOL)enable;
-
-/**
  混音静音开关
  
  @note 1. 当开启静音后，主播端将听不到混音内容，观众端依然能听到混音声音。
@@ -579,7 +543,7 @@
  音频采集自动增益开关
  
  * 开启该开关后，SDK 可将太小或太大的音量处理成一定范围的音量，让整段音频的音量控制在一定范围内。在教育、视频会议等对音量稳定性有要求的场景可启用该开关。
- * 建议在推流前调用设置。默认关闭。
+ * 建议在推流前调用设置。默认开启。
  
  @param enable 是否开启
  @return true 成功，false 失败
@@ -714,9 +678,8 @@
  * 建议在推流前调用设置。
  
  * 注意：
- * 1.软件回音消除只能处理 zego SDK 播放的音频，不能处理第三方播放器播放的视频。
- * 2.如果使用音频外部采集，需要开发者自己去噪声抑制，该开关无效。
- * 3.iOS 默认不开启该开关，Android 是默认开启该开关。
+ * 1.如果使用音频外部采集，需要开发者自己去噪声抑制，该开关无效。
+ * 2.默认开启该开关。
  
  @param enable 是否开启
  @return true 成功 false 失败
@@ -724,6 +687,14 @@
  @see +setAudioDeviceMode:
  */
 - (bool)enableNoiseSuppress:(bool)enable;
+
+/**
+ 设置音频采集降噪等级
+ @param mode 降噪等级，详见 ZegoAPIANSMode 定义
+ @return true 成功，false 失败
+ @note 仅在 enableNoiseSuppress 为 true 时有效, 默认为 MEDIUM
+ */
+- (bool)setNoiseSuppressMode:(ZegoAPIANSMode)mode;
 
 /**
  设置发布直播（推流）质量监控周期
@@ -843,38 +814,6 @@
 - (void)onCaptureVideoSizeChangedTo:(CGSize)size;
 
 - (void)onCaptureVideoSizeChangedTo:(CGSize)size channelIndex:(ZegoAPIPublishChannelIndex)index;
-
-/**
- 混流配置更新结果回调
- 
- @warning Deprecated，请使用 zego-api-mix-stream-oc.h 中的 [ZegoMixStreamExDelegate onMixStreamExConfigUpdate:mixStream:streamInfo:] 代替
- 
- @param errorCode 错误码，0 表示没有错误
- @param mixStreamID 混流ID
- @param info 混流播放信息
- @discussion 调用 [ZegoLiveRoomApi (Publisher) -setMixStreamConfig:] 设置混流配置，及 [ZegoLiveRoomApi (Publisher) -updateMixInputStreams:] 更新混流配置后，通过此 API 通知调用方
- @note 常见错误码及其含义请参考ZegoError中kMixStream开头的错误码定义
- */
-- (void)onMixStreamConfigUpdate:(int)errorCode mixStream:(NSString *)mixStreamID streamInfo:(NSDictionary *)info;
-
-/**
- 混音数据输入回调
- 
- * 注意：
- * 1.最大支持 48k 采样率、双声道、16位深的 PCM 音频数据。
- * 2.实际数据长度应根据当前音频数据的采样率及声道数决定。
- * 3.为确保混音效果，请不要在此 API 中执行耗时操作。
- * 4.用户调用该 API 将混音数据传递给 SDK，混音数据 bit depth 必须为 16。
- @param pData 混音数据
- @param pDataLen pDataLen既是输入参数也是输出参数；
-                 作为输入参数，SDK会提供好长度值，用户按照这个长度写入数据即可，数据充足的情况下，无需更改*pDataLen的值
-                 作为输出参数，如果填写的数据不足SDK提供的长度值，则*pDataLen = 0,
-                 或者最后的尾音不足 SDK提供的长度值，可以用静音数据补齐。
- @param pSampleRate 混音数据采样率，支持16k、32k、44.1k、48k
- @param pChannelCount 混音数据声道数，支持1、2
- @warning Deprecated，请使用 ZegoAudioAuxDelgate 代替
- */
-- (void)onAuxCallback:(void *)pData dataLen:(int *)pDataLen sampleRate:(int *)pSampleRate channelCount:(int *)pChannelCount;
 
 /**
  发布直播转推 CDN 状态信息更新

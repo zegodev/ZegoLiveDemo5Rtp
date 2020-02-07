@@ -68,8 +68,6 @@ ZEGO_EXTERN NSString *const kZegoMixStreamReqSeqKey;
 
 /**
  混流转推CDN状态回调
-
- * 混流直推即构服务器时，ZegoAPIStreamRelayCDNInfo 中的 rtmpUrl 字段以 avertp:// 开头
  
  @param statesInfo 转推CDN状态信息
  @param streamID 混流任务ID
@@ -151,11 +149,12 @@ ZEGO_EXTERN NSString *const kZegoMixStreamReqSeqKey;
 /**
  混流接口，支持输出单路或者多路混流。
  
- * 1. 混流任务ID，表示混流任务的唯一ID，调用方应该保证 mixStreamID 的唯一性。如果 mixStreamID 相同，服务端就认为是更新同一个混流。
- * 2.此 API 既是开始混流接口，也是停止混流接口；需要停止混流时，将 ZegoMixStreamConfig 参数中的 inputStreamList 置为空列表，即清空输入流列表，且开始、停止混流两次调用的 mixStreamID 参数保持一致。
- * 3.当混流信息变更（例如：混流的输入流列表发生增减、调整混流视频的输出码率等）时，需要调用此接口更新 ZEGO 混流服务器上的混流配置信息，且注意每次调用时此 API 的 mixStreamID 参数需保证一致。
- * 4.如果需要启动多个不同的混流，可以传入不同的 mixStreamID，通过返回的 seq 来区分接收的 -onMixStreamExConfigUpdate:mixStream:streamInfo:回调。
- * 5.调用推流 API -startPublishing:title:flag: 或者 -startPublishing:title:flag:extraInfo: 时，需指定 flag 参数为 ZEGO_MIX_STREAM。
+ * 1.混流任务ID，表示混流任务的唯一ID，调用方应该保证 mixStreamID 的唯一性。如果 mixStreamID 相同，服务端就认为是更新同一个混流。
+ * 2.此 API 既是开始混流、更新混流接口，也是停止混流接口。
+ * 3.需要停止混流时，将 ZegoMixStreamConfig 参数中的 inputStreamList 置为空列表（即清空输入流列表），outputList 设置为和开始或更新混流的一致，将 mixStreamID 参数设置为和开始或更新混流的一致。
+ * 4.当混流信息变更（例如：混流的输入流列表发生增减、调整混流视频的输出码率等）时，需要调用此接口更新 ZEGO 混流服务器上的混流配置信息，且注意每次调用时此 API 的 mixStreamID 参数需保证一致。
+ * 5.如果需要启动多个不同的混流，可以传入不同的 mixStreamID，通过返回的 seq 来区分接收的 -onMixStreamExConfigUpdate:mixStream:streamInfo:回调。
+ * 6.调用推流 API -startPublishing:title:flag: 或者 -startPublishing:title:flag:extraInfo: 时，需指定 flag 参数为 ZEGO_MIX_STREAM。
  
  @param config 混流配置信息
  @param mixStreamID 混流任务ID

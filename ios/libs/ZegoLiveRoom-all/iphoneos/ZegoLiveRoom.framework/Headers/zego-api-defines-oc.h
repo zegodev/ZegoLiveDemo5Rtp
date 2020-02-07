@@ -401,6 +401,13 @@ typedef struct
     int width;
     /** 视频高度 */
     int height;
+
+    /** 已发送的总字节数，包括音频、视频及媒体次要信息等 */
+    double totalBytes;
+    /** 已发送的音频字节数 */
+    double audioBytes;
+    /** 已发送的视频字节数 */
+    double videoBytes;
     
 } ZegoAPIPublishQuality;
 
@@ -455,6 +462,13 @@ typedef struct
     int width;
     /** 视频高度 */
     int height;
+
+    /** 已接收的总字节数，包括音频、视频及媒体次要信息等 */
+    double totalBytes;
+    /** 已接收的音频字节数 */
+    double audioBytes;
+    /** 已接收的视频字节数 */
+    double videoBytes;
     
 } ZegoAPIPlayQuality;
 
@@ -534,7 +548,7 @@ enum ZegoAPIAudioRecordMask
 /** 音频录制配置信息 */
 typedef struct
 {
-    /** 启用音频源选择，详细请参考 ZegoAVAPIAudioRecordMask */
+    /** 启用音频源选择，详细请参考 ZegoAPIAudioRecordMask */
     unsigned int mask;
     /** 采样率 支持 8000, 16000, 22050, 24000, 32000, 44100, 48000 */
     int sampleRate;
@@ -610,21 +624,6 @@ typedef enum : NSUInteger
 
 @end
 
-/**
- 混流中，发言者及其说话音量信息。
- */
-@interface ZegoSoundLevelInMixedStreamInfo : NSObject
-
-/**
- 音浪ID，用于标识用户，对应于 ZegoMixStreamConfig 的 inputStreamList 中的单条输入流信息的 soundLevelID 参数的设置值。
- */
-@property (assign) unsigned int soundLevelID;
-/**
- 音量level
- */
-@property (assign) unsigned char soundLevel;
-
-@end
 
 /**
  转推CDN状态
@@ -694,6 +693,19 @@ typedef enum : NSUInteger
     /** 轻度模式 */
     ZEGOAPI_AEC_MODE_SOFT,
 } ZegoAPIAECMode;
+
+/**
+ ANS 模式
+ */
+typedef enum : NSUInteger
+{
+    /** 轻度模式 */
+    ZEGOAPI_ANS_MODE_LOW = 0,
+    /** 中等模式 */
+    ZEGOAPI_ANS_MODE_MEDIUM,
+    /** 激进模式 */
+    ZEGOAPI_ANS_MODE_HIGH,
+} ZegoAPIANSMode;
 
 
 typedef enum : NSInteger
