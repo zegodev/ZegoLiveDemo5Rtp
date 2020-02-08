@@ -14,10 +14,11 @@
 
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
-#include <ZegoLiveRoom/zego-api-mix-engine-playout-oc.h>
-#include <ZegoLiveRoom/zego-api-audio-processing-oc.h>
+#import <ZegoLiveRoom/zego-api-mix-engine-playout-oc.h>
+#import <ZegoLiveRoom/zego-api-audio-processing-oc.h>
+#import <ZegoLiveRoom/zego-api-audio-aux-oc.h>
 
-@interface ZegoLiveViewController () <UIAlertViewDelegate, ZegoLiveApiAudioRecordDelegate>
+@interface ZegoLiveViewController () <UIAlertViewDelegate, ZegoLiveApiAudioRecordDelegate, ZegoAudioAuxDelgate>
 
 @property (assign) UIInterfaceOrientation currentOrientation;
 
@@ -44,6 +45,8 @@
 @property (nonatomic, assign) NSUInteger subViewPerRow;
 
 @property (nonatomic, strong) NSMutableArray<ZegoStream *> *originStreamList;   // 直播秒开流列表
+
+@property (nonatomic) ZegoAudioAux *audioAux;
 
 @end
 
@@ -967,7 +970,14 @@
     //
     // * test audio record
     //
-    [[ZegoDemoHelper api] enableAudioRecord:enable];
+    ZegoAPIAudioRecordConfig conf = {};
+    if (enable) {
+        conf.mask = ZEGOAPI_AUDIO_RECORD_CAP;
+    } else {
+        conf.mask = ZEGOAPI_AUDIO_RECORD_MIX;
+    }
+    [[ZegoDemoHelper api] enableSelectedAudioRecord:conf];
+    
     if (enable)
     {
         [[ZegoDemoHelper api] setAudioRecordDelegate:self];
@@ -1154,7 +1164,7 @@
 
 #pragma mark - ZegoLiveApiAudioRecordDelegate
 
-- (void)onAudioRecord:(NSData *)audioData sampleRate:(int)sampleRate numOfChannels:(int)numOfChannels bitDepth:(int)bitDepth
+- (void)onAudioRecord:(NSData *)audioData sampleRate:(int)sampleRate numOfChannels:(int)numOfChannels bitDepth:(int)bitDepth type:(unsigned int)type
 {
     if (!self.recordedAudio)
     {
@@ -1248,7 +1258,11 @@
 - (void)setEnableAux:(BOOL)enableAux
 {
     _enableAux = enableAux;
-    [[ZegoDemoHelper api] enableAux:enableAux];
+    if (!self.audioAux) {
+        self.audioAux = [[ZegoAudioAux alloc] init];
+        [self.audioAux setDelegate:self];
+    }
+    [self.audioAux enableAux:enableAux];
     
     if (enableAux == NO)
     {

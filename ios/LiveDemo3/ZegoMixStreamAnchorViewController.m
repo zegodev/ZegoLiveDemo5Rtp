@@ -11,8 +11,9 @@
 #import "ZegoSettings.h"
 #import "ZegoAnchorOptionViewController.h"
 #import "ZegoLiveToolViewController.h"
+#import <ZegoLiveRoom/zego-api-mix-stream-oc.h>
 
-@interface ZegoMixStreamAnchorViewController () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate>
+@interface ZegoMixStreamAnchorViewController () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate, ZegoMixStreamExDelegate, ZegoLiveToolViewControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *playViewContainer; // 播放 View Container
 @property (nonatomic, weak) UIButton *stopPublishButton;        // 停止直播 button
@@ -30,6 +31,8 @@
 @property (nonatomic, copy) NSString *sharedHls;
 @property (nonatomic, copy) NSString *sharedRtmp;
 @property (nonatomic, assign) int mixRequestSeq;
+@property (nonatomic) ZegoStreamMixer *streamMixer;
+@property (nonatomic) ZegoMixStreamConfig *streamMixConfig;
 
 @property (nonatomic, assign) BOOL isPlaying;                   // 是否正在拉流
 @property (nonatomic, assign) BOOL isPublishing;                // 是否正在推流
@@ -373,15 +376,20 @@
 
 - (void)updateMixStream
 {
-    ZegoCompleteMixStreamConfig *completeMixConfig = [ZegoCompleteMixStreamConfig new];
+    ZegoMixStreamConfig *mixConfig = [ZegoMixStreamConfig new];
+    mixConfig.outputList = [NSMutableArray array];
+    mixConfig.inputStreamList = [NSMutableArray array];
     
-    completeMixConfig.outputStream = self.mixStreamID;
-    completeMixConfig.outputIsUrl = NO;
-    completeMixConfig.outputFps = [ZegoSettings sharedInstance].currentConfig.fps;
-    completeMixConfig.outputBitrate = [ZegoSettings sharedInstance].currentConfig.bitrate;
-    completeMixConfig.outputResolution = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution;
-    completeMixConfig.outputAudioConfig = 0;   // * default config
-    completeMixConfig.outputBackgroundColor = 0xc8c8c800;
+    ZegoMixStreamOutput *o = [ZegoMixStreamOutput new];
+    o.isUrl = NO;
+    o.target = self.mixStreamID;
+    [mixConfig.outputList addObject:o];
+    
+    mixConfig.outputFps = [ZegoSettings sharedInstance].currentConfig.fps;
+    mixConfig.outputBitrate = [ZegoSettings sharedInstance].currentConfig.bitrate;
+    mixConfig.outputResolution = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution;
+    mixConfig.outputAudioConfig = 0;   // * default config
+    mixConfig.outputBackgroundColor = 0xc8c8c800;
     
     int height = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.height;
     int width = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.width;
@@ -389,29 +397,29 @@
     
     if (self.isPublishing)
     {
-        ZegoMixStreamInfo *info = [[ZegoMixStreamInfo alloc] init];
+        ZegoMixStreamInput *info = [[ZegoMixStreamInput alloc] init];
         info.streamID = self.streamID;
         info.top = 0 + margin;
         info.left = 0 + margin;
         info.bottom = height - margin;
         info.right = width - margin;
         
-        [completeMixConfig.inputStreamList addObject:info];
+        [mixConfig.inputStreamList addObject:info];
     }
     
     for (NSInteger idx = 0; idx < self.playStreamList.count; ++idx)
     {
-        ZegoMixStreamInfo *info = [[ZegoMixStreamInfo alloc] init];
+        ZegoMixStreamInput *info = [[ZegoMixStreamInput alloc] init];
         info.streamID = self.playStreamList[idx].streamID;
         
-        if (completeMixConfig.inputStreamList.count == 0)
+        if (mixConfig.inputStreamList.count == 0)
         {
             info.top = 0;
             info.left = 0;
             info.bottom = height;
             info.right = width;
         }
-        else if (completeMixConfig.inputStreamList.count == 1)
+        else if (mixConfig.inputStreamList.count == 1)
         {
             // 新增第1条流布局
             info.top = ceilf(height * 2 / 3);
@@ -419,7 +427,7 @@
             info.bottom = height;
             info.right = width; // 画面右下角坐标为（width, height)
         }
-        else if (completeMixConfig.inputStreamList.count == 2)
+        else if (mixConfig.inputStreamList.count == 2)
         {
             // 新增第2条流布局
             info.top = ceilf(height * 2 / 3);
@@ -428,12 +436,17 @@
             info.right = ceilf(width / 3);
         }
         
-        [completeMixConfig.inputStreamList addObject:info];
+        [mixConfig.inputStreamList addObject:info];
     }
-    
-    static int seq = 0;
-    
-    [[ZegoDemoHelper api] mixStream:completeMixConfig seq:++seq];
+        
+    if (!self.streamMixer) {
+        self.streamMixer = [[ZegoStreamMixer alloc] init];
+        [self.streamMixer setMixStreamExDelegate:self];
+    }
+    int seq = [self.streamMixer mixStreamEx:mixConfig mixStreamID:self.mixStreamID];
+    if (seq > 0) {
+        self.streamMixConfig = mixConfig;
+    }
 }
 
 #pragma mark -- Autorate
@@ -552,9 +565,10 @@
 }
 
 
-- (void)onMixStreamConfigUpdate:(int)errorCode mixStream:(NSString *)mixStreamID streamInfo:(NSDictionary *)info
-{
-    NSLog(@"%s, %@, errorCode %d, info: %@", __func__, mixStreamID, errorCode, info);
+#pragma mark - ZegoMixStreamExDelegate
+
+- (void)onMixStreamExConfigUpdate:(int)errorCode mixStream:(NSString *)mixStreamID streamInfo:(ZegoMixStreamResultEx *)info {
+    NSLog(@"%s, %@, errorCode %d, seq: %d", __func__, mixStreamID, errorCode, info.seq);
     
     if (errorCode != 0)
     {
@@ -562,8 +576,9 @@
         return;
     }
     
-    NSString *rtmpUrl = [info[kZegoRtmpUrlListKey] firstObject];
-    NSString *hlsUrl = [info[kZegoHlsUrlListKey] firstObject];
+    ZegoMixStreamOutputResult *outRes = info.outputResultList.firstObject;
+    NSString *rtmpUrl = outRes.rtmpList.firstObject;
+    NSString *hlsUrl = outRes.flvList.firstObject;
     
     self.sharedHls = hlsUrl;
     self.sharedRtmp = rtmpUrl;
@@ -661,7 +676,11 @@
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // 退出时关闭混流
-        [[ZegoDemoHelper api] updateMixInputStreams:nil];
+        ZegoMixStreamConfig *mixConfig = self.streamMixConfig;
+        if (mixConfig && self.mixStreamID) {
+            [mixConfig.inputStreamList removeAllObjects];
+            [self.streamMixer mixStreamEx:mixConfig mixStreamID:self.mixStreamID];
+        }
         
         [self closeAllStream];
         [[ZegoDemoHelper api] logoutRoom];

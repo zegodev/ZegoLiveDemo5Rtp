@@ -11,8 +11,9 @@
 #import "ZegoSettings.h"
 #import "ZegoAnchorOptionViewController.h"
 #import "ZegoLiveToolViewController.h"
+#import <ZegoLiveRoom/zego-api-mix-stream-oc.h>
 
-@interface ZegoTestPushViewController ()<ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate>
+@interface ZegoTestPushViewController ()<ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoIMDelegate, ZegoMixStreamDelegate, ZegoLiveToolViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playViewContainer;
 @property (weak, nonatomic) IBOutlet UIView *toolView;
@@ -37,6 +38,8 @@
 //@property (nonatomic, copy) NSString *roomID; // 房间ID
 
 @property (nonatomic, assign) UIInterfaceOrientation orientation;
+
+@property (nonatomic) ZegoStreamMixer *streamMixer;
 
 @end
 
@@ -115,6 +118,41 @@
     [[ZegoDemoHelper api] setIMDelegate:self];
 }
 
+- (void)updateMixStreamWithMixStreamID:(NSString *)mixStreamID
+{
+    ZegoCompleteMixStreamConfig *completeMixConfig = [ZegoCompleteMixStreamConfig new];
+    
+    completeMixConfig.outputStream = mixStreamID;
+    completeMixConfig.outputIsUrl = NO;
+    completeMixConfig.outputFps = [ZegoSettings sharedInstance].currentConfig.fps;
+    completeMixConfig.outputBitrate = [ZegoSettings sharedInstance].currentConfig.bitrate;
+    completeMixConfig.outputResolution = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution;
+    completeMixConfig.outputAudioConfig = 0;   // * default config
+    completeMixConfig.outputBackgroundColor = 0xc8c8c800;
+    
+    int height = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.height;
+    int width = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.width;
+    
+    if (self.isPublishing)
+    {
+        ZegoMixStreamInfo *info = [[ZegoMixStreamInfo alloc] init];
+        info.streamID = self.streamID;
+        info.top = 0;
+        info.left = 0;
+        info.bottom = height;
+        info.right = width;
+        [completeMixConfig.inputStreamList addObject:info];
+    }
+    
+    static int seq = 0;
+    
+    if (!self.streamMixer) {
+        self.streamMixer = [[ZegoStreamMixer alloc] init];
+        [self.streamMixer setDelegate:self];
+    }
+    [self.streamMixer mixStream:completeMixConfig seq:++seq];
+}
+
 - (bool)doPublish
 {
     //登录成功后配置直播参数，开始直播 创建publishView
@@ -135,9 +173,12 @@
     
     // 如果没有setMixStreamConfig，则不能正常播放
     if (self.flag == ZEGOAPI_MIX_STREAM) {
+        // warning:新SDK已经不支持 setMixStreamConfig 接口，因此在publish 回调成功后再去混流
+        /*
         CGSize videoSize = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution;
         [[ZegoDemoHelper api] setMixStreamConfig:@{kZegoMixStreamIDKey: self.mixStreamID,
                                                    kZegoMixStreamResolution: [NSValue valueWithCGSize:CGSizeMake(2*videoSize.width, 2*videoSize.height)]}];
+         */
     }
 
     
@@ -254,27 +295,32 @@
         self.isPublishing = YES;
         
         [self.stopPublishButton setTitle:NSLocalizedString(@"停止直播", nil) forState:UIControlStateNormal];
-        
-        self.sharedHls = [info[kZegoHlsUrlListKey] firstObject];
-        self.sharedRtmp = [info[kZegoRtmpUrlListKey] firstObject];
-        
-        [self addLogString:[NSString stringWithFormat:@"Hls %@", self.sharedHls]];
-        [self addLogString:[NSString stringWithFormat:@"Rtmp %@", self.sharedRtmp]];
-        
-        logString = [NSString stringWithFormat:NSLocalizedString(@"发布直播成功,流ID:%@", nil), streamID];
-        
-        if (self.sharedHls.length > 0 && self.sharedRtmp.length > 0)
-        {
-            self.sharedButton.enabled = YES;
+     
+        if (self.flag == ZEGO_MIX_STREAM && self.mixStreamID) {
+            // 混流 flag，则推流成功后去进行混流
+            [self updateMixStreamWithMixStreamID:self.mixStreamID];
+        } else {
+            self.sharedHls = [info[kZegoHlsUrlListKey] firstObject];
+            self.sharedRtmp = [info[kZegoRtmpUrlListKey] firstObject];
             
-            NSDictionary *dict = @{kHlsKey: self.sharedHls, kRtmpKey: self.sharedRtmp};
-            NSString *jsonString = [self encodeDictionaryToJSON:dict];
-            if (jsonString)
-                [[ZegoDemoHelper api] updateStreamExtraInfo:jsonString];
-        }
-        else
-        {
-            self.sharedButton.enabled = NO;
+            [self addLogString:[NSString stringWithFormat:@"Hls %@", self.sharedHls]];
+            [self addLogString:[NSString stringWithFormat:@"Rtmp %@", self.sharedRtmp]];
+            
+            logString = [NSString stringWithFormat:NSLocalizedString(@"发布直播成功,流ID:%@", nil), streamID];
+            
+            if (self.sharedHls.length > 0 && self.sharedRtmp.length > 0)
+            {
+                self.sharedButton.enabled = YES;
+                
+                NSDictionary *dict = @{kHlsKey: self.sharedHls, kRtmpKey: self.sharedRtmp};
+                NSString *jsonString = [self encodeDictionaryToJSON:dict];
+                if (jsonString)
+                    [[ZegoDemoHelper api] updateStreamExtraInfo:jsonString];
+            }
+            else
+            {
+                self.sharedButton.enabled = NO;
+            }
         }
     }
     else
@@ -309,6 +355,7 @@
     [self auxCallback:pData dataLen:pDataLen sampleRate:pSampleRate channelCount:pChannelCount];
 }
 
+#pragma mark - ZegoMixStreamDelegate
 // 使混流模式下播放成功
 - (void)onMixStreamConfigUpdate:(int)errorCode mixStream:(NSString *)mixStreamID streamInfo:(NSDictionary *)info
 {
