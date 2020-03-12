@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+    <string name="app_name">LiveDemo5</string>
+    <string name="app_title">Zego(%1$s)</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="recent">just now</string>
+    <string name="minutes_ago">&#160;minutes ago</string>
+    <string name="hours_ago">&#160;hours ago</string>
+    <string name="day_ago">&#160;days ago</string>
+    <string name="year_ago">&#160;years ago</string>
+
+    <string name="zg_toast_config_successful">Config Successful</string>
+    <string name="zg_toast_config_failure">Config failure</string>
+
+    <string name="send_button_text">send</string>
+    <string name="user_id">User ID:</string>
+    <string name="user_name">User Name:</string>
+    <string name="quality_options">Quality Options:</string>
+    <string name="sdk_version">SDK:</string>
+    <string name="sdk_ve_version">V E:</string>
+    <string name="upload_log">Upload Log</string>
+    <string name="share_log">Share Log</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="about">About</string>
+    <string name="demo_version">Version:&#160;</string>
+    <string name="upload_log_successfully">Log has been uploaded successfully</string>
+
+    <string name="zg_scan_qr_code">Scan qr code</string>
+    <string name="zg_scan_qr_code_setting">Quick Setup</string>
+    <string name="zg_scan_qr_code_setting_text">Quick setup App By Scanning QRCode</string>
+
+    <string name="resolution_prefix">Resolution&#160;<xliff:g id="value">%1$s</xliff:g></string>
+    <string name="fps_prefix">Frame Rate&#160;<xliff:g id="value">%1$s</xliff:g></string>
+    <string name="bitrate_prefix">Bit Rate&#160;<xliff:g id="value">%1$s</xliff:g></string>
+
+    <string name="app_loading_more">loading…</string>
+    <string name="app_no_more_data">no more data…</string>
+    <string name="live_count"><xliff:g id="value">%1$s</xliff:g>&#160;Broadcasters</string>
+    <string name="log">Log</string>
+    <string name="zego">ZEGO</string>
+    <string name="advanced">Advanced</string>
+    <string name="hint_pull_refresh">Pulling to refresh data^_^</string>
+
+    <string name="textOn">On</string>
+    <string name="textOff">Off</string>
+    <string name="back">Back</string>
+    <string name="close">Close</string>
+    <string name="publish_setting">Settings</string>
+    <string name="make_a_title">Describe your live video</string>
+    <string name="go_publish">Go Live!</string>
+    <string name="test_env">Test Environment:</string>
+    <string name="app_flavor">AppFlavor</string>
+    <string name="appid">AppID:</string>
+    <string name="appkey">AppKEY:</string>
+    <string name="mute">Mute</string>
+    <string name="front_camera">Front Camera</string>
+    <string name="camera">Camera</string>
+    <string name="speaker">Speaker</string>
+    <string name="background_music">Backgroud Music</string>
+    <string name="loopback">Loopback</string>
+    <string name="mixengine_playout">MixEnginePlayout</string>
+    <string name="virtual_stereo">Virtual Stereo</string>
+    <string name="reverb">Reverb</string>
+    <string name="custom_focus">Custom Focus</string>
+    <string name="custom_exposure">Custom Exposure</string>
+    <string name="custom_exposure_title">Exposure</string>
+    <string name="mic">Microphone</string>
+    <string name="flashlight">Flashlight</string>
+    <string name="beauty">Beauty</string>
+    <string name="filter">Filter</string>
+    <string name="start_publishing">Live</string>
+    <string name="request_to_join">Join</string>
+    <string name="stop_publishing">Stop</string>
+
+    <string name="portrait_mode">Portrait Mode</string>
+    <string name="landscape_mode">Landscape Mode</string>
+    <string name="select_capture_orientation">Select Capture Orientation</string>
+
+    <!--broadcast-->
+    <string name="hint">Hint</string>
+    <string name="someone_is_requesting_to_broadcast_allow"><xliff:g id="value">%1$s</xliff:g>&#160;is requesting to broadcast, allow?</string>
+    <string name="Allow">Allow</string>
+    <string name="Deny">Deny</string>
+    <string name="your_request_has_been_denied">your request has been denied!</string>
+    <string name="got_it">got it</string>
+    <string name="do_you_really_want_to_leave">Do you really want to leave?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="request_room_list_failure">Request Room List failure</string>
+
+    <!--log-->
+    <string name="someone_is_requesting_to_broadcast"><xliff:g id="value">%1$s</xliff:g>:&#160;is requesting to broadcast</string>
+    <string name="request_of_broadcast_has_been_allowed"><xliff:g id="value">%1$s</xliff:g>:&#160;request of broadcast has been allowed</string>
+    <string name="request_of_broadcast_has_been_denied"><xliff:g id="value">%1$s</xliff:g>:&#160;request of broadcast has been denied</string>
+    <string name="please_wait">Wait...</string>
+
+    <string name="live_quality">Quality:&#160;<xliff:g id="value">%1$s</xliff:g></string>
+    <string name="live_quality_fps_and_bitrate">;&#160;FPS:<xliff:g id="fps">%1$.2f</xliff:g>;&#160;Bitrate:<xliff:g id="bitrate">%2$.2f</xliff:g>Kb/s</string>
+    <string name="full_screen">FullScreen</string>
+    <string name="exit_full_screen">Exit</string>
+
+    <string name="allow_camera_permission">Please allow the camera permission</string>
+    <string name="open_recorder_permission">Please allow the record audio permission</string>
+    <string name="share">Share</string>
+    <string name="cancel">Cancel</string>
+    <string name="mix_stream_mode">Mix Streams</string>
+    <string name="more_anchors_mode">More Anchors</string>
+    <string name="single_anchor_mode">Single Anchor</string>
+    <string name="game_live_mode">Game Live</string>
+    <string name="play_mixstream">Play MixStream</string>
+    <string name="wolves_game_mode">Wolves Game</string>
+    <string name="start_aux_publish">Aux Publish</string>
+    <string name="stop_aux_publish">Stop Aux Publish</string>
+
+    <string name="external_capture">External Capture</string>
+    <string name="external_render">External Render</string>
+    <string name="external_filter">External Filter</string>
+    <string name="hardware_encode">Hardware Encode</string>
+    <string name="hardware_decode">Hardware_Decode</string>
+    <string name="rate_control">Rate Control</string>
+    <string name="preview_mirror">Preview Mirror</string>
+    <string name="capture_mirror">Capture Mirror</string>
+
+    <string name="message_can_not_be_empty">Message can not be empty!</string>
+    <string name="me">Me</string>
+
+    <string name="start_speaking">Start Speaking</string>
+    <string name="end_speaking">End Speaking</string>
+    <string name="is_speaking">Speaking...</string>
+    <string name="in_turn">In-Turn</string>
+    <string name="end_in_turn">End In-Turn</string>
+    <string name="mode_free_speaking">Mode: Free speaking</string>
+    <string name="mode_in_turn_speaking">Mode: In turn speaking</string>
+    <string name="mode_in_turn_speaking_wait">Mode：In turn speaking(is gaming, wait for next...)</string>
+    <string name="mode_updating_system">Updating system...</string>
+    <string name="mode_update_system_success">Update system success</string>
+    <string name="mode_update_system_failed">Update system failed</string>
+
+    <string name="publish_way_title">Select publish way</string>
+    <string name="publish_way_low_delay">Low Delay</string>
+    <string name="publish_way_low_cost">Low Cost</string>
+
+    <string name="wolf_role">Role: %1$d</string>
+    <string name="tips_login_success">Login room success</string>
+    <string name="tips_login_failed" formatted="true">Login room failed：%1$d</string>
+    <string name="tips_wait_anchor_answer">Wait for anchor answer</string>
+    <string name="dialog_anchor_leave_room">Anchor has leave the room</string>
+
+    <string name="dialog_anchor_stop_live">Current  Anchor Stop Live</string>
+
+    <string name="dialog_stop_live_title">dialog</string>
+    <string name="tips_all_members_leave">All members have leaved</string>
+    <string name="tips_publish_failed">Publish failed，errorCode: %1$d, streamId: %2$s</string>
+    <string name="tips_publish_finish">Publish finish，errorCode: %1$d, streamId: %2$s</string>
+    <string name="tips_publish_stop">Stop publish</string>
+    <string name="tips_over_max_play_channle_count">Over max play count</string>
+    <string name="tips_auto_open_hardware_codec">1080P resolution has opened the hardware codec, can be manually closed !</string>
+
+
+</resources>

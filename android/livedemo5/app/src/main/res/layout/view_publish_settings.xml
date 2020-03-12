@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dimen_30"
+    android:paddingLeft="@dimen/dimen_30"
+    android:paddingRight="@dimen/dimen_30">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dimen_30"
+        android:paddingLeft="@dimen/dimen_30"
+        android:paddingRight="@dimen/dimen_30">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:text="@string/advanced"
+            android:textSize="@dimen/text_size_2" />
+
+        <View style="@style/HorizontalDivider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/camera"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_camera"
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+            <View
+                style="@style/HorizontalDivider"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/front_camera"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_front_cam"
+
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+            <View
+                style="@style/HorizontalDivider"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/mic"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_mic"
+
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+            <View
+                style="@style/HorizontalDivider"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/flashlight"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_torch"
+
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+            <View
+                style="@style/HorizontalDivider"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/background_music"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_background_music"
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/loopback"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_loopback"
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/mixengine_playout"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_mix_engine_playout"
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/virtual_stereo"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_virtual_stereo"
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/reverb"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_reverb"
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/custom_focus"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_custom_focus"
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:text="@string/beauty"
+            android:textSize="@dimen/text_size_2" />
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/sp_beauties"
+                android:layout_width="@dimen/dimen_200"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_centerHorizontal="true"
+                android:entries="@array/beauties" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter"
+            android:textSize="@dimen/text_size_2" />
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/sp_filters"
+                android:layout_width="@dimen/dimen_200"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_centerHorizontal="true"
+                android:entries="@array/filters" />
+        </RelativeLayout>
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:text="@string/custom_exposure_title"
+            android:textSize="@dimen/text_size_2" />
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_45"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingRight="@dimen/dimen_15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/custom_exposure"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_3" />
+
+            <ToggleButton
+                android:id="@+id/tb_custom_exposure"
+                style="@style/ToggleButtonText"
+                android:layout_width="@dimen/dimen_80"
+                android:layout_height="@dimen/dimen_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暗"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="明"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_2" />
+        </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/sb_custom_exposure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="20"
+            android:progress="10" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

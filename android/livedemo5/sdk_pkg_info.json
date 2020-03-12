@@ -1,0 +1,12 @@
+{
+  "project": "livedemo5",
+  "platform": "android",
+  "sdk_name": "zegoliveroom_video",
+  "sdk_absolute_path_on_share": "smb://192.168.1.3/share/zego_sdk/zegoliveroom_release_new/zegoliveroom_200309_230650_release-new-0-g54f488a0c_video_mediaplayer_bn3555_12/android/zegoliveroom_200309_230650_release-new-0-g54f488a0c_video_mediaplayer_bn3555_12_android.zip",
+  "copy_file_dirs": [
+    {
+      "src": "",
+      "dst": "app/libs"
+    }
+  ]
+}
