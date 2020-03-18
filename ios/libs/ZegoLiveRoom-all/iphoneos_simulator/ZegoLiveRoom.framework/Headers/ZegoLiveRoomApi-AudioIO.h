@@ -30,13 +30,12 @@
 - (AVE::IAudioDataInOutput *)getIAudioDataInOutput __attribute__ ((deprecated));
 
 /**
- 是否在耳机插入状态下启用硬件回声消除
+ 耳机插入状态下是否使用回声消除
  
- * 建议在推流前调用设置。
+ * 建议在初始化 SDK 后，推流前调用设置。
  
  * 注意：
- * 1.只在 [ZegoLiveRoomApi(Publisher) +setAudioDeviceMode:] 设置了音频设备模式为 Auto, Communication 时，使用耳机状态的硬件回音消除才会生效。
- * 2.iOS 的 SDK 默认使用开启，非 iOS 的 SDK 默认关闭。
+ * 1.iOS 的 SDK 默认使用开启
  
  @param enable 是否启用
  */

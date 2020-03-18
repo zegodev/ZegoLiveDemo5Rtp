@@ -18,14 +18,18 @@
 typedef NS_ENUM(NSInteger, ZegoVideoBufferType) {
     /** 未知 */
     ZegoVideoBufferTypeUnknown = 0,
-    /** 异步 */
+    /** 异步 CVPixelBuffer */
     ZegoVideoBufferTypeAsyncPixelBuffer = 1 << 1,
-    /** 同步 */
+    /** 同步 CVPixelBuffer */
     ZegoVideoBufferTypeSyncPixelBuffer = 1 << 2,
     /** 异步I420 */
     ZegoVideoBufferTypeAsyncI420PixelBuffer = 1 << 7,
     /** 异步NV12 */
     ZegoVideoBufferTypeAsyncNV12PixelBuffer = 1 << 8,
+    /** 异步 CMSampleBuffer */
+    ZegoVideoBufferTypeAsyncSampleBuffer = 1 << 9,
+    /** 同步 CMSampleBuffer */
+    ZegoVideoBufferTypeSyncSampleBuffer = 1 << 10,
 };
 
 /** 外部滤镜内存池协议（用于 SDK 与开发者间相互传递外部滤镜数据） */
@@ -66,6 +70,49 @@ typedef NS_ENUM(NSInteger, ZegoVideoBufferType) {
 
 @end
 
+/** 外部滤镜内存池协议，数据类型为 CMSampleBuffer，仅 iOS 平台有效，且通过 ZegoVideoBufferPool 给 SDK 返回处理过的 CVPixelBuffer 数据 */
+@protocol ZegoVideoSampleBufferPool <NSObject>
+
+/**
+ SDK 获取 CMSampleBufferRef 对象
+ 
+ @param width 高度
+ @param height 宽度
+ @param stride 视频帧数据每一行字节数
+ @return CMSampleBufferRef CMSampleBufferRef 对象
+ @discussion 开发者调用此 API 向 SDK 返回 CMSampleBufferRef 对象，用于保存视频帧数据
+ */
+- (nullable CMSampleBufferRef)dequeueInputBuffer:(int)width height:(int)height stride:(int)stride;
+
+/**
+ 异步处理视频帧数据
+ 
+ @param sample_buffer 视频帧数据
+ @param width 宽度
+ @param height 高度
+ @param stride 视频帧数据每一行字节数
+ @param timestamp_100n 当前时间戳
+ @discussion 开发者在此 API 中获取采集的视频帧数据
+ */
+- (void)queueInputBuffer:(nonnull CMSampleBufferRef)sample_buffer width:(int)width height:(int)height stride:(int)stride timestamp:(unsigned long long)timestamp_100n;
+
+@end
+
+/** 外部滤镜同步回调，传递的数据类型为 CMSampleBufferRef，仅 iOS 平台有效，且通过 ZegoVideoFilterDelegate 给 SDK 返回处理过的 CVPixelBuffer 数据 */
+@protocol ZegoVideoFilterSampleBufferDelegate <NSObject>
+/**
+ 同步处理视频帧数据
+ 
+ @param sample_buffer 视频帧数据
+ @param size 数据大小
+ @param width 宽度
+ @param height 高度
+ @param stride 视频帧数据每一行字节数
+ @param timestamp_100 当前时间戳
+ */
+- (void)onProcess:(nonnull CMSampleBufferRef)sample_buffer size:(int)size width:(int)width height:(int)height stride:(int)stride withTimeStatmp:(unsigned long long)timestamp_100;
+
+@end
 
 /** 外部滤镜客户端接口 */
 @protocol ZegoVideoFilterClient <NSObject>

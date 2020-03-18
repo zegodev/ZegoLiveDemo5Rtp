@@ -25,6 +25,14 @@
 - (void)handleVideoInputSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
 /**
+ 处理视频数据
+ 
+ @param sampleBuffer ReplayLiveKit 返回的视频数据
+ @param time 透传给SDK的时间戳
+ */
+- (void)handleVideoInputSampleBuffer:(CMSampleBufferRef)sampleBuffer timeStamp:(CMTime)timeStamp;
+
+/**
  处理音频数据
  
  @param sampleBuffer ReplayLiveKit 返回的音频数据

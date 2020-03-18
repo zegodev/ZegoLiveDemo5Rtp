@@ -468,7 +468,7 @@ void prep2_func(const AVE::AudioFrame& inFrame, AVE::AudioFrame& outFrame)
     
     if (g_factory == nullptr) {
         g_factory = [[ZegoVideoCaptureFactory alloc] init];
-        [ZegoLiveRoomApi setVideoCaptureFactory:g_factory];
+        [ZegoExternalVideoCapture setVideoCaptureFactory:g_factory channelIndex:ZEGOAPI_CHN_MAIN];
     }
 #else
     

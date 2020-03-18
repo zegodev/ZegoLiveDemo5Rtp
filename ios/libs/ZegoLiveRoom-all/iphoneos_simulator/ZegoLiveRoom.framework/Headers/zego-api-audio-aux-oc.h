@@ -84,6 +84,20 @@
 - (void)setAuxVolume:(int)volume;
 
 /**
+ 设置混音本地播放音量
+ 
+ @param volume 0~100，默认为 50
+ */
+- (void)setAuxPlayVolume:(int)volume;
+
+/**
+ 设置混音推流音量
+ 
+ @param volume 0~100，默认为 50
+ */
+- (void)setAuxPublishVolume:(int)volume;
+
+/**
  混音静音开关
  
  * 该接口调用时机无要求，开发者按需调用即可。

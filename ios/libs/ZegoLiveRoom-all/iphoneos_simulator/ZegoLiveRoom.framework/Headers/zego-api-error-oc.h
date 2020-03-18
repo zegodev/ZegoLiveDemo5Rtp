@@ -39,6 +39,7 @@ typedef enum : NSUInteger {
  kEngineNoPlayDataError         = 12102001,
  kEngineNoPublishDataError      = 12102002,
 
+ kEngineUnknownError            = 12200000,
  kEngineConnectServerError      = 12200001,
  kEngineRtmpHandshakeError      = 12200002,
  kEngineRtmpAppConnectError     = 12200003,
@@ -53,6 +54,9 @@ typedef enum : NSUInteger {
  kEngineRtpPlayOrPublishTimeoutError = 12200104,
  kEngineRtpPlayOrPublishDeniedError  = 12200105,
  kEngineRtpTimeoutError         = 12200106,
+ kEngineRtpDecryptError         = 12200107,
+ kEngineRtpDecryptNotSupport    = 12200108,
+ kEngineRtpSockError            = 12200109,
  kEngineHttpFlvProtocolError    = 12200200,
  kEngineHttpFlvHttpCodeError    = 12200201,
  kEngineHttpFlvParseFlvError    = 12200202,

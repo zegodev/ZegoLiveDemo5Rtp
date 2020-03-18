@@ -56,6 +56,14 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
 - (bool)stopPreview:(ZegoAPIPublishChannelIndex)index;
 
 /**
+ 设置推流加密密钥
+ 
+ @param key 加密密钥（支持16/24/32字节）
+ @param channelIndex 推流使用的推流通道
+ */
+- (void)setPublishEncryptKey:(NSData *)key channelIndex:(ZegoAPIPublishChannelIndex)index;
+
+/**
  开始指定通道发布直播（推流）
  
  * 注意：
@@ -409,7 +417,7 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
  
  @param waterMarkRect 水印的位置与尺寸
  @param index 推流 channel Index
- @discussion 推流开始前调用本 API 进行参数配置。左上角为坐标系原点，区域不能超过编码分辨率设置的大小
+ @discussion 左上角为坐标系原点，区域不能超过编码分辨率设置的大小
  */
 - (void)setPublishWaterMarkRect:(CGRect)waterMarkRect channelIndex:(ZegoAPIPublishChannelIndex)index;
 
@@ -418,12 +426,14 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
  
  @param waterMarkRect 水印的位置与尺寸
  @param index 推流 channel Index
- @discussion 推流开始前调用本 API 进行参数配置。左上角为坐标系原点，区域不能超过预览视图的大小
+ @discussion 左上角为坐标系原点，区域不能超过预览视图的大小
  */
 - (void)setPreviewWaterMarkRect:(CGRect)waterMarkRect channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
  发送媒体次要信息开关
+
+ @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 setMediaSideFlags:onlyAudioPublish:channelIndex:
  
  @param start true 开启, false 关闭
  @param onlyAudioPublish true 纯音频直播，不传输视频数据, false 音视频直播，传输视频数据
@@ -434,6 +444,8 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
 
 /**
  发送媒体次要信息开关
+
+ @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 setMediaSideFlags:onlyAudioPublish:seiSendType:channelIndex:
  
  @param start true 开启, false 关闭
  @param onlyAudioPublish true 纯音频直播，不传输视频数据, false 音视频直播，传输视频数据
@@ -446,6 +458,8 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
 
 /**
  发送媒体次要信息
+
+ @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 sendMediaSideInfo:dataLen:packet:channelIndex:
  
  @param inData 媒体次要信息数据
  @param dataLen 数据长度
@@ -476,6 +490,7 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
  @attention 必须在预览之后或者推流之后才能调用
 */
 - (AVCaptureDevice*)getAVCaptureDevice:(ZegoAPIPublishChannelIndex)channelIndex;
+
 
 @end
 

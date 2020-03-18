@@ -442,6 +442,21 @@
  */
 - (void)seekTo:(long)millisecond;
 
+/**
+ 设置是否开启精准搜索
+
+ @param enable 是否开启
+ @note: 播放文件之前调用，即Start或Load前，播放过程中调用不起作用，但可能对下个文件的播放起作用.
+ */
+- (void)enableAccurateSeek:(bool)enable;
+
+/**
+ 设置精确搜索的超时时间
+
+ @param timeoutInMS 超时时间, 单位毫秒. 有效值区间 [2000, 10000]
+ @note 如果不设置, SDK 内部默认是设置 5000 毫秒
+ */
+- (void)setAccurateSeekTimeout:(long)timeoutInMS;
 
 /**
  获取整个文件的播放时长
@@ -496,11 +511,25 @@
 #endif
 
 /**
- 设置音量
+ 设置本地播放音量, 如果播放器设置了推流模式, 也会设置推流音量
 
  @param volume 音量，范围在0到100，默认值是50
  */
 - (void)setVolume:(int)volume;
+
+/**
+ 设置推流音量
+ 
+ @param volume 音量，范围在0到100，默认值是50
+ */
+- (void)setPublishVolume:(int)volume;
+
+/**
+ 设置本地播放音量
+ 
+ @param volume 音量，范围在0到100，默认值是50
+ */
+- (void)setPlayVolume:(int)volume;
 
 /**
  设置播放文件的音轨

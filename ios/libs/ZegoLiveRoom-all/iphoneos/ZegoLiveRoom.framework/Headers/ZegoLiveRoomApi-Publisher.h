@@ -467,7 +467,7 @@
  设置水印在采集视频中的位置
  
  @param waterMarkRect 水印的位置与尺寸
- @discussion 推流开始前调用本 API 进行参数配置。左上角为坐标系原点，区域不能超过编码分辨率设置的大小
+ @discussion 左上角为坐标系原点，区域不能超过编码分辨率设置的大小
  */
 - (void)setPublishWaterMarkRect:(CGRect)waterMarkRect;
 
@@ -475,7 +475,7 @@
  设置水印在预览视频中的位置
  
  @param waterMarkRect 水印的位置与尺寸
- @discussion 推流开始前调用本 API 进行参数配置。左上角为坐标系原点，区域不能超过预览视图的大小
+ @discussion 左上角为坐标系原点，区域不能超过预览视图的大小
  */
 - (void)setPreviewWaterMarkRect:(CGRect)waterMarkRect;
 
@@ -494,16 +494,15 @@
 /**
  设置音频设备模式
  
- * 使用该 API 设置不同的模式可实现硬件音频前处理，功能包括回音消除、噪声抑制。
  * 建议开发者根据情景选择合适的模式，以达到前处理的最优效果。
  * 直播场景下，推荐使用 ZEGOAPI_AUDIO_DEVICE_MODE_AUTO；
- * 实时音、视频场景下（比如教育、游戏等），推荐使用 ZEGOAPI_AUDIO_DEVICE_MODE_COMMUNICATION，可避免 SDK 内部因切换 Mode 而启动、停止音频设备等耗时操作。
+ * 实时音、视频场景下（比如教育、游戏等），推荐使用 COMMUNICATION 类 mode，可避免 SDK 内部因切换 Mode 而启动、停止音频设备等耗时操作。
  * 当业务方的用户主要在带耳机的情况下推流时，如果需要保证较好的音质效果，可使用 ZEGOAPI_AUDIO_DEVICE_MODE_GENERAL，除此情景之外，不推荐使用 GENERAL 模式，因为无法保证采集的音质效果。
  * 默认使用 ZEGOAPI_AUDIO_DEVICE_MODE_AUTO。
  
  * 注意：
  * 1.必须在 Init SDK 前调用才能生效。
- * 2.如果需要在使用耳机时进行音频前处理，需要调用 [ZegoLiveRoomApi(AudioIO) -enableAECWhenHeadsetDetected:] 设置 YES，该情况只在音频设备模式为 ZEGOAPI_AUDIO_DEVICE_MODE_AUTO，ZEGOAPI_AUDIO_DEVICE_MODE_COMMUNICATION 下才有效。
+ * 2.如果需要在使用耳机时进行音频前处理，需要调用 [ZegoLiveRoomApi(AudioIO) -enableAECWhenHeadsetDetected:] 设置 YES。
  
  @param mode 音频设备模式，详见 ZegoAPIAudioDeviceMode
  @see -enableAEC:
@@ -553,6 +552,8 @@
 /**
  发送媒体次要信息开关
  
+ @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 setMediaSideFlags:onlyAudioPublish:channelIndex:
+
  @param start true 开启媒体次要信息传输, false 关闭媒体次要信息传输。start 为 true 时，onlyAudioPublish 开关才有效
  @param onlyAudioPublish true 纯音频直播，不传输视频数据，false 音视频直播，传输视频数据。默认为 false。如果本次只有音频直播，必须将 onlyAudioPublish 置为 true，此时会由音频来驱动次要信息的传输，同时忽略视频流传输
  @discussion 初始化 SDK 后，开始推流前调用。
@@ -561,6 +562,8 @@
 
 /**
  发送媒体次要信息
+
+ @warning Deprecated，请使用 zego-api-media-side-info-oc.h 的 sendMediaSideInfo:packet:channelIndex:
  
  @param inData 需要传输的音视频次要信息数据，外部输入
  @param dataLen 传入的 inData 长度，不能大于 1000 Bytes
@@ -573,7 +576,7 @@
  设置视频采集缩放时机
  
  * 注意：
- * 1.建议在启动本地预览前调用，之后调用不会立即生效，而是在下次摄像头启动预览时生效。
+ * 1.建议在启动本地预览和开始推流前调用，摄像头启动之后调用不会立即生效，而是在下次摄像头启动时生效。
  * 2.如果设置为先缩放（ZEGOAPI_CAPTURE_PIPELINE_SCALE_MODE_PRE），预览的分辨率就是编码分辨率；设置为后缩放（ZEGOAPI_CAPTURE_PIPELINE_SCALE_MODE_POST），预览的分辨率就是采集分辨率。
  * 默认为 ZEGOAPI_CAPTURE_PIPELINE_SCALE_MODE_PRE。
  
@@ -737,7 +740,6 @@
  */
 - (int)muteAudioPublish:(bool)mute;
 
-
 @end
 
 
@@ -808,11 +810,20 @@
 /**
  采集视频的宽度和高度变化通知
  
+ * 发布直播成功后，当视频尺寸变化时，发布者会收到此通知
+ 
  @param size 视频大小
- @discussion 发布直播成功后，当视频尺寸变化时，发布者会收到此通知
  */
 - (void)onCaptureVideoSizeChangedTo:(CGSize)size;
 
+/**
+ 采集视频的宽度和高度变化通知
+ 
+ * 发布直播成功后，当视频尺寸变化时，发布者会收到此通知
+ 
+ @param size 视频大小
+ @param index 推流通道
+ */
 - (void)onCaptureVideoSizeChangedTo:(CGSize)size channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**

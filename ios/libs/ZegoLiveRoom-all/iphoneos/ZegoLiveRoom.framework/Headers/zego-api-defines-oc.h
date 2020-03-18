@@ -409,6 +409,18 @@ typedef struct
     /** 已发送的视频字节数 */
     double videoBytes;
     
+    /** 当前 APP 的 CPU 使用率 */
+    double cpuAppUsage;
+    /** 当前系统的 CPU 使用率 */
+    double cpuTotalUsage;
+    
+    /** 当前 APP 的内存使用率 */
+    double memoryAppUsage;
+    /** 当前系统的内存使用率 */
+    double memoryTotalUsage;
+    /** 当前 APP 的内存使用量,单位 MB */
+    double memoryAppUsed;
+    
 } ZegoAPIPublishQuality;
 
 typedef ZegoAPIPublishQuality ZegoApiPublishQuality;
@@ -469,6 +481,18 @@ typedef struct
     double audioBytes;
     /** 已接收的视频字节数 */
     double videoBytes;
+    
+    /** 当前 APP 的 CPU 使用率 */
+    double cpuAppUsage;
+    /** 当前系统的 CPU 使用率 */
+    double cpuTotalUsage;
+    
+    /** 当前 APP 的内存使用率 */
+    double memoryAppUsage;
+    /** 当前系统的内存使用率 */
+    double memoryTotalUsage;
+    /** 当前 APP 的内存使用量,单位 MB */
+    double memoryAppUsed;
     
 } ZegoAPIPlayQuality;
 
@@ -615,6 +639,8 @@ typedef enum : NSUInteger
 
 /** 流参数 */
 @property (copy) NSString* params;
+/** 解密密钥（支持16/24/32字节） */
+@property (strong) NSData* decryptKey;
 /** rtmp 地址 */
 @property (strong) NSArray<NSString*>* rtmpUrls;
 /** flv 地址 */

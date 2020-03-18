@@ -41,7 +41,7 @@ typedef void(^ZegoGetReliableMessageCompletionBlock)(int errorCode, NSString *ro
  
  * 注意：
  * 1.在登录房间后调用该 API 才有效。
- * 2.可靠消息是通过版本控制思想来实现的，通过 type 来唯一定义一种消息。服务端通过 -sendReliableMessage:type:latestSeq:completion: 请求的 latestSeq 和服务端维护的该 type 消息的 latestSeq 的比对，来判断该类型消息是否需要同步。如果客户端 latestSeq 小于服务端 latestSeq，则说明客户端的消息版本太低，则回调一个错误码，客户端据此需要去获取最新消息进行同步。如果客户端 latestSeq 大于或等于服务端 latestSeq，则服务端认为可以同步，然后服务端 latestSeq 更新为请求的 latestSeq，并发消息给所有房间内其他成员。因此当开发者需要维护当前 type 消息的本地 latestSeq，当调用同步方法 -sendReliableMessage:type:latestSeq:completion: 回调时传入 latestSeq+1 成功后需要将更新本地 latestSeq，回调失败则需要拉取最新的可靠消息，更新本地 latestSeq。
+ * 2.可靠消息是通过版本控制思想来实现的，通过 type 来唯一定义一种消息。服务端通过 -sendReliableMessage:type:latestSeq:completion: 请求的 latestSeq 和服务端维护的该 type 消息的 latestSeq 的比对，来判断该类型消息是否需要同步。如果客户端 latestSeq 小于服务端 latestSeq，则说明客户端的消息版本太低，则回调一个错误码，客户端据此需要去获取最新消息进行同步。如果客户端 latestSeq 大于或等于服务端 latestSeq，则服务端认为可以同步，然后服务端 latestSeq 更新为请求的 latestSeq，并发消息给所有房间内其他成员。因此开发者需要维护当前 type 消息的本地 latestSeq，当调用同步方法 -sendReliableMessage:type:latestSeq:completion: 回调时传入 latestSeq+1 成功后需要将更新本地 latestSeq，回调失败则需要拉取该类型可靠消息的最新 seq，更新本地 latestSeq。
  
  @param content 可靠业务消息数据，不能超过 2048 字节, 允许为空字符串
  @param type 可靠业务消息类型，不能超过 128 字节, 不允许为空字符串，一个房间内只允许不超过10个不同的消息类型
@@ -71,7 +71,7 @@ typedef void(^ZegoGetReliableMessageCompletionBlock)(int errorCode, NSString *ro
 /**
  收到房间内的可靠消息
  
- * 调用 -sendRoomMessage:type:category:priority:completion: 发送消息后，会触发房间内其他用户进行该回调。
+ * 调用 -sendReliableMessage:type:latestSeq:completion: 发送消息后，会触发房间内其他用户进行该回调。
  
  @param message 可靠消息
  @param roomId 房间 ID
