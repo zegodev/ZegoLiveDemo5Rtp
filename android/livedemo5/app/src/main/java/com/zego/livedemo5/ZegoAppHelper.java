@@ -20,9 +20,9 @@ public class ZegoAppHelper {
 
     static final public long RTMP_APP_ID = 1L;
 
-    static final public long UDP_APP_ID = 1739272706L;
+    static final public long UDP_APP_ID = 2L;
 
-    static final public long INTERNATIONAL_APP_ID = 0L;
+    static final public long INTERNATIONAL_APP_ID = 3L;
 
     static final private byte[] RTMP_APP_SIGN = new byte[]{"填写您自己在即构开发者平台上申请的RTMP_APP_SIGN"};
 
