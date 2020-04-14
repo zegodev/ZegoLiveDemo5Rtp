@@ -98,6 +98,22 @@ typedef enum : NSUInteger
  */
 - (void)onRecordStatusUpdateFromChannel:(ZegoAPIMediaRecordChannelIndex)index storagePath:(NSString *)path duration:(unsigned int)duration fileSize:(unsigned int)size;
 
+/**
+录制信息更新回调
+
+* 设置了媒体录制代理(-setMediaRecordDelegage:)，在媒体录制启动成功后，录制期间会不断收到此回调，此回调的回调频率由启动录制时设置的 interval 参数值决定。
+
+@param index 录制通道，详见 enum ZegoAPIMediaRecordChannelIndex。
+@param path 录制文件存储路径
+@param duration 录制时长，单位是毫秒
+@param size 文件大小，单位是字节
+@param quality 录制质量
+@see -startRecord:recordType:storagePath:enableStatusUpdate:interval:
+@see -startRecord:recordType:storagePath:enableStatusUpdate:interval:recordFormat:
+@see -startRecord:recordType:storagePath:enableStatusUpdate:interval:recordFormat:isFragment:
+*/
+- (void)onRecordStatusUpdateFromChannel:(ZegoAPIMediaRecordChannelIndex)index storagePath:(NSString *)path duration:(unsigned int)duration fileSize:(unsigned int)size quality: (ZegoAPIPublishQuality)quality;
+
 @end
 
 /**

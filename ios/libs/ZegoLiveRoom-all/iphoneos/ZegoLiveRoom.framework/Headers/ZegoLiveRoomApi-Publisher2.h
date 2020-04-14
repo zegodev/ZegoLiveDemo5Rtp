@@ -64,13 +64,21 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
 - (void)setPublishEncryptKey:(NSData *)key channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
+ 获取 SDK 支持的最大同时推流数
+ 
+ @return 最大支持推流数
+ */
++ (int)getMaxPublishChannelCount;
+
+/**
  开始指定通道发布直播（推流）
  
  * 注意：
  * 1.可以登录房间成功后调用，发布直播后可以使用 [ZegoLiveRoomApi(Publisher2) -stopPublishing:] 停止发布直播。
  * 2.发布直播 API 调用成功后，SDK 会在 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 回调中通知发布结果，同一房间的其他人会在 [ZegoLiveRoomDelegate -onStreamUpdated:streams:roomID:] 回调中收到流新增通知。
- * 3.为了满足客户的秒开播需求，该接口可以在调用登录房间接口后同步调用，如果登录房间失败，则直播发布也失败。
- * 4.[ZegoLiveRoonApi(Publisher) -startPublishing] 既是主通道推流。
+ * 3.如果有收到 [ZegoRoomDelegate -onDisconnect:roomID:] 回调，则不会再收到 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 回调。
+ * 4.为了满足客户的秒开播需求，该接口可以在调用登录房间接口后同步调用，如果登录房间失败，则直播发布也失败。
+ * 5.[ZegoLiveRoonApi(Publisher) -startPublishing] 既是主通道推流。
  
  @param streamID 发布直播流的流ID，仅支持长度不超过 256 字节的数字、下划线、字母，streamID 需要在整个 AppID 内全局唯一
  @param title 直播名称，可空，默认为主播用户名
@@ -86,8 +94,9 @@ typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *s
  * 注意：
  * 1.可以登录房间成功后调用，发布直播后可以使用 [ZegoLiveRoomApi(Publisher2) -stopPublishing:] 停止发布直播。
  * 2.发布直播 API 调用成功后，SDK 会在 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 回调中通知发布结果，同一房间的其他人会在 [ZegoLiveRoomDelegate -onStreamUpdated:streams:roomID:] 回调中收到流新增通知。
- * 3.为了满足客户的秒开播需求，该接口可以在调用登录房间接口后同步调用，如果登录房间失败，则直播发布也失败。
- * 4.[ZegoLiveRoonApi(Publisher) -startPublishing] 既是主通道推流。
+ * 3.如果有收到 [ZegoRoomDelegate -onDisconnect:roomID:] 回调，则不会再收到 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 回调。
+ * 4.为了满足客户的秒开播需求，该接口可以在调用登录房间接口后同步调用，如果登录房间失败，则直播发布也失败。
+ * 5.[ZegoLiveRoonApi(Publisher) -startPublishing] 既是主通道推流。
  
  @param streamID 发布直播流的流ID，仅支持长度不超过 256 字节的数字、下划线、字母，streamID 需要在整个 AppID 内全局唯一
  @param title 直播名称，可空，默认为主播用户名

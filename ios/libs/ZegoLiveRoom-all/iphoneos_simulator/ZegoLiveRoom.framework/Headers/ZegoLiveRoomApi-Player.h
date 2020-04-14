@@ -40,6 +40,7 @@
  * 注意：
  * 1. 调用此 API 可播放直播流，必须在调用初始化 SDK 接口之后调用。
  * 2. 调用成功后，等待 [ZegoLivePlayerDelegate -onPlayStateUpdate:streamID:] 回调。
+ * 3. 如果有收到 [ZegoRoomDelegate -onDisconnect:roomID:] 回调，则不会再收到 [ZegoLivePlayerDelegate -onPlayStateUpdate:streamID:] 回调。
  
  @param streamID 需要播放的用户流 ID
  @param view 用来渲染播放视频的视图
@@ -53,6 +54,7 @@
  * 注意：
  * 1. 调用此 API可播放直播流，必须在调用初始化 SDK 接口之后调用。
  * 2. 调用成功后，等待 [ZegoLivePlayerDelegate -onPlayStateUpdate:streamID:] 回调。
+ * 3. 如果有收到 [ZegoRoomDelegate -onDisconnect:roomID:] 回调，则不会再收到 [ZegoLivePlayerDelegate -onPlayStateUpdate:streamID:] 回调。
  
  @param streamID 需要播放的用户流 ID
  @param view 用来渲染播放视频的视图

@@ -93,9 +93,38 @@ typedef NS_ENUM(NSInteger, VideoPixelFormat) {
  @param height 图像高
  @param strides 每个平面一行字节数，共 4 个面（RGBA 只需考虑 strides[0]）
  @param pixelFormat format type, 用于指定 data 的数据类型
- @streamID 流名
+ @param streamID 流名
  */
 - (void)onVideoRenderCallback:(unsigned char **)data dataLen:(int*)dataLen width:(int)width height:(int)height strides:(int[])strides pixelFormat:(VideoPixelFormat)pixelFormat streamID:(NSString *)streamID;
+
+/**
+ SDK 通知下一帧数据是否需要翻转
+
+ @param mode 翻转类型
+ @param streamID 流名
+ @discussion 仅本地预览的外部渲染会回调。此处的 mode 是基于推流图像计算出来的，和 SetVideoMirrorMode 不一定一致，请基于 SetFlipMode 的参数决定是否翻转
+ */
+- (void)onSetFlipMode:(int)mode streamID:(NSString *)streamID;
+
+/**
+ SDK 通知下一帧数据需要旋转的角度
+
+ @param rotation 逆时针旋转角度
+ @param streamID 流名
+ */
+- (void)onSetRotation:(int)rotation streamID:(NSString *)streamID;
+
+@end
+
+@protocol ZegoVideoRenderCVPixelBufferDelegate <NSObject>
+
+/**
+ SDK 待渲染视频数据
+
+ @param data 待渲染的 CVPixelBuffer 类型数据
+ @param streamID 流名
+ */
+- (void)onVideoRenderCallback:(CVPixelBufferRef)data streamID:(NSString *)streamID;
 
 /**
  SDK 通知下一帧数据是否需要翻转
@@ -228,6 +257,13 @@ typedef NS_ENUM(NSInteger, VideoRenderType) {
  @param delegate 外部渲染回调代理，用于接收待渲染的视频数据
  */
 - (void)setZegoVideoRenderDelegate:(id<ZegoVideoRenderDelegate>)delegate;
+
+/**
+ 设置用于接收 CVPixelBuffer 类型数据的外部渲染回调
+
+ @param delegate 外部渲染回调代理，用于接收待渲染的 CVPixelBuffer 类型视频数据
+ */
+- (void)setZegoVideoRenderCVPixelBufferDelegate:(id<ZegoVideoRenderCVPixelBufferDelegate>)delegate;
 
 @end
 

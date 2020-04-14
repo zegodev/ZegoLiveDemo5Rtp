@@ -19,6 +19,8 @@
 
 /**
  播放器的回调接口
+
+ @warning Deprecated，请使用 ZegoMediaPlayerEventWithIndexDelegate 替代
  */
 @protocol ZegoMediaPlayerEventDelegate <NSObject>
 
@@ -123,6 +125,8 @@
  当格式为ARGB32/ABGR32/RGBA32/BGRA32，数据通过OnPlayVideoData回调。
  当格式为I420/NV12/NV21，数据通过OnPlayVideoData2回调。
  其他非法格式都判定为I420
+
+ @warning Deprecated，请使用 ZegoMediaPlayerVideoPlayWithIndexDelegate 替代
  */
 @protocol ZegoMediaPlayerVideoPlayDelegate <NSObject>
 
@@ -347,6 +351,8 @@
 /**
  初始化
 
+ @warning Deprecated，请使用 [initWithPlayerType:playerIndex:] 代替
+
  @param type @see MediaPlayerType
  @return 播放器对象
  @note sdk提供多个播放器实例，通过index可以指定获取的是哪个播放器实例，没有指定index时，取到的就是 ZegoMediaPlayerIndexIndexFirst 播放器
@@ -371,6 +377,8 @@
 /**
  设置播放器事件回调
 
+ @warning Deprecated，请使用 [setEventWithIndexDelegate:] 代替
+
  @param delegate 回调
  */
 - (void)setDelegate:(id<ZegoMediaPlayerEventDelegate>)delegate;
@@ -378,6 +386,8 @@
 
 /**
  设置视频帧数据回调
+
+ @warning Deprecated，请使用 [setVideoPlayWithIndexDelegate:format:] 代替
 
  @param delegate 回调
  @param format 需要返回的视频帧数据格式，@see ZegoMediaPlayerVideoPixelFormat
@@ -530,6 +540,16 @@
  @param volume 音量，范围在0到100，默认值是50
  */
 - (void)setPlayVolume:(int)volume;
+
+/**
+ 获取推流音量
+ */
+- (int)getPublishVolume;
+
+/**
+ 获取本地播放音量
+ */
+- (int)getPlayVolume;
 
 /**
  设置播放文件的音轨

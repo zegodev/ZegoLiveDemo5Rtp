@@ -92,7 +92,8 @@
  * 注意：
  * 1.可以在登录房间成功后调用，发布直播后可以使用 [ZegoLiveRoomApi(Publisher) -stopPublishing] 停止发布直播。
  * 2.发布直播 API 调用成功后，SDK 会在 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 回调中通知发布结果，同一房间的其他人会在 [ZegoLiveRoomDelegate -onStreamUpdated:streams:roomID:] 回调中收到流新增通知。
- * 3.为了满足客户的秒开播需求，该接口可以在调用登录房间接口后同步调用，如果登录房间失败，则直播发布也失败。
+ * 3. 如果有收到 [ZegoRoomDelegate -onDisconnect:roomID:] 回调，则不会再收到 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 回调。
+ * 4.为了满足客户的秒开播需求，该接口可以在调用登录房间接口后同步调用，如果登录房间失败，则直播发布也失败。
 
  @param streamID 发布直播流的流ID，仅支持长度不超过 256 字节的数字、下划线、字母，streamID 需要在整个 AppID 内全局唯一
  @param title 直播名称，可空，默认为主播用户名
@@ -108,7 +109,8 @@
  * 注意：
  * 1.可以在登录房间成功后调用，发布直播后可以使用 [ZegoLiveRoomApi(Publisher) -stopPublishing] 停止发布直播。
  * 2.发布直播 API 调用成功后，SDK 会在 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 回调中通知发布结果，同一房间的其他人会在 [ZegoLiveRoomDelegate -onStreamUpdated:streams:roomID:] 回调中收到流新增通知。
- * 3.为了满足客户的秒开播需求，该接口可以在调用登录房间接口后同步调用，如果登录房间失败，则直播发布也失败。
+ * 3. 如果有收到 [ZegoRoomDelegate -onDisconnect:roomID:] 回调，则不会再收到 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 回调。
+ * 4.为了满足客户的秒开播需求，该接口可以在调用登录房间接口后同步调用，如果登录房间失败，则直播发布也失败。
 
  @param streamID 发布直播流的流ID，仅支持长度不超过 256 字节的数字、下划线、字母，streamID 需要在整个 AppID 内全局唯一
  @param title 直播名称，可空，默认为主播用户名
@@ -698,6 +700,14 @@
  @note 仅在 enableNoiseSuppress 为 true 时有效, 默认为 MEDIUM
  */
 - (bool)setNoiseSuppressMode:(ZegoAPIANSMode)mode;
+
+/**
+ 音频采集的瞬态噪声消除开关（消除键盘、敲桌子等瞬态噪声）
+
+ @param bEnable true 开启，false 关闭
+ @return true 调用成功，false 调用失败
+ */
+- (bool)enableTransientNoiseSuppress:(bool)enable;
 
 /**
  设置发布直播（推流）质量监控周期

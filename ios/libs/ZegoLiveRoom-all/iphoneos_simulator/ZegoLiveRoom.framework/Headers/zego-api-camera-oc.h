@@ -64,6 +64,15 @@
  */
 + (float)getCamMaxZoomFactor:(ZegoAPIPublishChannelIndex)index;
 
+/**
+ 设置曝光补偿度
+ 
+ @param value 曝光度，取值范围为[-1,1], -1变黑, 1变亮
+ @param index 推流通道
+ @return true 成功，false 失败
+ @discussion 必须在初始化 SDK 后调用
+ */
++ (BOOL)setCamExposureCompensation:(float)value channelIndex:(ZegoAPIPublishChannelIndex)index;
 @end
 
 #endif

@@ -750,7 +750,8 @@ typedef enum : NSInteger
     ZEGOAPI_DEVICE_ERROR_UNPLUGGED = -6,
     /** 媒体服务无法恢复 */
     ZEGOAPI_DEVICE_ERROR_MEDIA_SERVICES_LOST = -8,
-
+    /** 设备被SIRI占用*/
+    ZEGOAPI_DEVICE_ERROR_IN_USE_BY_SIRI = -9,
 } ZegoAPIDeviceErrorCode;
 
 typedef enum : NSInteger
@@ -767,8 +768,12 @@ typedef enum : NSInteger
     ZEGOAPI_DEVICE_ERROR_REASON_IN_USE_BY_OTHER = -5,
     /** 设备未插入 */
     ZEGOAPI_DEVICE_ERROR_REASON_UNPLUGGED = -6,
+    /** 需要重启系统 */
+    ZEGOAPI_DEVICE_ERROR_REASON_REBOOT_REQUIRED = -7,
     /** 媒体服务无法恢复 */
     ZEGOAPI_DEVICE_ERROR_REASON_MEDIA_SERVICES_LOST = -8,
+    /** 设备被SIRI占用 */
+    ZEGOAPI_DEVICE_ERROR_REASON_IN_USE_BY_SIRI = -9,
     /** 没有错误 */
     ZEGOAPI_DEVICE_ERROR_REASON_NONE = 0,
     /** 禁用 */
